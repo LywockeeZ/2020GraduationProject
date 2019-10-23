@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,8 +20,14 @@ public class GameManager : MonoBehaviour
     private int _fireCounts = 0;
 
     public GameObject Player;
+    public bool canInput = false;
+
+    //临时UI
+    public Text actionPointText;
+    public Text roundsText;
 
     private Stage currentStage;
+    private bool isRoundsEnd = false;
 
     private void Awake()
     {
@@ -42,6 +49,7 @@ public class GameManager : MonoBehaviour
         fire1.SetState(new Fire(fire1));
         fire2.SetState(new Fire(fire2));
         fire3.SetState(new Fire(fire3));
+        //设置箱子
         GameObject chest1 = BuildChest(new Vector2(6, 0));
         GameObject chest2 = BuildChest(new Vector2(4, 1));
         ////////////////////////////////////////////////////////////
@@ -52,13 +60,18 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        actionPointText.text = "行动点数: " + ActionPoints.ToString();
+        roundsText.text = "第" + Rounds.ToString() + "回合";
+        Debug.Log(canInput);
         if ( GetFireCounts() == 0)
         {
             GameOver();
         }
-        if (_actionPoints == 0)
+        if (_actionPoints == 0 && !isRoundsEnd)
         {
-            NextRound();
+            isRoundsEnd = true;
+            canInput = false;
+            Invoke("NextRound", 1f);
         }
     }
 
@@ -81,6 +94,8 @@ public class GameManager : MonoBehaviour
     public void NextRound()
     {
         ResetActionPoints();
+        isRoundsEnd = false;
+        canInput = true;
         _rounds++;
         currentStage.OnStageUpdate();
         Debug.Log("Round:" + _rounds);
@@ -112,7 +127,7 @@ public class GameManager : MonoBehaviour
         Player _player;
         _player = playerObject.AddComponent<Player>();
         //初始化
-        _player.SetCurrentOnUnit(startUnit);
+        _player.CurrentOn = startUnit;
 
 
         return playerObject;
@@ -126,8 +141,13 @@ public class GameManager : MonoBehaviour
         GameObject chestObject = Instantiate(ChestResource, startUnit.Model.transform.position, Quaternion.identity);
         Chest _chest;
         _chest = chestObject.AddComponent<Chest>();
-        _chest.SetCurrentOnUnit(startUnit);
+        _chest.CurrentOn = startUnit;
 
         return chestObject;
+    }
+
+    public void SetCanInput(bool value)
+    {
+        canInput = value;
     }
 }

@@ -49,10 +49,18 @@ public class Fire : State
     //将目标单元设置成Fire状态
     private void ChangeToFireState(BaseUnit targetUnit)
     {
-        if (targetUnit != null && targetUnit.CanBeFire )
+        if (targetUnit != null && targetUnit.CanBeFire)
         {
-            targetUnit.myState.OnStateEnd();
-            targetUnit.SetState(new Fire(targetUnit));
+            if (targetUnit.UpperGameObject != null)
+            {
+
+            }
+            else
+            {
+                targetUnit.myState.OnStateEnd();
+                targetUnit.SetState(new Fire(targetUnit));
+            }
+
         }
     }
 }

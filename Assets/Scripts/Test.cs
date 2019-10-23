@@ -66,7 +66,7 @@ public class Test : MonoBehaviour
         Player _player;
         _player = playerObject.AddComponent<Player>();
         //初始化
-        _player.SetCurrentOnUnit(startUnit);
+        _player.CurrentOn = startUnit;
 
 
         return playerObject;

@@ -19,8 +19,7 @@ public class BaseUnit
     public GameObject Model = null;
     //放置单元的类型
     public Enum.ENUM_UpperUnitType UpperType = Enum.ENUM_UpperUnitType.NULL;
-    public UpperUnit upperUnit = null;
-
+    public GameObject UpperGameObject = null;
     //关卡信息的引用，用来获取周围信息
     private Stage currentStage;
     //此单元的位置信息
@@ -103,9 +102,9 @@ public class BaseUnit
         UpperType = type;
     }
 
-    public void SetUpperUnit(UpperUnit _upperUnit)
+    public void SetUpperGameObject(GameObject _upperGameObject)
     {
-        upperUnit = _upperUnit;
+        UpperGameObject = _upperGameObject;
     }
 
 }

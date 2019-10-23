@@ -2,17 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : UpperUnit
+public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
 {
-    public float moveSpeed = 4f;
-    public float rotateSpeed = 10f;
-    //角色距离地面的高度
-    public float heigth = 0.3f;
+    public BaseUnit CurrentOn { get { return _currentOn; } set { _currentOn = value; } }
+    public float Height { get { return _heigth; } set { _heigth = value; } }
+    public float MoveSpeed { get { return _moveSpeed; } set { _moveSpeed = value; } }
+    public bool CanBeFire { get { return _canBeFire; } set { _canBeFire = value; } }
+    public bool IsMoving { get { return _isMoving; } set { _isMoving = value; } }
 
+    //该单元的私有属性
+    private BaseUnit _currentOn;
+    private float _moveSpeed = 4f;
+    private float _heigth = 0.3f;
+    private bool _canBeFire = false;
+    private bool _isMoving = false;
+
+    private BaseUnit targetUnit;
     private Vector3 targetPos;
     private Vector3 lookdir;
-    private bool isMoving = false;
-    private bool _canBeFire = false;
+    private float _rotateSpeed = 10f;
 
 
     private void Start()
@@ -20,98 +28,153 @@ public class Player : UpperUnit
         Init();
     }
 
+
     private void Update()
     {
         MoveProcess();
     }
 
-    public override void Init()
+
+    public void Init()
     {
-        SetCanBeFire(_canBeFire);
         //初始化状态
-        currentOn.myState.OnStateEnd();
-        currentOn.SetState(new Block(currentOn));
-        currentOn.SetUpperType(Enum.ENUM_UpperUnitType.Movable);
-        currentOn.SetUpperUnit(this);
+        _currentOn.myState.OnStateEnd();
+        _currentOn.SetState(new Block(_currentOn));
+        _currentOn.SetUpperType(Enum.ENUM_UpperUnitType.Movable);
+        _currentOn.SetUpperGameObject(gameObject);
 
         transform.position = SetTargetPos(transform.position);
         targetPos = SetTargetPos(transform.position);
         lookdir = - transform.forward;
         //对输入事件注册
         InputManager.InputEvent += Move;
-        isMoving = false;
+        _isMoving = false;
     }
 
-    public override void Move(Enum.ENUM_InputEvent inputEvent)
+
+    public void Move(Enum.ENUM_InputEvent inputEvent)
     {
-        if (!isMoving)
+        if (!_isMoving)
         {
-            //每次行动扣除行动点数
-            GameManager.Instance.ReducePoints(1);
-            switch (inputEvent)
-            {
-                case Enum.ENUM_InputEvent.Up:
-                    ChangeState(currentOn.Up, inputEvent);
-                    break;
-                case Enum.ENUM_InputEvent.Down:
-                    ChangeState(currentOn.Down, inputEvent);
-                    break;
-                case Enum.ENUM_InputEvent.Left:
-                    ChangeState(currentOn.Left, inputEvent);
-                    break;
-                case Enum.ENUM_InputEvent.Right:
-                    ChangeState(currentOn.Right, inputEvent);
-                    break;
-                default:
-                    break;
-            }
+            targetUnit = GetTargetUnit(inputEvent);
+            JudgeAndMove(targetUnit, inputEvent);
         }
 
     }
+
 
     //执行具体的移动过程
     private void MoveProcess()
     {
-        transform.forward = Vector3.Slerp(transform.forward, lookdir, rotateSpeed * Time.deltaTime);
-        transform.position = Vector3.Lerp(transform.position, targetPos, moveSpeed * Time.deltaTime);
+        transform.forward = Vector3.Slerp(transform.forward, lookdir, _rotateSpeed * Time.deltaTime);
+        transform.position = Vector3.Lerp(transform.position, targetPos, _moveSpeed * Time.deltaTime);
 
         if (Vector3.Magnitude(transform.position - targetPos) < 0.1f)
         {
-            isMoving = false;
+            _isMoving = false;
         }
     }
+
 
     //将单元的高度转换为模型高度
     public Vector3 SetTargetPos(Vector3 _targetPos)
     {
-        return new Vector3(_targetPos.x, heigth, _targetPos.z);
+        return new Vector3(_targetPos.x, _heigth, _targetPos.z);
     }
+
 
     private Vector3 GetLookDir()
     {
-        Quaternion rotation = Quaternion.FromToRotation(-transform.forward, targetPos - SetTargetPos(currentOn.Model.transform.position));
+        Quaternion rotation = Quaternion.FromToRotation(-transform.forward, targetPos - SetTargetPos(_currentOn.Model.transform.position));
         return rotation * (-transform.forward);
     }
 
-    //改变下一格的状态
-    private void ChangeState(BaseUnit baseUnit, Enum.ENUM_InputEvent inputEvent)
+
+    //判断下层的下一格，并改变下一格的状态
+    private void JudgeBaseStateAndMove(BaseUnit targetUnit)
     {
-        if (baseUnit != null && baseUnit.CanWalk)
+        if (targetUnit != null && targetUnit.CanWalk)
         {
-            targetPos = SetTargetPos(baseUnit.Model.transform.position);
+            targetPos = SetTargetPos(targetUnit.Model.transform.position);
             lookdir = GetLookDir();
-            if (baseUnit.UpperType == Enum.ENUM_UpperUnitType.Movable)
-            {
-                Chest chest = (Chest)baseUnit.upperUnit;
-                chest.Move(inputEvent);
-            }
-            baseUnit.myState.OnStateEnd();
-            baseUnit.SetState(new Block(baseUnit));
-            baseUnit.SetUpperType(Enum.ENUM_UpperUnitType.Movable);
-            currentOn.SetUpperUnit(null);
-            currentOn = baseUnit;
-            isMoving = true;
+            targetUnit.myState.OnStateEnd();
+            targetUnit.SetState(new Block(targetUnit));
+            targetUnit.SetUpperType(Enum.ENUM_UpperUnitType.Movable);
+            _currentOn.SetUpperType(Enum.ENUM_UpperUnitType.NULL);
+            _currentOn.SetUpperGameObject(null);
+            _currentOn = targetUnit;
+            //这里是移动的开关
+            _isMoving = true;
+            //开始移动后扣除移动点数
+            GameManager.Instance.ReducePoints(1);
+        }
+    }
+
+    //获取目的地单元
+    private BaseUnit GetTargetUnit(Enum.ENUM_InputEvent inputEvent)
+    {
+        BaseUnit targetUnit = null;
+        switch (inputEvent)
+        {
+            case Enum.ENUM_InputEvent.Up:
+                targetUnit = _currentOn.Up;
+                break;
+            case Enum.ENUM_InputEvent.Down:
+                targetUnit = _currentOn.Down;
+                break;
+            case Enum.ENUM_InputEvent.Left:
+                targetUnit = _currentOn.Left;
+                break;
+            case Enum.ENUM_InputEvent.Right:
+                targetUnit = _currentOn.Right;
+                break;
+            default:
+                break;
         }
 
+        return targetUnit;
+    }
+
+    //判断的顺序为先判断是否有单元，如果有则先上层，再下层
+    private void JudgeAndMove(BaseUnit targetUnit, Enum.ENUM_InputEvent inputEvent)
+    {
+        if (targetUnit != null)
+        {
+            if (targetUnit.UpperGameObject != null)
+                JudgeUpperUnit(targetUnit, inputEvent);
+            else
+            {
+                JudgeBaseStateAndMove(targetUnit);
+            }
+
+        }
+    }
+
+    //判断上层物品是否可推动
+    private void JudgeUpperUnit(BaseUnit targetUnit, Enum.ENUM_InputEvent inputEvent)
+    {
+        if (targetUnit.UpperType == Enum.ENUM_UpperUnitType.Movable)
+        {
+            IMovableUnit movableUnit = targetUnit.UpperGameObject.GetComponent<IMovableUnit>();
+
+            //判断被推动物体是否可以前进
+            if (movableUnit.JudgeCanMove(inputEvent))
+            {
+                movableUnit.Move(inputEvent);
+                JudgeBaseStateAndMove(targetUnit);
+            }
+        }
+
+    }
+
+
+    public void End()
+    {
+
+    }
+
+    public bool JudgeCanMove(Enum.ENUM_InputEvent inputEvent)
+    {
+        return false;
     }
 }

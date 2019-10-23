@@ -16,18 +16,21 @@ public class InputManager : MonoBehaviour
 
     void Update()
     {
-        InputProcess();
+        if (GameManager.Instance.canInput)
+        {
+            InputProcess();
+        }
     }
 
     private void InputProcess()
     {
-        if (Input.GetKey(KeyCode.RightArrow))   InputEvent(Enum.ENUM_InputEvent.Right);
+        if (Input.GetKeyDown(KeyCode.RightArrow))   InputEvent(Enum.ENUM_InputEvent.Right);
         else 
-        if (Input.GetKey(KeyCode.LeftArrow))   InputEvent(Enum.ENUM_InputEvent.Left);
+        if (Input.GetKeyDown(KeyCode.LeftArrow))   InputEvent(Enum.ENUM_InputEvent.Left);
         else
-        if (Input.GetKey(KeyCode.UpArrow))  InputEvent(Enum.ENUM_InputEvent.Up);
+        if (Input.GetKeyDown(KeyCode.UpArrow))  InputEvent(Enum.ENUM_InputEvent.Up);
         else
-        if (Input.GetKey(KeyCode.DownArrow))    InputEvent(Enum.ENUM_InputEvent.Down);
+        if (Input.GetKeyDown(KeyCode.DownArrow))    InputEvent(Enum.ENUM_InputEvent.Down);
 
     }
 }
