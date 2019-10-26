@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class Fire : State
 {
+    private bool canWalk = true;
+    private bool canBeFire = false;
+
     private float height = 0.3f;
     private GameObject model;
 
-    private bool canWalk = true;
-    private bool canBeFire = false;
 
     public Fire(BaseUnit owner) : base(owner)
     {
@@ -22,8 +23,12 @@ public class Fire : State
         Owner.SetCanWalk(canWalk);
         Owner.SetCanBeFire(canBeFire);
         Owner.SetUpperType(Enum.ENUM_UpperUnitType.NULL);
-        SetFireModel();
+        //关卡记录火焰信息
         Owner.GetStage().fireUnits.Add(Owner);
+        //对关卡回合更新事件进行注册
+        Owner.GetStage().StageUpdateEvent += OnStateHandle;
+
+        SetFireModel();
     }
 
     public override void OnStateHandle()
@@ -37,7 +42,8 @@ public class Fire : State
     public override void OnStateEnd()
     {
         Owner.GetStage().fireUnits.Remove(Owner);
-        model.SetActive(false);
+        Owner.GetStage().StageUpdateEvent -= OnStateHandle;
+        GameObject.Destroy(model);
     }
 
     private void SetFireModel()
@@ -57,8 +63,15 @@ public class Fire : State
             }
             else
             {
-                targetUnit.myState.OnStateEnd();
-                targetUnit.SetState(new Fire(targetUnit));
+                if (targetUnit.myState.stateType == Enum.ENUM_State.Oil)
+                {
+                    targetUnit.myState.OnStateHandle();
+                }
+                else
+                {
+                    targetUnit.myState.OnStateEnd();
+                    targetUnit.SetState(new Fire(targetUnit));
+                }
             }
 
         }

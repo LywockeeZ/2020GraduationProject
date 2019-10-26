@@ -16,6 +16,10 @@ public class Stage
     public List<BaseUnit> baseUnits = new List<BaseUnit>();
     //放置所有火焰单元
     public List<BaseUnit> fireUnits = new List<BaseUnit>();
+
+    public delegate void OnStateHandle();
+    public event OnStateHandle StageUpdateEvent;
+
     private GameObject BaseUnit;
     private Vector3 buildPos = Vector3.zero;
     private int unitLength = 1;
@@ -37,15 +41,9 @@ public class Stage
 
     public void OnStageUpdate()
     {
-        int counts = fireUnits.Count;
-        for (int i = 0; i < counts; i++)
+        if (StageUpdateEvent != null)
         {
-            if (fireUnits[i] != null)
-            {
-                fireUnits[i].StateRequest();
-                Debug.Log("i:" + i);
-
-            }
+            StageUpdateEvent();
         }
     }
 

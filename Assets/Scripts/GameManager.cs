@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
 
     private Stage currentStage;
     private bool isRoundsEnd = false;
+    private Player _playerUnit = null;
 
     private void Awake()
     {
@@ -49,12 +50,27 @@ public class GameManager : MonoBehaviour
         fire1.SetState(new Fire(fire1));
         fire2.SetState(new Fire(fire2));
         fire3.SetState(new Fire(fire3));
+        //设置油
+        BaseUnit Oil1 = currentStage.GetBaseUnit(1, 0);
+        BaseUnit Oil2 = currentStage.GetBaseUnit(2, 0);
+        BaseUnit Oil3 = currentStage.GetBaseUnit(1, 1);
+        BaseUnit Oil4 = currentStage.GetBaseUnit(2, 1);
+        BaseUnit Oil5 = currentStage.GetBaseUnit(1, 2);
+        BaseUnit Oil6 = currentStage.GetBaseUnit(2, 2);
+        Oil1.SetState(new Oil(Oil1));
+        Oil2.SetState(new Oil(Oil2));
+        Oil3.SetState(new Oil(Oil3));
+        Oil4.SetState(new Oil(Oil4));
+        Oil5.SetState(new Oil(Oil5));
+        Oil6.SetState(new Oil(Oil6));
         //设置箱子
         GameObject chest1 = BuildChest(new Vector2(6, 0));
         GameObject chest2 = BuildChest(new Vector2(4, 1));
+        //设置路障
+        GameObject roadBlock1 = BuildRoadBlock(new Vector2(2, 1));
         ////////////////////////////////////////////////////////////
         Player = BuildPlayer();
-        Debug.Log("FireCounts:" + _fireCounts);
+        Debug.Log("FireCounts:" + GetFireCounts());
 
     }
 
@@ -62,16 +78,13 @@ public class GameManager : MonoBehaviour
     {
         actionPointText.text = "行动点数: " + ActionPoints.ToString();
         roundsText.text = "第" + Rounds.ToString() + "回合";
-        Debug.Log(canInput);
         if ( GetFireCounts() == 0)
         {
             GameOver();
         }
         if (_actionPoints == 0 && !isRoundsEnd)
         {
-            isRoundsEnd = true;
-            canInput = false;
-            Invoke("NextRound", 1f);
+            OnRoundEnd();
         }
     }
 
@@ -89,6 +102,13 @@ public class GameManager : MonoBehaviour
     {
         _actionPoints -= value;
         Debug.Log("ActionPoints:" + _actionPoints);
+    }
+
+    public void OnRoundEnd()
+    {
+        isRoundsEnd = true;
+        canInput = false;
+        Invoke("NextRound", 1f);
     }
 
     public void NextRound()
@@ -124,16 +144,15 @@ public class GameManager : MonoBehaviour
         GameObject PlayerResource = Resources.Load("Prefabs/Player") as GameObject;
         GameObject playerObject = Instantiate(PlayerResource, startUnit.Model.transform.position, Quaternion.identity);
         //挂载实例化类
-        Player _player;
-        _player = playerObject.AddComponent<Player>();
+        _playerUnit = playerObject.AddComponent<Player>();
         //初始化
-        _player.CurrentOn = startUnit;
+        _playerUnit.CurrentOn = startUnit;
 
 
         return playerObject;
     }
     ////////////////////////////////////////////////////////////////////
-    ///
+    //构建箱子流程
     GameObject BuildChest( Vector2 pos)
     {
         BaseUnit startUnit = currentStage.GetBaseUnit((int)pos.x, (int)pos.y);
@@ -145,9 +164,34 @@ public class GameManager : MonoBehaviour
 
         return chestObject;
     }
+    /////////////////////////////////////////////////////////////////////
+    //构建路障流程
+    GameObject BuildRoadBlock(Vector2 pos)
+    {
+        BaseUnit startUnit = currentStage.GetBaseUnit((int)pos.x, (int)pos.y);
+        GameObject RoadBlockResource = Resources.Load("Prefabs/RoadBlock") as GameObject;
+        GameObject roadBlockObject = Instantiate(RoadBlockResource, startUnit.Model.transform.position, Quaternion.identity);
+        RoadBlock _roadBlock;
+        _roadBlock = roadBlockObject.AddComponent<RoadBlock>();
+        _roadBlock.CurrentOn = startUnit;
+
+        return roadBlockObject;
+    }
+    ////////////////////////////////////////////////////////////////////
+
 
     public void SetCanInput(bool value)
     {
         canInput = value;
+    }
+
+    public void SetPlayerUnit(Player playerUnit)
+    {
+        _playerUnit = playerUnit;
+    }
+
+    public Player GetPlayerUnit()
+    {
+        return _playerUnit;
     }
 }

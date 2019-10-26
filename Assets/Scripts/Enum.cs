@@ -11,7 +11,7 @@ public static class Enum
         HotFire,
         Fire,
         Water,
-        Boil,
+        Oil,
         Block
     }
 

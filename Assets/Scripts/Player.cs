@@ -6,9 +6,9 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
 {
     public BaseUnit CurrentOn { get { return _currentOn; } set { _currentOn = value; } }
     public float Height { get { return _heigth; } set { _heigth = value; } }
-    public float MoveSpeed { get { return _moveSpeed; } set { _moveSpeed = value; } }
     public bool CanBeFire { get { return _canBeFire; } set { _canBeFire = value; } }
     public bool IsMoving { get { return _isMoving; } set { _isMoving = value; } }
+    public float MoveSpeed { get { return _moveSpeed; } set { _moveSpeed = value; } }
 
     //该单元的私有属性
     private BaseUnit _currentOn;
@@ -97,9 +97,12 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
         {
             targetPos = SetTargetPos(targetUnit.Model.transform.position);
             lookdir = GetLookDir();
-            targetUnit.myState.OnStateEnd();
-            targetUnit.SetState(new Block(targetUnit));
-            targetUnit.SetUpperType(Enum.ENUM_UpperUnitType.Movable);
+            if (targetUnit.myState.stateType != Enum.ENUM_State.Block)
+            {
+                targetUnit.myState.OnStateEnd();
+                targetUnit.SetState(new Block(targetUnit));
+                targetUnit.SetUpperType(Enum.ENUM_UpperUnitType.Movable);
+            }
             _currentOn.SetUpperType(Enum.ENUM_UpperUnitType.NULL);
             _currentOn.SetUpperGameObject(null);
             _currentOn = targetUnit;

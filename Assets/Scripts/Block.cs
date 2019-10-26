@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Block : State
 {
-    private float height = 0.1f;
+    private float height = 0.01f;
     private GameObject model;
 
     private bool canWalk = true;
@@ -32,7 +32,7 @@ public class Block : State
 
     public override void OnStateEnd()
     {
-        model.SetActive(false);
+        GameObject.Destroy(model);
     }
 
     private void SetBlockModel()
