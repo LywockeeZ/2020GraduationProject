@@ -51,23 +51,24 @@ public class GameManager : MonoBehaviour
         fire2.SetState(new Fire(fire2));
         fire3.SetState(new Fire(fire3));
         //设置油
-        BaseUnit Oil1 = currentStage.GetBaseUnit(1, 0);
-        BaseUnit Oil2 = currentStage.GetBaseUnit(2, 0);
-        BaseUnit Oil3 = currentStage.GetBaseUnit(1, 1);
-        BaseUnit Oil4 = currentStage.GetBaseUnit(2, 1);
-        BaseUnit Oil5 = currentStage.GetBaseUnit(1, 2);
-        BaseUnit Oil6 = currentStage.GetBaseUnit(2, 2);
-        Oil1.SetState(new Oil(Oil1));
-        Oil2.SetState(new Oil(Oil2));
-        Oil3.SetState(new Oil(Oil3));
-        Oil4.SetState(new Oil(Oil4));
-        Oil5.SetState(new Oil(Oil5));
-        Oil6.SetState(new Oil(Oil6));
+        //BaseUnit Oil1 = currentStage.GetBaseUnit(1, 0);
+        //BaseUnit Oil2 = currentStage.GetBaseUnit(2, 0);
+        //BaseUnit Oil3 = currentStage.GetBaseUnit(1, 1);
+        //BaseUnit Oil4 = currentStage.GetBaseUnit(2, 1);
+        //BaseUnit Oil5 = currentStage.GetBaseUnit(1, 2);
+        //BaseUnit Oil6 = currentStage.GetBaseUnit(2, 2);
+        //Oil1.SetState(new Oil(Oil1));
+        //Oil2.SetState(new Oil(Oil2));
+        //Oil3.SetState(new Oil(Oil3));
+        //Oil4.SetState(new Oil(Oil4));
+        //Oil5.SetState(new Oil(Oil5));
+        //Oil6.SetState(new Oil(Oil6));
         //设置箱子
         GameObject chest1 = BuildChest(new Vector2(6, 0));
         GameObject chest2 = BuildChest(new Vector2(4, 1));
-        //设置路障
-        GameObject roadBlock1 = BuildRoadBlock(new Vector2(2, 1));
+        GameObject chest3 = BuildChest(new Vector2(2, 1));
+        ////设置路障
+        //GameObject roadBlock1 = BuildRoadBlock(new Vector2(2, 1));
         ////////////////////////////////////////////////////////////
         Player = BuildPlayer();
         Debug.Log("FireCounts:" + GetFireCounts());
