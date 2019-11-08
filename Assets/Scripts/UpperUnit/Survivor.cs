@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoadBlock : MonoBehaviour, IUpperUnit, IFixedUnit
+public class Survivor : MonoBehaviour, IUpperUnit, IFixedUnit
 {
     public BaseUnit CurrentOn { get { return _currentOn; } set { _currentOn = value; } }
     public float Height { get { return _heigth; } set { _heigth = value; } }
@@ -11,7 +11,7 @@ public class RoadBlock : MonoBehaviour, IUpperUnit, IFixedUnit
     //该单元的私有属性
     private BaseUnit _currentOn;
     private float _heigth = 0.3f;
-    private bool _canBeFire = false;
+    private bool _canBeFire = true;
 
     private void Start()
     {
@@ -32,7 +32,7 @@ public class RoadBlock : MonoBehaviour, IUpperUnit, IFixedUnit
 
     public void End()
     {
-
+        GameObject.Destroy(gameObject);
     }
 
 
@@ -49,6 +49,7 @@ public class RoadBlock : MonoBehaviour, IUpperUnit, IFixedUnit
 
     public void HandleByFire()
     {
-
+        GameManager.Instance.GameOver();
+        End();
     }
 }

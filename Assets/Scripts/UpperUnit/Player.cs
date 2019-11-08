@@ -72,6 +72,7 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
         if (Vector3.Magnitude(transform.position - targetPos) < 0.1f)
         {
             _isMoving = false;
+            _moveSpeed = 4f;
         }
     }
 
@@ -97,21 +98,30 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
         {
             targetPos = SetTargetPos(targetUnit.Model.transform.position);
             lookdir = GetLookDir();
+            //保持在油，水，阻燃带上行走不改变状态
             if (targetUnit.myState.stateType != Enum.ENUM_State.Block &&
                 targetUnit.myState.stateType != Enum.ENUM_State.Oil &&
                 targetUnit.myState.stateType != Enum.ENUM_State.Water)
             {
                 targetUnit.myState.OnStateEnd();
                 targetUnit.SetState(new Block(targetUnit));
-                targetUnit.SetUpperType(Enum.ENUM_UpperUnitType.Movable);
             }
+            targetUnit.SetUpperType(Enum.ENUM_UpperUnitType.Movable);
             _currentOn.SetUpperType(Enum.ENUM_UpperUnitType.NULL);
             _currentOn.SetUpperGameObject(null);
             _currentOn = targetUnit;
+
+            //扣除移动点数
+            if (_currentOn.myState.stateType == Enum.ENUM_State.Oil)
+            {
+                GameManager.Instance.ReducePoints(1, 1);
+                _moveSpeed = 2f;
+            }
+            else GameManager.Instance.ReducePoints(1 , 0);
+
             //这里是移动的开关
             _isMoving = true;
-            //开始移动后扣除移动点数
-            GameManager.Instance.ReducePoints(1);
+
         }
     }
 

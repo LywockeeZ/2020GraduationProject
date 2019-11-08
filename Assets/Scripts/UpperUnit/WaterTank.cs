@@ -32,6 +32,7 @@ public class WaterTank : MonoBehaviour, IUpperUnit, IFixedUnit
 
     public void Handle()
     {
+        GameManager.Instance.ReducePoints(1, 0);
         _currentOn.myState.OnStateEnd();
         _currentOn.SetState(new Water(_currentOn));
         SetAroundToWater();
@@ -40,6 +41,10 @@ public class WaterTank : MonoBehaviour, IUpperUnit, IFixedUnit
 
     public void HandleByFire()
     {
+        _currentOn.myState.OnStateEnd();
+        _currentOn.SetState(new Water(_currentOn));
+        SetAroundToWater();
+        End();
     }
 
     public void End()

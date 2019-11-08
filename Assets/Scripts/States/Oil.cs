@@ -25,8 +25,7 @@ public class Oil : State
         Owner.SetCanWalk(canWalk);
         Owner.SetCanBeFire(canBeFire);
         Owner.SetUpperType(Enum.ENUM_UpperUnitType.NULL);
-        //初始化关卡系统关于油的判断变量
-        Owner.GetStage().isOilUpdateEnd = false;
+        Owner.GetStage().oilUnits.Add(Owner);
 
         SetOilModel();
     }
@@ -35,8 +34,13 @@ public class Oil : State
     {
         //先将状态转换
         OnStateEnd();
-        Owner.SetState(new Fire(Owner));
+        if (Owner.UpperType == Enum.ENUM_UpperUnitType.Movable)
+        {
+            Owner.SetState(new Block(Owner));
 
+        }
+        else Owner.SetState(new Fire(Owner));
+        Owner.GetStage().isOilUpdateEnd = false;
 
         //如果周围有油就执行其行为
         GameManager.Instance.StartCoroutine(FireAround());
@@ -46,6 +50,7 @@ public class Oil : State
 
     public override void OnStateEnd()
     {
+        Owner.GetStage().oilUnits.Remove(Owner);
         GameObject.Destroy(model);
     }
 
@@ -60,10 +65,10 @@ public class Oil : State
     IEnumerator FireAround()
     {
         yield return new WaitForSeconds(0.5f);
-        if ((Owner.Up != null) && (Owner.Up.myState.stateType == Enum.ENUM_State.Oil) ||
-            (Owner.Down != null) && (Owner.Down.myState.stateType == Enum.ENUM_State.Oil) ||
-            (Owner.Left != null) && (Owner.Left.myState.stateType == Enum.ENUM_State.Oil) ||
-            (Owner.Right != null) && (Owner.Right.myState.stateType == Enum.ENUM_State.Oil))
+        if (((Owner.Up    != null) && (Owner.Up.myState.stateType    == Enum.ENUM_State.Oil)) ||
+            ((Owner.Down  != null) && (Owner.Down.myState.stateType  == Enum.ENUM_State.Oil)) ||
+            ((Owner.Left  != null) && (Owner.Left.myState.stateType  == Enum.ENUM_State.Oil)) ||
+            ((Owner.Right != null) && (Owner.Right.myState.stateType == Enum.ENUM_State.Oil)))
         {
             ChangeOilToFireState(Owner.Up);
             ChangeOilToFireState(Owner.Down);
@@ -82,6 +87,12 @@ public class Oil : State
         {
             targetUnit.myState.OnStateHandle();
         }
+        //else
+        //if (targetUnit.UpperType == Enum.ENUM_UpperUnitType.Movable)
+        //{
+        //    targetUnit.myState.OnStateEnd();
+        //    targetUnit.SetState(new Ground(targetUnit));
+        //}
         
     }
 

@@ -16,6 +16,8 @@ public class Stage
     public List<BaseUnit> baseUnits = new List<BaseUnit>();
     //放置所有火焰单元
     public List<BaseUnit> fireUnits = new List<BaseUnit>();
+    //放置所有油单元
+    public List<BaseUnit> oilUnits = new List<BaseUnit>();
     //用来标记回合结束清算是否完成
     //油关卡不一定有，但火是一定有的
     public bool isOilUpdateEnd = true;
@@ -110,15 +112,25 @@ public class Stage
 
     private IEnumerator StageEventUpdate()
     {
+        if (WaterUpdateEvent != null)
+        {
+            yield return new WaitForSeconds(0.7f);
+            if (WaterUpdateEvent != null)
+            {
+                WaterUpdateEvent();
+            }
+        }
+
         if (FireUpdateEvent != null)
         {
             yield return new WaitForSeconds(1f);
             FireUpdateEvent();
-        }
-        if (WaterUpdateEvent != null)
-        {
-            yield return new WaitForSeconds(0.1f);
-            WaterUpdateEvent();
+            GameManager.Instance.isGameOver = GameManager.Instance.IsGameOver();
+            if (GameManager.Instance.isGameOver)
+            {
+                GameManager.Instance.GameOver();
+            }
+
         }
         if (OilTankUpdateEvent != null)
         {
@@ -130,6 +142,10 @@ public class Stage
 
     public bool IsUpdateEnd()
     {
+        if (oilUnits.Count == 0)
+        {
+            isOilUpdateEnd = true;
+        }
         bool _isEnd = false;
         if (isOilUpdateEnd && isFireUpdateEnd)
         {

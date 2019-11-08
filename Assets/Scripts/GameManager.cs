@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class GameManager : MonoBehaviour
     //行动点数
     public int ActionPoints { get { return _actionPoints; } }
     private int _actionPoints = 4;
+    //上回合剩余未扣除点数
+    private int lastRoundRemainP = 0;
+    private int costTotalPoints = 0;
 
     //回合数
     public int Rounds { get { return _rounds; } }
@@ -18,6 +22,7 @@ public class GameManager : MonoBehaviour
 
     //火焰数
     private int _fireCounts = 0;
+    public int lastRoundsFireCounts = 0;
 
     public GameObject Player;
     public bool canInput = false;
@@ -25,9 +30,12 @@ public class GameManager : MonoBehaviour
     //临时UI
     public Text actionPointText;
     public Text roundsText;
+    public Text costPointText;
+    public GameObject gameoverPanel;
 
     private Stage currentStage;
     private bool isRoundsEnd = false;
+    public bool isGameOver = false;
     private Player _playerUnit = null;
 
     private void Awake()
@@ -39,61 +47,81 @@ public class GameManager : MonoBehaviour
     {
         /////////////////////////////////////////////////////////////
         //构建地图
-        int[,] stageMessage = new int[4, 9] { { 0, 1, 1, 1, 1, 1, 1, 1, 1 }, { 0, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1, 1, 1, 1, 0 }, { 0, 0, 0, 0, 0, 1, 1, 1, 0 } };
-        currentStage = new Stage(4, 9, stageMessage);
+        //int[,] stageMessage = new int[4, 9] { { 0, 1, 1, 1, 1, 1, 1, 1, 1 }, { 0, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1, 1, 1, 1, 0 }, { 0, 0, 0, 0, 0, 1, 1, 1, 0 } };
+        //int[,] stageMessage = new int[10, 10] { { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+        //{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }, { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }};
+        int[,] stageMessage = new int[9, 11] { {0,0,0,0,0,0,1,0,0,0,0 },
+                                               {0,0,0,0,0,0,1,1,0,0,0 },
+                                               {0,0,0,1,1,1,1,1,1,0,0 },
+                                               {0,0,0,1,1,1,1,1,1,1,1 },
+                                               {0,0,0,1,1,1,1,1,1,1,1 },
+                                               {0,1,1,1,1,1,1,1,1,1,1 },
+                                               {1,1,1,1,1,1,1,1,1,0,0 },
+                                               {0,1,1,1,1,1,1,1,1,0,0 },
+                                               {0,0,0,1,1,0,0,0,0,0,0 }};
+
+        currentStage = new Stage(9, 11, stageMessage);
         //设置出生点
-        currentStage.SetStartPos(new Vector2(7, 3));
+        currentStage.SetStartPos(new Vector2(6, 0));
         //设置初始火焰
-        BaseUnit fire1 = currentStage.GetBaseUnit(7, 0);
-        BaseUnit fire2 = currentStage.GetBaseUnit(3, 1);
-        BaseUnit fire3 = currentStage.GetBaseUnit(5, 1);
+        BaseUnit fire1 = currentStage.GetBaseUnit(5, 5);
+        //BaseUnit fire2 = currentStage.GetBaseUnit(1, 4);
+        //BaseUnit fire3 = currentStage.GetBaseUnit(5, 4);
+        //BaseUnit fire4 = currentStage.GetBaseUnit(4, 6);
         fire1.SetState(new Fire(fire1));
-        fire2.SetState(new Fire(fire2));
-        fire3.SetState(new Fire(fire3));
+        //fire2.SetState(new Fire(fire2));
+        //fire3.SetState(new Fire(fire3));
+        //fire4.SetState(new Fire(fire4));
         //设置水
-        BaseUnit water1 = currentStage.GetBaseUnit(3, 0);
+        BaseUnit water1 = currentStage.GetBaseUnit(8, 5);
         water1.SetState(new Water(water1));
         //设置油
-        BaseUnit Oil1 = currentStage.GetBaseUnit(1, 0);
-        BaseUnit Oil2 = currentStage.GetBaseUnit(2, 0);
-        BaseUnit Oil3 = currentStage.GetBaseUnit(1, 1);
-        BaseUnit Oil4 = currentStage.GetBaseUnit(2, 1);
-        BaseUnit Oil5 = currentStage.GetBaseUnit(1, 2);
-        BaseUnit Oil6 = currentStage.GetBaseUnit(2, 2);
+        BaseUnit Oil1 = currentStage.GetBaseUnit(3, 2);
+        BaseUnit Oil2 = currentStage.GetBaseUnit(4, 2);
+        BaseUnit Oil3 = currentStage.GetBaseUnit(5, 2);
+        BaseUnit Oil4 = currentStage.GetBaseUnit(6, 2);
+        BaseUnit Oil5 = currentStage.GetBaseUnit(3, 3);
+        //BaseUnit Oil6 = currentStage.GetBaseUnit(2, 2);
         Oil1.SetState(new Oil(Oil1));
         Oil2.SetState(new Oil(Oil2));
         Oil3.SetState(new Oil(Oil3));
         Oil4.SetState(new Oil(Oil4));
         Oil5.SetState(new Oil(Oil5));
-        Oil6.SetState(new Oil(Oil6));
-        //设置箱子
-        //GameObject chest1 = BuildChest(new Vector2(6, 0));
-        //GameObject chest2 = BuildChest(new Vector2(4, 1));
-        //GameObject chest3 = BuildChest(new Vector2(2, 1));
+        //Oil6.SetState(new Oil(Oil6));
+        //设置油桶
+        GameObject oilTank1 = BuildOilTank(new Vector3(3, 2));
+        GameObject oilTank2 = BuildOilTank(new Vector3(5, 7));
+        GameObject oilTank3 = BuildOilTank(new Vector3(10, 4));
+        ////设置箱子
+        ////GameObject chest1 = BuildChest(new Vector2(6, 0));
+        ////GameObject chest2 = BuildChest(new Vector2(4, 1));
+        ////GameObject chest3 = BuildChest(new Vector2(2, 1));
         //设置水桶
-        GameObject waterTank1 = BuildWaterTank(new Vector2(5, 0));
-        ////设置路障
-        //GameObject roadBlock1 = BuildRoadBlock(new Vector2(2, 1));
+        GameObject waterTank1 = BuildWaterTank(new Vector2(4, 7));
+        //设置路障
+        GameObject roadBlock1 = BuildRoadBlock(new Vector2(2, 6));
+        GameObject roadBlock2 = BuildRoadBlock(new Vector2(5, 6));
+        GameObject roadBlock3 = BuildRoadBlock(new Vector2(7, 6));
+        GameObject roadBlock4 = BuildRoadBlock(new Vector2(9, 4));
+        //设置幸存者
+        GameObject survivor = BuildSurvivor(new Vector2(1, 7));
         ////////////////////////////////////////////////////////////
         Player = BuildPlayer();
-        Debug.Log("FireCounts:" + GetFireCounts());
-
     }
 
     void Update()
     {
         actionPointText.text = "行动点数: " + ActionPoints.ToString();
         roundsText.text = "第" + Rounds.ToString() + "回合";
-        if ( GetFireCounts() == 0)
-        {
-            GameOver();
-        }
         if (_actionPoints == 0)
         {
             //防止多次执行关卡回合清算
             if (!isRoundsEnd) OnRoundEnd();
             //当关卡回合清算结束后开启下一回合
-            if (currentStage.IsUpdateEnd()) NextRound();
+            if (!isGameOver)
+            {
+                if (currentStage.IsUpdateEnd()) NextRound();
+            }
         }
     }
 
@@ -107,9 +135,19 @@ public class GameManager : MonoBehaviour
         _actionPoints = 4;
     }
 
-    public void ReducePoints(int value)
+    public void ReducePoints(int value , int additionValue)
     {
         _actionPoints -= value;
+        costTotalPoints += value;
+        if (_actionPoints == 0 && additionValue != 0)
+        {
+            lastRoundRemainP = 1;
+        }
+        else
+        {
+            _actionPoints -= additionValue;
+            costTotalPoints += additionValue;
+        }
         Debug.Log("ActionPoints:" + _actionPoints);
     }
 
@@ -117,13 +155,17 @@ public class GameManager : MonoBehaviour
     {
         isRoundsEnd = true;
         canInput = false;
+        lastRoundsFireCounts = GetFireCounts();
         currentStage.OnStageUpdate();
-        //Invoke("NextRound", 1f);
     }
 
     public void NextRound()
     {
         ResetActionPoints();
+
+        ReducePoints(lastRoundRemainP, 0);
+        lastRoundRemainP = 0;
+
         isRoundsEnd = false;
         canInput = true;
         _rounds++;
@@ -134,7 +176,16 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        isGameOver = true;
+        canInput = false;
+        gameoverPanel.SetActive(true);
+        costPointText.text = "花费点数：" + costTotalPoints.ToString();
         Debug.Log("Over");
+    }
+
+    public void GameRestart()
+    {
+        SceneManager.LoadScene(0);
     }
 
     public int GetFireCounts()
@@ -200,7 +251,33 @@ public class GameManager : MonoBehaviour
         return waterTankObject;
     }
     ////////////////////////////////////////////////////////////////////
+    //构建油桶流程
+    GameObject BuildOilTank(Vector2 pos)
+    {
+        BaseUnit startUnit = currentStage.GetBaseUnit((int)pos.x, (int)pos.y);
+        GameObject OilTankResource = Resources.Load("Prefabs/OilTank") as GameObject;
+        GameObject oilTankObject = Instantiate(OilTankResource, startUnit.Model.transform.position, Quaternion.identity);
+        OilTank _oilTank;
+        _oilTank = oilTankObject.AddComponent<OilTank>();
+        _oilTank.CurrentOn = startUnit;
 
+        return oilTankObject;
+    }
+    ///////////////////////////////////////////////////////////////////
+    //构建幸存者
+    GameObject BuildSurvivor(Vector2 pos)
+    {
+        BaseUnit startUnit = currentStage.GetBaseUnit((int)pos.x, (int)pos.y);
+        GameObject SurvivorResource = Resources.Load("Prefabs/Survivor") as GameObject;
+        GameObject survivorObject = Instantiate(SurvivorResource, startUnit.Model.transform.position, Quaternion.identity);
+        Survivor _survivor;
+        _survivor = survivorObject.AddComponent<Survivor>();
+        _survivor.CurrentOn = startUnit;
+
+        return survivorObject;
+    }
+
+    ///////////////////////////////////////////////////////////////////
 
     public void SetCanInput(bool value)
     {
@@ -215,6 +292,16 @@ public class GameManager : MonoBehaviour
     public Player GetPlayerUnit()
     {
         return _playerUnit;
+    }
+
+    public bool IsGameOver()
+    {
+        bool isOver = false;
+        if (GetFireCounts() == lastRoundsFireCounts)
+        {
+            isOver = true;
+        }
+        return isOver;
     }
 
 }

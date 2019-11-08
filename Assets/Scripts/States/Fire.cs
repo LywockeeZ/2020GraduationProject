@@ -60,7 +60,10 @@ public class Fire : State
         {
             if (targetUnit.UpperGameObject != null)
             {
-
+                if (targetUnit.UpperType == Enum.ENUM_UpperUnitType.Fixed)
+                {
+                    targetUnit.UpperGameObject.GetComponent<IFixedUnit>().HandleByFire();
+                }
             }
             else
             {

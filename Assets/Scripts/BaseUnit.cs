@@ -23,8 +23,8 @@ public class BaseUnit
     //关卡信息的引用，用来获取周围信息
     private Stage currentStage;
     //此单元的位置信息
-    private int x = 0;
-    private int y = 0;
+    public int x = 0;
+    public int y = 0;
 
     private BaseUnit _up;
     private BaseUnit _down;
