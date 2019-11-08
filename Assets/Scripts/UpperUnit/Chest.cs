@@ -6,15 +6,15 @@ public class Chest : MonoBehaviour, IUpperUnit, IMovableUnit
 {
     public BaseUnit CurrentOn { get { return _currentOn; } set { _currentOn = value; } }
     public float Height { get { return _heigth; } set { _heigth = value; } }
-    public float MoveSpeed { get { return _moveSpeed; } set { _moveSpeed = value; } }
     public bool CanBeFire { get { return _canBeFire; } set { _canBeFire = value; } }
+    public float MoveSpeed { get { return _moveSpeed; } set { _moveSpeed = value; } }
     public bool IsMoving { get { return _isMoving; } set { _isMoving = value; } }
 
     //该单元的私有属性
     private BaseUnit _currentOn;
-    private float _moveSpeed = 4f;
     private float _heigth = 0.3f;
     private bool _canBeFire = false;
+    private float _moveSpeed = 4f;
     private bool _isMoving = false;
 
     private BaseUnit targetUnit;

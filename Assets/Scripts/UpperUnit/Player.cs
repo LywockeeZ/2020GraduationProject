@@ -12,9 +12,9 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
 
     //该单元的私有属性
     private BaseUnit _currentOn;
-    private float _moveSpeed = 4f;
     private float _heigth = 0.3f;
     private bool _canBeFire = false;
+    private float _moveSpeed = 4f;
     private bool _isMoving = false;
 
     private BaseUnit targetUnit;
@@ -97,7 +97,9 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
         {
             targetPos = SetTargetPos(targetUnit.Model.transform.position);
             lookdir = GetLookDir();
-            if (targetUnit.myState.stateType != Enum.ENUM_State.Block)
+            if (targetUnit.myState.stateType != Enum.ENUM_State.Block &&
+                targetUnit.myState.stateType != Enum.ENUM_State.Oil &&
+                targetUnit.myState.stateType != Enum.ENUM_State.Water)
             {
                 targetUnit.myState.OnStateEnd();
                 targetUnit.SetState(new Block(targetUnit));
@@ -165,6 +167,16 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
             {
                 movableUnit.Move(inputEvent);
                 JudgeBaseStateAndMove(targetUnit);
+            }
+        }
+        else
+        if (targetUnit.UpperType == Enum.ENUM_UpperUnitType.Fixed)
+        {
+            IFixedUnit fixedUnit = targetUnit.UpperGameObject.GetComponent<IFixedUnit>();
+
+            if (fixedUnit != null)
+            {
+                fixedUnit.Handle();
             }
         }
 

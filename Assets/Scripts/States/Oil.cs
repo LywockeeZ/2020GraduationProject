@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Timers;
 
 public class Oil : State
 {
@@ -24,6 +25,8 @@ public class Oil : State
         Owner.SetCanWalk(canWalk);
         Owner.SetCanBeFire(canBeFire);
         Owner.SetUpperType(Enum.ENUM_UpperUnitType.NULL);
+        //初始化关卡系统关于油的判断变量
+        Owner.GetStage().isOilUpdateEnd = false;
 
         SetOilModel();
     }
@@ -34,14 +37,10 @@ public class Oil : State
         OnStateEnd();
         Owner.SetState(new Fire(Owner));
 
+
         //如果周围有油就执行其行为
-        if ((Owner.Up    != null) && (Owner.Up.myState.stateType    == Enum.ENUM_State.Oil) ||
-            (Owner.Down  != null) && (Owner.Down.myState.stateType  == Enum.ENUM_State.Oil) ||
-            (Owner.Left  != null) && (Owner.Left.myState.stateType  == Enum.ENUM_State.Oil) ||
-            (Owner.Right != null) && (Owner.Right.myState.stateType == Enum.ENUM_State.Oil))
-        {
-            FireAround();           
-        }
+        GameManager.Instance.StartCoroutine(FireAround());
+
     }
 
 
@@ -58,12 +57,21 @@ public class Oil : State
     }
 
 
-    private void FireAround()
+    IEnumerator FireAround()
     {
-        ChangeOilToFireState(Owner.Up);
-        ChangeOilToFireState(Owner.Down);
-        ChangeOilToFireState(Owner.Left);
-        ChangeOilToFireState(Owner.Right);
+        yield return new WaitForSeconds(0.5f);
+        if ((Owner.Up != null) && (Owner.Up.myState.stateType == Enum.ENUM_State.Oil) ||
+            (Owner.Down != null) && (Owner.Down.myState.stateType == Enum.ENUM_State.Oil) ||
+            (Owner.Left != null) && (Owner.Left.myState.stateType == Enum.ENUM_State.Oil) ||
+            (Owner.Right != null) && (Owner.Right.myState.stateType == Enum.ENUM_State.Oil))
+        {
+            ChangeOilToFireState(Owner.Up);
+            ChangeOilToFireState(Owner.Down);
+            ChangeOilToFireState(Owner.Left);
+            ChangeOilToFireState(Owner.Right);
+        }
+        else Owner.GetStage().isOilUpdateEnd = true;
+
     }
 
 
@@ -76,5 +84,7 @@ public class Oil : State
         }
         
     }
+
+
 
 }

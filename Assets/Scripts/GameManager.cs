@@ -50,23 +50,28 @@ public class GameManager : MonoBehaviour
         fire1.SetState(new Fire(fire1));
         fire2.SetState(new Fire(fire2));
         fire3.SetState(new Fire(fire3));
+        //设置水
+        BaseUnit water1 = currentStage.GetBaseUnit(3, 0);
+        water1.SetState(new Water(water1));
         //设置油
-        //BaseUnit Oil1 = currentStage.GetBaseUnit(1, 0);
-        //BaseUnit Oil2 = currentStage.GetBaseUnit(2, 0);
-        //BaseUnit Oil3 = currentStage.GetBaseUnit(1, 1);
-        //BaseUnit Oil4 = currentStage.GetBaseUnit(2, 1);
-        //BaseUnit Oil5 = currentStage.GetBaseUnit(1, 2);
-        //BaseUnit Oil6 = currentStage.GetBaseUnit(2, 2);
-        //Oil1.SetState(new Oil(Oil1));
-        //Oil2.SetState(new Oil(Oil2));
-        //Oil3.SetState(new Oil(Oil3));
-        //Oil4.SetState(new Oil(Oil4));
-        //Oil5.SetState(new Oil(Oil5));
-        //Oil6.SetState(new Oil(Oil6));
+        BaseUnit Oil1 = currentStage.GetBaseUnit(1, 0);
+        BaseUnit Oil2 = currentStage.GetBaseUnit(2, 0);
+        BaseUnit Oil3 = currentStage.GetBaseUnit(1, 1);
+        BaseUnit Oil4 = currentStage.GetBaseUnit(2, 1);
+        BaseUnit Oil5 = currentStage.GetBaseUnit(1, 2);
+        BaseUnit Oil6 = currentStage.GetBaseUnit(2, 2);
+        Oil1.SetState(new Oil(Oil1));
+        Oil2.SetState(new Oil(Oil2));
+        Oil3.SetState(new Oil(Oil3));
+        Oil4.SetState(new Oil(Oil4));
+        Oil5.SetState(new Oil(Oil5));
+        Oil6.SetState(new Oil(Oil6));
         //设置箱子
-        GameObject chest1 = BuildChest(new Vector2(6, 0));
-        GameObject chest2 = BuildChest(new Vector2(4, 1));
-        GameObject chest3 = BuildChest(new Vector2(2, 1));
+        //GameObject chest1 = BuildChest(new Vector2(6, 0));
+        //GameObject chest2 = BuildChest(new Vector2(4, 1));
+        //GameObject chest3 = BuildChest(new Vector2(2, 1));
+        //设置水桶
+        GameObject waterTank1 = BuildWaterTank(new Vector2(5, 0));
         ////设置路障
         //GameObject roadBlock1 = BuildRoadBlock(new Vector2(2, 1));
         ////////////////////////////////////////////////////////////
@@ -83,9 +88,12 @@ public class GameManager : MonoBehaviour
         {
             GameOver();
         }
-        if (_actionPoints == 0 && !isRoundsEnd)
+        if (_actionPoints == 0)
         {
-            OnRoundEnd();
+            //防止多次执行关卡回合清算
+            if (!isRoundsEnd) OnRoundEnd();
+            //当关卡回合清算结束后开启下一回合
+            if (currentStage.IsUpdateEnd()) NextRound();
         }
     }
 
@@ -109,7 +117,8 @@ public class GameManager : MonoBehaviour
     {
         isRoundsEnd = true;
         canInput = false;
-        Invoke("NextRound", 1f);
+        currentStage.OnStageUpdate();
+        //Invoke("NextRound", 1f);
     }
 
     public void NextRound()
@@ -118,10 +127,9 @@ public class GameManager : MonoBehaviour
         isRoundsEnd = false;
         canInput = true;
         _rounds++;
-        currentStage.OnStageUpdate();
+        currentStage.ResetBool();
         Debug.Log("Round:" + _rounds);
         Debug.Log("FireCounts:" + GetFireCounts());
-
     }
 
     public void GameOver()
@@ -179,6 +187,19 @@ public class GameManager : MonoBehaviour
         return roadBlockObject;
     }
     ////////////////////////////////////////////////////////////////////
+    //构建水桶流程
+    GameObject BuildWaterTank(Vector2 pos)
+    {
+        BaseUnit startUnit = currentStage.GetBaseUnit((int)pos.x, (int)pos.y);
+        GameObject WaterTankResource = Resources.Load("Prefabs/WaterTank") as GameObject;
+        GameObject waterTankObject = Instantiate(WaterTankResource, startUnit.Model.transform.position, Quaternion.identity);
+        WaterTank _waterTank;
+        _waterTank = waterTankObject.AddComponent<WaterTank>();
+        _waterTank.CurrentOn = startUnit;
+
+        return waterTankObject;
+    }
+    ////////////////////////////////////////////////////////////////////
 
 
     public void SetCanInput(bool value)
@@ -195,4 +216,5 @@ public class GameManager : MonoBehaviour
     {
         return _playerUnit;
     }
+
 }

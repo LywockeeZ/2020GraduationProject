@@ -16,9 +16,14 @@ public class Stage
     public List<BaseUnit> baseUnits = new List<BaseUnit>();
     //放置所有火焰单元
     public List<BaseUnit> fireUnits = new List<BaseUnit>();
-
+    //用来标记回合结束清算是否完成
+    //油关卡不一定有，但火是一定有的
+    public bool isOilUpdateEnd = true;
+    public bool isFireUpdateEnd = false;
     public delegate void OnStateHandle();
-    public event OnStateHandle StageUpdateEvent;
+    public event OnStateHandle FireUpdateEvent;
+    public event OnStateHandle WaterUpdateEvent;
+    public event OnStateHandle OilTankUpdateEvent;
 
     private GameObject BaseUnit;
     private Vector3 buildPos = Vector3.zero;
@@ -41,10 +46,7 @@ public class Stage
 
     public void OnStageUpdate()
     {
-        if (StageUpdateEvent != null)
-        {
-            StageUpdateEvent();
-        }
+        GameManager.Instance.StartCoroutine(StageEventUpdate());
     }
 
     public void OnStageEnd()
@@ -104,5 +106,40 @@ public class Stage
     public void SetStartPos(Vector2 pos)
     {
         startPos = pos;
+    }
+
+    private IEnumerator StageEventUpdate()
+    {
+        if (FireUpdateEvent != null)
+        {
+            yield return new WaitForSeconds(1f);
+            FireUpdateEvent();
+        }
+        if (WaterUpdateEvent != null)
+        {
+            yield return new WaitForSeconds(0.1f);
+            WaterUpdateEvent();
+        }
+        if (OilTankUpdateEvent != null)
+        {
+            yield return new WaitForSeconds(1f);
+            OilTankUpdateEvent();
+        }
+        GameManager.Instance.StopCoroutine(StageEventUpdate());
+    }
+
+    public bool IsUpdateEnd()
+    {
+        bool _isEnd = false;
+        if (isOilUpdateEnd && isFireUpdateEnd)
+        {
+            _isEnd = true;
+        }
+        return _isEnd;
+    }
+
+    public void ResetBool()
+    {
+        isFireUpdateEnd = false;
     }
 }
