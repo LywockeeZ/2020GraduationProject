@@ -24,7 +24,6 @@ public class Oil : State
     {
         Owner.SetCanWalk(canWalk);
         Owner.SetCanBeFire(canBeFire);
-        Owner.SetUpperType(Enum.ENUM_UpperUnitType.NULL);
         Owner.GetStage().oilUnits.Add(Owner);
 
         SetOilModel();
@@ -38,6 +37,11 @@ public class Oil : State
         {
             Owner.SetState(new Block(Owner));
 
+        }
+        else
+        if (Owner.UpperType == Enum.ENUM_UpperUnitType.Fixed)
+        {
+            Owner.UpperGameObject.GetComponent<IFixedUnit>().HandleByFire();
         }
         else Owner.SetState(new Fire(Owner));
         Owner.GetStage().isOilUpdateEnd = false;

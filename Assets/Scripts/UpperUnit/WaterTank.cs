@@ -33,8 +33,11 @@ public class WaterTank : MonoBehaviour, IUpperUnit, IFixedUnit
     public void Handle()
     {
         GameManager.Instance.ReducePoints(1, 0);
-        _currentOn.myState.OnStateEnd();
-        _currentOn.SetState(new Water(_currentOn));
+        if (_currentOn.myState.stateType != Enum.ENUM_State.Oil)
+        {
+            _currentOn.myState.OnStateEnd();
+            _currentOn.SetState(new Water(_currentOn));
+        }
         SetAroundToWater();
         End();
     }
@@ -49,6 +52,7 @@ public class WaterTank : MonoBehaviour, IUpperUnit, IFixedUnit
 
     public void End()
     {
+        _currentOn.SetUpperType(Enum.ENUM_UpperUnitType.NULL);
         GameObject.Destroy(gameObject);
     }
 
@@ -70,6 +74,7 @@ public class WaterTank : MonoBehaviour, IUpperUnit, IFixedUnit
     private void SetTargetToWater(BaseUnit targetUnit)
     {
         if (targetUnit != null && 
+            targetUnit.UpperType == Enum.ENUM_UpperUnitType.NULL &&
             (targetUnit.myState.stateType == Enum.ENUM_State.Fire || targetUnit.myState.stateType == Enum.ENUM_State.Ground))
         {
             targetUnit.myState.OnStateEnd();

@@ -73,6 +73,7 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
         {
             _isMoving = false;
             _moveSpeed = 4f;
+            GameManager.Instance.UI.SetActive(true);
         }
     }
 
@@ -96,31 +97,45 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
     {
         if (targetUnit != null && targetUnit.CanWalk)
         {
-            targetPos = SetTargetPos(targetUnit.Model.transform.position);
-            lookdir = GetLookDir();
-            //保持在油，水，阻燃带上行走不改变状态
-            if (targetUnit.myState.stateType != Enum.ENUM_State.Block &&
-                targetUnit.myState.stateType != Enum.ENUM_State.Oil &&
-                targetUnit.myState.stateType != Enum.ENUM_State.Water)
-            {
-                targetUnit.myState.OnStateEnd();
-                targetUnit.SetState(new Block(targetUnit));
-            }
-            targetUnit.SetUpperType(Enum.ENUM_UpperUnitType.Movable);
-            _currentOn.SetUpperType(Enum.ENUM_UpperUnitType.NULL);
-            _currentOn.SetUpperGameObject(null);
-            _currentOn = targetUnit;
-
-            //扣除移动点数
+            //当目标与当前位置都是油时，花费一点数改变为阻燃带
             if (_currentOn.myState.stateType == Enum.ENUM_State.Oil)
             {
-                GameManager.Instance.ReducePoints(1, 1);
-                _moveSpeed = 2f;
+                GameManager.Instance.ReducePoints(1, 0);
+                _currentOn.myState.OnStateEnd();
+                _currentOn.SetState(new Block(_currentOn));
             }
-            else GameManager.Instance.ReducePoints(1 , 0);
+            else
+            {
+                targetPos = SetTargetPos(targetUnit.Model.transform.position);
+                lookdir = GetLookDir();
+                //保持在油，水，阻燃带上行走不改变状态
+                if (targetUnit.myState.stateType != Enum.ENUM_State.Block &&
+                    targetUnit.myState.stateType != Enum.ENUM_State.Oil &&
+                    targetUnit.myState.stateType != Enum.ENUM_State.Water)
+                {
+                    targetUnit.myState.OnStateEnd();
+                    targetUnit.SetState(new Block(targetUnit));
+                }
 
-            //这里是移动的开关
-            _isMoving = true;
+                targetUnit.SetUpperType(Enum.ENUM_UpperUnitType.Movable);
+                targetUnit.SetUpperGameObject(gameObject);
+                _currentOn.SetUpperType(Enum.ENUM_UpperUnitType.NULL);
+                _currentOn.SetUpperGameObject(null);
+                _currentOn = targetUnit;
+
+                //扣除移动点数，根据是否是油来减速
+                if (_currentOn.myState.stateType == Enum.ENUM_State.Oil)
+                {
+                    GameManager.Instance.ReducePoints(1, 0);
+                    _moveSpeed = 2f;
+                }
+                else GameManager.Instance.ReducePoints(1, 0);
+
+                //这里是移动的开关
+                _isMoving = true;
+                GameManager.Instance.UI.SetActive(false);
+
+            }
 
         }
     }

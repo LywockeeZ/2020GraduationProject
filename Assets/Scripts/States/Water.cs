@@ -24,7 +24,6 @@ public class Water : State
     {
         Owner.SetCanWalk(canWalk);
         Owner.SetCanBeFire(canBeFire);
-        Owner.SetUpperType(Enum.ENUM_UpperUnitType.NULL);
         Owner.GetStage().WaterUpdateEvent += OnStateHandle;
 
         SetWaterModel();
@@ -37,8 +36,16 @@ public class Water : State
             beFiredCount--;
             if (beFiredCount == 0)
             {
-                OnStateEnd();
-                Owner.SetState(new Fire(Owner));
+                if (Owner.UpperType == Enum.ENUM_UpperUnitType.Movable)
+                {
+                    OnStateEnd();
+                    Owner.SetState(new Block(Owner));
+                }
+                else
+                {
+                    OnStateEnd();
+                    Owner.SetState(new Fire(Owner));
+                }
             }
             else
             {

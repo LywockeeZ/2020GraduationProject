@@ -125,12 +125,12 @@ public class Stage
         {
             yield return new WaitForSeconds(1f);
             FireUpdateEvent();
-            GameManager.Instance.isGameOver = GameManager.Instance.IsGameOver();
-            if (GameManager.Instance.isGameOver)
-            {
-                GameManager.Instance.GameOver();
-            }
 
+        }
+        GameManager.Instance.isGameOver = GameManager.Instance.IsGameOver();
+        if (GameManager.Instance.isGameOver)
+        {
+            GameManager.Instance.GameOver();
         }
         if (OilTankUpdateEvent != null)
         {

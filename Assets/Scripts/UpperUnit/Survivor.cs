@@ -50,6 +50,7 @@ public class Survivor : MonoBehaviour, IUpperUnit, IFixedUnit
     public void HandleByFire()
     {
         GameManager.Instance.GameOver();
+        GameManager.Instance.costPointText.text = "很遗憾，幸存者死了";
         End();
     }
 }

@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get { return instance; } }
     //行动点数
     public int ActionPoints { get { return _actionPoints; } }
-    private int _actionPoints = 4;
+    private int _actionPoints = 3;
     //上回合剩余未扣除点数
     private int lastRoundRemainP = 0;
     private int costTotalPoints = 0;
@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     public Text roundsText;
     public Text costPointText;
     public GameObject gameoverPanel;
+    public GameObject UI;
 
     private Stage currentStage;
     private bool isRoundsEnd = false;
@@ -98,6 +99,7 @@ public class GameManager : MonoBehaviour
         ////GameObject chest3 = BuildChest(new Vector2(2, 1));
         //设置水桶
         GameObject waterTank1 = BuildWaterTank(new Vector2(4, 7));
+        GameObject waterTank2 = BuildWaterTank(new Vector2(8, 4));
         //设置路障
         GameObject roadBlock1 = BuildRoadBlock(new Vector2(2, 6));
         GameObject roadBlock2 = BuildRoadBlock(new Vector2(5, 6));
@@ -113,6 +115,10 @@ public class GameManager : MonoBehaviour
     {
         actionPointText.text = "行动点数: " + ActionPoints.ToString();
         roundsText.text = "第" + Rounds.ToString() + "回合";
+        if (GetFireCounts() == 0 && !isGameOver)
+        {
+            GameOver();
+        }
         if (_actionPoints == 0)
         {
             //防止多次执行关卡回合清算
@@ -132,7 +138,7 @@ public class GameManager : MonoBehaviour
 
     public void ResetActionPoints()
     {
-        _actionPoints = 4;
+        _actionPoints = 3;
     }
 
     public void ReducePoints(int value , int additionValue)
@@ -185,7 +191,9 @@ public class GameManager : MonoBehaviour
 
     public void GameRestart()
     {
-        SceneManager.LoadScene(0);
+        Resources.UnloadUnusedAssets();
+        AssetBundle.UnloadAllAssetBundles(true);
+        SceneManager.LoadScene(1);
     }
 
     public int GetFireCounts()
@@ -298,6 +306,11 @@ public class GameManager : MonoBehaviour
     {
         bool isOver = false;
         if (GetFireCounts() == lastRoundsFireCounts)
+        {
+            isOver = true;
+        }
+        else
+        if (GetFireCounts() == 0)
         {
             isOver = true;
         }

@@ -10,7 +10,7 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit
 
     private BaseUnit _currentOn;
     private float _heigth = 0.3f;
-    private bool _canBeFire = false;
+    private bool _canBeFire = true;
 
     private void Start()
     {
@@ -48,6 +48,7 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit
 
     public void End()
     {
+        _currentOn.SetUpperType(Enum.ENUM_UpperUnitType.NULL);
         GameObject.Destroy(gameObject);
     }
 
@@ -60,43 +61,82 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit
 
     private void SetAroundToOil()
     {
-        SetTargetToOil(_currentOn.Up);
-        SetTargetToOil(_currentOn.Down);
-        SetTargetToOil(_currentOn.Left);
-        SetTargetToOil(_currentOn.Right);
+        List<BaseUnit> units = GetBoomRangeAround();
+        if (CurrentOn.Up != null )
+        {
+            SetTargetToOil(units[0]);
+            SetTargetToOil(units[1]);
+            SetTargetToOil(units[2]);
+        }
+        if (CurrentOn.Down != null )
+        {
+            SetTargetToOil(units[5]);
+            SetTargetToOil(units[6]);
+            SetTargetToOil(units[7]);
+        }
+        if (CurrentOn.Left != null )
+        {
+            SetTargetToOil(units[0]);
+            SetTargetToOil(units[3]);
+            SetTargetToOil(units[5]);
+        }
+        if (CurrentOn.Right != null )
+        {
+            SetTargetToOil(units[2]);
+            SetTargetToOil(units[4]);
+            SetTargetToOil(units[7]);
+        }
+
+
+        //SetTargetToOil(_currentOn.Up);
+        //SetTargetToOil(_currentOn.Down);
+        //SetTargetToOil(_currentOn.Left);
+        //SetTargetToOil(_currentOn.Right);
     }
 
     private void SetTargetToOil(BaseUnit targetUnit)
     {
         if (targetUnit != null &&
-            (targetUnit.myState.stateType == Enum.ENUM_State.Ground || targetUnit.myState.stateType == Enum.ENUM_State.Water))
+            (targetUnit.myState.stateType == Enum.ENUM_State.Ground || targetUnit.myState.stateType == Enum.ENUM_State.Water || targetUnit.myState.stateType == Enum.ENUM_State.Block))
         {
             targetUnit.myState.OnStateEnd();
             targetUnit.SetState(new Oil(targetUnit));
         }
     }
 
+    private void SetTargetToFire(BaseUnit targetUnit)
+    {
+        if (targetUnit != null)
+        {
+            if (targetUnit.UpperType == Enum.ENUM_UpperUnitType.NULL)
+            {
+                if (targetUnit.myState.stateType != Enum.ENUM_State.Block)
+                {
+                    targetUnit.myState.OnStateEnd();
+                    targetUnit.SetState(new Fire(targetUnit));
+                }
+            }
+            else
+            if (targetUnit.UpperType == Enum.ENUM_UpperUnitType.Fixed)
+            {
+                targetUnit.UpperGameObject.GetComponent<IFixedUnit>().HandleByFire();
+            }
+            else
+            if (targetUnit.UpperType == Enum.ENUM_UpperUnitType.Movable)
+            {
+                targetUnit.myState.OnStateEnd();
+                targetUnit.SetState(new Block(targetUnit));
+            }
+        }
+    }
+
+
     private void Boom()
     {
         List<BaseUnit> units = GetBoomRangeAround();
         foreach (var unit in units)
         {
-            if (unit != null )
-            {
-                if (unit.UpperType == Enum.ENUM_UpperUnitType.NULL)
-                {
-                    if (unit.myState.stateType != Enum.ENUM_State.Block)
-                    {
-                        unit.myState.OnStateEnd();
-                        unit.SetState(new Fire(unit));
-                    }
-                }
-                else
-                if (unit.UpperType == Enum.ENUM_UpperUnitType.Fixed)
-                {
-                    unit.UpperGameObject.GetComponent<IFixedUnit>().HandleByFire();
-                }
-            }
+            SetTargetToFire(unit);
         }
     }
 
@@ -129,22 +169,30 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit
     {
         Stage _currentStage = CurrentOn.GetStage();
         List<BaseUnit> units = new List<BaseUnit>();
-        if (CurrentOn.y + 1 <= _currentStage.Column && CurrentOn.x - 1 >= 0)
+        if (CurrentOn.y + 1 < _currentStage.Row && CurrentOn.x - 1 >= 0)
             units.Add(_currentStage.baseUnits[_currentStage.Column * (CurrentOn.y + 1) + CurrentOn.x - 1]);
-        if (CurrentOn.y + 1 <= _currentStage.Column && CurrentOn.x     >= 0)
+        else units.Add(null);
+        if (CurrentOn.y + 1 < _currentStage.Row && CurrentOn.x     >= 0)
             units.Add(_currentStage.baseUnits[_currentStage.Column * (CurrentOn.y + 1) + CurrentOn.x    ]);
-        if (CurrentOn.y + 1 <= _currentStage.Column && CurrentOn.x + 1 <= _currentStage.Row)
+        else units.Add(null);
+        if (CurrentOn.y + 1 < _currentStage.Row && CurrentOn.x + 1 < _currentStage.Column)
             units.Add(_currentStage.baseUnits[_currentStage.Column * (CurrentOn.y + 1) + CurrentOn.x + 1]);
+        else units.Add(null);
         if (CurrentOn.y     >= 0 && CurrentOn.x - 1 >= 0)
             units.Add(_currentStage.baseUnits[_currentStage.Column * (CurrentOn.y    ) + CurrentOn.x - 1]);
-        if (CurrentOn.y     >= 0 && CurrentOn.x + 1 <= _currentStage.Row)
+        else units.Add(null);
+        if (CurrentOn.y     >= 0 && CurrentOn.x + 1 < _currentStage.Column)
             units.Add(_currentStage.baseUnits[_currentStage.Column * (CurrentOn.y    ) + CurrentOn.x + 1]);
+        else units.Add(null);
         if (CurrentOn.y - 1 >= 0 && CurrentOn.x - 1 >= 0)
             units.Add(_currentStage.baseUnits[_currentStage.Column * (CurrentOn.y - 1) + CurrentOn.x - 1]);
+        else units.Add(null);
         if (CurrentOn.y - 1 >= 0 && CurrentOn.x     >= 0)
             units.Add(_currentStage.baseUnits[_currentStage.Column * (CurrentOn.y - 1) + CurrentOn.x    ]);
-        if (CurrentOn.y - 1 >= 0 && CurrentOn.x + 1 <= _currentStage.Row)
+        else units.Add(null);
+        if (CurrentOn.y - 1 >= 0 && CurrentOn.x + 1 < _currentStage.Column)
             units.Add(_currentStage.baseUnits[_currentStage.Column * (CurrentOn.y - 1) + CurrentOn.x + 1]);
+        else units.Add(null);
         return units;
     }
 
@@ -153,41 +201,41 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit
     {
         Stage _currentStage = CurrentOn.GetStage();
         List<BaseUnit> units = new List<BaseUnit>();
-        if (CurrentOn.y + 2 <= _currentStage.Column && CurrentOn.x - 2 >= 0)
+        if (CurrentOn.y + 2 < _currentStage.Row && CurrentOn.x - 2 >= 0)
             units.Add(_currentStage.baseUnits[_currentStage.Column * (CurrentOn.y + 2) + CurrentOn.x - 2]);
-        if (CurrentOn.y + 2 <= _currentStage.Column && CurrentOn.x - 1 >= 0)
+        if (CurrentOn.y + 2 < _currentStage.Row && CurrentOn.x - 1 >= 0)
             units.Add(_currentStage.baseUnits[_currentStage.Column * (CurrentOn.y + 2) + CurrentOn.x - 1]);
-        if (CurrentOn.y + 2 <= _currentStage.Column && CurrentOn.x     >= 0)
+        if (CurrentOn.y + 2 < _currentStage.Row && CurrentOn.x     >= 0)
             units.Add(_currentStage.baseUnits[_currentStage.Column * (CurrentOn.y + 2) + CurrentOn.x    ]);
-        if (CurrentOn.y + 2 <= _currentStage.Column && CurrentOn.x + 1 <= _currentStage.Row)
+        if (CurrentOn.y + 2 < _currentStage.Row && CurrentOn.x + 1 < _currentStage.Column)
             units.Add(_currentStage.baseUnits[_currentStage.Column * (CurrentOn.y + 2) + CurrentOn.x + 1]);
-        if (CurrentOn.y + 2 <= _currentStage.Column && CurrentOn.x + 2 <= _currentStage.Row)
+        if (CurrentOn.y + 2 < _currentStage.Row && CurrentOn.x + 2 < _currentStage.Column)
             units.Add(_currentStage.baseUnits[_currentStage.Column * (CurrentOn.y + 2) + CurrentOn.x + 2]);
 
-        if (CurrentOn.y + 1 <= _currentStage.Column && CurrentOn.x - 2 >= 0)
+        if (CurrentOn.y + 1 < _currentStage.Row && CurrentOn.x - 2 >= 0)
             units.Add(_currentStage.baseUnits[_currentStage.Column * (CurrentOn.y + 1) + CurrentOn.x - 2]);
-        if (CurrentOn.y + 1 <= _currentStage.Column && CurrentOn.x + 2 <= _currentStage.Row)
+        if (CurrentOn.y + 1 < _currentStage.Row && CurrentOn.x + 2 < _currentStage.Column)
             units.Add(_currentStage.baseUnits[_currentStage.Column * (CurrentOn.y + 1) + CurrentOn.x + 2]);
 
-        if (CurrentOn.y     <= _currentStage.Column && CurrentOn.x - 2 >= 0)
+        if (CurrentOn.y     < _currentStage.Row && CurrentOn.x - 2 >= 0)
             units.Add(_currentStage.baseUnits[_currentStage.Column * (CurrentOn.y    ) + CurrentOn.x - 2]);
-        if (CurrentOn.y     <= _currentStage.Column && CurrentOn.x + 2 <= _currentStage.Row)
+        if (CurrentOn.y     < _currentStage.Row && CurrentOn.x + 2 < _currentStage.Column)
             units.Add(_currentStage.baseUnits[_currentStage.Column * (CurrentOn.y    ) + CurrentOn.x + 2]);
 
         if (CurrentOn.y - 1 >= 0 && CurrentOn.x - 2 >= 0)
             units.Add(_currentStage.baseUnits[_currentStage.Column * (CurrentOn.y - 1) + CurrentOn.x - 2]);
-        if (CurrentOn.y - 1 >= 0 && CurrentOn.x + 2 <= _currentStage.Row)
-
+        if (CurrentOn.y - 1 >= 0 && CurrentOn.x + 2 < _currentStage.Column)
             units.Add(_currentStage.baseUnits[_currentStage.Column * (CurrentOn.y - 1) + CurrentOn.x + 2]);
+
         if (CurrentOn.y - 2 >= 0 && CurrentOn.x - 2 >= 0)
             units.Add(_currentStage.baseUnits[_currentStage.Column * (CurrentOn.y - 2) + CurrentOn.x - 2]);
         if (CurrentOn.y - 2 >= 0 && CurrentOn.x - 1 >= 0)
             units.Add(_currentStage.baseUnits[_currentStage.Column * (CurrentOn.y - 2) + CurrentOn.x - 1]);
         if (CurrentOn.y - 2 >= 0 && CurrentOn.x     >= 0)
             units.Add(_currentStage.baseUnits[_currentStage.Column * (CurrentOn.y - 2) + CurrentOn.x    ]);
-        if (CurrentOn.y - 2 >= 0 && CurrentOn.x + 1 <= _currentStage.Row)
+        if (CurrentOn.y - 2 >= 0 && CurrentOn.x + 1 < _currentStage.Column)
             units.Add(_currentStage.baseUnits[_currentStage.Column * (CurrentOn.y - 2) + CurrentOn.x + 1]);
-        if (CurrentOn.y - 2 >= 0 && CurrentOn.x + 2 <= _currentStage.Row)
+        if (CurrentOn.y - 2 >= 0 && CurrentOn.x + 2 < _currentStage.Column)
             units.Add(_currentStage.baseUnits[_currentStage.Column * (CurrentOn.y - 2) + CurrentOn.x + 2]);
 
         return units;

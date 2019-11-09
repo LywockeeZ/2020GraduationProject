@@ -21,7 +21,6 @@ public class Block : State
     {
         Owner.SetCanWalk(canWalk);
         Owner.SetCanBeFire(canBeFire);
-        Owner.SetUpperType(Enum.ENUM_UpperUnitType.NULL);
         SetBlockModel();
     }
 
