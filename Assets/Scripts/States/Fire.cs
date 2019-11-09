@@ -7,7 +7,7 @@ public class Fire : State
     private bool canWalk = true;
     private bool canBeFire = false;
 
-    private float height = 0.3f;
+    private float height = 0f;
     private GameObject model;
 
 

@@ -9,7 +9,7 @@ public class Oil : State
     private bool canWalk = true;
     private bool canBeFire = true;
 
-    private float height = 0.01f;
+    private float height = 0f;
     private GameObject model;
 
 

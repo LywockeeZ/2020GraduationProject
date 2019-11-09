@@ -7,7 +7,7 @@ public class Water : State
     private bool canWalk = true;
     private bool canBeFire = false;
 
-    private float height = 0.05f;
+    private float height = 0f;
     private GameObject model;
     //水能承受火的次数
     private int beFiredCount = 2;

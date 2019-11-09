@@ -10,7 +10,7 @@ public class Survivor : MonoBehaviour, IUpperUnit, IFixedUnit
 
     //该单元的私有属性
     private BaseUnit _currentOn;
-    private float _heigth = 0.3f;
+    private float _heigth = 0f;
     private bool _canBeFire = true;
 
     private void Start()

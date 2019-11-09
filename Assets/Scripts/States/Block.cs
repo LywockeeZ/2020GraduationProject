@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Block : State
 {
-    private float height = 0.01f;
+    private float height = 0f;
     private GameObject model;
 
     private bool canWalk = true;

@@ -9,7 +9,7 @@ public class WaterTank : MonoBehaviour, IUpperUnit, IFixedUnit
     public bool CanBeFire { get { return _canBeFire; } set { _canBeFire = value; } }
 
     private BaseUnit _currentOn;
-    private float _heigth = 0.3f;
+    private float _heigth = 0f;
     private bool _canBeFire = false;
 
     private void Start()

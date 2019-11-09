@@ -9,7 +9,7 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit
     public bool CanBeFire { get { return _canBeFire; } set { _canBeFire = value; } }
 
     private BaseUnit _currentOn;
-    private float _heigth = 0.3f;
+    private float _heigth = 0f;
     private bool _canBeFire = true;
 
     private void Start()

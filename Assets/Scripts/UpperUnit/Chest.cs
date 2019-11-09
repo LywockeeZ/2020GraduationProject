@@ -12,7 +12,7 @@ public class Chest : MonoBehaviour, IUpperUnit, IMovableUnit
 
     //该单元的私有属性
     private BaseUnit _currentOn;
-    private float _heigth = 0.3f;
+    private float _heigth = 0f;
     private bool _canBeFire = false;
     private float _moveSpeed = 4f;
     private bool _isMoving = false;
