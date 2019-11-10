@@ -8,6 +8,8 @@ public class WaterTank : MonoBehaviour, IUpperUnit, IFixedUnit
     public float Height { get { return _heigth; } set { _heigth = value; } }
     public bool CanBeFire { get { return _canBeFire; } set { _canBeFire = value; } }
 
+    public Animator animator;
+
     private BaseUnit _currentOn;
     private float _heigth = 0f;
     private bool _canBeFire = false;
@@ -27,6 +29,7 @@ public class WaterTank : MonoBehaviour, IUpperUnit, IFixedUnit
 
         transform.position = SetTargetPos(transform.position);
 
+        animator = transform.GetChild(0).GetComponent<Animator>();
     }
 
 
@@ -39,6 +42,7 @@ public class WaterTank : MonoBehaviour, IUpperUnit, IFixedUnit
             _currentOn.SetState(new Water(_currentOn));
         }
         SetAroundToWater();
+        if (animator != null) animator.SetTrigger("Break");
         End();
     }
 
@@ -47,13 +51,14 @@ public class WaterTank : MonoBehaviour, IUpperUnit, IFixedUnit
         _currentOn.myState.OnStateEnd();
         _currentOn.SetState(new Water(_currentOn));
         SetAroundToWater();
+        if (animator != null) animator.SetTrigger("Break");
         End();
     }
 
     public void End()
     {
         _currentOn.SetUpperType(Enum.ENUM_UpperUnitType.NULL);
-        GameObject.Destroy(gameObject);
+        //GameObject.Destroy(gameObject);
     }
 
 

@@ -66,7 +66,7 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
     //执行具体的移动过程
     private void MoveProcess()
     {
-        transform.forward = Vector3.Slerp(transform.forward, lookdir, _rotateSpeed * Time.deltaTime);
+        //transform.forward = Vector3.Slerp(transform.forward, lookdir, _rotateSpeed * Time.deltaTime);
         transform.position = Vector3.Lerp(transform.position, targetPos, _moveSpeed * Time.deltaTime);
 
         if (Vector3.Magnitude(transform.position - targetPos) < 0.1f)
