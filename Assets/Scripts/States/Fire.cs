@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Fire : State
+public class Fire : IState
 {
     private bool canWalk = true;
     private bool canBeFire = false;

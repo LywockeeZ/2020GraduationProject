@@ -14,8 +14,8 @@ public class BaseUnit
     //是否可被点燃
     public bool CanBeFire { get { return _canBeFire; } }
     //自身状态
-    public State myState { get { return _myState; } }
-    private State _myState;
+    public IState myState { get { return _myState; } }
+    private IState _myState;
     public GameObject Model = null;
     //放置单元的类型
     public Enum.ENUM_UpperUnitType UpperType = Enum.ENUM_UpperUnitType.NULL;
@@ -66,7 +66,7 @@ public class BaseUnit
         myState.OnStateHandle();
     }
 
-    public virtual void SetState(State newState)
+    public virtual void SetState(IState newState)
     {
         if (_myState != null)
         {

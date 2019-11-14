@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ground : State
+public class Ground : IState
 {
     private bool canWalk = true;
     private bool canBeFire = true;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Timers;
 
-public class Oil : State
+public class Oil : IState
 {
 
     private bool canWalk = true;

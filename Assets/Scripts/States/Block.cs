@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Block : State
+public class Block : IState
 {
     private float height = 0f;
     private GameObject model;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Water : State
+public class Water : IState
 {
     private bool canWalk = true;
     private bool canBeFire = false;

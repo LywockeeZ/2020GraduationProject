@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 
-public abstract class State
+public abstract class IState
 {
     public Enum.ENUM_State stateType;
     //调试用
@@ -12,7 +12,7 @@ public abstract class State
     protected string _stateName = null;
     protected BaseUnit Owner = null;
 
-    public State(BaseUnit owner)
+    public IState(BaseUnit owner)
     {
         //设置状态拥有者
         Owner = owner;

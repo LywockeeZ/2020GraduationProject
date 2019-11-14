@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class Enum 
 {
-    //状态的枚举
+    //状态
     public enum ENUM_State
     {
         Ground,
@@ -15,7 +15,7 @@ public static class Enum
         Block
     }
 
-    //输入事件的枚举类型
+    //输入事件
     public enum ENUM_InputEvent
     {
         Up,
@@ -24,10 +24,16 @@ public static class Enum
         Right
     }
 
+
     public enum ENUM_UpperUnitType
     {
         NULL,
         Movable,
         Fixed
     }
+
+    //游戏事件
+    public enum ENUM_GameEvent
+    { }
+
 }

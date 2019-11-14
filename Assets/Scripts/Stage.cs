@@ -56,7 +56,7 @@ public class Stage
 
     }
 
-    public void FindUnitAndSetState(int x, int y, State state)
+    public void FindUnitAndSetState(int x, int y, IState state)
     {
 
     }
