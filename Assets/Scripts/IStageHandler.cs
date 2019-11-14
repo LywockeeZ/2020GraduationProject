@@ -22,4 +22,5 @@ public abstract class IStageHandler
     public abstract void Update();
     public abstract void Reset();
     public abstract bool IsFinished();
+    public abstract BaseUnit GetBaseUnit(int x, int y);
 }

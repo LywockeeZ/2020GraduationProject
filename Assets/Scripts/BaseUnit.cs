@@ -44,6 +44,7 @@ public class BaseUnit
     //单元初始化
     public virtual void Init()
     {
+        //需要改动
         SetState(new Ground(this));
     }
 

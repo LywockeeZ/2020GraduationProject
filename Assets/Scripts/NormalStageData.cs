@@ -79,7 +79,7 @@ public class NormalStageData : IStageData
         }
     }
 
-    public BaseUnit GetBaseUnit(int x, int y)
+    public override BaseUnit GetBaseUnit(int x, int y)
     {
         BaseUnit targetUnit = baseUnits[y * Column + x];
         return targetUnit;

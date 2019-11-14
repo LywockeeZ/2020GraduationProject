@@ -36,4 +36,24 @@ public static class Enum
     public enum ENUM_GameEvent
     { }
 
+    public enum ENUM_Build_BaseUnit
+    {
+        Ground,
+        Fire,
+        Water,
+        Oil,
+        Block
+    }
+
+    public enum ENUM_Build_UpperUnit
+    {
+        Chest,
+        RoadBlock,
+        OilTank,
+        WaterTank,
+        Player,
+        Survivor
+    }
+
+
 }

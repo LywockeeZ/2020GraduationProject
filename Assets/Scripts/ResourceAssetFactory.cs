@@ -2,17 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResourceAssetFactory : MonoBehaviour
+public class ResourceAssetFactory : IAssetFactory
 {
-    // Start is called before the first frame update
-    void Start()
+    public override GameObject LoadModel()
     {
-        
+        throw new System.NotImplementedException();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }

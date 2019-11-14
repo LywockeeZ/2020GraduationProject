@@ -35,5 +35,9 @@ public class NormalStageHandler : IStageHandler
         throw new System.NotImplementedException();
     }
 
+    public override BaseUnit GetBaseUnit(int x, int y)
+    {
+        return m_StatgeData.GetBaseUnit(x, y);
+    }
 
 }

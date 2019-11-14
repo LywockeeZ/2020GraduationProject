@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class IAssetFactory
+public static class GameFactory 
 {
-    public abstract GameObject LoadModel();
+
 }
