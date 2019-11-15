@@ -34,4 +34,13 @@ public class FireControlStageHandler : IStageHandler
     {
     }
 
+    public override void BuildStage()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override BaseUnit GetBaseUnit(int x, int y)
+    {
+        throw new System.NotImplementedException();
+    }
 }

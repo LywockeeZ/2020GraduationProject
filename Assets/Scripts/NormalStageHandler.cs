@@ -30,6 +30,11 @@ public class NormalStageHandler : IStageHandler
 
     }
 
+    public override void BuildStage()
+    {
+        m_StatgeData.BuildStage();
+    }
+
     public override bool IsFinished()
     {
         throw new System.NotImplementedException();

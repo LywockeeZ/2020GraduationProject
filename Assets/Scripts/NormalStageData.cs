@@ -7,7 +7,6 @@ public class NormalStageData : IStageData
     public int Row = 0;     //关卡最大行列信息
     public int Column = 0;
     public int[,,] StageData;     //储存关卡信息，包含是否有地基
-    public Vector2 startPos = Vector2.zero;     //玩家初始化的位置
 
     public List<BaseUnit> baseUnits = new List<BaseUnit>();     //放置所有的地基单元的容器
     public List<BaseUnit> fireUnits = new List<BaseUnit>();     //放置所有火焰单元
@@ -15,11 +14,11 @@ public class NormalStageData : IStageData
 
     private int unitLength = 1;     //基本单位间的距离
 
-    public NormalStageData(int _row, int _column, int[,,] _stageData)
+    public NormalStageData(StageMetaData _stageData)
     {
-        Column = _column;
-        Row = _row;
-        StageData = _stageData;
+        Column = _stageData.Column;
+        Row = _stageData.Row;
+        StageData = _stageData.stageMetaData;
     }
 
     public override void Update()
@@ -38,27 +37,32 @@ public class NormalStageData : IStageData
         throw new System.NotImplementedException();
     }
 
-    public void BuildStage()
+    /// <summary>
+    /// 依据元数据，按坐标构建关卡
+    /// </summary>
+    public override void BuildStage()
     {
-        GameObject BaseUnit = Resources.Load("Prefabs/BaseUnit") as GameObject;
+        IGameUnitFactory m_GameUnitFactory = GameFactory.GetGameUnitFactory();
 
-        //资源加载的目标坐标
+        //单元坐标
         int x = 0;
         int y = 0;
         for (int i = 0; i <= Row - 1; i++)
         {
             for (int j = 0; j <= Column - 1; j++)
             {
-                if (StageData[0, i, j] != 0)
-                {
-                    //x,y坐标分别对应世界坐标下的x，z轴
-                    var gameObject = GameObject.Instantiate(BaseUnit, new Vector3(x, 0, y), Quaternion.identity);
-                    var thisUnit = new BaseUnit(gameObject, m_StageHandler);
-                    //将位置信息设置给单元
-                    thisUnit.SetPosition(x, y);
-                    baseUnits.Add(thisUnit);
-                }
-                else baseUnits.Add(null);
+                BaseUnit targetUnit = m_GameUnitFactory.BuildBaseUnit(m_StageHandler,
+                                            (Enum.ENUM_Build_BaseUnit)StageData[0, i, j], x, y);
+                GameObject targetUpperUnit = m_GameUnitFactory.BuildUpperUnit(m_StageHandler,
+                                            (Enum.ENUM_Build_UpperUnit)StageData[1, i, j], targetUnit);
+
+                if (targetUnit.myState.stateType == Enum.ENUM_State.Fire)
+                    fireUnits.Add(targetUnit);
+
+                if (targetUnit.myState.stateType == Enum.ENUM_State.Oil)
+                    oilUnits.Add(targetUnit);
+
+                baseUnits.Add(targetUnit);
                 x += unitLength;
             }
             y += unitLength;
@@ -85,9 +89,5 @@ public class NormalStageData : IStageData
         return targetUnit;
     }
 
-    public void SetStartPos(Vector2 pos)
-    {
-        startPos = pos;
-    }
 
 }

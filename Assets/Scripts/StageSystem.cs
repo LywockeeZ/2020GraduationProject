@@ -37,9 +37,8 @@ public class StageSystem : IGameSystem
         IStageHandler NewStage = null;
 
         //第一关
-        int[,,] StageMetadata = new int[2, 4, 4] { { {1,1,1,1}, {1,1,1,1}, {1,1,1,1}, {1,1,1,1} },
-                                               { {1,1,1,1}, {1,1,1,1}, {1,1,1,1}, {1,1,1,1} } };
-        NormalStageData StageData = new NormalStageData(4, 4, StageMetadata);
+        StageMetaData StageMetadata = GameFactory.GetDataFactory().LoadStageData("第1关");
+        NormalStageData StageData = new NormalStageData(StageMetadata);
         StageScore = new StageScoreFireControl();
         NewStage = new NormalStageHandler(StageScore, StageData);
 

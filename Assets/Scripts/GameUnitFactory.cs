@@ -14,9 +14,15 @@ public class GameUnitFactory : IGameUnitFactory
     /// <returns></returns>
     public override BaseUnit BuildBaseUnit(IStageHandler currentStage, Enum.ENUM_Build_BaseUnit baseType, int x, int y)
     {
-        GameObject BaseUnitResource = Resources.Load("Prefabs/BaseUnit") as GameObject;
-        GameObject baseUnitObject = GameObject.Instantiate(BaseUnitResource, new Vector3(x, 0, y), Quaternion.identity);
-        BaseUnit baseUnit = new BaseUnit(baseUnitObject, currentStage);
+        //如果枚举值为0则返回空
+        if (baseType == Enum.ENUM_Build_BaseUnit.Null)
+            return null;
+
+        IAssetFactory m_AssetFactory = GameFactory.GetAssetFactory();
+
+        //x,y坐标分别对应世界坐标下的x，z轴
+        GameObject baseUnitObject = m_AssetFactory.LoadModel("BaseUnit", new Vector3(x, 0, y));
+        BaseUnit baseUnit = new BaseUnit(baseUnitObject, new Stage(0,1,new int[0,1]));
         baseUnit.SetPosition(x, y);
 
 
@@ -48,56 +54,56 @@ public class GameUnitFactory : IGameUnitFactory
     /// </summary>
     /// <param name="currentStage"></param>
     /// <param name="upperType"></param>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
+    /// <param name="targetUnit"></param>
     /// <returns></returns>
     public override GameObject BuildUpperUnit(IStageHandler currentStage, Enum.ENUM_Build_UpperUnit upperType, BaseUnit targetUnit)
     {
+        if (targetUnit == null) return null;
+
+        IAssetFactory m_AssetFactory = GameFactory.GetAssetFactory();
+
         switch (upperType)
         {
+            case Enum.ENUM_Build_UpperUnit.Null:
+                return null;
+
             case Enum.ENUM_Build_UpperUnit.Chest:
-                GameObject ChestResource = Resources.Load("Prefabs/Chest") as GameObject;
-                GameObject chestObject = GameObject.Instantiate(ChestResource, targetUnit.Model.transform.position, Quaternion.identity);
+                GameObject chestObject = m_AssetFactory.LoadModel("Chest", targetUnit.Model.transform.position);
                 Chest _chest;
                 _chest = chestObject.AddComponent<Chest>();
                 _chest.CurrentOn = targetUnit;
                 return chestObject;
 
             case Enum.ENUM_Build_UpperUnit.RoadBlock:
-                GameObject RoadBlockResource = Resources.Load("Prefabs/RoadBlock") as GameObject;
-                GameObject roadBlockObject = GameObject.Instantiate(RoadBlockResource, targetUnit.Model.transform.position, Quaternion.identity);
+                GameObject roadBlockObject = m_AssetFactory.LoadModel("RoadBlock", targetUnit.Model.transform.position);
                 RoadBlock _roadBlock;
                 _roadBlock = roadBlockObject.AddComponent<RoadBlock>();
                 _roadBlock.CurrentOn = targetUnit;
                 return roadBlockObject;
 
             case Enum.ENUM_Build_UpperUnit.OilTank:
-                GameObject OilTankResource = Resources.Load("Prefabs/OilTank") as GameObject;
-                GameObject oilTankObject = GameObject.Instantiate(OilTankResource, targetUnit.Model.transform.position, Quaternion.identity);
+                GameObject oilTankObject = m_AssetFactory.LoadModel("OilTank", targetUnit.Model.transform.position);
                 OilTank _oilTank;
                 _oilTank = oilTankObject.AddComponent<OilTank>();
                 _oilTank.CurrentOn = targetUnit;
                 return oilTankObject;
 
             case Enum.ENUM_Build_UpperUnit.WaterTank:
-                GameObject WaterTankResource = Resources.Load("Prefabs/WaterTank") as GameObject;
-                GameObject waterTankObject = GameObject.Instantiate(WaterTankResource, targetUnit.Model.transform.position, Quaternion.identity);
+                GameObject waterTankObject = m_AssetFactory.LoadModel("WaterTank", targetUnit.Model.transform.position);
                 WaterTank _waterTank;
                 _waterTank = waterTankObject.AddComponent<WaterTank>();
                 _waterTank.CurrentOn = targetUnit;
                 return waterTankObject;
 
             case Enum.ENUM_Build_UpperUnit.Player:
-                GameObject PlayerResource = Resources.Load("Prefabs/Player") as GameObject;
-                GameObject playerObject = GameObject.Instantiate(PlayerResource, targetUnit.Model.transform.position, Quaternion.identity);
+                GameObject playerObject = m_AssetFactory.LoadModel("Player", targetUnit.Model.transform.position);
                 Player _playerUnit;
                 _playerUnit = playerObject.AddComponent<Player>();
                 _playerUnit.CurrentOn = targetUnit;
                 return playerObject;
 
             case Enum.ENUM_Build_UpperUnit.Survivor:
-                GameObject SurvivorResource = Resources.Load("Prefabs/Survivor") as GameObject;
-                GameObject survivorObject = GameObject.Instantiate(SurvivorResource, targetUnit.Model.transform.position, Quaternion.identity);
+                GameObject survivorObject = m_AssetFactory.LoadModel("Survivor", targetUnit.Model.transform.position);
                 Survivor _survivor;
                 _survivor = survivorObject.AddComponent<Survivor>();
                 _survivor.CurrentOn = targetUnit;

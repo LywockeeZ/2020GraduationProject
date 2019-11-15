@@ -38,6 +38,7 @@ public static class Enum
 
     public enum ENUM_Build_BaseUnit
     {
+        Null,
         Ground,
         Fire,
         Water,
@@ -47,6 +48,7 @@ public static class Enum
 
     public enum ENUM_Build_UpperUnit
     {
+        Null,
         Chest,
         RoadBlock,
         OilTank,

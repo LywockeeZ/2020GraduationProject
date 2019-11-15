@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class IAssetFactory
 {
-    public abstract GameObject LoadModel();
+    public abstract GameObject LoadModel(string AssetName, Vector3 Position);
 }
