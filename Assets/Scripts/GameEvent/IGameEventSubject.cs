@@ -30,7 +30,7 @@ public abstract class IGameEventSubject
             theObserver.Update();
     }
 
-    //设置参数
+    //设置参数给主题
     public virtual void SetParam(System.Object Param)
     {
         m_Param = Param;

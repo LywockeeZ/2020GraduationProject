@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class NormalStageData : IStageData
 {
+    public NormalStageHandler m_StageHandler = null;
+
     public int Row = 0;     //关卡最大行列信息
     public int Column = 0;
     public int[,,] StageData;     //储存关卡信息，包含是否有地基
@@ -12,25 +14,37 @@ public class NormalStageData : IStageData
     public List<BaseUnit> fireUnits = new List<BaseUnit>();     //放置所有火焰单元
     public List<BaseUnit> oilUnits = new List<BaseUnit>();      //放置所有油单元
 
+    //油关卡不一定有，但火是一定有的
+    public bool isOilUpdateEnd = true;
+    public bool isFireUpdateEnd = false;
+
     private int unitLength = 1;     //基本单位间的距离
+
+
 
     public NormalStageData(StageMetaData _stageData)
     {
         Column = _stageData.Column;
         Row = _stageData.Row;
         StageData = _stageData.stageMetaData;
+        Game.Instance.RegisterGameEvent(Enum.ENUM_GameEvent.RoundUpdateBegain, new RoundUpdateBegainStageDataObserver(IsUpdateEnd));
     }
+
+    public void SetStageHandler(NormalStageHandler stageHandler)
+    {
+        m_StageHandler = stageHandler;
+    }
+
 
     public override void Update()
     {
-        throw new System.NotImplementedException();
+        Game.Instance.NotifyGameEvent(Enum.ENUM_GameEvent.RoundUpdateBegain, null);
+        foreach (var fireUnit in fireUnits)
+        {
+            fireUnit.myState.OnStateHandle();
+        }
     }
 
-
-    public override bool IsFinished()
-    {
-        throw new System.NotImplementedException();
-    }
 
     public override void Reset()
     {
@@ -51,10 +65,11 @@ public class NormalStageData : IStageData
         {
             for (int j = 0; j <= Column - 1; j++)
             {
-                BaseUnit targetUnit = m_GameUnitFactory.BuildBaseUnit(m_StageHandler,
-                                            (Enum.ENUM_Build_BaseUnit)StageData[0, i, j], x, y);
-                GameObject targetUpperUnit = m_GameUnitFactory.BuildUpperUnit(m_StageHandler,
-                                            (Enum.ENUM_Build_UpperUnit)StageData[1, i, j], targetUnit);
+                BaseUnit targetUnit = m_GameUnitFactory.BuildBaseUnit(this,
+                        (Enum.ENUM_Build_BaseUnit)StageData[0, i, j], x, y);
+
+                GameObject targetUpperUnit = m_GameUnitFactory.BuildUpperUnit(this,
+                        (Enum.ENUM_Build_UpperUnit)StageData[1, i, j], targetUnit);
 
                 if (targetUnit.myState.stateType == Enum.ENUM_State.Fire)
                     fireUnits.Add(targetUnit);
@@ -83,10 +98,33 @@ public class NormalStageData : IStageData
         }
     }
 
+
     public override BaseUnit GetBaseUnit(int x, int y)
     {
         BaseUnit targetUnit = baseUnits[y * Column + x];
         return targetUnit;
+    }
+
+
+    public int GetFireCounts()
+    {
+        return fireUnits.Count;
+    }
+
+
+
+    public bool IsUpdateEnd()
+    {
+        if (oilUnits.Count == 0)
+        {
+            isOilUpdateEnd = true;
+        }
+        bool _isEnd = false;
+        if (isOilUpdateEnd && isFireUpdateEnd)
+        {
+            _isEnd = true;
+        }
+        return _isEnd;
     }
 
 

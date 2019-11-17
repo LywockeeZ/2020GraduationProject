@@ -8,21 +8,11 @@ using UnityEngine;
 /// </summary>
 public abstract class IStageHandler 
 {
-    protected IStageData m_StatgeData = null;       //关卡的内容
-    protected IStageScore m_StageScore = null;      //关卡的分数，通关条件
-    protected IStageHandler m_NextHandler = null;   //下一个关卡
 
-    //设置下一个关卡
-    public IStageHandler SetNextHandler(IStageHandler NextHandler)
-    {
-        m_NextHandler = NextHandler;
-        return m_NextHandler;
-    }
-
+    public abstract IStageHandler SetNextHandler(IStageHandler NextHandler);
     public abstract IStageHandler CheckStage();
     public abstract void Update();
     public abstract void Reset();
     public abstract void BuildStage();
-    public abstract bool IsFinished();
     public abstract BaseUnit GetBaseUnit(int x, int y);
 }

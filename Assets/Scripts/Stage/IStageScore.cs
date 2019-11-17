@@ -7,13 +7,13 @@ using UnityEngine;
 /// </summary>
 public abstract class IStageScore 
 {
-    public IStageHandler m_StageHandler = null;
 
+    /// <summary>
+    /// 判定关卡结束的方法
+    /// </summary>
+    /// <returns></returns>
     public abstract bool CheckScore();
 
-    public void SetStageHandler(IStageHandler stageHandler)
-    {
-        m_StageHandler = stageHandler;
-    }
+
 
 }

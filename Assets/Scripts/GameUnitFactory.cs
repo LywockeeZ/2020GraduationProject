@@ -12,7 +12,7 @@ public class GameUnitFactory : IGameUnitFactory
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <returns></returns>
-    public override BaseUnit BuildBaseUnit(IStageHandler currentStage, Enum.ENUM_Build_BaseUnit baseType, int x, int y)
+    public override BaseUnit BuildBaseUnit(NormalStageData currentStageData, Enum.ENUM_Build_BaseUnit baseType, int x, int y)
     {
         //如果枚举值为0则返回空
         if (baseType == Enum.ENUM_Build_BaseUnit.Null)
@@ -22,7 +22,7 @@ public class GameUnitFactory : IGameUnitFactory
 
         //x,y坐标分别对应世界坐标下的x，z轴
         GameObject baseUnitObject = m_AssetFactory.LoadModel("BaseUnit", new Vector3(x, 0, y));
-        BaseUnit baseUnit = new BaseUnit(baseUnitObject, new Stage(0,1,new int[0,1]));
+        BaseUnit baseUnit = new BaseUnit(baseUnitObject, currentStageData);
         baseUnit.SetPosition(x, y);
 
 
@@ -56,7 +56,7 @@ public class GameUnitFactory : IGameUnitFactory
     /// <param name="upperType"></param>
     /// <param name="targetUnit"></param>
     /// <returns></returns>
-    public override GameObject BuildUpperUnit(IStageHandler currentStage, Enum.ENUM_Build_UpperUnit upperType, BaseUnit targetUnit)
+    public override GameObject BuildUpperUnit(NormalStageData currentStageData, Enum.ENUM_Build_UpperUnit upperType, BaseUnit targetUnit)
     {
         if (targetUnit == null) return null;
 

@@ -7,7 +7,7 @@ public class GameEventSystem : IGameSystem
     private Dictionary<Enum.ENUM_GameEvent, IGameEventSubject> m_GameEvents
             = new Dictionary<Enum.ENUM_GameEvent, IGameEventSubject>();
 
-    public GameEventSystem(GameManager gameManager) : base(gameManager)
+    public GameEventSystem()
     {
         Initialize();
     }

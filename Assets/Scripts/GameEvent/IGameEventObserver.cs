@@ -8,6 +8,6 @@ using UnityEngine;
 public abstract class IGameEventObserver
 {
 
-    public abstract void SetSubject(IGameEventSubject Subiect);
+    public abstract void SetSubject(IGameEventSubject Subject);
     public abstract void Update();
 }

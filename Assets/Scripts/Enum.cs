@@ -34,7 +34,11 @@ public static class Enum
 
     //游戏事件
     public enum ENUM_GameEvent
-    { }
+    {
+        RoundUpdateBegain,
+        RoundUpdateEnd,
+        
+    }
 
     public enum ENUM_Build_BaseUnit
     {

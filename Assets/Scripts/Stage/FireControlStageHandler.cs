@@ -5,13 +5,12 @@ using UnityEngine;
 /// <summary>
 /// 控制火势的关卡
 /// </summary>
-public class FireControlStageHandler : IStageHandler
+public class FireControlStageHandler : NormalStageHandler
 {
     //设置关卡分数及关卡数据
-    public FireControlStageHandler(IStageScore StageScore, IStageData StageDate)
+    public FireControlStageHandler(NormalStageScore StageScore, NormalStageData StageDate) : base(StageScore,StageDate)
     {
-        m_StageScore = StageScore;
-        m_StatgeData = StageDate;
+        
     }
 
 
@@ -24,11 +23,6 @@ public class FireControlStageHandler : IStageHandler
     {
     }
 
-
-    public override bool IsFinished()
-    {
-        throw new System.NotImplementedException();
-    }
 
     public override void Reset()
     {

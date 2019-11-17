@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StageScoreFireControl : IStageScore
+public class StageScoreFireControl : NormalStageScore
 {
     public override bool CheckScore()
     {
-        throw new System.NotImplementedException();
+        return base.CheckScore();
     }
 }

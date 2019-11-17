@@ -8,7 +8,7 @@ public class StageSystem : IGameSystem
     private IStageHandler m_RootStageHandler = null;
     private int m_NowStageLv = 1;       //目前的关卡
 
-    public StageSystem(GameManager gameManager) : base(gameManager)
+    public StageSystem()
     {
         Initialize();
     }
@@ -33,13 +33,12 @@ public class StageSystem : IGameSystem
         if (m_RootStageHandler != null)
             return;
 
-        IStageScore StageScore = null;
         IStageHandler NewStage = null;
 
         //第一关
         StageMetaData StageMetadata = GameFactory.GetDataFactory().LoadStageData("第1关");
         NormalStageData StageData = new NormalStageData(StageMetadata);
-        StageScore = new StageScoreFireControl();
+        NormalStageScore StageScore = new StageScoreFireControl();
         NewStage = new NormalStageHandler(StageScore, StageData);
 
         //设定为起始关卡

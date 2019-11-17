@@ -21,7 +21,7 @@ public class BaseUnit
     public Enum.ENUM_UpperUnitType UpperType = Enum.ENUM_UpperUnitType.NULL;
     public GameObject UpperGameObject = null;
     //关卡信息的引用，用来获取周围信息
-    private Stage currentStage;
+    private NormalStageData currentStage;
     //此单元的位置信息
     public int x = 0;
     public int y = 0;
@@ -33,7 +33,7 @@ public class BaseUnit
     private bool _canWalk;
     private bool _canBeFire;
 
-    public BaseUnit(GameObject _model, Stage _stage)
+    public BaseUnit(GameObject _model, NormalStageData _stage)
     {
         currentStage = _stage;
         Model = _model;
@@ -93,7 +93,7 @@ public class BaseUnit
         y = _y;
     }
 
-    public Stage GetStage()
+    public NormalStageData GetStage()
     {
         return currentStage;
     }
