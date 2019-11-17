@@ -12,7 +12,7 @@ public class NormalStageData : IStageData
 
     public List<BaseUnit> baseUnits = new List<BaseUnit>();     //放置所有的地基单元的容器
     public List<BaseUnit> fireUnits = new List<BaseUnit>();     //放置所有火焰单元
-    public List<BaseUnit> oilUnits = new List<BaseUnit>();      //放置所有油单元
+    public List<BaseUnit> oilUnits  = new List<BaseUnit>();     //放置所有油单元
 
     //油关卡不一定有，但火是一定有的
     public bool isOilUpdateEnd = true;
@@ -27,7 +27,8 @@ public class NormalStageData : IStageData
         Column = _stageData.Column;
         Row = _stageData.Row;
         StageData = _stageData.stageMetaData;
-        Game.Instance.RegisterGameEvent(Enum.ENUM_GameEvent.RoundUpdateBegain, new RoundUpdateBegainStageDataObserver(IsUpdateEnd));
+        Game.Instance.RegisterGameEvent(Enum.ENUM_GameEvent.RoundUpdateBegain, new RoundUpdateBegainObserverStageData(IsUpdateEnd));
+        Game.Instance.RegisterGameEvent(Enum.ENUM_GameEvent.RoundUpdateEnd, new RoundUpdateEndObserverStageData(ResetBool));
     }
 
     public void SetStageHandler(NormalStageHandler stageHandler)
@@ -39,6 +40,7 @@ public class NormalStageData : IStageData
     public override void Update()
     {
         Game.Instance.NotifyGameEvent(Enum.ENUM_GameEvent.RoundUpdateBegain, null);
+        Debug.Log("in");
         foreach (var fireUnit in fireUnits)
         {
             fireUnit.myState.OnStateHandle();
@@ -84,6 +86,8 @@ public class NormalStageData : IStageData
             x = 0;
 
         }
+
+        InitBaseUnitAroundMessage();
     }
 
     //初始化基本单元四周信息
@@ -112,7 +116,7 @@ public class NormalStageData : IStageData
     }
 
 
-
+    //用来判定回合是否更新结束
     public bool IsUpdateEnd()
     {
         if (oilUnits.Count == 0)
@@ -126,6 +130,13 @@ public class NormalStageData : IStageData
         }
         return _isEnd;
     }
+
+    //每次回合更新结束，火焰更新状态都要手动重置
+    public void ResetBool()
+    {
+        isFireUpdateEnd = false;
+    }
+
 
 
 }

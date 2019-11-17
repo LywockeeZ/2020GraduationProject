@@ -31,6 +31,6 @@ public static class CoroutineManager
             yield return null;
         }
         yield return new WaitForSeconds(waitTime);
-
+        Game.Instance.NotifyGameEvent(_GameEvent, null);
     }
 }

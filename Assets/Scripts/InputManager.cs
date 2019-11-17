@@ -15,7 +15,7 @@ public class InputManager : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.Instance.canInput)
+        if (Game.Instance.GetCanInput())
         {
             InputProcess();
         }
@@ -23,7 +23,7 @@ public class InputManager : MonoBehaviour
 
     private void InputProcess()
     {
-        MouseInput();
+        //MouseInput();
         KeyboardInput();
     }
 

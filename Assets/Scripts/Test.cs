@@ -11,13 +11,21 @@ public class Test : MonoBehaviour
     }
     void Start()
     {
-        XmlTool.XmlCreate("StageData");
-        Debug.Log(XmlTool.LoadStageDataXml("StageData", "第1关"));
+        //XmlTool.XmlCreate("StageData");
+        //Debug.Log(XmlTool.LoadStageDataXml("StageData", "第1关"));
+        Game.Instance.Initinal();
+        Game.Instance.RegisterGameEvent(Enum.ENUM_GameEvent.NewStage, new NewStageObserver());
     }
 
     void Update()
     {
-        
+        Game.Instance.Updata();
+    }
+
+    public void OnClick()
+    {
+        Game.Instance.LoadNextStage();
+        Game.Instance.NotifyGameEvent(Enum.ENUM_GameEvent.NewStage, null);
     }
 
 }

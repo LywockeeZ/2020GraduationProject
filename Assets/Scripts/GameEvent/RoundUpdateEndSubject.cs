@@ -2,17 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoundUpdateEndSubject : MonoBehaviour
+public class RoundUpdateEndSubject: IGameEventSubject
 {
-    // Start is called before the first frame update
-    void Start()
+    public bool isStageEnd = false;
+
+    public override void SetParam(object Param)
     {
-        
+        isStageEnd = Game.Instance.IsCurrentStageEnd();
+        base.SetParam(Param);
+        Notify();
+        //若自动进行下一关卡，在这里加入else
+        if (!isStageEnd)
+        {
+            Game.Instance.NotifyGameEvent(Enum.ENUM_GameEvent.NewRound, null);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

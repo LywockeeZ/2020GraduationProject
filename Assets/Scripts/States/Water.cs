@@ -24,7 +24,7 @@ public class Water : IState
     {
         Owner.SetCanWalk(canWalk);
         Owner.SetCanBeFire(canBeFire);
-        Owner.GetStage().WaterUpdateEvent += OnStateHandle;
+        //Owner.GetStage().WaterUpdateEvent += OnStateHandle;
 
         SetWaterModel();
     }
@@ -58,7 +58,7 @@ public class Water : IState
 
     public override void OnStateEnd()
     {
-        Owner.GetStage().WaterUpdateEvent -= OnStateHandle;
+        //Owner.GetStage().WaterUpdateEvent -= OnStateHandle;
         GameObject.Destroy(model);
     }
 

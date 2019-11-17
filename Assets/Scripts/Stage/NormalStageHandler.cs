@@ -7,9 +7,13 @@ using UnityEngine;
 /// </summary>
 public class NormalStageHandler : IStageHandler
 {
-    public NormalStageData m_StatgeData = null;       //关卡的内容
-    public NormalStageScore m_StageScore = null;      //关卡的分数，通关条件
+
+    private int RoundActionPts = 3;
+
+    public NormalStageData m_StatgeData = null;       //关卡的内容，负责更新
+    public NormalStageScore m_StageScore = null;      //关卡的条件，负责判断
     public IStageHandler m_NextHandler = null;   //下一个关卡
+    public int Rounds = 1;
 
     //设置下一个关卡
     public override IStageHandler SetNextHandler(IStageHandler NextHandler)
@@ -18,8 +22,6 @@ public class NormalStageHandler : IStageHandler
         return m_NextHandler;
     }
 
-
-    private int RoundActionPts = 3;
 
     public NormalStageHandler(NormalStageScore StageScore, NormalStageData StageData)
     {
@@ -43,7 +45,8 @@ public class NormalStageHandler : IStageHandler
 
     public override void Update()
     {
-        if (m_StageScore.IsRoundShouldUpdata())
+        Debug.Log(Game.Instance.GetCurrentAP());
+        if (m_StageScore.IsRoundShouldUpdate())
         {
             m_StatgeData.Update();
         }
@@ -54,9 +57,10 @@ public class NormalStageHandler : IStageHandler
 
     }
 
-    public override void BuildStage()
+    public override void Start()
     {
         m_StatgeData.BuildStage();
+        Game.Instance.SetMaxAP(RoundActionPts);
     }
 
 

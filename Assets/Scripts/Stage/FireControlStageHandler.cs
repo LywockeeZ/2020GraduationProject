@@ -28,7 +28,7 @@ public class FireControlStageHandler : NormalStageHandler
     {
     }
 
-    public override void BuildStage()
+    public override void Start()
     {
         throw new System.NotImplementedException();
     }

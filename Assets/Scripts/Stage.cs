@@ -42,7 +42,7 @@ public class Stage
     public void OnStageBegin()
     {
         BaseUnit = Resources.Load("Prefabs/BaseUnit") as GameObject;
-        BuildStage();
+        //BuildStage();
         InitBaseUnitAroundMessage();
     }
 
@@ -61,31 +61,31 @@ public class Stage
 
     }
 
-    public void BuildStage()
-    {
-        //资源加载的目标坐标
-        int x = 0;
-        int y = 0;
-        for (int i = 0; i <= Row -1; i++)
-        {
-            for (int j = 0; j <= Column -1; j++)
-            {
-                if (StageMessage[i, j] != 0)
-                {
-                    //x,y坐标分别对应世界坐标下的x，z轴
-                    var gameObject = GameObject.Instantiate(BaseUnit, new Vector3(x, 0, y), Quaternion.identity);
-                    var thisUnit = new BaseUnit(gameObject, this);
-                    //将位置信息设置给单元
-                    thisUnit.SetPosition(x, y);
-                    baseUnits.Add(thisUnit);
-                }
-                else baseUnits.Add(null);
-                x += unitLength;
-            }
-            y += unitLength;
-            x = 0;
-        }
-    }
+    //public void BuildStage()
+    //{
+    //    //资源加载的目标坐标
+    //    int x = 0;
+    //    int y = 0;
+    //    for (int i = 0; i <= Row -1; i++)
+    //    {
+    //        for (int j = 0; j <= Column -1; j++)
+    //        {
+    //            if (StageMessage[i, j] != 0)
+    //            {
+    //                //x,y坐标分别对应世界坐标下的x，z轴
+    //                var gameObject = GameObject.Instantiate(BaseUnit, new Vector3(x, 0, y), Quaternion.identity);
+    //                var thisUnit = new BaseUnit(gameObject, this);
+    //                //将位置信息设置给单元
+    //                thisUnit.SetPosition(x, y);
+    //                baseUnits.Add(thisUnit);
+    //            }
+    //            else baseUnits.Add(null);
+    //            x += unitLength;
+    //        }
+    //        y += unitLength;
+    //        x = 0;
+    //    }
+    //}
 
     //初始化基本单元四周信息
     public void InitBaseUnitAroundMessage()

@@ -13,6 +13,6 @@ public abstract class IStageHandler
     public abstract IStageHandler CheckStage();
     public abstract void Update();
     public abstract void Reset();
-    public abstract void BuildStage();
+    public abstract void Start();
     public abstract BaseUnit GetBaseUnit(int x, int y);
 }

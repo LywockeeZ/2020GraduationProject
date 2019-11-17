@@ -26,7 +26,7 @@ public class Fire : IState
         //关卡记录火焰信息
         Owner.GetStage().fireUnits.Add(Owner);
         //对关卡回合更新事件进行注册
-        Owner.GetStage().FireUpdateEvent += OnStateHandle;
+        //Owner.GetStage().FireUpdateEvent += OnStateHandle;
 
         SetFireModel();
     }
@@ -43,7 +43,7 @@ public class Fire : IState
     public override void OnStateEnd()
     {
         Owner.GetStage().fireUnits.Remove(Owner);
-        Owner.GetStage().FireUpdateEvent -= OnStateHandle;
+        //Owner.GetStage().FireUpdateEvent -= OnStateHandle;
         GameObject.Destroy(model);
     }
 

@@ -37,7 +37,9 @@ public static class Enum
     {
         RoundUpdateBegain,
         RoundUpdateEnd,
-        
+        NewRound,
+        NewStage,
+        StageEnd
     }
 
     public enum ENUM_Build_BaseUnit

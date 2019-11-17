@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class RoundUpdateEndObserver : IGameEventObserver
+public class RoundUpdateEndObserverStageData : IGameEventObserver
 {
-    IGameEventSubject m_Subject = null;
+    RoundUpdateEndSubject m_Subject = null;
     Action callBack = null;
 
     public override void SetSubject(IGameEventSubject Subject)
     {
-        m_Subject = Subject as RoundUpdateBegainSubject;
+        m_Subject = Subject as RoundUpdateEndSubject;
     }
 
-    public RoundUpdateEndObserver(Action _callBack)
+    public RoundUpdateEndObserverStageData(Action _callBack)
     {
         callBack = _callBack;
     }

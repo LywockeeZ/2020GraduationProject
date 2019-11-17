@@ -73,7 +73,6 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
         {
             _isMoving = false;
             _moveSpeed = 4f;
-            GameManager.Instance.UI.SetActive(true);
         }
     }
 
@@ -126,14 +125,13 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
                 //扣除移动点数，根据是否是油来减速
                 if (_currentOn.myState.stateType == Enum.ENUM_State.Oil)
                 {
-                    GameManager.Instance.ReducePoints(1, 0);
+                    Game.Instance.CostAP(1, 0);
                     _moveSpeed = 2f;
                 }
-                else GameManager.Instance.ReducePoints(1, 0);
+                else Game.Instance.CostAP(1, 0);
 
                 //这里是移动的开关
                 _isMoving = true;
-                GameManager.Instance.UI.SetActive(false);
 
             }
 

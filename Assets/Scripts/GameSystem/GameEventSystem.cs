@@ -39,6 +39,20 @@ public class GameEventSystem : IGameSystem
         IGameEventSubject pSujbect = null;
         switch (emGameEvent)
         {
+            case Enum.ENUM_GameEvent.NewStage:
+                pSujbect = new NewStageSubject();
+                break;
+            case Enum.ENUM_GameEvent.NewRound:
+                pSujbect = new NewRoundSubject();
+                break;
+            case Enum.ENUM_GameEvent.RoundUpdateBegain:
+                pSujbect = new RoundUpdateBegainSubject();
+                break;
+            case Enum.ENUM_GameEvent.RoundUpdateEnd:
+                pSujbect = new RoundUpdateEndSubject();
+                break;
+            case Enum.ENUM_GameEvent.StageEnd:
+                break;
             default:
                 break;
         }
@@ -52,7 +66,6 @@ public class GameEventSystem : IGameSystem
     {
         if (m_GameEvents.ContainsKey(emGameEvent) == false)
             return;
-
         m_GameEvents[emGameEvent].SetParam(Param);
     }
 }

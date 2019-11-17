@@ -87,12 +87,12 @@ public static class XmlTool
             string[] singleBaseData;
             string[] singleUpperData;
             int[,,] StageMetadata = new int[2, row, column];
-            for (int i = row - 1; i > 0; i--)
+            for (int i = 0; i <= row - 1 ; i++)
             {
                 //将数据分隔提取出来
-                singleBaseData = baseUnitData[i].InnerText.Split(',');
-                singleUpperData = upperUnitData[i].InnerText.Split(',');
-                for (int j = column - 1; j > 0; j--)
+                singleBaseData = baseUnitData[row - 1 - i].InnerText.Split(',');
+                singleUpperData = upperUnitData[row - 1 - i].InnerText.Split(',');
+                for (int j = 0; j <= column - 1; j++)
                 {
                     //将分隔出的字符转换为int
                     StageMetadata[0, i, j] = int.Parse(singleBaseData[j]);

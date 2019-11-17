@@ -173,7 +173,7 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit
     //获取爆炸范围的信息
     private List<BaseUnit> GetBoomRangeAround()
     {
-        Stage _currentStage = CurrentOn.GetStage();
+        NormalStageData _currentStage = CurrentOn.GetStage();
         List<BaseUnit> units = new List<BaseUnit>();
         if (CurrentOn.y + 1 < _currentStage.Row && CurrentOn.x - 1 >= 0)
             units.Add(_currentStage.baseUnits[_currentStage.Column * (CurrentOn.y + 1) + CurrentOn.x - 1]);
@@ -205,7 +205,7 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit
     //爆炸范围外围信息
     private List<BaseUnit> GetBoomRangeAdditionAround()
     {
-        Stage _currentStage = CurrentOn.GetStage();
+        NormalStageData _currentStage = CurrentOn.GetStage();
         List<BaseUnit> units = new List<BaseUnit>();
         if (CurrentOn.y + 2 < _currentStage.Row && CurrentOn.x - 2 >= 0)
             units.Add(_currentStage.baseUnits[_currentStage.Column * (CurrentOn.y + 2) + CurrentOn.x - 2]);
