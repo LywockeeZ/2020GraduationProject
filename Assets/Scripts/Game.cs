@@ -57,15 +57,25 @@ public class Game
         m_APSystem.Update();
     }
 
-    public void RegisterGameEvent(ENUM_GameEvent emGameEvent, IGameEventObserver Observer)
+    public void RegisterEvent(ENUM_GameEvent type, EventListenerDelegate listener)
     {
-        m_GameEventSystem.RegisterObserver(emGameEvent, Observer);
+        m_GameEventSystem.RegisterEvent(type, listener);
     }
 
-
-    public void NotifyGameEvent(ENUM_GameEvent emGameEvent, System.Object Param)
+    public void DetchEvent(ENUM_GameEvent type, EventListenerDelegate listener)
     {
-        m_GameEventSystem.NotifySubject(emGameEvent, Param);
+        m_GameEventSystem.DetchEvent(type, listener);
+    }
+
+    public void NotifyEvent(ENUM_GameEvent type, params System.Object[] param)
+    {
+        Debug.Log(type);
+        m_GameEventSystem.NotifyEvent(type, param);
+    }
+
+    public void NotifyEvent(Message evt)
+    {
+        m_GameEventSystem.NotifyEvent(evt);
     }
 
 

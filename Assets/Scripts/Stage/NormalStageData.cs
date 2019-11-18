@@ -6,17 +6,21 @@ public class NormalStageData : IStageData
 {
     public NormalStageHandler m_StageHandler = null;
 
+
     public int Row = 0;     //关卡最大行列信息
     public int Column = 0;
     public int[,,] StageData;     //储存关卡信息，包含是否有地基
+
 
     public List<BaseUnit> baseUnits = new List<BaseUnit>();     //放置所有的地基单元的容器
     public List<BaseUnit> fireUnits = new List<BaseUnit>();     //放置所有火焰单元
     public List<BaseUnit> oilUnits  = new List<BaseUnit>();     //放置所有油单元
 
+
     //油关卡不一定有，但火是一定有的
     public bool isOilUpdateEnd = true;
     public bool isFireUpdateEnd = false;
+
 
     private int unitLength = 1;     //基本单位间的距离
 
@@ -27,9 +31,33 @@ public class NormalStageData : IStageData
         Column = _stageData.Column;
         Row = _stageData.Row;
         StageData = _stageData.stageMetaData;
-        Game.Instance.RegisterGameEvent(ENUM_GameEvent.RoundUpdateBegain, new RoundUpdateBegainObserverStageData(IsUpdateEnd));
-        Game.Instance.RegisterGameEvent(ENUM_GameEvent.RoundUpdateEnd, new RoundUpdateEndObserverStageData(ResetBool));
+        RegisterEvent();
     }
+
+
+
+
+    private void RegisterEvent()
+    {
+        Game.Instance.RegisterEvent(ENUM_GameEvent.RoundUpdateBegain,
+        delegate (Message evt)
+        {
+            Game.Instance.SetCanInput(false);
+            Update();
+            CoroutineManager.StartCoroutineTask(IsUpdateEnd, ENUM_GameEvent.RoundUpdateEnd, 1f);
+        });
+        Game.Instance.RegisterEvent(ENUM_GameEvent.RoundUpdateEnd,
+        delegate (Message evt)
+        {
+            ResetFireUpdateState();
+            Game.Instance.NotifyEvent(ENUM_GameEvent.RoundEnd, null);
+        });
+
+
+    }
+
+
+
 
     public void SetStageHandler(NormalStageHandler stageHandler)
     {
@@ -37,21 +65,24 @@ public class NormalStageData : IStageData
     }
 
 
+
+
     public override void Update()
     {
-        Game.Instance.NotifyGameEvent(ENUM_GameEvent.RoundUpdateBegain, null);
-        Debug.Log("in");
-        foreach (var fireUnit in fireUnits)
-        {
-            fireUnit.myState.OnStateHandle();
-        }
+        //通知火焰开始更新
+        Game.Instance.NotifyEvent(ENUM_GameEvent.FireUpdate, null);
     }
+
+
 
 
     public override void Reset()
     {
         throw new System.NotImplementedException();
     }
+
+
+
 
     /// <summary>
     /// 依据元数据，按坐标构建关卡
@@ -90,6 +121,9 @@ public class NormalStageData : IStageData
         InitBaseUnitAroundMessage();
     }
 
+
+
+
     //初始化基本单元四周信息
     public void InitBaseUnitAroundMessage()
     {
@@ -103,6 +137,8 @@ public class NormalStageData : IStageData
     }
 
 
+
+
     public override BaseUnit GetBaseUnit(int x, int y)
     {
         BaseUnit targetUnit = baseUnits[y * Column + x];
@@ -110,10 +146,14 @@ public class NormalStageData : IStageData
     }
 
 
+
+
     public int GetFireCounts()
     {
         return fireUnits.Count;
     }
+
+
 
 
     //用来判定回合是否更新结束
@@ -131,8 +171,11 @@ public class NormalStageData : IStageData
         return _isEnd;
     }
 
+
+
+
     //每次回合更新结束，火焰更新状态都要手动重置
-    public void ResetBool()
+    public void ResetFireUpdateState()
     {
         isFireUpdateEnd = false;
     }

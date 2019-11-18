@@ -18,6 +18,8 @@ public class Fire : IState
         OnStateBegin();
     }
 
+
+
     public override void OnStateBegin()
     {
         Owner.SetCanWalk(canWalk);
@@ -26,10 +28,26 @@ public class Fire : IState
         //关卡记录火焰信息
         Owner.GetStage().fireUnits.Add(Owner);
         //对关卡回合更新事件进行注册
-        //Owner.GetStage().FireUpdateEvent += OnStateHandle;
+        RegisterEvent();
 
         SetFireModel();
     }
+
+
+
+
+    private void RegisterEvent()
+    {
+        Game.Instance.RegisterEvent(ENUM_GameEvent.FireUpdate,
+        delegate (Message evt)
+        {
+            OnStateHandle();
+        });
+
+    }
+
+
+
 
     public override void OnStateHandle()
     {
@@ -40,18 +58,34 @@ public class Fire : IState
         Owner.GetStage().isFireUpdateEnd = true;
     }
 
+
+
+
     public override void OnStateEnd()
     {
         Owner.GetStage().fireUnits.Remove(Owner);
-        //Owner.GetStage().FireUpdateEvent -= OnStateHandle;
+
+        Game.Instance.DetchEvent(ENUM_GameEvent.FireUpdate,
+        delegate (Message evt)
+        {
+            OnStateHandle();
+        });
+
         GameObject.Destroy(model);
     }
+
+
+
 
     private void SetFireModel()
     {
         GameObject fireModel = Resources.Load("Prefabs/Fire") as GameObject;
         model = GameObject.Instantiate(fireModel, GetTargetPos(Owner.Model.transform.position, height), Quaternion.identity);
     }
+
+
+
+
 
     //将目标单元设置成Fire状态
     private void ChangeToFireState(BaseUnit targetUnit)

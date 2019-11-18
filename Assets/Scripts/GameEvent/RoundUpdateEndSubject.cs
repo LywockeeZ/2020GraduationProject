@@ -14,7 +14,7 @@ public class RoundUpdateEndSubject: IGameEventSubject
         //若自动进行下一关卡，在这里加入else
         if (!isStageEnd)
         {
-            Game.Instance.NotifyGameEvent(ENUM_GameEvent.NewRound, null);
+            //Game.Instance.NotifyGameEvent(ENUM_GameEvent.NewRound, null);
         }
     }
 

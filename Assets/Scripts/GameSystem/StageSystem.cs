@@ -10,20 +10,53 @@ public class StageSystem : IGameSystem
     private IStageHandler m_RootStageHandler = null;
     private int m_NowStageLv = 1;       //目前的关卡
 
+
+
     public StageSystem()
     {
         Initialize();
     }
 
+
+
     public override void Initialize()
     {
         InitializeStageData();
+        RegisterEvent();
     }
+
+
+
+
+    private void RegisterEvent()
+    {
+        //关卡的开始需要一个按钮来推动
+        Game.Instance.RegisterEvent(ENUM_GameEvent.StageBegain,
+        delegate (Message evt)
+        {
+            LoadNextStage();
+        });
+
+        Game.Instance.RegisterEvent(ENUM_GameEvent.StageEnd,
+        delegate (Message evt)
+        {
+            //关卡结束时从关卡链中获取下一个关卡
+            m_NextStageHandler = m_NowStageHandler.CheckStage();
+        });
+
+
+    }
+
+
+
 
     public override void Release()
     {
         
     }
+
+
+
 
     public override void Update()
     {
@@ -32,6 +65,9 @@ public class StageSystem : IGameSystem
             m_NowStageHandler.Update();
         }
     }
+
+
+
 
     private void InitializeStageData()
     {
@@ -53,18 +89,20 @@ public class StageSystem : IGameSystem
 
     }
 
+
+
+
     public bool IsStageEnd()
     {
         m_NextStageHandler = m_NowStageHandler.CheckStage();
         if (m_NextStageHandler == m_NowStageHandler)
-        {
             return false;
-        }
         else
-        {
             return true;
-        }
     }
+
+
+
 
     public void LoadNextStage()
     {
@@ -72,7 +110,11 @@ public class StageSystem : IGameSystem
             m_NowStageHandler.Reset();
         m_NowStageHandler = m_NextStageHandler;
         m_NowStageHandler.Start();
+
     }
+
+
+
 
     public void LoadStage(string stageName)
     {

@@ -30,11 +30,15 @@
     //游戏事件
     public enum ENUM_GameEvent
     {
+        RoundBegain,
+        RoundEnd,
+
         RoundUpdateBegain,
+        FireUpdate,
         RoundUpdateEnd,
-        NewRound,
-        NewStage,
-        StageEnd
+
+        StageBegain,
+        StageEnd,
     }
 
     public enum ENUM_Build_BaseUnit

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class StageScoreFireControl : NormalStageScore
 {
-    public override bool CheckScore()
+    public override bool CheckStage()
     {
-        return base.CheckScore();
+        return base.CheckStage();
     }
 }

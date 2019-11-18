@@ -8,6 +8,19 @@ public delegate void EventListenerDelegate(Message evt);
 
 public class Dispatcher : IDispatcher
 {
+
+    private static Dispatcher _instance;
+    public static Dispatcher Instance
+    {
+        get
+        {
+            if (_instance == null)
+                _instance = new Dispatcher();
+            return _instance;
+        }
+    }
+ 
+
     private Dictionary<int, EventListenerDelegate> events = new Dictionary<int, EventListenerDelegate>();
 
     public void AddListener(int type, EventListenerDelegate listener)
@@ -92,86 +105,28 @@ public class Dispatcher : IDispatcher
 
 
 
-    public void AddListener(MessageType type, EventListenerDelegate listener)
+    public void AddListener(ENUM_GameEvent type, EventListenerDelegate listener)
     {
         AddListener((int)type, listener);
     }
 
 
 
-    public void AddListener(BattleEvent type, EventListenerDelegate listener)
+
+    public void RemoveListener(ENUM_GameEvent type, EventListenerDelegate listener)
     {
-        AddListener((int)type, listener);
-    }
-
-
-
-    public void AddListener(ProtocolEvent type, EventListenerDelegate listener)
-
-    {
-
-        AddListener((int)type, listener);
-
-    }
-
-
-
-    public void RemoveListener(MessageType type, EventListenerDelegate listener)
-
-    {
-
         RemoveListener((int)type, listener);
-
     }
 
 
 
-    public void RemoveListener(BattleEvent type, EventListenerDelegate listener)
 
+    public void SendMessage(ENUM_GameEvent type, params System.Object[] param)
     {
-
-        RemoveListener((int)type, listener);
-
-    }
-
-
-
-    public void RemoveListener(ProtocolEvent type, EventListenerDelegate listener)
-
-    {
-
-        RemoveListener((int)type, listener);
-
-    }
-
-
-
-    public void SendMessage(MessageType type, params System.Object[] param)
-
-    {
-
         SendMessage((int)type, param);
-
     }
 
 
 
-    public void SendMessage(BattleEvent type, params System.Object[] param)
-
-    {
-
-        SendMessage((int)type, param);
-
-    }
-
-
-
-    public void SendMessage(ProtocolEvent type, params System.Object[] param)
-
-    {
-
-        SendMessage((int)type, param);
-
-    }
 
 }

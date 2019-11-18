@@ -12,8 +12,12 @@ public abstract class IStageScore
     /// 判定关卡结束的方法
     /// </summary>
     /// <returns></returns>
-    public abstract bool CheckScore();
+    public abstract bool CheckStage();
 
-
+    /// <summary>
+    /// 判断回合是否需要更新
+    /// </summary>
+    /// <returns></returns>
+    public abstract void CheckRound();
 
 }

@@ -26,11 +26,12 @@ public static class CoroutineManager
 
     private static IEnumerator StartInnerCoroutine(Func<bool>Callback, ENUM_GameEvent _GameEvent, float waitTime)
     {
-        while(Callback())
+        while (!Callback())
         {
             yield return null;
         }
         yield return new WaitForSeconds(waitTime);
-        Game.Instance.NotifyGameEvent(_GameEvent, null);
+        Game.Instance.NotifyEvent(_GameEvent, null);
+        coroutine.StopCoroutine(StartInnerCoroutine(Callback, _GameEvent, waitTime));
     }
 }

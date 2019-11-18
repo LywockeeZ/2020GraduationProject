@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class APSystem : IGameSystem
 {
@@ -9,16 +10,38 @@ public class APSystem : IGameSystem
     public int LastRoundRemainPts = 0;      //上回合未扣除的点数
     public int CostTotalPts = 0;        //花费的总点数
 
+
     public APSystem()
     {
         Initialize();
     }
 
 
+
     public override void Initialize()
     {
-        Game.Instance.RegisterGameEvent(ENUM_GameEvent.NewRound, new NewRoundObserverAPSystem(ResetActionPoints));
+        RegisterEvent();
     }
+
+
+
+    private void RegisterEvent()
+    {
+        Game.Instance.RegisterEvent(ENUM_GameEvent.StageBegain,
+        delegate (Message evt)
+        {
+            ResetActionPoints();
+        });
+
+        Game.Instance.RegisterEvent(ENUM_GameEvent.RoundBegain,
+        delegate (Message evt)
+        {
+            ResetActionPoints();
+        });
+
+    }
+
+
 
 
     /// <summary>
@@ -42,6 +65,8 @@ public class APSystem : IGameSystem
     }
 
 
+
+
     public bool CostAP(int value, int additionValue)
     {
         if (value > ActionPts)
@@ -54,11 +79,14 @@ public class APSystem : IGameSystem
     }
 
 
+
+
     public void SetRoundActionPts(int value)
     {
         ActionPts = value;
         Round_MAX_ActionPts = value;
     }
+
 
 
 
@@ -68,6 +96,8 @@ public class APSystem : IGameSystem
     }
 
 
+
+
     public void ResetAPSystem()
     {
         ActionPts = 0;       
@@ -75,6 +105,9 @@ public class APSystem : IGameSystem
         LastRoundRemainPts = 0;      
         CostTotalPts = 0;        
     }
+
+
+
 
     public int GetCurrentAP()
     {

@@ -8,7 +8,7 @@ using UnityEngine;
 public class NormalStageHandler : IStageHandler
 {
 
-    private int RoundActionPts = 3;
+    public int RoundActionPts = 3;
 
     public NormalStageData m_StatgeData = null;       //关卡的内容，负责更新
     public NormalStageScore m_StageScore = null;      //关卡的条件，负责判断
@@ -37,7 +37,7 @@ public class NormalStageHandler : IStageHandler
     /// <returns></returns>
     public override IStageHandler CheckStage()
     {
-        if (m_StageScore.CheckScore())
+        if (m_StageScore.CheckStage())
             return m_NextHandler;
         else
             return this;
@@ -45,11 +45,10 @@ public class NormalStageHandler : IStageHandler
 
     public override void Update()
     {
-        Debug.Log(Game.Instance.GetCurrentAP());
-        if (m_StageScore.IsRoundShouldUpdate())
-        {
-            m_StatgeData.Update();
-        }
+        Debug.Log("AP:"+Game.Instance.GetCurrentAP());
+        Debug.Log("IsCanInput:"+Game.Instance.GetCanInput());
+
+        m_StageScore.CheckRound();
     }
 
     public override void Reset()
