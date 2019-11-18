@@ -24,7 +24,7 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit
         //初始化状态
         //_currentOn.myState.OnStateEnd();
         //_currentOn.SetState(new Ground(_currentOn));
-        _currentOn.SetUpperType(Enum.ENUM_UpperUnitType.Fixed);
+        _currentOn.SetUpperType(ENUM_UpperUnitType.Fixed);
         _currentOn.SetUpperGameObject(gameObject);
 
         transform.position = SetTargetPos(transform.position);
@@ -54,7 +54,7 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit
 
     public void End()
     {
-        _currentOn.SetUpperType(Enum.ENUM_UpperUnitType.NULL);
+        _currentOn.SetUpperType(ENUM_UpperUnitType.NULL);
         //GameObject.Destroy(gameObject);
     }
 
@@ -103,7 +103,7 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit
     private void SetTargetToOil(BaseUnit targetUnit)
     {
         if (targetUnit != null &&
-            (targetUnit.myState.stateType == Enum.ENUM_State.Ground || targetUnit.myState.stateType == Enum.ENUM_State.Water || targetUnit.myState.stateType == Enum.ENUM_State.Block))
+            (targetUnit.myState.stateType == ENUM_State.Ground || targetUnit.myState.stateType == ENUM_State.Water || targetUnit.myState.stateType == ENUM_State.Block))
         {
             targetUnit.myState.OnStateEnd();
             targetUnit.SetState(new Oil(targetUnit));
@@ -114,21 +114,21 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit
     {
         if (targetUnit != null)
         {
-            if (targetUnit.UpperType == Enum.ENUM_UpperUnitType.NULL)
+            if (targetUnit.UpperType == ENUM_UpperUnitType.NULL)
             {
-                if (targetUnit.myState.stateType != Enum.ENUM_State.Block)
+                if (targetUnit.myState.stateType != ENUM_State.Block)
                 {
                     targetUnit.myState.OnStateEnd();
                     targetUnit.SetState(new Fire(targetUnit));
                 }
             }
             else
-            if (targetUnit.UpperType == Enum.ENUM_UpperUnitType.Fixed)
+            if (targetUnit.UpperType == ENUM_UpperUnitType.Fixed)
             {
                 targetUnit.UpperGameObject.GetComponent<IFixedUnit>().HandleByFire();
             }
             else
-            if (targetUnit.UpperType == Enum.ENUM_UpperUnitType.Movable)
+            if (targetUnit.UpperType == ENUM_UpperUnitType.Movable)
             {
                 targetUnit.myState.OnStateEnd();
                 targetUnit.SetState(new Block(targetUnit));
@@ -154,9 +154,9 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit
         {
             if (unit != null)
             {
-                if (unit.UpperType == Enum.ENUM_UpperUnitType.NULL)
+                if (unit.UpperType == ENUM_UpperUnitType.NULL)
                 {
-                    if (unit.myState.stateType == Enum.ENUM_State.Fire)
+                    if (unit.myState.stateType == ENUM_State.Fire)
                     {
                         FireNeighbor.Add(unit);
                     }

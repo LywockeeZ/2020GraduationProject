@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    public delegate void mydelegate(Enum.ENUM_InputEvent inputEvent);
+    public delegate void mydelegate(ENUM_InputEvent inputEvent);
     public static event mydelegate InputEvent;
 
     void Start()
@@ -42,7 +42,7 @@ public class InputManager : MonoBehaviour
             {
                 if (clickedPos == GameManager.Instance.GetPlayerUnit().CurrentOn.Up.Model.transform.position)
                 {
-                    InputEvent(Enum.ENUM_InputEvent.Up);
+                    InputEvent(ENUM_InputEvent.Up);
                     return;
                 }
             }
@@ -50,7 +50,7 @@ public class InputManager : MonoBehaviour
             {
                 if (clickedPos == GameManager.Instance.GetPlayerUnit().CurrentOn.Down.Model.transform.position)
                 {
-                    InputEvent(Enum.ENUM_InputEvent.Down);
+                    InputEvent(ENUM_InputEvent.Down);
                     return;
                 }
             }
@@ -58,7 +58,7 @@ public class InputManager : MonoBehaviour
             {
                 if (clickedPos == GameManager.Instance.GetPlayerUnit().CurrentOn.Left.Model.transform.position)
                 {
-                    InputEvent(Enum.ENUM_InputEvent.Left);
+                    InputEvent(ENUM_InputEvent.Left);
                     return;
                 }
             }
@@ -66,7 +66,7 @@ public class InputManager : MonoBehaviour
             {
                 if (clickedPos == GameManager.Instance.GetPlayerUnit().CurrentOn.Right.Model.transform.position)
                 {
-                    InputEvent(Enum.ENUM_InputEvent.Right);
+                    InputEvent(ENUM_InputEvent.Right);
                     return;
                 }
             }
@@ -77,13 +77,13 @@ public class InputManager : MonoBehaviour
     private void KeyboardInput()
     {
         //键盘操作
-        if (Input.GetKeyDown(KeyCode.RightArrow)) InputEvent(Enum.ENUM_InputEvent.Right);
+        if (Input.GetKeyDown(KeyCode.RightArrow)) InputEvent(ENUM_InputEvent.Right);
         else
-        if (Input.GetKeyDown(KeyCode.LeftArrow)) InputEvent(Enum.ENUM_InputEvent.Left);
+        if (Input.GetKeyDown(KeyCode.LeftArrow)) InputEvent(ENUM_InputEvent.Left);
         else
-        if (Input.GetKeyDown(KeyCode.UpArrow)) InputEvent(Enum.ENUM_InputEvent.Up);
+        if (Input.GetKeyDown(KeyCode.UpArrow)) InputEvent(ENUM_InputEvent.Up);
         else
-        if (Input.GetKeyDown(KeyCode.DownArrow)) InputEvent(Enum.ENUM_InputEvent.Down);
+        if (Input.GetKeyDown(KeyCode.DownArrow)) InputEvent(ENUM_InputEvent.Down);
 
     }
 }

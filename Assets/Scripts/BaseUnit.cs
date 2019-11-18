@@ -18,7 +18,7 @@ public class BaseUnit
     private IState _myState;
     public GameObject Model = null;
     //放置单元的类型
-    public Enum.ENUM_UpperUnitType UpperType = Enum.ENUM_UpperUnitType.NULL;
+    public ENUM_UpperUnitType UpperType = ENUM_UpperUnitType.NULL;
     public GameObject UpperGameObject = null;
     //关卡信息的引用，用来获取周围信息
     private NormalStageData currentStage;
@@ -98,7 +98,7 @@ public class BaseUnit
         return currentStage;
     }
 
-    public void SetUpperType(Enum.ENUM_UpperUnitType type)
+    public void SetUpperType(ENUM_UpperUnitType type)
     {
         UpperType = type;
     }

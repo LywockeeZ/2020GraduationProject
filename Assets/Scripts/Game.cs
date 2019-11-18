@@ -57,13 +57,13 @@ public class Game
         m_APSystem.Update();
     }
 
-    public void RegisterGameEvent(Enum.ENUM_GameEvent emGameEvent, IGameEventObserver Observer)
+    public void RegisterGameEvent(ENUM_GameEvent emGameEvent, IGameEventObserver Observer)
     {
         m_GameEventSystem.RegisterObserver(emGameEvent, Observer);
     }
 
 
-    public void NotifyGameEvent(Enum.ENUM_GameEvent emGameEvent, System.Object Param)
+    public void NotifyGameEvent(ENUM_GameEvent emGameEvent, System.Object Param)
     {
         m_GameEventSystem.NotifySubject(emGameEvent, Param);
     }

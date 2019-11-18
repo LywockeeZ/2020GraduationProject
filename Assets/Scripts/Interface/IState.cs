@@ -6,7 +6,7 @@ using UnityEngine;
 
 public abstract class IState
 {
-    public Enum.ENUM_State stateType;
+    public ENUM_State stateType;
     //调试用
     public string StateName { get { return _stateName; } }
     protected string _stateName = null;

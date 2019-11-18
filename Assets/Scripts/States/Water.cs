@@ -15,7 +15,7 @@ public class Water : IState
 
     public Water(BaseUnit owner) : base(owner)
     {
-        stateType = Enum.ENUM_State.Water;
+        stateType = ENUM_State.Water;
         _stateName = "Water";
         OnStateBegin();
     }
@@ -36,7 +36,7 @@ public class Water : IState
             beFiredCount--;
             if (beFiredCount == 0)
             {
-                if (Owner.UpperType == Enum.ENUM_UpperUnitType.Movable)
+                if (Owner.UpperType == ENUM_UpperUnitType.Movable)
                 {
                     OnStateEnd();
                     Owner.SetState(new Block(Owner));
@@ -77,10 +77,10 @@ public class Water : IState
     public bool IsHavingFireAround()
     {
         bool isExist = false;
-        if ((Owner.Up != null) && (Owner.Up.myState.stateType == Enum.ENUM_State.Fire) ||
-            (Owner.Down != null) && (Owner.Down.myState.stateType == Enum.ENUM_State.Fire) ||
-            (Owner.Left != null) && (Owner.Left.myState.stateType == Enum.ENUM_State.Fire) ||
-            (Owner.Right != null) && (Owner.Right.myState.stateType == Enum.ENUM_State.Fire))
+        if ((Owner.Up != null) && (Owner.Up.myState.stateType == ENUM_State.Fire) ||
+            (Owner.Down != null) && (Owner.Down.myState.stateType == ENUM_State.Fire) ||
+            (Owner.Left != null) && (Owner.Left.myState.stateType == ENUM_State.Fire) ||
+            (Owner.Right != null) && (Owner.Right.myState.stateType == ENUM_State.Fire))
         {
             isExist = true;
         }

@@ -12,7 +12,7 @@ public class Block : IState
 
     public Block(BaseUnit owner) : base(owner)
     {
-        stateType = Enum.ENUM_State.Block;
+        stateType = ENUM_State.Block;
         _stateName = "Block";
         OnStateBegin();
     }

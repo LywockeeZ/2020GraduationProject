@@ -15,7 +15,7 @@ public class Oil : IState
 
     public Oil(BaseUnit owner) : base(owner)
     {
-        stateType = Enum.ENUM_State.Oil;
+        stateType = ENUM_State.Oil;
         _stateName = "Oil";
         OnStateBegin();
     }
@@ -33,13 +33,13 @@ public class Oil : IState
     {
         //先将状态转换
         OnStateEnd();
-        if (Owner.UpperType == Enum.ENUM_UpperUnitType.Movable)
+        if (Owner.UpperType == ENUM_UpperUnitType.Movable)
         {
             Owner.SetState(new Block(Owner));
 
         }
         else
-        if (Owner.UpperType == Enum.ENUM_UpperUnitType.Fixed)
+        if (Owner.UpperType == ENUM_UpperUnitType.Fixed)
         {
             Owner.UpperGameObject.GetComponent<IFixedUnit>().HandleByFire();
         }
@@ -69,10 +69,10 @@ public class Oil : IState
     IEnumerator FireAround()
     {
         yield return new WaitForSeconds(0.5f);
-        if (((Owner.Up    != null) && (Owner.Up.myState.stateType    == Enum.ENUM_State.Oil)) ||
-            ((Owner.Down  != null) && (Owner.Down.myState.stateType  == Enum.ENUM_State.Oil)) ||
-            ((Owner.Left  != null) && (Owner.Left.myState.stateType  == Enum.ENUM_State.Oil)) ||
-            ((Owner.Right != null) && (Owner.Right.myState.stateType == Enum.ENUM_State.Oil)))
+        if (((Owner.Up    != null) && (Owner.Up.myState.stateType    == ENUM_State.Oil)) ||
+            ((Owner.Down  != null) && (Owner.Down.myState.stateType  == ENUM_State.Oil)) ||
+            ((Owner.Left  != null) && (Owner.Left.myState.stateType  == ENUM_State.Oil)) ||
+            ((Owner.Right != null) && (Owner.Right.myState.stateType == ENUM_State.Oil)))
         {
             ChangeOilToFireState(Owner.Up);
             ChangeOilToFireState(Owner.Down);
@@ -87,7 +87,7 @@ public class Oil : IState
     //将状态为Oil的单元设置成Fire状态
     private void ChangeOilToFireState(BaseUnit targetUnit)
     {
-        if (targetUnit != null && targetUnit.myState.stateType == Enum.ENUM_State.Oil)
+        if (targetUnit != null && targetUnit.myState.stateType == ENUM_State.Oil)
         {
             targetUnit.myState.OnStateHandle();
         }

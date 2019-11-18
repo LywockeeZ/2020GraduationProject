@@ -13,7 +13,7 @@ public class Fire : IState
 
     public Fire(BaseUnit owner) : base(owner)
     {
-        stateType = Enum.ENUM_State.Fire;
+        stateType = ENUM_State.Fire;
         _stateName = "Fire";
         OnStateBegin();
     }
@@ -22,7 +22,7 @@ public class Fire : IState
     {
         Owner.SetCanWalk(canWalk);
         Owner.SetCanBeFire(canBeFire);
-        Owner.SetUpperType(Enum.ENUM_UpperUnitType.NULL);
+        Owner.SetUpperType(ENUM_UpperUnitType.NULL);
         //关卡记录火焰信息
         Owner.GetStage().fireUnits.Add(Owner);
         //对关卡回合更新事件进行注册
@@ -60,14 +60,14 @@ public class Fire : IState
         {
             if (targetUnit.UpperGameObject != null)
             {
-                if (targetUnit.UpperType == Enum.ENUM_UpperUnitType.Fixed)
+                if (targetUnit.UpperType == ENUM_UpperUnitType.Fixed)
                 {
                     targetUnit.UpperGameObject.GetComponent<IFixedUnit>().HandleByFire();
                 }
             }
             else
             {
-                if (targetUnit.myState.stateType == Enum.ENUM_State.Oil)
+                if (targetUnit.myState.stateType == ENUM_State.Oil)
                 {
                     targetUnit.myState.OnStateHandle();
                 }

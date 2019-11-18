@@ -27,8 +27,8 @@ public class NormalStageData : IStageData
         Column = _stageData.Column;
         Row = _stageData.Row;
         StageData = _stageData.stageMetaData;
-        Game.Instance.RegisterGameEvent(Enum.ENUM_GameEvent.RoundUpdateBegain, new RoundUpdateBegainObserverStageData(IsUpdateEnd));
-        Game.Instance.RegisterGameEvent(Enum.ENUM_GameEvent.RoundUpdateEnd, new RoundUpdateEndObserverStageData(ResetBool));
+        Game.Instance.RegisterGameEvent(ENUM_GameEvent.RoundUpdateBegain, new RoundUpdateBegainObserverStageData(IsUpdateEnd));
+        Game.Instance.RegisterGameEvent(ENUM_GameEvent.RoundUpdateEnd, new RoundUpdateEndObserverStageData(ResetBool));
     }
 
     public void SetStageHandler(NormalStageHandler stageHandler)
@@ -39,7 +39,7 @@ public class NormalStageData : IStageData
 
     public override void Update()
     {
-        Game.Instance.NotifyGameEvent(Enum.ENUM_GameEvent.RoundUpdateBegain, null);
+        Game.Instance.NotifyGameEvent(ENUM_GameEvent.RoundUpdateBegain, null);
         Debug.Log("in");
         foreach (var fireUnit in fireUnits)
         {
@@ -68,15 +68,15 @@ public class NormalStageData : IStageData
             for (int j = 0; j <= Column - 1; j++)
             {
                 BaseUnit targetUnit = m_GameUnitFactory.BuildBaseUnit(this,
-                        (Enum.ENUM_Build_BaseUnit)StageData[0, i, j], x, y);
+                        (ENUM_Build_BaseUnit)StageData[0, i, j], x, y);
 
                 GameObject targetUpperUnit = m_GameUnitFactory.BuildUpperUnit(this,
-                        (Enum.ENUM_Build_UpperUnit)StageData[1, i, j], targetUnit);
+                        (ENUM_Build_UpperUnit)StageData[1, i, j], targetUnit);
 
-                if (targetUnit.myState.stateType == Enum.ENUM_State.Fire)
+                if (targetUnit.myState.stateType == ENUM_State.Fire)
                     fireUnits.Add(targetUnit);
 
-                if (targetUnit.myState.stateType == Enum.ENUM_State.Oil)
+                if (targetUnit.myState.stateType == ENUM_State.Oil)
                     oilUnits.Add(targetUnit);
 
                 baseUnits.Add(targetUnit);

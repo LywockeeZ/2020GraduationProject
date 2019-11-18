@@ -9,7 +9,7 @@ public class Ground : IState
 
     public Ground(BaseUnit owner) : base(owner)
     {
-        stateType = Enum.ENUM_State.Ground;
+        stateType = ENUM_State.Ground;
         _stateName = "Ground";
         OnStateBegin();
     }
@@ -18,7 +18,7 @@ public class Ground : IState
     {
         Owner.SetCanWalk(canWalk);
         Owner.SetCanBeFire(canBeFire);
-        Owner.SetUpperType(Enum.ENUM_UpperUnitType.NULL);
+        Owner.SetUpperType(ENUM_UpperUnitType.NULL);
     }
 
     public override void OnStateHandle()

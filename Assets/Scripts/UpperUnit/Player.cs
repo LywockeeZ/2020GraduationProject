@@ -40,7 +40,7 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
         //初始化状态
         _currentOn.myState.OnStateEnd();
         _currentOn.SetState(new Block(_currentOn));
-        _currentOn.SetUpperType(Enum.ENUM_UpperUnitType.Movable);
+        _currentOn.SetUpperType(ENUM_UpperUnitType.Movable);
         _currentOn.SetUpperGameObject(gameObject);
 
         transform.position = SetTargetPos(transform.position);
@@ -52,7 +52,7 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
     }
 
 
-    public void Move(Enum.ENUM_InputEvent inputEvent)
+    public void Move(ENUM_InputEvent inputEvent)
     {
         if (!_isMoving)
         {
@@ -97,7 +97,7 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
         if (targetUnit != null && targetUnit.CanWalk)
         {
             //当目标与当前位置都是油时，花费一点数改变为阻燃带
-            if (_currentOn.myState.stateType == Enum.ENUM_State.Oil)
+            if (_currentOn.myState.stateType == ENUM_State.Oil)
             {
                 GameManager.Instance.ReducePoints(1, 0);
                 _currentOn.myState.OnStateEnd();
@@ -108,22 +108,22 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
                 targetPos = SetTargetPos(targetUnit.Model.transform.position);
                 lookdir = GetLookDir();
                 //保持在油，水，阻燃带上行走不改变状态
-                if (targetUnit.myState.stateType != Enum.ENUM_State.Block &&
-                    targetUnit.myState.stateType != Enum.ENUM_State.Oil &&
-                    targetUnit.myState.stateType != Enum.ENUM_State.Water)
+                if (targetUnit.myState.stateType != ENUM_State.Block &&
+                    targetUnit.myState.stateType != ENUM_State.Oil &&
+                    targetUnit.myState.stateType != ENUM_State.Water)
                 {
                     targetUnit.myState.OnStateEnd();
                     targetUnit.SetState(new Block(targetUnit));
                 }
 
-                targetUnit.SetUpperType(Enum.ENUM_UpperUnitType.Movable);
+                targetUnit.SetUpperType(ENUM_UpperUnitType.Movable);
                 targetUnit.SetUpperGameObject(gameObject);
-                _currentOn.SetUpperType(Enum.ENUM_UpperUnitType.NULL);
+                _currentOn.SetUpperType(ENUM_UpperUnitType.NULL);
                 _currentOn.SetUpperGameObject(null);
                 _currentOn = targetUnit;
 
                 //扣除移动点数，根据是否是油来减速
-                if (_currentOn.myState.stateType == Enum.ENUM_State.Oil)
+                if (_currentOn.myState.stateType == ENUM_State.Oil)
                 {
                     Game.Instance.CostAP(1, 0);
                     _moveSpeed = 2f;
@@ -139,21 +139,21 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
     }
 
     //获取目的地单元
-    private BaseUnit GetTargetUnit(Enum.ENUM_InputEvent inputEvent)
+    private BaseUnit GetTargetUnit(ENUM_InputEvent inputEvent)
     {
         BaseUnit targetUnit = null;
         switch (inputEvent)
         {
-            case Enum.ENUM_InputEvent.Up:
+            case ENUM_InputEvent.Up:
                 targetUnit = _currentOn.Up;
                 break;
-            case Enum.ENUM_InputEvent.Down:
+            case ENUM_InputEvent.Down:
                 targetUnit = _currentOn.Down;
                 break;
-            case Enum.ENUM_InputEvent.Left:
+            case ENUM_InputEvent.Left:
                 targetUnit = _currentOn.Left;
                 break;
-            case Enum.ENUM_InputEvent.Right:
+            case ENUM_InputEvent.Right:
                 targetUnit = _currentOn.Right;
                 break;
             default:
@@ -164,7 +164,7 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
     }
 
     //判断的顺序为先判断是否有单元，如果有则先上层，再下层
-    private void JudgeAndMove(BaseUnit targetUnit, Enum.ENUM_InputEvent inputEvent)
+    private void JudgeAndMove(BaseUnit targetUnit, ENUM_InputEvent inputEvent)
     {
         if (targetUnit != null)
         {
@@ -179,9 +179,9 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
     }
 
     //判断上层物品是否可推动
-    private void JudgeUpperUnit(BaseUnit targetUnit, Enum.ENUM_InputEvent inputEvent)
+    private void JudgeUpperUnit(BaseUnit targetUnit, ENUM_InputEvent inputEvent)
     {
-        if (targetUnit.UpperType == Enum.ENUM_UpperUnitType.Movable)
+        if (targetUnit.UpperType == ENUM_UpperUnitType.Movable)
         {
             IMovableUnit movableUnit = targetUnit.UpperGameObject.GetComponent<IMovableUnit>();
 
@@ -193,7 +193,7 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
             }
         }
         else
-        if (targetUnit.UpperType == Enum.ENUM_UpperUnitType.Fixed)
+        if (targetUnit.UpperType == ENUM_UpperUnitType.Fixed)
         {
             IFixedUnit fixedUnit = targetUnit.UpperGameObject.GetComponent<IFixedUnit>();
 
@@ -211,7 +211,7 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
 
     }
 
-    public bool JudgeCanMove(Enum.ENUM_InputEvent inputEvent)
+    public bool JudgeCanMove(ENUM_InputEvent inputEvent)
     {
         return false;
     }

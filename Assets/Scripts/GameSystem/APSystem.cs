@@ -17,7 +17,7 @@ public class APSystem : IGameSystem
 
     public override void Initialize()
     {
-        Game.Instance.RegisterGameEvent(Enum.ENUM_GameEvent.NewRound, new NewRoundObserverAPSystem(ResetActionPoints));
+        Game.Instance.RegisterGameEvent(ENUM_GameEvent.NewRound, new NewRoundObserverAPSystem(ResetActionPoints));
     }
 
 

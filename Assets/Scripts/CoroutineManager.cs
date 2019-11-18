@@ -19,12 +19,12 @@ public static class CoroutineManager
 
     }
 
-    public static void StartCoroutineTask(Func<bool>Callback ,Enum.ENUM_GameEvent _GameEvent, float waitTime)
+    public static void StartCoroutineTask(Func<bool>Callback ,ENUM_GameEvent _GameEvent, float waitTime)
     {
         coroutine.StartCoroutine(StartInnerCoroutine(Callback, _GameEvent, waitTime));
     }
 
-    private static IEnumerator StartInnerCoroutine(Func<bool>Callback, Enum.ENUM_GameEvent _GameEvent, float waitTime)
+    private static IEnumerator StartInnerCoroutine(Func<bool>Callback, ENUM_GameEvent _GameEvent, float waitTime)
     {
         while(Callback())
         {

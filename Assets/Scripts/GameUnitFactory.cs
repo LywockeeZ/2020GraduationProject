@@ -12,10 +12,10 @@ public class GameUnitFactory : IGameUnitFactory
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <returns></returns>
-    public override BaseUnit BuildBaseUnit(NormalStageData currentStageData, Enum.ENUM_Build_BaseUnit baseType, int x, int y)
+    public override BaseUnit BuildBaseUnit(NormalStageData currentStageData, ENUM_Build_BaseUnit baseType, int x, int y)
     {
         //如果枚举值为0则返回空
-        if (baseType == Enum.ENUM_Build_BaseUnit.Null)
+        if (baseType == ENUM_Build_BaseUnit.Null)
             return null;
 
         IAssetFactory m_AssetFactory = GameFactory.GetAssetFactory();
@@ -28,19 +28,19 @@ public class GameUnitFactory : IGameUnitFactory
 
         switch (baseType)
         {
-            case Enum.ENUM_Build_BaseUnit.Ground:
+            case ENUM_Build_BaseUnit.Ground:
                 baseUnit.SetState(new Ground(baseUnit));
                 return baseUnit;
-            case Enum.ENUM_Build_BaseUnit.Fire:
+            case ENUM_Build_BaseUnit.Fire:
                 baseUnit.SetState(new Fire(baseUnit));
                 return baseUnit;
-            case Enum.ENUM_Build_BaseUnit.Water:
+            case ENUM_Build_BaseUnit.Water:
                 baseUnit.SetState(new Water(baseUnit));
                 return baseUnit;
-            case Enum.ENUM_Build_BaseUnit.Oil:
+            case ENUM_Build_BaseUnit.Oil:
                 baseUnit.SetState(new Oil(baseUnit));
                 return baseUnit;
-            case Enum.ENUM_Build_BaseUnit.Block:
+            case ENUM_Build_BaseUnit.Block:
                 baseUnit.SetState(new Block(baseUnit));
                 return baseUnit;
             default:
@@ -56,7 +56,7 @@ public class GameUnitFactory : IGameUnitFactory
     /// <param name="upperType"></param>
     /// <param name="targetUnit"></param>
     /// <returns></returns>
-    public override GameObject BuildUpperUnit(NormalStageData currentStageData, Enum.ENUM_Build_UpperUnit upperType, BaseUnit targetUnit)
+    public override GameObject BuildUpperUnit(NormalStageData currentStageData, ENUM_Build_UpperUnit upperType, BaseUnit targetUnit)
     {
         if (targetUnit == null) return null;
 
@@ -64,45 +64,45 @@ public class GameUnitFactory : IGameUnitFactory
 
         switch (upperType)
         {
-            case Enum.ENUM_Build_UpperUnit.Null:
+            case ENUM_Build_UpperUnit.Null:
                 return null;
 
-            case Enum.ENUM_Build_UpperUnit.Chest:
+            case ENUM_Build_UpperUnit.Chest:
                 GameObject chestObject = m_AssetFactory.LoadModel("Chest", targetUnit.Model.transform.position);
                 Chest _chest;
                 _chest = chestObject.AddComponent<Chest>();
                 _chest.CurrentOn = targetUnit;
                 return chestObject;
 
-            case Enum.ENUM_Build_UpperUnit.RoadBlock:
+            case ENUM_Build_UpperUnit.RoadBlock:
                 GameObject roadBlockObject = m_AssetFactory.LoadModel("RoadBlock", targetUnit.Model.transform.position);
                 RoadBlock _roadBlock;
                 _roadBlock = roadBlockObject.AddComponent<RoadBlock>();
                 _roadBlock.CurrentOn = targetUnit;
                 return roadBlockObject;
 
-            case Enum.ENUM_Build_UpperUnit.OilTank:
+            case ENUM_Build_UpperUnit.OilTank:
                 GameObject oilTankObject = m_AssetFactory.LoadModel("OilTank", targetUnit.Model.transform.position);
                 OilTank _oilTank;
                 _oilTank = oilTankObject.AddComponent<OilTank>();
                 _oilTank.CurrentOn = targetUnit;
                 return oilTankObject;
 
-            case Enum.ENUM_Build_UpperUnit.WaterTank:
+            case ENUM_Build_UpperUnit.WaterTank:
                 GameObject waterTankObject = m_AssetFactory.LoadModel("WaterTank", targetUnit.Model.transform.position);
                 WaterTank _waterTank;
                 _waterTank = waterTankObject.AddComponent<WaterTank>();
                 _waterTank.CurrentOn = targetUnit;
                 return waterTankObject;
 
-            case Enum.ENUM_Build_UpperUnit.Player:
+            case ENUM_Build_UpperUnit.Player:
                 GameObject playerObject = m_AssetFactory.LoadModel("Player", targetUnit.Model.transform.position);
                 Player _playerUnit;
                 _playerUnit = playerObject.AddComponent<Player>();
                 _playerUnit.CurrentOn = targetUnit;
                 return playerObject;
 
-            case Enum.ENUM_Build_UpperUnit.Survivor:
+            case ENUM_Build_UpperUnit.Survivor:
                 GameObject survivorObject = m_AssetFactory.LoadModel("Survivor", targetUnit.Model.transform.position);
                 Survivor _survivor;
                 _survivor = survivorObject.AddComponent<Survivor>();

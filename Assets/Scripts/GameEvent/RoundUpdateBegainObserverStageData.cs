@@ -23,6 +23,6 @@ public class RoundUpdateBegainObserverStageData : IGameEventObserver
     public override void Update()
     {
         //回合更新结束自动触发事件
-        CoroutineManager.StartCoroutineTask(callBack, Enum.ENUM_GameEvent.RoundUpdateEnd, 1f);
+        CoroutineManager.StartCoroutineTask(callBack, ENUM_GameEvent.RoundUpdateEnd, 1f);
     }
 }

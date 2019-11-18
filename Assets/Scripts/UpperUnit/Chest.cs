@@ -36,7 +36,7 @@ public class Chest : MonoBehaviour, IUpperUnit, IMovableUnit
         //初始化状态
         _currentOn.myState.OnStateEnd();
         _currentOn.SetState(new Ground(_currentOn));
-        _currentOn.SetUpperType(Enum.ENUM_UpperUnitType.Movable);
+        _currentOn.SetUpperType(ENUM_UpperUnitType.Movable);
         _currentOn.SetUpperGameObject(gameObject);
 
         transform.position = SetTargetPos(transform.position);
@@ -45,7 +45,7 @@ public class Chest : MonoBehaviour, IUpperUnit, IMovableUnit
 
     }
 
-    public void Move(Enum.ENUM_InputEvent inputEvent)
+    public void Move(ENUM_InputEvent inputEvent)
     {
         if (!_isMoving)
         {
@@ -76,13 +76,13 @@ public class Chest : MonoBehaviour, IUpperUnit, IMovableUnit
         if (targetUnit != null && targetUnit.CanWalk)
         {
             targetPos = SetTargetPos(targetUnit.Model.transform.position);
-            if (targetUnit.myState.stateType != Enum.ENUM_State.Block)
+            if (targetUnit.myState.stateType != ENUM_State.Block)
             {
                 targetUnit.myState.OnStateEnd();
                 //将箱子走过的路径设为地面
                 targetUnit.SetState(new Ground(targetUnit));
             }
-            targetUnit.SetUpperType(Enum.ENUM_UpperUnitType.Movable);
+            targetUnit.SetUpperType(ENUM_UpperUnitType.Movable);
             targetUnit.SetUpperGameObject(gameObject);
             _currentOn.SetUpperGameObject(null);
             _currentOn = targetUnit;
@@ -93,7 +93,7 @@ public class Chest : MonoBehaviour, IUpperUnit, IMovableUnit
     }
 
     //判断是否可以被移动
-    public bool JudgeCanMove(Enum.ENUM_InputEvent inputEvent)
+    public bool JudgeCanMove(ENUM_InputEvent inputEvent)
     {
         BaseUnit targetUnit = GetTargetUnit(inputEvent);
         bool canMove = false;
@@ -112,21 +112,21 @@ public class Chest : MonoBehaviour, IUpperUnit, IMovableUnit
 
 
     //获取目的地单元
-    private BaseUnit GetTargetUnit(Enum.ENUM_InputEvent inputEvent)
+    private BaseUnit GetTargetUnit(ENUM_InputEvent inputEvent)
     {
         BaseUnit targetUnit = null;
         switch (inputEvent)
         {
-            case Enum.ENUM_InputEvent.Up:
+            case ENUM_InputEvent.Up:
                 targetUnit = _currentOn.Up;
                 break;
-            case Enum.ENUM_InputEvent.Down:
+            case ENUM_InputEvent.Down:
                 targetUnit = _currentOn.Down;
                 break;
-            case Enum.ENUM_InputEvent.Left:
+            case ENUM_InputEvent.Left:
                 targetUnit = _currentOn.Left;
                 break;
-            case Enum.ENUM_InputEvent.Right:
+            case ENUM_InputEvent.Right:
                 targetUnit = _currentOn.Right;
                 break;
             default:

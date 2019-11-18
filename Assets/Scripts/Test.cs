@@ -14,7 +14,7 @@ public class Test : MonoBehaviour
         //XmlTool.XmlCreate("StageData");
         //Debug.Log(XmlTool.LoadStageDataXml("StageData", "第1关"));
         Game.Instance.Initinal();
-        Game.Instance.RegisterGameEvent(Enum.ENUM_GameEvent.NewStage, new NewStageObserver());
+        Game.Instance.RegisterGameEvent(ENUM_GameEvent.NewStage, new NewStageObserver());
     }
 
     void Update()
@@ -25,7 +25,7 @@ public class Test : MonoBehaviour
     public void OnClick()
     {
         Game.Instance.LoadNextStage();
-        Game.Instance.NotifyGameEvent(Enum.ENUM_GameEvent.NewStage, null);
+        Game.Instance.NotifyGameEvent(ENUM_GameEvent.NewStage, null);
     }
 
 }

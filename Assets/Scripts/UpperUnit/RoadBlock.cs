@@ -23,7 +23,7 @@ public class RoadBlock : MonoBehaviour, IUpperUnit, IFixedUnit
     {
         _currentOn.myState.OnStateEnd();
         _currentOn.SetState(new Ground(_currentOn));
-        _currentOn.SetUpperType(Enum.ENUM_UpperUnitType.Fixed);
+        _currentOn.SetUpperType(ENUM_UpperUnitType.Fixed);
         _currentOn.SetUpperGameObject(gameObject);
         _currentOn.SetCanBeFire(_canBeFire);
 

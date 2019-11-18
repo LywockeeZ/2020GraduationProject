@@ -1,9 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public static class Enum 
-{
+﻿
     //状态
     public enum ENUM_State
     {
@@ -64,4 +59,3 @@ public static class Enum
     }
 
 
-}

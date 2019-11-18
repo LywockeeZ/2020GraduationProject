@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class GameEventSystem : IGameSystem
 {
-    private Dictionary<Enum.ENUM_GameEvent, IGameEventSubject> m_GameEvents
-            = new Dictionary<Enum.ENUM_GameEvent, IGameEventSubject>();
+    private Dictionary<ENUM_GameEvent, IGameEventSubject> m_GameEvents
+            = new Dictionary<ENUM_GameEvent, IGameEventSubject>();
 
     public GameEventSystem()
     {
@@ -17,7 +17,7 @@ public class GameEventSystem : IGameSystem
         m_GameEvents.Clear();
     }
 
-    public void RegisterObserver(Enum.ENUM_GameEvent emGameEvent,
+    public void RegisterObserver(ENUM_GameEvent emGameEvent,
                                  IGameEventObserver Observer)
     {
         //获取事件
@@ -30,7 +30,7 @@ public class GameEventSystem : IGameSystem
     }
 
     // 注册一个事件
-    private IGameEventSubject GetGameEventSubject(Enum.ENUM_GameEvent emGameEvent)
+    private IGameEventSubject GetGameEventSubject(ENUM_GameEvent emGameEvent)
     {
         if (m_GameEvents.ContainsKey(emGameEvent))
             return m_GameEvents[emGameEvent];
@@ -39,19 +39,19 @@ public class GameEventSystem : IGameSystem
         IGameEventSubject pSujbect = null;
         switch (emGameEvent)
         {
-            case Enum.ENUM_GameEvent.NewStage:
+            case ENUM_GameEvent.NewStage:
                 pSujbect = new NewStageSubject();
                 break;
-            case Enum.ENUM_GameEvent.NewRound:
+            case ENUM_GameEvent.NewRound:
                 pSujbect = new NewRoundSubject();
                 break;
-            case Enum.ENUM_GameEvent.RoundUpdateBegain:
+            case ENUM_GameEvent.RoundUpdateBegain:
                 pSujbect = new RoundUpdateBegainSubject();
                 break;
-            case Enum.ENUM_GameEvent.RoundUpdateEnd:
+            case ENUM_GameEvent.RoundUpdateEnd:
                 pSujbect = new RoundUpdateEndSubject();
                 break;
-            case Enum.ENUM_GameEvent.StageEnd:
+            case ENUM_GameEvent.StageEnd:
                 break;
             default:
                 break;
@@ -62,7 +62,7 @@ public class GameEventSystem : IGameSystem
         return pSujbect;
     }
 
-    public void NotifySubject(Enum.ENUM_GameEvent emGameEvent, System.Object Param)
+    public void NotifySubject(ENUM_GameEvent emGameEvent, System.Object Param)
     {
         if (m_GameEvents.ContainsKey(emGameEvent) == false)
             return;
