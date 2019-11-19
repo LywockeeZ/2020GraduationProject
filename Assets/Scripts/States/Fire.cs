@@ -35,11 +35,12 @@ public class Fire : IState
 
 
 
-
+    private EventListenerDelegate fireUpdate;
     private void RegisterEvent()
     {
+
         Game.Instance.RegisterEvent(ENUM_GameEvent.FireUpdate,
-        delegate (Message evt)
+        fireUpdate = delegate (Message evt)
         {
             OnStateHandle();
         });
@@ -65,11 +66,7 @@ public class Fire : IState
     {
         Owner.GetStage().fireUnits.Remove(Owner);
 
-        Game.Instance.DetchEvent(ENUM_GameEvent.FireUpdate,
-        delegate (Message evt)
-        {
-            OnStateHandle();
-        });
+        Game.Instance.DetchEvent(ENUM_GameEvent.FireUpdate, fireUpdate);
 
         GameObject.Destroy(model);
     }

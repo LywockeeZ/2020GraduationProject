@@ -52,6 +52,7 @@ public class NormalStageScore : IStageScore
     /// <returns></returns>
     public override bool CheckStage()
     {
+        Debug.Log("FireCount:" + m_StageHandler.m_StatgeData.GetFireCounts());
         bool isOver = false;
         if (m_StageHandler.m_StatgeData.GetFireCounts() == 0)
         {

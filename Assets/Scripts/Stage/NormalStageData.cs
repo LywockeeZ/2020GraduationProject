@@ -43,7 +43,7 @@ public class NormalStageData : IStageData
         delegate (Message evt)
         {
             Game.Instance.SetCanInput(false);
-            Update();
+            CoroutineManager.StartCoroutineTask(Update, 1f);
             CoroutineManager.StartCoroutineTask(IsUpdateEnd, ENUM_GameEvent.RoundUpdateEnd, 1f);
         });
         Game.Instance.RegisterEvent(ENUM_GameEvent.RoundUpdateEnd,
@@ -160,9 +160,11 @@ public class NormalStageData : IStageData
     public bool IsUpdateEnd()
     {
         if (oilUnits.Count == 0)
-        {
             isOilUpdateEnd = true;
-        }
+
+        if (fireUnits.Count == 0)
+            isFireUpdateEnd = true;
+
         bool _isEnd = false;
         if (isOilUpdateEnd && isFireUpdateEnd)
         {
