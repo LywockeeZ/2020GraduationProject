@@ -5,10 +5,14 @@ using UnityEngine;
 public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
 {
     public BaseUnit CurrentOn { get { return _currentOn; } set { _currentOn = value; } }
-    public float Height { get { return _heigth; } set { _heigth = value; } }
-    public bool CanBeFire { get { return _canBeFire; } set { _canBeFire = value; } }
-    public bool IsMoving { get { return _isMoving; } set { _isMoving = value; } }
-    public float MoveSpeed { get { return _moveSpeed; } set { _moveSpeed = value; } }
+    public float    Height    { get { return _heigth   ; } set { _heigth    = value; } }
+    public bool     CanBeFire { get { return _canBeFire; } set { _canBeFire = value; } }
+    public bool     IsMoving  { get { return _isMoving ; } set { _isMoving  = value; } }
+    public float    MoveSpeed { get { return _moveSpeed; } set { _moveSpeed = value; } }
+
+    private ENUM_UpperUnit            Type        = ENUM_UpperUnit.Player;              //放置单元的类型
+    private ENUM_UpperUnitControlType ControlType = ENUM_UpperUnitControlType.Movable;  //放置单元的操控类型
+    private ENUM_UpperUnitBeFiredType BeFiredType = ENUM_UpperUnitBeFiredType.NULL;     
 
     //该单元的私有属性
     private BaseUnit _currentOn;
@@ -38,10 +42,11 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
     public void Init()
     {
         //初始化状态
-        _currentOn.myState.OnStateEnd();
+        _currentOn.State.OnStateEnd();
         _currentOn.SetState(new Block(_currentOn));
-        _currentOn.SetUpperType(ENUM_UpperUnitType.Movable);
+        _currentOn.UpperUnit = new UpperUnit(Type, ControlType, BeFiredType);
         _currentOn.SetUpperGameObject(gameObject);
+        _currentOn.SetCanBeFire(_canBeFire);
 
         transform.position = SetTargetPos(transform.position);
         targetPos = SetTargetPos(transform.position);
@@ -97,10 +102,10 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
         if (targetUnit != null && targetUnit.CanWalk)
         {
             //当目标与当前位置都是油时，花费一点数改变为阻燃带
-            if (_currentOn.myState.stateType == ENUM_State.Oil)
+            if (_currentOn.State.stateType == ENUM_State.Oil)
             {
-                GameManager.Instance.ReducePoints(1, 0);
-                _currentOn.myState.OnStateEnd();
+                Game.Instance.CostAP(1, 0);
+                _currentOn.State.OnStateEnd();
                 _currentOn.SetState(new Block(_currentOn));
             }
             else
@@ -108,22 +113,21 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
                 targetPos = SetTargetPos(targetUnit.Model.transform.position);
                 lookdir = GetLookDir();
                 //保持在油，水，阻燃带上行走不改变状态
-                if (targetUnit.myState.stateType != ENUM_State.Block &&
-                    targetUnit.myState.stateType != ENUM_State.Oil &&
-                    targetUnit.myState.stateType != ENUM_State.Water)
+                if (targetUnit.State.stateType != ENUM_State.Block &&
+                    targetUnit.State.stateType != ENUM_State.Oil &&
+                    targetUnit.State.stateType != ENUM_State.Water)
                 {
-                    targetUnit.myState.OnStateEnd();
+                    targetUnit.State.OnStateEnd();
                     targetUnit.SetState(new Block(targetUnit));
                 }
-
-                targetUnit.SetUpperType(ENUM_UpperUnitType.Movable);
+                targetUnit.UpperUnit = new UpperUnit(Type, ControlType, BeFiredType);
                 targetUnit.SetUpperGameObject(gameObject);
-                _currentOn.SetUpperType(ENUM_UpperUnitType.NULL);
+                _currentOn.UpperUnit.InitOrReset();
                 _currentOn.SetUpperGameObject(null);
                 _currentOn = targetUnit;
 
                 //扣除移动点数，根据是否是油来减速
-                if (_currentOn.myState.stateType == ENUM_State.Oil)
+                if (_currentOn.State.stateType == ENUM_State.Oil)
                 {
                     Game.Instance.CostAP(1, 0);
                     _moveSpeed = 2f;
@@ -181,7 +185,7 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
     //判断上层物品是否可推动
     private void JudgeUpperUnit(BaseUnit targetUnit, ENUM_InputEvent inputEvent)
     {
-        if (targetUnit.UpperType == ENUM_UpperUnitType.Movable)
+        if (targetUnit.UpperUnit.ControlType == ENUM_UpperUnitControlType.Movable)
         {
             IMovableUnit movableUnit = targetUnit.UpperGameObject.GetComponent<IMovableUnit>();
 
@@ -193,7 +197,7 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
             }
         }
         else
-        if (targetUnit.UpperType == ENUM_UpperUnitType.Fixed)
+        if (targetUnit.UpperUnit.ControlType == ENUM_UpperUnitControlType.Fixed)
         {
             IFixedUnit fixedUnit = targetUnit.UpperGameObject.GetComponent<IFixedUnit>();
 

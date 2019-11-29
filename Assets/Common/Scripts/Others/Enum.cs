@@ -1,5 +1,4 @@
-﻿
-    //状态
+﻿//状态
     public enum ENUM_State
     {
         Ground,
@@ -8,6 +7,16 @@
         Water,
         Oil,
         Block
+    }
+
+    /// <summary>
+    /// 用来区分火焰是直接点燃还是触发操作
+    /// </summary>
+    public enum ENUM_StateBeFiredType
+    {
+        False,
+        BeFire,
+        BeHandle,
     }
 
     //输入事件
@@ -19,12 +28,34 @@
         Right
     }
 
+    public enum ENUM_UpperUnit
+    {
+        NULL,
+        Chest,
+        RoadBlock,
+        OilTank,
+        WaterTank,
+        Player,
+        Survivor
+    }
 
-    public enum ENUM_UpperUnitType
+    /// <summary>
+    /// 区分玩家对上层单元的操控类型
+    /// </summary>
+    public enum ENUM_UpperUnitControlType
     {
         NULL,
         Movable,
         Fixed
+    }
+
+    /// <summary>
+    /// 区分上层单元是否可以被火焰触发操作
+    /// </summary>
+    public enum ENUM_UpperUnitBeFiredType
+    {
+        NULL,
+        BeFire
     }
 
     //游戏事件

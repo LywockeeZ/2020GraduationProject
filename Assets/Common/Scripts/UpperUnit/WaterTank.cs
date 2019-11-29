@@ -2,30 +2,37 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WaterTank : MonoBehaviour, IUpperUnit, IFixedUnit
+public class WaterTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
 {
     public BaseUnit CurrentOn { get { return _currentOn; } set { _currentOn = value; } }
-    public float Height { get { return _heigth; } set { _heigth = value; } }
-    public bool CanBeFire { get { return _canBeFire; } set { _canBeFire = value; } }
+    public float    Height    { get { return _heigth   ; } set { _heigth    = value; } }
+    public bool     CanBeFire { get { return _canBeFire; } set { _canBeFire = value; } }
+
+    private ENUM_UpperUnit Type = ENUM_UpperUnit.WaterTank;                            //放置单元的类型
+    private ENUM_UpperUnitControlType ControlType = ENUM_UpperUnitControlType.Fixed;   //放置单元的操控类型
+    private ENUM_UpperUnitBeFiredType BeFiredType = ENUM_UpperUnitBeFiredType.BeFire;  
 
     public Animator animator;
 
     private BaseUnit _currentOn;
-    private float _heigth = 0f;
-    private bool _canBeFire = false;
+    private float    _heigth    = 0f;
+    private bool     _canBeFire = true;
+
 
     private void Start()
     {
         Init();
     }
 
+
     public void Init()
     {
         //初始化状态
-        _currentOn.myState.OnStateEnd();
-        _currentOn.SetState(new Ground(_currentOn));
-        _currentOn.SetUpperType(ENUM_UpperUnitType.Fixed);
+        //_currentOn.StateEnd();
+        //_currentOn.SetState(new Ground(_currentOn));
+        _currentOn.UpperUnit = new UpperUnit(Type, ControlType, BeFiredType);
         _currentOn.SetUpperGameObject(gameObject);
+        _currentOn.SetCanBeFire(_canBeFire);
 
         transform.position = SetTargetPos(transform.position);
 
@@ -35,10 +42,11 @@ public class WaterTank : MonoBehaviour, IUpperUnit, IFixedUnit
 
     public void Handle()
     {
-        GameManager.Instance.ReducePoints(1, 0);
-        if (_currentOn.myState.stateType != ENUM_State.Oil)
+        Game.Instance.CostAP(1, 0);
+
+        if (_currentOn.State.stateType != ENUM_State.Oil)
         {
-            _currentOn.myState.OnStateEnd();
+            _currentOn.StateEnd();
             _currentOn.SetState(new Water(_currentOn));
         }
         SetAroundToWater();
@@ -48,7 +56,7 @@ public class WaterTank : MonoBehaviour, IUpperUnit, IFixedUnit
 
     public void HandleByFire()
     {
-        _currentOn.myState.OnStateEnd();
+        _currentOn.StateEnd();
         _currentOn.SetState(new Water(_currentOn));
         SetAroundToWater();
         if (animator != null) animator.SetTrigger("Break");
@@ -57,7 +65,7 @@ public class WaterTank : MonoBehaviour, IUpperUnit, IFixedUnit
 
     public void End()
     {
-        _currentOn.SetUpperType(ENUM_UpperUnitType.NULL);
+        _currentOn.UpperUnit.InitOrReset();
         //GameObject.Destroy(gameObject);
     }
 
@@ -79,10 +87,10 @@ public class WaterTank : MonoBehaviour, IUpperUnit, IFixedUnit
     private void SetTargetToWater(BaseUnit targetUnit)
     {
         if (targetUnit != null && 
-            targetUnit.UpperType == ENUM_UpperUnitType.NULL &&
-            (targetUnit.myState.stateType == ENUM_State.Fire || targetUnit.myState.stateType == ENUM_State.Ground))
+            targetUnit.UpperUnit.Type == ENUM_UpperUnit.NULL &&
+            (targetUnit.State.stateType == ENUM_State.Fire || targetUnit.State.stateType == ENUM_State.Ground))
         {
-            targetUnit.myState.OnStateEnd();
+            targetUnit.StateEnd();
             targetUnit.SetState(new Water(targetUnit));
         }
     }

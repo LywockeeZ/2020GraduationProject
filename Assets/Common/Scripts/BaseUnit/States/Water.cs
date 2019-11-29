@@ -4,19 +4,26 @@ using UnityEngine;
 
 public class Water : IState
 {
-    private bool canWalk = true;
-    private bool canBeFire = false;
-
-    private float height = 0f;
-    private GameObject model;
     //水能承受火的次数
     private int beFiredCount = 2;
+
+    //模型与模型生成高度增量
+    private GameObject model;
+    private float height = 0f;
+
+    //该状态私有属性
+    private bool canWalk = true;
+    private bool canBeFire = true;
+    private ENUM_StateBeFiredType _beFiredType = ENUM_StateBeFiredType.BeHandle;
+
+    private bool isUpdating = false;
 
 
     public Water(BaseUnit owner) : base(owner)
     {
         stateType = ENUM_State.Water;
         _stateName = "Water";
+        beFiredType = _beFiredType;
         OnStateBegin();
     }
 
@@ -24,19 +31,34 @@ public class Water : IState
     {
         Owner.SetCanWalk(canWalk);
         Owner.SetCanBeFire(canBeFire);
-        //Owner.GetStage().WaterUpdateEvent += OnStateHandle;
 
+        RegisterEvent();
         SetWaterModel();
     }
 
+
+    private EventListenerDelegate OnRoundUpdateEnd;
+    private void RegisterEvent()
+    {
+
+        Game.Instance.RegisterEvent(ENUM_GameEvent.RoundUpdateEnd,
+        OnRoundUpdateEnd = (Message evt) =>
+        {
+            isUpdating = false;
+        });
+
+    }
+
+
     public override void OnStateHandle()
     {
-        if (IsHavingFireAround())
+        if (IsHavingFireAround() && !isUpdating)
         {
+            isUpdating = true;
             beFiredCount--;
             if (beFiredCount == 0)
             {
-                if (Owner.UpperType == ENUM_UpperUnitType.Movable)
+                if (Owner.UpperUnit.Type == ENUM_UpperUnit.Player)
                 {
                     OnStateEnd();
                     Owner.SetState(new Block(Owner));
@@ -58,7 +80,8 @@ public class Water : IState
 
     public override void OnStateEnd()
     {
-        //Owner.GetStage().WaterUpdateEvent -= OnStateHandle;
+        Game.Instance.DetachEvent(ENUM_GameEvent.RoundUpdateEnd, OnRoundUpdateEnd);
+
         GameObject.Destroy(model);
     }
 
@@ -79,10 +102,10 @@ public class Water : IState
     public bool IsHavingFireAround()
     {
         bool isExist = false;
-        if ((Owner.Up != null) && (Owner.Up.myState.stateType == ENUM_State.Fire) ||
-            (Owner.Down != null) && (Owner.Down.myState.stateType == ENUM_State.Fire) ||
-            (Owner.Left != null) && (Owner.Left.myState.stateType == ENUM_State.Fire) ||
-            (Owner.Right != null) && (Owner.Right.myState.stateType == ENUM_State.Fire))
+        if ((Owner.Up    != null) && (Owner.Up.State.stateType    == ENUM_State.Fire) ||
+            (Owner.Down  != null) && (Owner.Down.State.stateType  == ENUM_State.Fire) ||
+            (Owner.Left  != null) && (Owner.Left.State.stateType  == ENUM_State.Fire) ||
+            (Owner.Right != null) && (Owner.Right.State.stateType == ENUM_State.Fire))
         {
             isExist = true;
         }

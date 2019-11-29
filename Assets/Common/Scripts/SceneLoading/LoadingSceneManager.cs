@@ -68,7 +68,7 @@ public class LoadingSceneManager : MonoBehaviour
 
 
         //待加入进度条相关的操作
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(0.5f);
 
         //切换到新的场景
         _asyncOperation.allowSceneActivation = true;

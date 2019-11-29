@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IFixedUnit
+public interface ICanBeFiredUnit
 {
-    void Handle();
-
+    void HandleByFire();
 }

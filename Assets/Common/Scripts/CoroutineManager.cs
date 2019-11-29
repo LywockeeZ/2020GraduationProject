@@ -20,7 +20,20 @@ public static class CoroutineManager
     }
 
 
+    public static void StartCoroutine(IEnumerator routine)
+    {
+        coroutine.StartCoroutine(routine);
+    }
+
+
+    public static void StopCoroutine(IEnumerator routine)
+    {
+        coroutine.StopCoroutine(routine);
+    }
+
+
     /// <summary>
+    /// 使用一个返回bool类型的回调函数,
     /// 当返回为true时，等待一定时间触发事件
     /// </summary>
     /// <param name="Callback"></param>

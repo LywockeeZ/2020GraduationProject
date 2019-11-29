@@ -5,17 +5,20 @@ using UnityEngine;
 public class Chest : MonoBehaviour, IUpperUnit, IMovableUnit
 {
     public BaseUnit CurrentOn { get { return _currentOn; } set { _currentOn = value; } }
-    public float Height { get { return _heigth; } set { _heigth = value; } }
-    public bool CanBeFire { get { return _canBeFire; } set { _canBeFire = value; } }
-    public float MoveSpeed { get { return _moveSpeed; } set { _moveSpeed = value; } }
-    public bool IsMoving { get { return _isMoving; } set { _isMoving = value; } }
+    public float    Height    { get { return _heigth   ; } set { _heigth    = value; } }
+    public bool     CanBeFire { get { return _canBeFire; } set { _canBeFire = value; } }
+    public float    MoveSpeed { get { return _moveSpeed; } set { _moveSpeed = value; } }
+    public bool     IsMoving  { get { return _isMoving ; } set { _isMoving  = value; } }
 
-    //该单元的私有属性
+    private ENUM_UpperUnit            Type        = ENUM_UpperUnit.Chest;               //放置单元的类型
+    private ENUM_UpperUnitControlType ControlType = ENUM_UpperUnitControlType.Movable;  //放置单元的操控类型
+    private ENUM_UpperUnitBeFiredType BeFiredType = ENUM_UpperUnitBeFiredType.NULL;    
+
     private BaseUnit _currentOn;
-    private float _heigth = 0f;
-    private bool _canBeFire = false;
-    private float _moveSpeed = 4f;
-    private bool _isMoving = false;
+    private float    _heigth    = 0f;
+    private bool     _canBeFire = false;
+    private float    _moveSpeed = 4f;
+    private bool     _isMoving  = false;
 
     private BaseUnit targetUnit;
     private Vector3 targetPos;
@@ -26,24 +29,31 @@ public class Chest : MonoBehaviour, IUpperUnit, IMovableUnit
         Init();
     }
 
+
+
     private void Update()
     {
         MoveProcess();
     }
 
+
+
     public void Init()
     {
         //初始化状态
-        _currentOn.myState.OnStateEnd();
+        _currentOn.StateEnd();
         _currentOn.SetState(new Ground(_currentOn));
-        _currentOn.SetUpperType(ENUM_UpperUnitType.Movable);
+        _currentOn.UpperUnit = new UpperUnit(Type, ControlType, BeFiredType);
         _currentOn.SetUpperGameObject(gameObject);
+        _currentOn.SetCanBeFire(_canBeFire);
 
         transform.position = SetTargetPos(transform.position);
         targetPos = SetTargetPos(transform.position);
         _isMoving = false;
 
     }
+
+
 
     public void Move(ENUM_InputEvent inputEvent)
     {
@@ -54,6 +64,10 @@ public class Chest : MonoBehaviour, IUpperUnit, IMovableUnit
         }
     }
 
+
+    /// <summary>
+    /// 处理移动的具体过程
+    /// </summary>
     private void MoveProcess()
     {
         transform.position = Vector3.Lerp(transform.position, targetPos, _moveSpeed * Time.deltaTime);
@@ -65,25 +79,32 @@ public class Chest : MonoBehaviour, IUpperUnit, IMovableUnit
 
     }
 
+
+
     //将单元的高度转换为模型高度
     public Vector3 SetTargetPos(Vector3 _targetPos)
     {
         return new Vector3(_targetPos.x, _heigth, _targetPos.z);
     }
 
+
+
+
     private void JudgeBaseStateAndMove(BaseUnit targetUnit)
     {
         if (targetUnit != null && targetUnit.CanWalk)
         {
             targetPos = SetTargetPos(targetUnit.Model.transform.position);
-            if (targetUnit.myState.stateType != ENUM_State.Block)
+            if (targetUnit.State.stateType != ENUM_State.Block)
             {
-                targetUnit.myState.OnStateEnd();
+                targetUnit.StateEnd();
                 //将箱子走过的路径设为地面
                 targetUnit.SetState(new Ground(targetUnit));
             }
-            targetUnit.SetUpperType(ENUM_UpperUnitType.Movable);
+            //更新目标单元的上层单元信息
+            targetUnit.UpperUnit = new UpperUnit(Type, ControlType, BeFiredType);
             targetUnit.SetUpperGameObject(gameObject);
+            _currentOn.UpperUnit.InitOrReset();
             _currentOn.SetUpperGameObject(null);
             _currentOn = targetUnit;
             //这里是移动的开关
@@ -92,7 +113,15 @@ public class Chest : MonoBehaviour, IUpperUnit, IMovableUnit
 
     }
 
-    //判断是否可以被移动
+
+
+
+    /// <summary>
+    /// 判断是否可以被移动
+    /// 主要被推动发起人调用
+    /// </summary>
+    /// <param name="inputEvent"></param>
+    /// <returns></returns>
     public bool JudgeCanMove(ENUM_InputEvent inputEvent)
     {
         BaseUnit targetUnit = GetTargetUnit(inputEvent);
@@ -109,6 +138,7 @@ public class Chest : MonoBehaviour, IUpperUnit, IMovableUnit
 
         return canMove;
     }
+
 
 
     //获取目的地单元

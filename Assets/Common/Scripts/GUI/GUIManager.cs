@@ -25,7 +25,7 @@ public class GUIManager : Singleton<GUIManager>
         base.Awake();
     }
 
-    protected virtual void Start()
+    protected virtual void OnEnable()
     {
         RegisterEvent();
     }

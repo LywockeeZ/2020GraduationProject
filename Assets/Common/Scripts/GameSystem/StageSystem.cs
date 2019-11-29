@@ -137,7 +137,52 @@ public class StageSystem : IGameSystem
         //设置关卡链的尽头
         NormalStageHandler NewStage3 = NewStage2.SetNextHandler(null) as NormalStageHandler;
 
+        //FireTest
+        StageMetaData FireTestMetadata = GameFactory.GetDataFactory().LoadStageData("FireTest");
+        NormalStageData FireTestData = new NormalStageData(FireTestMetadata);
+        NormalStageScore FireTestScore = new NormalStageScore();
+        NormalStageHandler FireTest = new NormalStageHandler(FireTestScore, FireTestData);
+        Stages.Add("FireTest", FireTest);
 
+        //OilTest
+        StageMetaData OilTestMetadata = GameFactory.GetDataFactory().LoadStageData("OilTest");
+        NormalStageData OilTestData = new NormalStageData(OilTestMetadata);
+        NormalStageScore OilTestScore = new NormalStageScore();
+        NormalStageHandler OilTest = new NormalStageHandler(OilTestScore, OilTestData);
+        Stages.Add("OilTest", OilTest);
+
+        //WaterTest
+        StageMetaData WaterTestMetadata = GameFactory.GetDataFactory().LoadStageData("WaterTest");
+        NormalStageData WaterTestData = new NormalStageData(WaterTestMetadata);
+        NormalStageScore WaterTestScore = new NormalStageScore();
+        NormalStageHandler WaterTest = new NormalStageHandler(WaterTestScore, WaterTestData);
+        Stages.Add("WaterTest", WaterTest);
+
+        ////OilTankTest
+        //StageMetaData OilTankTestMetadata = GameFactory.GetDataFactory().LoadStageData("OilTankTest");
+        //NormalStageData OilTankTestData = new NormalStageData(OilTankTestMetadata);
+        //NormalStageScore OilTankTestScore = new NormalStageScore();
+        //NormalStageHandler OilTankTest = new NormalStageHandler(OilTankTestScore, OilTankTestData);
+        //Stages.Add("OilTankTest", OilTankTest);
+
+
+
+
+    }
+
+
+    /// <summary>
+    /// 临时从文件中读取并加载目标关卡数据
+    /// </summary>
+    /// <param name="stageName"></param>
+    /// <returns></returns>
+    private NormalStageHandler AutoFindAndLoadStageData(string stageName)
+    {
+        StageMetaData StageMetadata = GameFactory.GetDataFactory().LoadStageData(stageName);
+        NormalStageData StageData = new NormalStageData(StageMetadata);
+        NormalStageScore StageScore = new NormalStageScore();
+        NormalStageHandler NewStage = new NormalStageHandler(StageScore, StageData);
+        return NewStage;
     }
 
 
@@ -196,7 +241,11 @@ public class StageSystem : IGameSystem
             m_NowStageHandler = Stages[stageName];
             m_NowStageHandler.Start();
         }
-        else Debug.Log("关卡不存在");
+        else
+        {
+            m_NowStageHandler = AutoFindAndLoadStageData(stageName);
+            m_NowStageHandler.Start();
+        }
     }
 
     /// <summary>

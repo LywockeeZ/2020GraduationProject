@@ -6,11 +6,13 @@ public class Ground : IState
 {
     private bool canWalk = true;
     private bool canBeFire = true;
+    private ENUM_StateBeFiredType _beFiredType = ENUM_StateBeFiredType.BeFire;
 
     public Ground(BaseUnit owner) : base(owner)
     {
         stateType = ENUM_State.Ground;
         _stateName = "Ground";
+        beFiredType = _beFiredType;
         OnStateBegin();
     }
 
@@ -18,7 +20,6 @@ public class Ground : IState
     {
         Owner.SetCanWalk(canWalk);
         Owner.SetCanBeFire(canBeFire);
-        Owner.SetUpperType(ENUM_UpperUnitType.NULL);
     }
 
     public override void OnStateHandle()

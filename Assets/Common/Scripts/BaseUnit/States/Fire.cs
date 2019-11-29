@@ -4,17 +4,21 @@ using UnityEngine;
 
 public class Fire : IState
 {
+    //模型与模型生成高度增量
+    private GameObject model;
+    private float height = 0f;
+
+    //该状态私有属性
     private bool canWalk = true;
     private bool canBeFire = false;
-
-    private float height = 0f;
-    private GameObject model;
+    private ENUM_StateBeFiredType _beFiredType = ENUM_StateBeFiredType.False;
 
 
     public Fire(BaseUnit owner) : base(owner)
     {
         stateType = ENUM_State.Fire;
         _stateName = "Fire";
+        beFiredType = _beFiredType;
         OnStateBegin();
     }
 
@@ -24,12 +28,11 @@ public class Fire : IState
     {
         Owner.SetCanWalk(canWalk);
         Owner.SetCanBeFire(canBeFire);
-        Owner.SetUpperType(ENUM_UpperUnitType.NULL);
         //关卡记录火焰信息
         Owner.GetStage().fireUnits.Add(Owner);
+
         //对关卡回合更新事件进行注册
         RegisterEvent();
-
         SetFireModel();
     }
 
@@ -52,10 +55,10 @@ public class Fire : IState
 
     public override void OnStateHandle()
     {
-        ChangeToFireState(Owner.Up);
-        ChangeToFireState(Owner.Down);
-        ChangeToFireState(Owner.Left);
-        ChangeToFireState(Owner.Right);
+        Firing(Owner.Up);
+        Firing(Owner.Down);
+        Firing(Owner.Left);
+        Firing(Owner.Right);
         Owner.GetStage().isFireUpdateEnd = true;
     }
 
@@ -73,7 +76,7 @@ public class Fire : IState
 
 
 
-
+    //加载火焰模型
     private void SetFireModel()
     {
         GameObject fireModel = Resources.Load("Prefabs/Fire") as GameObject;
@@ -86,27 +89,32 @@ public class Fire : IState
 
 
     //将目标单元设置成Fire状态
-    private void ChangeToFireState(BaseUnit targetUnit)
+    private void Firing(BaseUnit targetUnit)
     {
         if (targetUnit != null && targetUnit.CanBeFire)
         {
-            if (targetUnit.UpperGameObject != null)
+            if (targetUnit.UpperGameObject != null && targetUnit.UpperUnit.Type != ENUM_UpperUnit.Player)
             {
-                if (targetUnit.UpperType == ENUM_UpperUnitType.Fixed)
+                //判断上层单元是否为可燃类型
+                if (targetUnit.UpperUnit.BeFiredType == ENUM_UpperUnitBeFiredType.BeFire)
                 {
-                    targetUnit.UpperGameObject.GetComponent<IFixedUnit>().HandleByFire();
+                    targetUnit.UpperGameObject.GetComponent<ICanBeFiredUnit>().HandleByFire();
                 }
             }
             else
             {
-                if (targetUnit.myState.stateType == ENUM_State.Oil)
+                if (targetUnit.State.beFiredType == ENUM_StateBeFiredType.BeHandle)
                 {
-                    targetUnit.myState.OnStateHandle();
+                    targetUnit.StateRequest();
                 }
                 else
+                if (targetUnit.State.beFiredType == ENUM_StateBeFiredType.BeFire)
                 {
-                    targetUnit.myState.OnStateEnd();
-                    targetUnit.SetState(new Fire(targetUnit));
+                    targetUnit.StateEnd();
+                    if (targetUnit.UpperUnit.Type != ENUM_UpperUnit.Player)
+                    {
+                        targetUnit.SetState(new Fire(targetUnit));
+                    }
                 }
             }
 

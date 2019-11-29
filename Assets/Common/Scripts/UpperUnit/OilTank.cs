@@ -2,61 +2,77 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit
+public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
 {
     public BaseUnit CurrentOn { get { return _currentOn; } set { _currentOn = value; } }
-    public float Height { get { return _heigth; } set { _heigth = value; } }
-    public bool CanBeFire { get { return _canBeFire; } set { _canBeFire = value; } }
+    public float    Height    { get { return _heigth   ; } set { _heigth    = value; } }
+    public bool     CanBeFire { get { return _canBeFire; } set { _canBeFire = value; } }
+
+    private ENUM_UpperUnit Type = ENUM_UpperUnit.OilTank;                             //放置单元的类型
+    private ENUM_UpperUnitControlType ControlType = ENUM_UpperUnitControlType.Fixed;  //放置单元的操控类型
+    private ENUM_UpperUnitBeFiredType BeFiredType = ENUM_UpperUnitBeFiredType.BeFire; 
 
     public Animator animator;
 
     private BaseUnit _currentOn;
-    private float _heigth = 0f;
-    private bool _canBeFire = true;
+    private float    _heigth = 0f;
+    private bool     _canBeFire = true;
+
+
 
     private void Start()
     {
         Init();
     }
 
+
+
     public void Init()
     {
         //初始化状态
-        //_currentOn.myState.OnStateEnd();
-        //_currentOn.SetState(new Ground(_currentOn));
-        _currentOn.SetUpperType(ENUM_UpperUnitType.Fixed);
+        _currentOn.UpperUnit = new UpperUnit(Type, ControlType, BeFiredType);
         _currentOn.SetUpperGameObject(gameObject);
+        _currentOn.SetCanBeFire(_canBeFire);
 
         transform.position = SetTargetPos(transform.position);
-
         animator = transform.GetChild(0).GetComponent<Animator>();
 
     }
 
 
+
     public void Handle()
     {
-        GameManager.Instance.ReducePoints(1, 0);
-        _currentOn.myState.OnStateEnd();
+        Game.Instance.CostAP(1, 0);
+
+        _currentOn.StateEnd();
         _currentOn.SetState(new Oil(_currentOn));
+
         SetAroundToOil();
         if (animator != null) animator.SetTrigger("Break");
+
         End();
     }
+
+
 
     public void HandleByFire()
     {
         _currentOn.SetState(new Fire(_currentOn));
-        GameManager.Instance.StartCoroutine(BoomAccess());
+        CoroutineManager.StartCoroutine(BoomAccess());
+
         if (animator != null) animator.SetTrigger("Break");
+
         End();
     }
 
+
+
     public void End()
     {
-        _currentOn.SetUpperType(ENUM_UpperUnitType.NULL);
-        //GameObject.Destroy(gameObject);
+        _currentOn.UpperUnit.InitOrReset();
     }
+
 
 
     //将单元的高度转换为模型高度
@@ -64,6 +80,8 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit
     {
         return new Vector3(_targetPos.x, _heigth, _targetPos.z);
     }
+
+
 
     private void SetAroundToOil()
     {
@@ -94,47 +112,59 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit
         }
 
 
-        //SetTargetToOil(_currentOn.Up);
-        //SetTargetToOil(_currentOn.Down);
-        //SetTargetToOil(_currentOn.Left);
-        //SetTargetToOil(_currentOn.Right);
     }
+
+
 
     private void SetTargetToOil(BaseUnit targetUnit)
     {
         if (targetUnit != null &&
-            (targetUnit.myState.stateType == ENUM_State.Ground || targetUnit.myState.stateType == ENUM_State.Water || targetUnit.myState.stateType == ENUM_State.Block))
+            (targetUnit.State.stateType == ENUM_State.Ground || targetUnit.State.stateType == ENUM_State.Water || targetUnit.State.stateType == ENUM_State.Block))
         {
-            targetUnit.myState.OnStateEnd();
+            targetUnit.StateEnd();
             targetUnit.SetState(new Oil(targetUnit));
         }
     }
 
+
+
+
     private void SetTargetToFire(BaseUnit targetUnit)
     {
-        if (targetUnit != null)
+        if (targetUnit.UpperGameObject != null)
         {
-            if (targetUnit.UpperType == ENUM_UpperUnitType.NULL)
+            if (targetUnit.UpperUnit.BeFiredType != ENUM_UpperUnitBeFiredType.BeFire)
             {
-                if (targetUnit.myState.stateType != ENUM_State.Block)
-                {
-                    targetUnit.myState.OnStateEnd();
-                    targetUnit.SetState(new Fire(targetUnit));
-                }
+                return;
             }
             else
-            if (targetUnit.UpperType == ENUM_UpperUnitType.Fixed)
+            if (targetUnit.UpperUnit.BeFiredType == ENUM_UpperUnitBeFiredType.BeFire)
             {
-                targetUnit.UpperGameObject.GetComponent<IFixedUnit>().HandleByFire();
+                targetUnit.UpperGameObject.GetComponent<ICanBeFiredUnit>().HandleByFire();
             }
             else
-            if (targetUnit.UpperType == ENUM_UpperUnitType.Movable)
+            if (targetUnit.UpperUnit.Type == ENUM_UpperUnit.Player)
             {
-                targetUnit.myState.OnStateEnd();
+                targetUnit.StateEnd();
                 targetUnit.SetState(new Block(targetUnit));
             }
         }
+        else
+        {
+            if (targetUnit.State.beFiredType == ENUM_StateBeFiredType.BeFire)
+            {
+                targetUnit.StateEnd();
+                targetUnit.SetState(new Fire(targetUnit));
+            }
+            else
+            if (targetUnit.State.beFiredType == ENUM_StateBeFiredType.BeHandle)
+            {
+                targetUnit.StateRequest();
+            }
+        }
     }
+
+
 
 
     private void Boom()
@@ -146,6 +176,8 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit
         }
     }
 
+
+
     private void FireSpread()
     {
         List<BaseUnit> units = GetBoomRangeAdditionAround();
@@ -154,9 +186,9 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit
         {
             if (unit != null)
             {
-                if (unit.UpperType == ENUM_UpperUnitType.NULL)
+                if (unit.UpperUnit.Type == ENUM_UpperUnit.NULL)
                 {
-                    if (unit.myState.stateType == ENUM_State.Fire)
+                    if (unit.State.stateType == ENUM_State.Fire)
                     {
                         FireNeighbor.Add(unit);
                     }
@@ -165,10 +197,13 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit
         }
         foreach (var unit in FireNeighbor)
         {
-            unit.myState.OnStateHandle();
+            unit.StateRequest();
         }
-
+        _currentOn.GetStage().isOilUpdateEnd = true;
     }
+
+
+
 
     //获取爆炸范围的信息
     private List<BaseUnit> GetBoomRangeAround()
@@ -201,6 +236,8 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit
         else units.Add(null);
         return units;
     }
+
+
 
     //爆炸范围外围信息
     private List<BaseUnit> GetBoomRangeAdditionAround()
@@ -247,12 +284,15 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit
         return units;
     }
 
+
+
     IEnumerator BoomAccess()
     {
+        _currentOn.GetStage().isOilUpdateEnd = false;
         yield return new WaitForSeconds(0.1f);
         Boom();
         yield return new WaitForSeconds(1f);
         FireSpread();
-        GameManager.Instance.StopCoroutine(BoomAccess());
+        CoroutineManager.StopCoroutine(BoomAccess());
     }
 }

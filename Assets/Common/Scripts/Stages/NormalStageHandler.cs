@@ -49,7 +49,8 @@ public class NormalStageHandler : IStageHandler
         Game.Instance.RegisterEvent(ENUM_GameEvent.RoundBegain,
         OnRoundBegain = (Message evt) =>
         {
-            Debug.Log("Rounds:" + Rounds);
+            //这里委托里的Rounds与类中的的Rounds并不是同一个，这里的是被封装到委托方法中去的
+            //Debug.Log("Rounds:" + Rounds);
             GUIManager.Instance.SetRoundsText(Rounds++);
         });
 
@@ -84,9 +85,9 @@ public class NormalStageHandler : IStageHandler
 
     public override void Update()
     {
-        Debug.Log("AP:"+Game.Instance.GetCurrentAP());
-        Debug.Log("IsCanInput:"+Game.Instance.GetCanInput());
-        Debug.Log("FireCounts: " + m_StatgeData.GetFireCounts());
+        //Debug.Log("AP:"+Game.Instance.GetCurrentAP());
+        //Debug.Log("IsCanInput:"+Game.Instance.GetCanInput());
+        //Debug.Log("FireCounts: " + m_StatgeData.GetFireCounts());
 
         //判断回合是否结束
         m_StageScore.CheckRound();

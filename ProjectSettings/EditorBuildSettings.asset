@@ -12,9 +12,12 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 002df0dd917824a48bef4651afb3fb3d
   - enabled: 1
-    path: "Assets/Common/Scenes/\u7B2C2\u5173.unity"
+    path: Assets/Common/Scenes/OilTest.unity
     guid: 0aef1ceef1c95ed4cb7c139de4faf597
   - enabled: 1
     path: Assets/Common/Scenes/LoadingScreen.unity
     guid: 87d7591877e97114ab7c8510aee02058
+  - enabled: 1
+    path: Assets/Common/Scenes/FireTest.unity
+    guid: 584c12ef28fb2504e8c5e4fcf8b9f556
   m_configObjects: {}

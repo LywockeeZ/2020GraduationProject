@@ -5,13 +5,17 @@ using UnityEngine;
 public class RoadBlock : MonoBehaviour, IUpperUnit, IFixedUnit
 {
     public BaseUnit CurrentOn { get { return _currentOn; } set { _currentOn = value; } }
-    public float Height { get { return _heigth; } set { _heigth = value; } }
-    public bool CanBeFire { get { return _canBeFire; } set { _canBeFire = value; } }
+    public float    Height    { get { return _heigth   ; } set { _heigth    = value; } }
+    public bool     CanBeFire { get { return _canBeFire; } set { _canBeFire = value; } }
+
+    private ENUM_UpperUnit            Type        = ENUM_UpperUnit.RoadBlock;         //放置单元的类型
+    private ENUM_UpperUnitControlType ControlType = ENUM_UpperUnitControlType.Fixed;  //放置单元的操控类型
+    private ENUM_UpperUnitBeFiredType BeFiredType = ENUM_UpperUnitBeFiredType.NULL;   
 
     //该单元的私有属性
     private BaseUnit _currentOn;
-    private float _heigth = 0f;
-    private bool _canBeFire = false;
+    private float    _heigth = 0f;
+    private bool     _canBeFire = false;
 
     private void Start()
     {
@@ -21,9 +25,9 @@ public class RoadBlock : MonoBehaviour, IUpperUnit, IFixedUnit
 
     public void Init()
     {
-        _currentOn.myState.OnStateEnd();
+        _currentOn.StateEnd();
         _currentOn.SetState(new Ground(_currentOn));
-        _currentOn.SetUpperType(ENUM_UpperUnitType.Fixed);
+        _currentOn.UpperUnit = new UpperUnit(Type, ControlType, BeFiredType);
         _currentOn.SetUpperGameObject(gameObject);
         _currentOn.SetCanBeFire(_canBeFire);
 
