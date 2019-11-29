@@ -23,7 +23,7 @@ public class InputManager : MonoBehaviour
 
     private void InputProcess()
     {
-        //MouseInput();
+        MouseInput();
         KeyboardInput();
     }
 
