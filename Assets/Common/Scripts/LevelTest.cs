@@ -11,21 +11,23 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class LevelTest : MonoBehaviour
 {
+    private bool StageStart = false;
+
     private void Awake()
     {
         Game.Instance.Initinal();
         DontDestroyOnLoad(gameObject);
     }
-    void Start()
-    {
-        Game.Instance.NotifyEvent(ENUM_GameEvent.StageBegain, SceneManager.GetActiveScene().name);
-    }
 
     void Update()
     {
+        if (!StageStart)
+        {
+            Game.Instance.NotifyEvent(ENUM_GameEvent.StageBegain, SceneManager.GetActiveScene().name);
+            StageStart = true;
+        }
         Game.Instance.Updata();
     }
-
 
 
 

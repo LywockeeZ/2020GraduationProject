@@ -61,9 +61,10 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
         _currentOn.SetState(new Fire(_currentOn));
         CoroutineManager.StartCoroutine(BoomAccess());
 
+        End();
+
         if (animator != null) animator.SetTrigger("Break");
 
-        End();
     }
 
 
@@ -131,36 +132,40 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
 
     private void SetTargetToFire(BaseUnit targetUnit)
     {
-        if (targetUnit.UpperGameObject != null)
+        if (targetUnit != null)
         {
-            if (targetUnit.UpperUnit.BeFiredType != ENUM_UpperUnitBeFiredType.BeFire)
+            if (targetUnit.UpperUnit.Type != ENUM_UpperUnit.NULL)
             {
-                return;
+                if (targetUnit.UpperUnit.BeFiredType != ENUM_UpperUnitBeFiredType.BeFire)
+                {
+                    return;
+                }
+                else
+                if (targetUnit.UpperUnit.BeFiredType == ENUM_UpperUnitBeFiredType.BeFire)
+                {
+                    targetUnit.UpperGameObject.GetComponent<ICanBeFiredUnit>().HandleByFire();
+                }
+                else
+                if (targetUnit.UpperUnit.Type == ENUM_UpperUnit.Player)
+                {
+                    targetUnit.StateEnd();
+                    targetUnit.SetState(new Block(targetUnit));
+                }
             }
             else
-            if (targetUnit.UpperUnit.BeFiredType == ENUM_UpperUnitBeFiredType.BeFire)
             {
-                targetUnit.UpperGameObject.GetComponent<ICanBeFiredUnit>().HandleByFire();
+                if (targetUnit.State.beFiredType == ENUM_StateBeFiredType.BeFire)
+                {
+                    targetUnit.StateEnd();
+                    targetUnit.SetState(new Fire(targetUnit));
+                }
+                else
+                if (targetUnit.State.beFiredType == ENUM_StateBeFiredType.BeHandle)
+                {
+                    targetUnit.StateRequest();
+                }
             }
-            else
-            if (targetUnit.UpperUnit.Type == ENUM_UpperUnit.Player)
-            {
-                targetUnit.StateEnd();
-                targetUnit.SetState(new Block(targetUnit));
-            }
-        }
-        else
-        {
-            if (targetUnit.State.beFiredType == ENUM_StateBeFiredType.BeFire)
-            {
-                targetUnit.StateEnd();
-                targetUnit.SetState(new Fire(targetUnit));
-            }
-            else
-            if (targetUnit.State.beFiredType == ENUM_StateBeFiredType.BeHandle)
-            {
-                targetUnit.StateRequest();
-            }
+
         }
     }
 

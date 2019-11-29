@@ -25,7 +25,7 @@ public class GUIManager : Singleton<GUIManager>
         base.Awake();
     }
 
-    protected virtual void OnEnable()
+    protected virtual void Start()
     {
         RegisterEvent();
     }
@@ -122,7 +122,7 @@ public class GUIManager : Singleton<GUIManager>
 
     public void SetEndText(string content)
     {
-        RoundsText.text = content;
+        EndText.text = content;
     }
 
     #endregion
