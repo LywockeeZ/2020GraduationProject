@@ -67,6 +67,17 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
 
     }
 
+    /// <summary>
+    /// 自由移动时使用，移动到目标位置
+    /// </summary>
+    /// <param name="m_targetPos"></param>
+    public void Move(Vector3 m_targetPos)
+    {
+        targetPos = SetTargetPos(m_targetPos);
+        _moveSpeed = 2f;
+        _isMoving = true;
+    }
+
 
     //执行具体的移动过程
     private void MoveProcess()

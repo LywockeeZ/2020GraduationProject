@@ -104,6 +104,7 @@ public class GameUnitFactory : IGameUnitFactory
                 Player _playerUnit;
                 _playerUnit = playerObject.AddComponent<Player>();
                 _playerUnit.CurrentOn = targetUnit;
+                Game.Instance.SetPlayerUnit(_playerUnit);
                 return playerObject;
 
             case ENUM_Build_UpperUnit.Survivor:

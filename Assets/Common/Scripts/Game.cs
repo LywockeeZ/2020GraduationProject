@@ -27,6 +27,7 @@ public class Game
 
     private bool m_canInput = false;
     private bool m_isGameOver = false;
+    private Player playerUnit = null;
 
 
 
@@ -163,6 +164,16 @@ public class Game
     public void LoadNextLevel()
     {
         m_StageSystem.LoadNextLevel();
+    }
+
+    public void SetPlayerUnit(Player m_playerUnit)
+    {
+        playerUnit = m_playerUnit;
+    }
+
+    public Player GetPlayerUnit()
+    {
+        return playerUnit;
     }
 
     #endregion
