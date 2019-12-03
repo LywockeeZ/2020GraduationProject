@@ -122,7 +122,7 @@ Material:
     - _MirrorOnBack: 0
     - _Mode: 0
     - _OcclusionStrength: 1
-    - _Outline: 0.05
+    - _Outline: 0.01
     - _Parallax: 0.02
     - _Rotation: 0
     - _SmoothnessTextureChannel: 0
