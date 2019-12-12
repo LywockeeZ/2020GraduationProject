@@ -73,7 +73,10 @@
         StageRestart,
 
         LoadSceneStart,
-        LoadSceneComplete
+        LoadSceneComplete,
+
+        TeachingUIOn,
+        TeachingUIOff
     }
 
     public enum ENUM_Build_BaseUnit

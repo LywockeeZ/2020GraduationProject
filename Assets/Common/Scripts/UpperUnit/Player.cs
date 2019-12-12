@@ -29,13 +29,17 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
 
     private void Start()
     {
-        Init();
+        //对输入事件注册
+        InputManager.InputEvent += Move;
     }
 
 
     private void Update()
     {
-        MoveProcess();
+        if (!Game.Instance.GetCanFreeMove())
+        {
+            MoveProcess();
+        }
     }
 
 
@@ -51,8 +55,7 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
         transform.position = SetTargetPos(transform.position);
         targetPos = SetTargetPos(transform.position);
         lookdir = - transform.forward;
-        //对输入事件注册
-        InputManager.InputEvent += Move;
+
         _isMoving = false;
     }
 

@@ -95,6 +95,7 @@ public class Dispatcher : IDispatcher
             catch (System.Exception e)
             {
                 Debug.Log("SendMessage:" + "," + evt.Type.ToString() + "," + e.Message + "," + e.StackTrace + "," + e);
+                throw e;
             }
 
         }

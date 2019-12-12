@@ -140,5 +140,12 @@ public class GUIManager : Singleton<GUIManager>
         Game.Instance.NotifyEvent(ENUM_GameEvent.RoundUpdateBegain, null);
     }
 
+    public void CloseAll()
+    {
+        StartScreen.SetActive(false);
+        GameScreen.SetActive(false);
+        EndScreen.SetActive(false);
+    }
+
     #endregion
 }

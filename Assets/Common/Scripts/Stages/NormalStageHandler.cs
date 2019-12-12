@@ -7,6 +7,9 @@ using UnityEngine;
 /// </summary>
 public class NormalStageHandler : IStageHandler
 {
+    //构建关卡的初始位置
+    public int PosX = 0;
+    public int PosY = 0;
 
     //该关卡最大行动点数
     public int RoundActionPts = 3;
@@ -30,12 +33,14 @@ public class NormalStageHandler : IStageHandler
 
 
 
-    public NormalStageHandler(NormalStageScore StageScore, NormalStageData StageData)
+    public NormalStageHandler(NormalStageScore StageScore, NormalStageData StageData, int x, int y)
     {
         m_StageScore = StageScore;
         m_StatgeData = StageData;
         m_StageScore.SetStageHandler(this);     //设置其对当前关卡的引用
         m_StatgeData.SetStageHandler(this);
+        PosX = x;
+        PosY = y;
     }
 
 
@@ -110,7 +115,7 @@ public class NormalStageHandler : IStageHandler
     {
         Debug.Log("BuildStart");
         RegisterEvent();
-        m_StatgeData.BuildStage();
+        m_StatgeData.BuildStage(PosX, PosY);
         Game.Instance.SetMaxAP(RoundActionPts);
     }
 

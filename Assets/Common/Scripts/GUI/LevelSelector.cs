@@ -12,7 +12,7 @@ public class LevelSelector : MonoBehaviour
     public string levelName;
 
     /// <summary>
-    /// 跳转到inspector面板上输入的关卡
+    /// 使用Loading界面跳转到inspector面板上输入的关卡
     /// </summary>
     public virtual void GoToLevel()
     {
@@ -26,6 +26,11 @@ public class LevelSelector : MonoBehaviour
     {
         //Game.Instance.LoadLevel(SceneManager.GetActiveScene().name);
         Game.Instance.NotifyEvent(ENUM_GameEvent.StageRestart, null);
+    }
+
+    public virtual void StartNextStage()
+    {
+        Game.Instance.NotifyEvent(ENUM_GameEvent.StageBegain,null);
     }
 
 }

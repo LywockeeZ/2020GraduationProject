@@ -105,6 +105,7 @@ GameObject:
   - component: {fileID: 7695891443792831433}
   - component: {fileID: 4908151063474683950}
   - component: {fileID: 4366450443255207765}
+  - component: {fileID: 5405600220346841732}
   m_Layer: 0
   m_Name: crush_water1_0
   m_TagString: Untagged
@@ -119,13 +120,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5210340313332156831}
-  m_LocalRotation: {x: 0.053946726, y: 0.77547145, z: 0.42203358, w: -0.46649924}
-  m_LocalPosition: {x: -0.14526, y: 1.6, z: -0.012}
-  m_LocalScale: {x: 1.013839, y: 1.0509993, z: 1.4607669}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.14526, y: 1.2, z: -0.012}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 969111011388919142}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -44.820004, y: 252.90298, z: -25.923}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7695891443792831433
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -203,5 +204,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8358033fdfbe8bc4d80ba75fc2fe9f69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5405600220346841732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5210340313332156831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5a357c8ea1a48f43b95f3af8d851c6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

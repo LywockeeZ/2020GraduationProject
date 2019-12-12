@@ -26,6 +26,7 @@ public class Game
 
 
     private bool m_canInput = false;
+    private bool m_canFreeMove = false;
     private bool m_isGameOver = false;
     private Player playerUnit = null;
 
@@ -96,6 +97,16 @@ public class Game
     public bool GetCanInput()
     {
         return m_canInput;
+    }
+
+    public void SetCanFreeMove(bool value)
+    {
+        m_canFreeMove = value;
+    }
+
+    public bool GetCanFreeMove()
+    {
+        return m_canFreeMove;
     }
     #endregion
 

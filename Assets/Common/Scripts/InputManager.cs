@@ -7,7 +7,6 @@ public class InputManager : MonoBehaviour
     public delegate void mydelegate(ENUM_InputEvent inputEvent);
     public static event mydelegate InputEvent;
 
-    public bool canFreeMove = false;
 
     void Start()
     {
@@ -17,7 +16,7 @@ public class InputManager : MonoBehaviour
 
     void Update()
     {
-        if (Game.Instance.GetCanInput() || canFreeMove)
+        if (Game.Instance.GetCanInput() || Game.Instance.GetCanFreeMove())
         {
             InputProcess();
         }
@@ -26,7 +25,7 @@ public class InputManager : MonoBehaviour
     private void InputProcess()
     {
         MouseInput();
-        if (!canFreeMove)
+        if (!Game.Instance.GetCanFreeMove())
         {
             KeyboardInput();
         }
@@ -38,13 +37,12 @@ public class InputManager : MonoBehaviour
         //鼠标操作,按键弹起时进入
         if (Input.GetMouseButtonUp(0) == false)
             return;
-
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hitInfo, 200f, 1 << LayerMask.NameToLayer("BaseUnit")))
         {
             Vector3 clickedPos = hitInfo.transform.position;
 
-            if (!canFreeMove)
+            if (!Game.Instance.GetCanFreeMove())
             {
                 if (Game.Instance.GetPlayerUnit().CurrentOn.Up != null)
                 {

@@ -103,12 +103,12 @@ public class NormalStageData : IStageData
     /// <summary>
     /// 依据元数据，按坐标构建关卡
     /// </summary>
-    public override void BuildStage()
+    public override void BuildStage(int startPosX, int startPosY)
     {
         IGameUnitFactory m_GameUnitFactory = GameFactory.GetGameUnitFactory();
 
         Units = new GameObject("Units");
-        Units.transform.position = Vector3.zero;
+        Units.transform.position = new Vector3(startPosX, 0, startPosY);
 
         //单元坐标
         int x = 0;
@@ -118,7 +118,7 @@ public class NormalStageData : IStageData
             for (int j = 0; j <= Column - 1; j++)
             {
                 BaseUnit targetUnit = m_GameUnitFactory.BuildBaseUnit(this,
-                        (ENUM_Build_BaseUnit)StageData[0, i, j], x, y, Units);
+                        (ENUM_Build_BaseUnit)StageData[0, i, j], x, y, Units, startPosX, startPosY);
 
                 GameObject targetUpperUnit = m_GameUnitFactory.BuildUpperUnit(this,
                         (ENUM_Build_UpperUnit)StageData[1, i, j], targetUnit);

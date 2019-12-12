@@ -12,7 +12,7 @@ public class GameUnitFactory : IGameUnitFactory
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <returns></returns>
-    public override BaseUnit BuildBaseUnit(NormalStageData currentStageData, ENUM_Build_BaseUnit baseType, int x, int y, GameObject parent)
+    public override BaseUnit BuildBaseUnit(NormalStageData currentStageData, ENUM_Build_BaseUnit baseType, int x, int y, GameObject parent, int startPosX, int startPosY)
     {
         //如果枚举值为0则返回空
         if (baseType == ENUM_Build_BaseUnit.Null)
@@ -21,7 +21,7 @@ public class GameUnitFactory : IGameUnitFactory
         IAssetFactory m_AssetFactory = GameFactory.GetAssetFactory();
 
         //x,y坐标分别对应世界坐标下的x，z轴
-        GameObject baseUnitObject = m_AssetFactory.LoadModel("BaseUnit", new Vector3(x, 0, y));
+        GameObject baseUnitObject = m_AssetFactory.LoadModel("BaseUnit", new Vector3(x + startPosX, 0, y + startPosY));
         //给所有基本单元设置一个父物体
         baseUnitObject.transform.SetParent(parent.transform);
         BaseUnit baseUnit = new BaseUnit(baseUnitObject, currentStageData);
@@ -100,10 +100,19 @@ public class GameUnitFactory : IGameUnitFactory
                 return waterTankObject;
 
             case ENUM_Build_UpperUnit.Player:
-                GameObject playerObject = m_AssetFactory.LoadModel("Player", targetUnit.Model.transform.position);
+                GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
                 Player _playerUnit;
-                _playerUnit = playerObject.AddComponent<Player>();
+                if (playerObject == null)
+                {
+                    playerObject = m_AssetFactory.LoadModel("Player", targetUnit.Model.transform.position);
+                    _playerUnit = playerObject.AddComponent<Player>();
+                }
+                else
+                {
+                    _playerUnit = playerObject.GetComponent<Player>();
+                }
                 _playerUnit.CurrentOn = targetUnit;
+                _playerUnit.Init();
                 Game.Instance.SetPlayerUnit(_playerUnit);
                 return playerObject;
 
