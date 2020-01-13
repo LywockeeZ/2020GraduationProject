@@ -13,6 +13,7 @@ public class WaterTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
     private ENUM_UpperUnitBeFiredType BeFiredType = ENUM_UpperUnitBeFiredType.BeFire;  
 
     public Animator animator;
+    private BrokeEvent brokeEvent;
 
     private BaseUnit _currentOn;
     private float    _heigth    = 0f;
@@ -37,6 +38,7 @@ public class WaterTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
         transform.position = SetTargetPos(transform.position);
 
         animator = transform.GetChild(0).GetComponent<Animator>();
+        brokeEvent = transform.GetChild(0).GetComponent<BrokeEvent>();
     }
 
 
@@ -51,6 +53,7 @@ public class WaterTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
         }
         SetAroundToWater();
         if (animator != null) animator.SetTrigger("Break");
+        brokeEvent.Broken();
         End();
     }
 
@@ -60,6 +63,7 @@ public class WaterTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
         _currentOn.SetState(new Water(_currentOn));
         SetAroundToWater();
         if (animator != null) animator.SetTrigger("Break");
+        brokeEvent.Broken();
         End();
     }
 

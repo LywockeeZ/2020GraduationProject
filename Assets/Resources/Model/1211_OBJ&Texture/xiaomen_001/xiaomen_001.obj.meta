@@ -4,31 +4,14 @@ ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
-    100002: xiaomen_001:polySurface22_xiaomen_001:polySurface1074_xiaomen_001:polySurface1075_guanqia2:guanqia2:polySurface1117
-    100004: xiaomen_001:polySurface22_xiaomen_001:polySurface1074_xiaomen_001:polySurface1076_guanqia2:guanqia2:polySurface1117
-    100006: xiaomen_001:polySurface22_xiaomen_001:polySurface1074_xiaomen_001:polySurface1077_guanqia2:guanqia2:polySurface1117
-    100008: xiaomen_001:polySurface22_xiaomen_001:polySurface1074_xiaomen_001:polySurface1078_guanqia2:guanqia2:polySurface1117
+    100002: ZBrushPolyMesh3D
     400000: //RootNode
-    400002: xiaomen_001:polySurface22_xiaomen_001:polySurface1074_xiaomen_001:polySurface1075_guanqia2:guanqia2:polySurface1117
-    400004: xiaomen_001:polySurface22_xiaomen_001:polySurface1074_xiaomen_001:polySurface1076_guanqia2:guanqia2:polySurface1117
-    400006: xiaomen_001:polySurface22_xiaomen_001:polySurface1074_xiaomen_001:polySurface1077_guanqia2:guanqia2:polySurface1117
-    400008: xiaomen_001:polySurface22_xiaomen_001:polySurface1074_xiaomen_001:polySurface1078_guanqia2:guanqia2:polySurface1117
-    2100000: xiaomen_001_polySurface22_xiaomen_001_polySurface1074_xiaomen_001_polySurface1075_guanqia2_guanqia2_polySurface1117Mat
-    2100002: xiaomen_001_polySurface22_xiaomen_001_polySurface1074_xiaomen_001_polySurface1076_guanqia2_guanqia2_polySurface1117Mat
-    2100004: xiaomen_001_polySurface22_xiaomen_001_polySurface1074_xiaomen_001_polySurface1077_guanqia2_guanqia2_polySurface1117Mat
-    2100006: xiaomen_001_polySurface22_xiaomen_001_polySurface1074_xiaomen_001_polySurface1078_guanqia2_guanqia2_polySurface1117Mat
-    2300000: xiaomen_001:polySurface22_xiaomen_001:polySurface1074_xiaomen_001:polySurface1075_guanqia2:guanqia2:polySurface1117
-    2300002: xiaomen_001:polySurface22_xiaomen_001:polySurface1074_xiaomen_001:polySurface1076_guanqia2:guanqia2:polySurface1117
-    2300004: xiaomen_001:polySurface22_xiaomen_001:polySurface1074_xiaomen_001:polySurface1077_guanqia2:guanqia2:polySurface1117
-    2300006: xiaomen_001:polySurface22_xiaomen_001:polySurface1074_xiaomen_001:polySurface1078_guanqia2:guanqia2:polySurface1117
-    3300000: xiaomen_001:polySurface22_xiaomen_001:polySurface1074_xiaomen_001:polySurface1075_guanqia2:guanqia2:polySurface1117
-    3300002: xiaomen_001:polySurface22_xiaomen_001:polySurface1074_xiaomen_001:polySurface1076_guanqia2:guanqia2:polySurface1117
-    3300004: xiaomen_001:polySurface22_xiaomen_001:polySurface1074_xiaomen_001:polySurface1077_guanqia2:guanqia2:polySurface1117
-    3300006: xiaomen_001:polySurface22_xiaomen_001:polySurface1074_xiaomen_001:polySurface1078_guanqia2:guanqia2:polySurface1117
-    4300000: xiaomen_001:polySurface22_xiaomen_001:polySurface1074_xiaomen_001:polySurface1075_guanqia2:guanqia2:polySurface1117
-    4300002: xiaomen_001:polySurface22_xiaomen_001:polySurface1074_xiaomen_001:polySurface1076_guanqia2:guanqia2:polySurface1117
-    4300004: xiaomen_001:polySurface22_xiaomen_001:polySurface1074_xiaomen_001:polySurface1077_guanqia2:guanqia2:polySurface1117
-    4300006: xiaomen_001:polySurface22_xiaomen_001:polySurface1074_xiaomen_001:polySurface1078_guanqia2:guanqia2:polySurface1117
+    400002: ZBrushPolyMesh3D
+    2100000: ZBrushPolyMesh3DMat
+    2300000: ZBrushPolyMesh3D
+    3300000: ZBrushPolyMesh3D
+    4300000: ZBrushPolyMesh3D
+    2186277476908879412: ImportLogs
   externalObjects: {}
   materials:
     importMaterials: 1

@@ -12,7 +12,7 @@ public class NormalStageHandler : IStageHandler
     public int PosY = 0;
 
     //该关卡最大行动点数
-    public int RoundActionPts = 3;
+    public int RoundActionPts = 4;
     public int Rounds = 1;
 
 
@@ -56,7 +56,7 @@ public class NormalStageHandler : IStageHandler
         {
             //这里委托里的Rounds与类中的的Rounds并不是同一个，这里的是被封装到委托方法中去的
             //Debug.Log("Rounds:" + Rounds);
-            GUIManager.Instance.SetRoundsText(Rounds++);
+            //GUIManager.Instance.SetRoundTagImage(Rounds++);
         });
 
     }

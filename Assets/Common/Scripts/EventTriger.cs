@@ -46,6 +46,7 @@ public class EventTriger : MonoBehaviour
         {
             other.transform.gameObject.GetComponent<ClickToMove>().enabled = false;
             other.transform.gameObject.GetComponent<NavMeshAgent>().enabled = false;
+            GUIManager.Instance.BattleUI.SetActive(true);
         }
         else Game.Instance.NotifyEvent(ENUM_GameEvent.StageEnd, null);
         GUIManager.Instance.CloseAll();

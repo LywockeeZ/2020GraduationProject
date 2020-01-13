@@ -43,8 +43,9 @@ public class APSystem : IGameSystem
         delegate (Message evt)
         {
             ResetActionPoints();
-            GUIManager.Instance.SetAPText(GetCurrentAP());
-            GUIManager.Instance.SetCostAPText(CostTotalPts);
+            GUIManager.Instance.SetAPBarImage(GetCurrentAP());
+            //GUIManager.Instance.SetAPText(GetCurrentAP());
+            //GUIManager.Instance.SetCostAPText(CostTotalPts);
         });
 
     }
@@ -71,8 +72,10 @@ public class APSystem : IGameSystem
             CostTotalPts += additionValue;
         }
 
-        GUIManager.Instance.SetAPText(GetCurrentAP());
-        GUIManager.Instance.SetCostAPText(CostTotalPts);
+        //GUIManager.Instance.SetAPText(GetCurrentAP());
+        //GUIManager.Instance.SetCostAPText(CostTotalPts);
+        GUIManager.Instance.SetAPBarImage(GetCurrentAP());
+
     }
 
 

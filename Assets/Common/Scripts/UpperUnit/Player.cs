@@ -25,12 +25,14 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
     private Vector3 targetPos;
     private Vector3 lookdir;
     private float _rotateSpeed = 10f;
+    private Animator m_Animator;
 
 
     private void Start()
     {
         //对输入事件注册
         InputManager.InputEvent += Move;
+        m_Animator = GetComponent<Animator>();
     }
 
 
@@ -39,7 +41,16 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
         if (!Game.Instance.GetCanFreeMove())
         {
             MoveProcess();
+
+            if (_isMoving == true )
+            {
+                m_Animator.SetFloat("Blend", 0);
+                m_Animator.SetBool("isWalking", true);
+            }
+            else m_Animator.SetBool("isWalking", false);
+
         }
+
     }
 
 
@@ -54,7 +65,7 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
 
         transform.position = SetTargetPos(transform.position);
         targetPos = SetTargetPos(transform.position);
-        lookdir = - transform.forward;
+        //lookdir = - transform.forward;
 
         _isMoving = false;
     }
@@ -85,7 +96,7 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
     //执行具体的移动过程
     private void MoveProcess()
     {
-        //transform.forward = Vector3.Slerp(transform.forward, lookdir, _rotateSpeed * Time.deltaTime);
+        transform.forward = Vector3.Slerp(transform.forward, lookdir, _rotateSpeed * Time.deltaTime);
         transform.position = Vector3.Lerp(transform.position, targetPos, _moveSpeed * Time.deltaTime);
 
         if (Vector3.Magnitude(transform.position - targetPos) < 0.1f)

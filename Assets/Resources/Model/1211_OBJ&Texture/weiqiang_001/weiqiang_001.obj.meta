@@ -3,20 +3,14 @@ guid: 063b32bfeabf5a84db367603906442c7
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: guanqia2:guanqia2:polySurface1110
-    100002: guanqia2:polySurface234_guanqia2:guanqia2:polySurface1110
-    100004: //RootNode
-    400000: guanqia2:guanqia2:polySurface1110
-    400002: guanqia2:polySurface234_guanqia2:guanqia2:polySurface1110
-    400004: //RootNode
-    2100000: guanqia2_guanqia2_polySurface1110Mat
-    2100002: guanqia2_polySurface234_guanqia2_guanqia2_polySurface1110Mat
-    2300000: guanqia2:guanqia2:polySurface1110
-    2300002: guanqia2:polySurface234_guanqia2:guanqia2:polySurface1110
-    3300000: guanqia2:guanqia2:polySurface1110
-    3300002: guanqia2:polySurface234_guanqia2:guanqia2:polySurface1110
-    4300000: guanqia2:guanqia2:polySurface1110
-    4300002: guanqia2:polySurface234_guanqia2:guanqia2:polySurface1110
+    100000: //RootNode
+    100002: ZBrushPolyMesh3D1
+    400000: //RootNode
+    400002: ZBrushPolyMesh3D1
+    2100000: ZBrushPolyMesh3D1Mat
+    2300000: ZBrushPolyMesh3D1
+    3300000: ZBrushPolyMesh3D1
+    4300000: ZBrushPolyMesh3D1
   externalObjects: {}
   materials:
     importMaterials: 1

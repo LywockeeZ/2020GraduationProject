@@ -3,32 +3,14 @@ guid: e72cbf59726c7fc47afc987d60d17453
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: xiaomen_002:polySurface22_xiaomen_002:polySurface1074_xiaomen_002:polySurface1075_xiaomen_002:polySurface1117_polySurface1082
-    100004: xiaomen_002:polySurface22_xiaomen_002:polySurface1074_xiaomen_002:polySurface1076_xiaomen_002:polySurface1117_polySurface1082
-    100006: xiaomen_002:polySurface22_xiaomen_002:polySurface1074_xiaomen_002:polySurface1077_xiaomen_002:polySurface1117_polySurface1082
-    100008: xiaomen_002:polySurface22_xiaomen_002:polySurface1074_xiaomen_002:polySurface1078_xiaomen_002:polySurface1117_polySurface1082
-    400000: //RootNode
-    400002: xiaomen_002:polySurface22_xiaomen_002:polySurface1074_xiaomen_002:polySurface1075_xiaomen_002:polySurface1117_polySurface1082
-    400004: xiaomen_002:polySurface22_xiaomen_002:polySurface1074_xiaomen_002:polySurface1076_xiaomen_002:polySurface1117_polySurface1082
-    400006: xiaomen_002:polySurface22_xiaomen_002:polySurface1074_xiaomen_002:polySurface1077_xiaomen_002:polySurface1117_polySurface1082
-    400008: xiaomen_002:polySurface22_xiaomen_002:polySurface1074_xiaomen_002:polySurface1078_xiaomen_002:polySurface1117_polySurface1082
-    2100000: xiaomen_002_polySurface22_xiaomen_002_polySurface1074_xiaomen_002_polySurface1075_xiaomen_002_polySurface1117_polySurface1082Mat
-    2100002: xiaomen_002_polySurface22_xiaomen_002_polySurface1074_xiaomen_002_polySurface1076_xiaomen_002_polySurface1117_polySurface1082Mat
-    2100004: xiaomen_002_polySurface22_xiaomen_002_polySurface1074_xiaomen_002_polySurface1077_xiaomen_002_polySurface1117_polySurface1082Mat
-    2100006: xiaomen_002_polySurface22_xiaomen_002_polySurface1074_xiaomen_002_polySurface1078_xiaomen_002_polySurface1117_polySurface1082Mat
-    2300000: xiaomen_002:polySurface22_xiaomen_002:polySurface1074_xiaomen_002:polySurface1075_xiaomen_002:polySurface1117_polySurface1082
-    2300002: xiaomen_002:polySurface22_xiaomen_002:polySurface1074_xiaomen_002:polySurface1076_xiaomen_002:polySurface1117_polySurface1082
-    2300004: xiaomen_002:polySurface22_xiaomen_002:polySurface1074_xiaomen_002:polySurface1077_xiaomen_002:polySurface1117_polySurface1082
-    2300006: xiaomen_002:polySurface22_xiaomen_002:polySurface1074_xiaomen_002:polySurface1078_xiaomen_002:polySurface1117_polySurface1082
-    3300000: xiaomen_002:polySurface22_xiaomen_002:polySurface1074_xiaomen_002:polySurface1075_xiaomen_002:polySurface1117_polySurface1082
-    3300002: xiaomen_002:polySurface22_xiaomen_002:polySurface1074_xiaomen_002:polySurface1076_xiaomen_002:polySurface1117_polySurface1082
-    3300004: xiaomen_002:polySurface22_xiaomen_002:polySurface1074_xiaomen_002:polySurface1077_xiaomen_002:polySurface1117_polySurface1082
-    3300006: xiaomen_002:polySurface22_xiaomen_002:polySurface1074_xiaomen_002:polySurface1078_xiaomen_002:polySurface1117_polySurface1082
-    4300000: xiaomen_002:polySurface22_xiaomen_002:polySurface1074_xiaomen_002:polySurface1075_xiaomen_002:polySurface1117_polySurface1082
-    4300002: xiaomen_002:polySurface22_xiaomen_002:polySurface1074_xiaomen_002:polySurface1076_xiaomen_002:polySurface1117_polySurface1082
-    4300004: xiaomen_002:polySurface22_xiaomen_002:polySurface1074_xiaomen_002:polySurface1077_xiaomen_002:polySurface1117_polySurface1082
-    4300006: xiaomen_002:polySurface22_xiaomen_002:polySurface1074_xiaomen_002:polySurface1078_xiaomen_002:polySurface1117_polySurface1082
+    100000: polySurface1441
+    100002: //RootNode
+    400000: polySurface1441
+    400002: //RootNode
+    2100000: polySurface1441Mat
+    2300000: polySurface1441
+    3300000: polySurface1441
+    4300000: polySurface1441
   externalObjects: {}
   materials:
     importMaterials: 1

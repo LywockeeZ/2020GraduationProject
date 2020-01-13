@@ -3,14 +3,14 @@ guid: f11e8c39cacdc9c498812277b5a625f7
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: stone_da_004:polySurface2
-    400000: //RootNode
-    400002: stone_da_004:polySurface2
-    2100000: stone_da_004_polySurface2Mat
-    2300000: stone_da_004:polySurface2
-    3300000: stone_da_004:polySurface2
-    4300000: stone_da_004:polySurface2
+    100000: polySurface2
+    100002: //RootNode
+    400000: polySurface2
+    400002: //RootNode
+    2100000: polySurface2Mat
+    2300000: polySurface2
+    3300000: polySurface2
+    4300000: polySurface2
   externalObjects: {}
   materials:
     importMaterials: 1

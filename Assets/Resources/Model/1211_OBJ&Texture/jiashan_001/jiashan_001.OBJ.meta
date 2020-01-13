@@ -4,13 +4,13 @@ ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
-    100002: jiashan_003:polySurface1
+    100002: polySurface1485
     400000: //RootNode
-    400002: jiashan_003:polySurface1
-    2100000: jiashan_003_polySurface1Mat
-    2300000: jiashan_003:polySurface1
-    3300000: jiashan_003:polySurface1
-    4300000: jiashan_003:polySurface1
+    400002: polySurface1485
+    2100000: polySurface1485Mat
+    2300000: polySurface1485
+    3300000: polySurface1485
+    4300000: polySurface1485
   externalObjects: {}
   materials:
     importMaterials: 1

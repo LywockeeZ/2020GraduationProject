@@ -12,10 +12,16 @@ public class GUIManager : Singleton<GUIManager>
     public GameObject GameScreen;
     public GameObject PauseScreen;
     public GameObject EndScreen;
+    public GameObject BattleUI;
+    public Image ap_Bar;
+    public Image round_Tag;
     public Text APText;
     public Text CostAPText;
     public Text RoundsText;
     public Text EndText;
+    public Image[] ap_Bars;
+    public Image[] round_Tags;
+    int Round = 0;
 
     /// <summary>
     /// 初始化
@@ -42,6 +48,7 @@ public class GUIManager : Singleton<GUIManager>
         Game.Instance.RegisterEvent(ENUM_GameEvent.StageBegain,
         OnStageBegain = (Message evt) =>
         {
+            Round = 0;
             StartScreen.SetActive(true);
         });
 
@@ -62,6 +69,8 @@ public class GUIManager : Singleton<GUIManager>
         Game.Instance.RegisterEvent(ENUM_GameEvent.RoundBegain,
         OnRoundBegain = (Message evt) =>
         {
+            Round++;
+            SetRoundTagImage(Round);
             GameScreen.SetActive(true);
         });
 
@@ -148,4 +157,26 @@ public class GUIManager : Singleton<GUIManager>
     }
 
     #endregion
+
+    public void SetAPBarImage(int ap)
+    {
+        ap_Bar.gameObject.SetActive(false);
+        ap_Bars[ap].gameObject.SetActive(true);
+        ap_Bar = ap_Bars[ap];
+    }
+
+    public void SetRoundTagImage(int round)
+    {
+        if (round <= 10)
+        {
+            round_Tag.gameObject.SetActive(false);
+            round_Tags[round].gameObject.SetActive(true);
+            round_Tag = round_Tags[round];
+        }
+        else
+        {
+            round_Tag.gameObject.SetActive(false);
+            round_Tags[10].gameObject.SetActive(true);
+        }
+    }
 }

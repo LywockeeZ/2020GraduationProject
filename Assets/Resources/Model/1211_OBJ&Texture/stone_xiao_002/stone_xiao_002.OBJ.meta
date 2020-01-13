@@ -3,14 +3,14 @@ guid: 6107cf10d529b35488a2c7c88e19c779
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: stone_xiao_003:polySurface4
-    400000: //RootNode
-    400002: stone_xiao_003:polySurface4
-    2100000: stone_xiao_003_polySurface4Mat
-    2300000: stone_xiao_003:polySurface4
-    3300000: stone_xiao_003:polySurface4
-    4300000: stone_xiao_003:polySurface4
+    100000: polySurface4
+    100002: //RootNode
+    400000: polySurface4
+    400002: //RootNode
+    2100000: polySurface4Mat
+    2300000: polySurface4
+    3300000: polySurface4
+    4300000: polySurface4
   externalObjects: {}
   materials:
     importMaterials: 1

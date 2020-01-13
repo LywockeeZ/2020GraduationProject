@@ -3,14 +3,14 @@ guid: 5623d4e348296654cab43900c6c3924c
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: pCube207
+    100000: pCube385
     100002: //RootNode
-    400000: pCube207
+    400000: pCube385
     400002: //RootNode
-    2100000: pCube207Mat
-    2300000: pCube207
-    3300000: pCube207
-    4300000: pCube207
+    2100000: pCube385Mat
+    2300000: pCube385
+    3300000: pCube385
+    4300000: pCube385
   externalObjects: {}
   materials:
     importMaterials: 1
