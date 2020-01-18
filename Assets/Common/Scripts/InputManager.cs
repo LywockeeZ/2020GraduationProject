@@ -40,10 +40,11 @@ public class InputManager : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hitInfo, 200f, 1 << LayerMask.NameToLayer("BaseUnit")))
         {
-            Vector3 clickedPos = hitInfo.transform.position;
+            Vector3 clickedPos;
 
             if (!Game.Instance.GetCanFreeMove())
             {
+                clickedPos = hitInfo.transform.position;
                 if (Game.Instance.GetPlayerUnit().CurrentOn.Up != null)
                 {
                     if (clickedPos == Game.Instance.GetPlayerUnit().CurrentOn.Up.Model.transform.position)
@@ -80,7 +81,9 @@ public class InputManager : MonoBehaviour
             }
             else
             {
+                clickedPos = hitInfo.point;
                 Game.Instance.GetPlayerUnit().Move(clickedPos);
+                Debug.Log(clickedPos);
             }
 
         }

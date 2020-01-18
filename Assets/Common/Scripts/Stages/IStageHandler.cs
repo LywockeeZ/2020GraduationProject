@@ -17,4 +17,5 @@ public abstract class IStageHandler
     public abstract void Start();
 
     public abstract BaseUnit GetBaseUnit(int x, int y);
+    public abstract void FireTargetUnit(int x, int y);
 }

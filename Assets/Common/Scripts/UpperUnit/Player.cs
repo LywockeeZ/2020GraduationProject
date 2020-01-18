@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
 {
@@ -26,6 +27,7 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
     private Vector3 lookdir;
     private float _rotateSpeed = 10f;
     private Animator m_Animator;
+    private NavMeshAgent m_Agent;
 
 
     private void Start()
@@ -33,23 +35,40 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
         //对输入事件注册
         InputManager.InputEvent += Move;
         m_Animator = GetComponent<Animator>();
+        m_Agent = GetComponent<NavMeshAgent>();
+        Game.Instance.SetPlayerUnit(this);
     }
 
 
     private void Update()
     {
-        if (!Game.Instance.GetCanFreeMove())
+        //if (!Game.Instance.GetCanFreeMove())
+        //{
+        //    //MoveProcess();
+
+        //    if (_isMoving == true )
+        //    {
+        //        m_Animator.SetFloat("Blend", 0);
+        //        m_Animator.SetBool("isWalking", true);
+        //    }
+        //    else m_Animator.SetBool("isWalking", false);
+
+        //}
+
+        //处理移动的判断和动画
+        if (_isMoving)
         {
-            MoveProcess();
+            m_Animator.SetFloat("Blend", 0);
+            m_Animator.SetBool("isWalking", true);
 
-            if (_isMoving == true )
+            if ((transform.position - targetPos).magnitude <= 0.22f)
             {
-                m_Animator.SetFloat("Blend", 0);
-                m_Animator.SetBool("isWalking", true);
+                Debug.Log("Have Reached!");
+                _isMoving = false;
             }
-            else m_Animator.SetBool("isWalking", false);
-
         }
+        else m_Animator.SetBool("isWalking", false);
+
 
     }
 
@@ -70,7 +89,10 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
         _isMoving = false;
     }
 
-
+    /// <summary>
+    /// 用来判断移动，判断是否可移动，并不执行具体的移动
+    /// </summary>
+    /// <param name="inputEvent"></param>
     public void Move(ENUM_InputEvent inputEvent)
     {
         if (!_isMoving)
@@ -82,13 +104,14 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
     }
 
     /// <summary>
-    /// 自由移动时使用，移动到目标位置
+    /// 利用NavmeshAgent的移动
+    /// 移动到目标位置
     /// </summary>
     /// <param name="m_targetPos"></param>
     public void Move(Vector3 m_targetPos)
     {
-        targetPos = SetTargetPos(m_targetPos);
-        _moveSpeed = 2f;
+        m_Agent.SetDestination(m_targetPos);
+        targetPos = m_targetPos;
         _isMoving = true;
     }
 
@@ -135,8 +158,14 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
             }
             else
             {
-                targetPos = SetTargetPos(targetUnit.Model.transform.position);
-                lookdir = GetLookDir();
+
+                ////////////////////////////////////////////////////////////////
+                //旧版移动相关
+                //targetPos = SetTargetPos(targetUnit.Model.transform.position);
+                //lookdir = GetLookDir();
+                ////////////////////////////////////////////////////////////////
+                
+
                 //保持在油，水，阻燃带上行走不改变状态
                 if (targetUnit.State.stateType != ENUM_State.Block &&
                     targetUnit.State.stateType != ENUM_State.Oil &&
@@ -160,7 +189,8 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
                 else Game.Instance.CostAP(1, 0);
 
                 //这里是移动的开关
-                _isMoving = true;
+                Move(targetUnit.Model.transform.position);
+                //_isMoving = true;
 
             }
 
