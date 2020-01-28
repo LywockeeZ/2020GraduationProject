@@ -6,11 +6,17 @@ public class ResourceAssetFactory : IAssetFactory
 {
     //模型所在资源文件夹下的路径
     public const string ModelPrefabsPath = "Prefabs/";
+    public const string UIPath = "UI/";
 
 
     public override GameObject LoadModel(string AssetName, Vector3 Position)
     {
         return InstantiateGameObject(ModelPrefabsPath + AssetName, Position);
+    }
+
+    public override GameObject LoadUI(string UIName)
+    {
+        return InstantiateGameObject(UIPath + UIName, Vector3.zero);
     }
 
 
