@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 存放上层单元信息的结构体，包括单元类型，玩家操控类型，火焰触发类型
+/// </summary>
 public struct UpperUnit
 {
     public ENUM_UpperUnit Type;
@@ -28,6 +31,8 @@ public struct UpperUnit
     }
 }
 
+
+
 public class BaseUnit 
 {
     //对周围单元的引用
@@ -37,24 +42,26 @@ public class BaseUnit
     public BaseUnit Right { get { return _right; } }      
     
 
+    //单元属性
     public bool CanWalk   { get { return _canWalk  ; } }            //该单元是否可通行
     public bool CanBeFire { get { return _canBeFire; } }            //是否可被点燃
     public IState State   { get { return _myState  ; } }            //自身状态
-
+                                                                    
+    //此单元的位置信息
+    public int x { get { return _x; } }                             
+    public int y { get { return _y; } }
 
     public GameObject Model           = null;
     public GameObject UpperGameObject = null;
+    /// <summary>
+    /// 描述此单元上层放置单元的属性，是一个结构体
+    /// 使外界方便获取上层单元信息
+    /// 由上层单元初始化时赋值
+    /// </summary>
     public UpperUnit UpperUnit;
-    //public ENUM_UpperUnit            UpperUnitType    = ENUM_UpperUnit.NULL;             //放置单元的类型
-    //public ENUM_UpperUnitControlType UpperControlType = ENUM_UpperUnitControlType.NULL;  //放置单元的操控类型
-    //public ENUM_UpperUnitBeFiredType UpperBeFiredType = ENUM_UpperUnitBeFiredType.NULL;  //放置单元的可燃性
-
-    //此单元的位置信息
-    public int x = 0;
-    public int y = 0;
-    private NormalStageData currentStage;       //关卡信息的引用，用来获取周围信息
 
 
+    #region 私有属性
     private BaseUnit _up;
     private BaseUnit _down;
     private BaseUnit _left;
@@ -62,6 +69,21 @@ public class BaseUnit
     private IState _myState;
     private bool _canWalk;
     private bool _canBeFire;
+    private int _x = 0;
+    private int _y = 0;
+    /// <summary>
+    /// 关卡信息的引用，用来获取周围信息
+    /// </summary>
+    private NormalStageData currentStage;
+
+    //析构函数
+    //~BaseUnit()
+    //{
+    //    Debug.Log("已销毁");
+    //}
+
+    #endregion
+
 
     public BaseUnit(GameObject _model, NormalStageData _stage)
     {
@@ -72,7 +94,10 @@ public class BaseUnit
     }
 
 
-    //单元初始化
+
+    /// <summary>
+    /// 单元的初始化
+    /// </summary>
     public virtual void Init()
     {
         //需要改动
@@ -80,18 +105,38 @@ public class BaseUnit
     }
 
 
-    //外界用此来执行状态
+    /// <summary>
+    /// 结束一个单元：结束状态，结束上层单元，回收模型
+    /// </summary>
+    public virtual void End()
+    {
+        State.OnStateEnd();
+        GameFactory.GetAssetFactory().DestroyGameObject<GameObject>(Model);
+
+        if (UpperGameObject != null)
+            GameFactory.GetAssetFactory().DestroyGameObject<IUpperUnit>(UpperGameObject);
+
+        UpperGameObject = null;
+        ClearAround();
+    }
+
+
+    /// <summary>
+    /// 外界由此来执行状态的行为
+    /// </summary>
     public virtual void StateRequest()
     {
         State.OnStateHandle();
     }
 
 
+    /// <summary>
+    /// 外界由此控制状态结束
+    /// </summary>
     public virtual void StateEnd()
     {
         State.OnStateEnd();
     }
-
 
 
     /// <summary>
@@ -107,6 +152,8 @@ public class BaseUnit
             else _left = currentStage.baseUnits[currentStage.Column * y + x - 1];
         if (x + 2 > currentStage.Column) _right = null;
             else _right = currentStage.baseUnits[currentStage.Column * y + x + 1];
+
+        //Debug.Log("UP:" + _up + "Down:" + _down + "Left:" + _left + "Right:" + _right);
     }
 
 
@@ -121,6 +168,13 @@ public class BaseUnit
         _right = null;
     }
 
+
+
+    #region 对外的接口
+    /// <summary>
+    /// 设置单元状态
+    /// </summary>
+    /// <param name="newState"></param>
     public virtual void SetState(IState newState)
     {
         if (_myState != null)
@@ -131,33 +185,52 @@ public class BaseUnit
     }
 
 
-    #region 对外的接口
+    /// <summary>
+    /// 设置表面是否可以通行
+    /// </summary>
+    /// <param name="value"></param>
     public void SetCanWalk(bool value)
     {
         _canWalk = value;
     }
 
+
+    /// <summary>
+    /// 设置单元是否可被点燃
+    /// </summary>
+    /// <param name="value"></param>
     public void SetCanBeFire(bool value)
     {
         _canBeFire = value;
     }
 
-    public void SetPosition(int _x, int _y)
+
+    /// <summary>
+    /// 设置上层单元位置信息
+    /// </summary>
+    /// <param name="_x"></param>
+    /// <param name="_y"></param>
+    public void SetPosition(int Posx, int Posy)
     {
-        x = _x;
-        y = _y;
+        _x = Posx;
+        _y = Posy;
     }
 
+
+    /// <summary>
+    /// 获取单元所在关卡信息
+    /// </summary>
+    /// <returns></returns>
     public NormalStageData GetStage()
     {
         return currentStage;
     }
 
-    //public void SetUpperControlType(ENUM_UpperUnitControlType type)
-    //{
-    //    //UpperControlType = type;
-    //}
 
+    /// <summary>
+    /// 设置上层游戏对象
+    /// </summary>
+    /// <param name="_upperGameObject"></param>
     public void SetUpperGameObject(GameObject _upperGameObject)
     {
         UpperGameObject = _upperGameObject;

@@ -4,28 +4,25 @@ using UnityEngine;
 
 public class Water : IState
 {
-    //水能承受火的次数
-    private int beFiredCount = 2;
-
-    //模型与模型生成高度增量
-    private GameObject model;
+    #region 私有属性
+    //模型生成高度增量
     private float height = 0f;
-
-    //该状态私有属性
     private bool canWalk = true;
     private bool canBeFire = true;
     private ENUM_StateBeFiredType _beFiredType = ENUM_StateBeFiredType.BeHandle;
 
-    private bool isUpdating = false;
-
+    private int beFiredCount = 2;   //水能承受火的次数
+    private bool isUpdating = false;//切换为雾的标签
+    #endregion
 
     public Water(BaseUnit owner) : base(owner)
     {
-        stateType = ENUM_State.Water;
+        StateType = ENUM_State.Water;
         _stateName = "Water";
-        beFiredType = _beFiredType;
+        BeFiredType = _beFiredType;
         OnStateBegin();
     }
+
 
     public override void OnStateBegin()
     {
@@ -34,19 +31,6 @@ public class Water : IState
 
         RegisterEvent();
         SetWaterModel();
-    }
-
-
-    private EventListenerDelegate OnRoundUpdateEnd;
-    private void RegisterEvent()
-    {
-
-        Game.Instance.RegisterEvent(ENUM_GameEvent.RoundUpdateEnd,
-        OnRoundUpdateEnd = (Message evt) =>
-        {
-            isUpdating = false;
-        });
-
     }
 
 
@@ -71,41 +55,74 @@ public class Water : IState
             }
             else
             {
-                GameObject.Destroy(model);
+                GameFactory.GetAssetFactory().DestroyGameObject<GameObject>(Model);
                 SetWaterFogModel();
             }
 
         }
     }
 
+
     public override void OnStateEnd()
     {
-        Game.Instance.DetachEvent(ENUM_GameEvent.RoundUpdateEnd, OnRoundUpdateEnd);
-
-        GameObject.Destroy(model);
+        DetachEvnt();
+        GameFactory.GetAssetFactory().DestroyGameObject<GameObject>(Model);
     }
 
+
+    #region 事件的注册与销毁
+    private EventListenerDelegate OnRoundUpdateEnd;
+    private void RegisterEvent()
+    {
+
+        Game.Instance.RegisterEvent(ENUM_GameEvent.RoundUpdateEnd,
+        OnRoundUpdateEnd = (Message evt) =>
+        {
+            isUpdating = false;
+        });
+
+    }
+
+    private void DetachEvnt()
+    {
+        Game.Instance.DetachEvent(ENUM_GameEvent.RoundUpdateEnd, OnRoundUpdateEnd);
+    }
+    #endregion
+
+
+    /// <summary>
+    /// 设置水的模型
+    /// </summary>
     private void SetWaterModel()
     {
-        GameObject waterModel = Resources.Load("Prefabs/Water") as GameObject;
-        model = GameObject.Instantiate(waterModel, GetTargetPos(Owner.Model.transform.position, height), Quaternion.identity);
-        model.transform.SetParent(GameObject.Find("Units").transform);
+        Model = GameFactory.GetAssetFactory().InstantiateGameObject("Water",
+            GetTargetPos(Owner.Model.transform.position, height));
+        Model.transform.SetParent(Owner.Model.transform);
     }
 
+
+    /// <summary>
+    /// 设置雾的模型
+    /// </summary>
     private void SetWaterFogModel()
     {
-        GameObject waterFogModel = Resources.Load("Prefabs/WaterFog") as GameObject;
-        model = GameObject.Instantiate(waterFogModel, GetTargetPos(Owner.Model.transform.position, height), Quaternion.identity);
-        model.transform.SetParent(GameObject.Find("Units").transform);
+        Model = GameFactory.GetAssetFactory().InstantiateGameObject("WaterFog",
+            GetTargetPos(Owner.Model.transform.position, height));
+        Model.transform.SetParent(Owner.Model.transform);
     }
 
-    public bool IsHavingFireAround()
+
+    /// <summary>
+    /// 检测周围是否有火焰
+    /// </summary>
+    /// <returns></returns>
+    private bool IsHavingFireAround()
     {
         bool isExist = false;
-        if ((Owner.Up    != null) && (Owner.Up.State.stateType    == ENUM_State.Fire) ||
-            (Owner.Down  != null) && (Owner.Down.State.stateType  == ENUM_State.Fire) ||
-            (Owner.Left  != null) && (Owner.Left.State.stateType  == ENUM_State.Fire) ||
-            (Owner.Right != null) && (Owner.Right.State.stateType == ENUM_State.Fire))
+        if ((Owner.Up    != null) && (Owner.Up.State.StateType    == ENUM_State.Fire) ||
+            (Owner.Down  != null) && (Owner.Down.State.StateType  == ENUM_State.Fire) ||
+            (Owner.Left  != null) && (Owner.Left.State.StateType  == ENUM_State.Fire) ||
+            (Owner.Right != null) && (Owner.Right.State.StateType == ENUM_State.Fire))
         {
             isExist = true;
         }

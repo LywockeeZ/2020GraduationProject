@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using System;
 
 public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
 {
@@ -11,23 +12,56 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
     public bool     IsMoving  { get { return _isMoving ; } set { _isMoving  = value; } }
     public float    MoveSpeed { get { return _moveSpeed; } set { _moveSpeed = value; } }
 
-    private ENUM_UpperUnit            Type        = ENUM_UpperUnit.Player;              //放置单元的类型
-    private ENUM_UpperUnitControlType ControlType = ENUM_UpperUnitControlType.Movable;  //放置单元的操控类型
-    private ENUM_UpperUnitBeFiredType BeFiredType = ENUM_UpperUnitBeFiredType.NULL;     
 
-    //该单元的私有属性
+    #region 私有属性
     private BaseUnit _currentOn;
     private float _heigth = 0f;
     private bool _canBeFire = false;
     private float _moveSpeed = 4f;
     private bool _isMoving = false;
 
+    private ENUM_UpperUnit Type = ENUM_UpperUnit.Player;              //放置单元的类型
+    private ENUM_UpperUnitControlType ControlType = ENUM_UpperUnitControlType.Movable;  //放置单元的操控类型
+    private ENUM_UpperUnitBeFiredType BeFiredType = ENUM_UpperUnitBeFiredType.NULL;
+
+    //私有变量
     private BaseUnit targetUnit;
     private Vector3 targetPos;
     private Vector3 lookdir;
     private float _rotateSpeed = 10f;
     private Animator m_Animator;
     private NavMeshAgent m_Agent;
+    private LocalNavMeshBuilder m_NavMeshBuder;
+    #endregion
+
+
+    public void Init()
+    {
+        //初始化状态
+        _currentOn.SetState(new Block(_currentOn));
+        _currentOn.UpperUnit = new UpperUnit(Type, ControlType, BeFiredType);
+        _currentOn.SetUpperGameObject(gameObject);
+        _currentOn.SetCanBeFire(_canBeFire);
+
+        transform.forward = Vector3.forward;
+        m_Agent.updatePosition = true;
+        m_NavMeshBuder.StartUpdateNavMesh();
+        m_Agent.Warp(SetTargetPos(_currentOn.Model.transform.position));
+
+
+        _isMoving = false;
+
+        Debug.Log("Player已初始化");
+
+    }
+
+
+    public void End()
+    {
+        m_Agent.updatePosition = false;
+        CurrentOn.UpperGameObject = null;
+        gameObject.SetActive(false);
+    }
 
 
     private void Start()
@@ -36,6 +70,8 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
         InputManager.InputEvent += Move;
         m_Animator = GetComponent<Animator>();
         m_Agent = GetComponent<NavMeshAgent>();
+        m_NavMeshBuder = GetComponent<LocalNavMeshBuilder>();
+
         Game.Instance.SetPlayerUnit(this);
     }
 
@@ -61,9 +97,9 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
             m_Animator.SetFloat("Blend", 0);
             m_Animator.SetBool("isWalking", true);
 
-            if ((transform.position - targetPos).magnitude <= 0.22f)
+            if ((transform.position - targetPos).magnitude <= 0.5f)
             {
-                Debug.Log("Have Reached!");
+                //Debug.Log("Have Reached!");
                 _isMoving = false;
             }
         }
@@ -72,22 +108,6 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
 
     }
 
-
-    public void Init()
-    {
-        //初始化状态
-        _currentOn.State.OnStateEnd();
-        _currentOn.SetState(new Block(_currentOn));
-        _currentOn.UpperUnit = new UpperUnit(Type, ControlType, BeFiredType);
-        _currentOn.SetUpperGameObject(gameObject);
-        _currentOn.SetCanBeFire(_canBeFire);
-
-        transform.position = SetTargetPos(transform.position);
-        targetPos = SetTargetPos(transform.position);
-        //lookdir = - transform.forward;
-
-        _isMoving = false;
-    }
 
     /// <summary>
     /// 用来判断移动，判断是否可移动，并不执行具体的移动
@@ -103,6 +123,7 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
 
     }
 
+
     /// <summary>
     /// 利用NavmeshAgent的移动
     /// 移动到目标位置
@@ -116,7 +137,20 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
     }
 
 
-    //执行具体的移动过程
+    /// <summary>
+    /// 将单元的高度转换为模型高度
+    /// </summary>
+    /// <param name="_targetPos"></param>
+    /// <returns></returns>
+    public Vector3 SetTargetPos(Vector3 _targetPos)
+    {
+        return new Vector3(_targetPos.x, _heigth, _targetPos.z);
+    }
+
+
+    /// <summary>
+    /// 执行具体的移动过程
+    /// </summary>
     private void MoveProcess()
     {
         transform.forward = Vector3.Slerp(transform.forward, lookdir, _rotateSpeed * Time.deltaTime);
@@ -130,13 +164,6 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
     }
 
 
-    //将单元的高度转换为模型高度
-    public Vector3 SetTargetPos(Vector3 _targetPos)
-    {
-        return new Vector3(_targetPos.x, _heigth, _targetPos.z);
-    }
-
-
     private Vector3 GetLookDir()
     {
         Quaternion rotation = Quaternion.FromToRotation(-transform.forward, targetPos - SetTargetPos(_currentOn.Model.transform.position));
@@ -144,13 +171,16 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
     }
 
 
-    //判断下层的下一格，并改变下一格的状态
+    /// <summary>
+    /// 判断下层的下一格，并改变下一格的状态
+    /// </summary>
+    /// <param name="targetUnit"></param>
     private void JudgeBaseStateAndMove(BaseUnit targetUnit)
     {
         if (targetUnit != null && targetUnit.CanWalk)
         {
             //当目标与当前位置都是油时，花费一点数改变为阻燃带
-            if (_currentOn.State.stateType == ENUM_State.Oil)
+            if (_currentOn.State.StateType == ENUM_State.Oil)
             {
                 Game.Instance.CostAP(1, 0);
                 _currentOn.State.OnStateEnd();
@@ -167,9 +197,9 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
                 
 
                 //保持在油，水，阻燃带上行走不改变状态
-                if (targetUnit.State.stateType != ENUM_State.Block &&
-                    targetUnit.State.stateType != ENUM_State.Oil &&
-                    targetUnit.State.stateType != ENUM_State.Water)
+                if (targetUnit.State.StateType != ENUM_State.Block &&
+                    targetUnit.State.StateType != ENUM_State.Oil &&
+                    targetUnit.State.StateType != ENUM_State.Water)
                 {
                     targetUnit.State.OnStateEnd();
                     targetUnit.SetState(new Block(targetUnit));
@@ -181,7 +211,7 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
                 _currentOn = targetUnit;
 
                 //扣除移动点数，根据是否是油来减速
-                if (_currentOn.State.stateType == ENUM_State.Oil)
+                if (_currentOn.State.StateType == ENUM_State.Oil)
                 {
                     Game.Instance.CostAP(1, 0);
                     _moveSpeed = 2f;
@@ -197,23 +227,28 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
         }
     }
 
-    //获取目的地单元
+    
+    /// <summary>
+    /// 获取目的地单元
+    /// </summary>
+    /// <param name="inputEvent"></param>
+    /// <returns></returns>
     private BaseUnit GetTargetUnit(ENUM_InputEvent inputEvent)
     {
         BaseUnit targetUnit = null;
         switch (inputEvent)
         {
             case ENUM_InputEvent.Up:
-                targetUnit = _currentOn.Up;
+                    targetUnit = _currentOn.Up;
                 break;
             case ENUM_InputEvent.Down:
-                targetUnit = _currentOn.Down;
+                    targetUnit = _currentOn.Down;
                 break;
             case ENUM_InputEvent.Left:
-                targetUnit = _currentOn.Left;
+                    targetUnit = _currentOn.Left;
                 break;
             case ENUM_InputEvent.Right:
-                targetUnit = _currentOn.Right;
+                    targetUnit = _currentOn.Right;
                 break;
             default:
                 break;
@@ -222,7 +257,12 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
         return targetUnit;
     }
 
-    //判断的顺序为先判断是否有单元，如果有则先上层，再下层
+
+    /// <summary>
+    /// 判断的顺序为先判断是否有单元，如果有则先上层，再下层
+    /// </summary>
+    /// <param name="targetUnit"></param>
+    /// <param name="inputEvent"></param>
     private void JudgeAndMove(BaseUnit targetUnit, ENUM_InputEvent inputEvent)
     {
         if (targetUnit != null)
@@ -237,7 +277,12 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
         }
     }
 
-    //判断上层物品是否可推动
+
+    /// <summary>
+    /// 判断上层物品是否可推动
+    /// </summary>
+    /// <param name="targetUnit"></param>
+    /// <param name="inputEvent"></param>
     private void JudgeUpperUnit(BaseUnit targetUnit, ENUM_InputEvent inputEvent)
     {
         if (targetUnit.UpperUnit.ControlType == ENUM_UpperUnitControlType.Movable)
@@ -264,11 +309,6 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
 
     }
 
-
-    public void End()
-    {
-
-    }
 
     public bool JudgeCanMove(ENUM_InputEvent inputEvent)
     {

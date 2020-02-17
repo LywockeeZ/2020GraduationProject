@@ -8,6 +8,8 @@ public class Survivor : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
     public float    Height    { get { return _heigth   ; } set { _heigth = value   ; } }
     public bool     CanBeFire { get { return _canBeFire; } set { _canBeFire = value; } }
 
+
+    #region 私有属性
     private ENUM_UpperUnit            Type        = ENUM_UpperUnit.Survivor;            //放置单元的类型
     private ENUM_UpperUnitControlType ControlType = ENUM_UpperUnitControlType.Fixed;    //放置单元的操控类型
     private ENUM_UpperUnitBeFiredType BeFiredType = ENUM_UpperUnitBeFiredType.BeFire;   
@@ -16,11 +18,7 @@ public class Survivor : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
     private BaseUnit _currentOn;
     private float    _heigth    = 0f;
     private bool     _canBeFire = true;
-
-    private void Start()
-    {
-        Init();
-    }
+    #endregion
 
 
     public void Init()
@@ -38,20 +36,18 @@ public class Survivor : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
 
     public void End()
     {
-        GameObject.Destroy(gameObject);
+        GameFactory.GetAssetFactory().DestroyGameObject<GameObject>(this.gameObject);
+        _currentOn.UpperUnit.InitOrReset();
+        CurrentOn.UpperGameObject = null;
+        Destroy(this);
     }
 
-
-    //将单元的高度转换为模型高度
-    public Vector3 SetTargetPos(Vector3 _targetPos)
-    {
-        return new Vector3(_targetPos.x, _heigth, _targetPos.z);
-    }
 
     public void Handle()
     {
 
     }
+
 
     public void HandleByFire()
     {
@@ -59,4 +55,22 @@ public class Survivor : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
         GUIManager.Instance.SetEndText("很遗憾，幸存者死了");
         End();
     }
+
+
+    private void Start()
+    {
+        Init();
+    }
+
+
+    /// <summary>
+    /// 将单元的高度转换为模型高度
+    /// </summary>
+    /// <param name="_targetPos"></param>
+    /// <returns></returns>
+    public Vector3 SetTargetPos(Vector3 _targetPos)
+    {
+        return new Vector3(_targetPos.x, _heigth, _targetPos.z);
+    }
+
 }

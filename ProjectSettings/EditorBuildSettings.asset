@@ -5,22 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
-  - enabled: 0
-    path: Assets/Scenes/SampleScene.unity
-    guid: 002df0dd917824a48bef4651afb3fb3d
-  - enabled: 0
-    path: Assets/Common/Scenes/OilTest.unity
-    guid: 0aef1ceef1c95ed4cb7c139de4faf597
-  - enabled: 0
+  - enabled: 1
+    path: Assets/Scenes/Sample/StartScene.unity
+    guid: a241413d8e4c53645b8a04bb890270f5
+  - enabled: 1
     path: Assets/Common/Scenes/LoadingScreen.unity
     guid: 87d7591877e97114ab7c8510aee02058
-  - enabled: 0
-    path: Assets/Common/Scenes/FireTest.unity
-    guid: 584c12ef28fb2504e8c5e4fcf8b9f556
   - enabled: 1
-    path: Assets/Scenes/New Scene 1.unity
-    guid: a4ef504df8d9c684cbf3423df018aea7
+    path: Assets/Scenes/Sample/NewStage.unity
+    guid: 8c60b9a7a461ce14ca6f58406d9f5066
   m_configObjects: {}

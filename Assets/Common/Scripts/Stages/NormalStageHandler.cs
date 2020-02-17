@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -7,10 +8,6 @@ using UnityEngine;
 /// </summary>
 public class NormalStageHandler : IStageHandler
 {
-    //构建关卡的初始位置
-    public int PosX = 0;
-    public int PosY = 0;
-
     //该关卡最大行动点数
     public int RoundActionPts = 4;
     public int Rounds = 1;
@@ -33,19 +30,17 @@ public class NormalStageHandler : IStageHandler
 
 
 
-    public NormalStageHandler(NormalStageScore StageScore, NormalStageData StageData, int x, int y)
+    public NormalStageHandler(NormalStageScore StageScore, NormalStageData StageData)
     {
         m_StageScore = StageScore;
         m_StatgeData = StageData;
         m_StageScore.SetStageHandler(this);     //设置其对当前关卡的引用
         m_StatgeData.SetStageHandler(this);
-        PosX = x;
-        PosY = y;
     }
 
 
     private EventListenerDelegate OnRoundBegain;
-    private EventListenerDelegate OnRoundEnd;
+    private EventListenerDelegate OnStageEnd;
     public void RegisterEvent()
     {
         m_StageScore.RegisterEvent();
@@ -55,9 +50,17 @@ public class NormalStageHandler : IStageHandler
         OnRoundBegain = (Message evt) =>
         {
             //这里委托里的Rounds与类中的的Rounds并不是同一个，这里的是被封装到委托方法中去的
-            //Debug.Log("Rounds:" + Rounds);
+            Game.Instance.SetRoundTag(Rounds++);
             //GUIManager.Instance.SetRoundTagImage(Rounds++);
         });
+
+        Game.Instance.RegisterEvent(ENUM_GameEvent.StageEnd,
+            OnStageEnd = (Message evt) =>
+            {
+                string content = "花费点数：" + Game.Instance.GetTotalCostPts().ToString();
+                Game.Instance.UIShowMessag("EndStageUI", content);
+            });
+
 
     }
 
@@ -68,6 +71,7 @@ public class NormalStageHandler : IStageHandler
         m_StageScore.DetachEvent();
         m_StatgeData.DetachEvent();
         Game.Instance.DetachEvent(ENUM_GameEvent.RoundBegain, OnRoundBegain);
+        Game.Instance.DetachEvent(ENUM_GameEvent.StageEnd, OnStageEnd);
     }
 
 
@@ -106,6 +110,7 @@ public class NormalStageHandler : IStageHandler
         DetachEvent();
         m_StatgeData.Reset();
         Rounds = 1;
+        Debug.Log("Stage have already Reset");
     }
 
 
@@ -115,7 +120,7 @@ public class NormalStageHandler : IStageHandler
     {
         Debug.Log("BuildStart");
         RegisterEvent();
-        m_StatgeData.BuildStage(PosX, PosY);
+        m_StatgeData.BuildStage();
         Game.Instance.SetMaxAP(RoundActionPts);
     }
 
@@ -126,6 +131,7 @@ public class NormalStageHandler : IStageHandler
     {
         return m_StatgeData.GetBaseUnit(x, y);
     }
+
 
     public override void FireTargetUnit(int x, int y)
     {

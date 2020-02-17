@@ -8,7 +8,7 @@ using UnityEngine;
 public class FireControlStageHandler : NormalStageHandler
 {
     //设置关卡分数及关卡数据
-    public FireControlStageHandler(NormalStageScore StageScore, NormalStageData StageDate, int x, int y) : base(StageScore,StageDate,x,y)
+    public FireControlStageHandler(NormalStageScore StageScore, NormalStageData StageDate) : base(StageScore,StageDate)
     {
         
     }

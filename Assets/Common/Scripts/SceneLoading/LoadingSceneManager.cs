@@ -43,7 +43,7 @@ public class LoadingSceneManager : MonoBehaviour
         if (LoadingScreenSceneName != null)
         {
             //先加载到加载界面
-            SceneManager.LoadScene(LoadingScreenSceneName);
+            SceneChanger.Instance.LoadScene(sceneToLoad);
         }
     }
 
@@ -57,7 +57,8 @@ public class LoadingSceneManager : MonoBehaviour
     {
         _sceneToLoad = sceneToLoad;
         Application.backgroundLoadingPriority = ThreadPriority.High;
-        SceneManager.LoadScene(loadingSceneName);
+        SceneChanger.Instance.LoadScene(sceneToLoad);
+        //SceneManager.LoadScene(loadingSceneName);
     }
 
 
@@ -69,6 +70,8 @@ public class LoadingSceneManager : MonoBehaviour
 
         //待加入进度条相关的操作
         yield return new WaitForSeconds(0.5f);
+
+        SceneChanger.Instance.LoadSceneComplete();
 
         //切换到新的场景
         _asyncOperation.allowSceneActivation = true;

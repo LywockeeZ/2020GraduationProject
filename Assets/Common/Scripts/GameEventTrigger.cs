@@ -13,5 +13,6 @@ public class GameEventTrigger : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         OnTriggerEvent.Invoke();
+        this.gameObject.SetActive(false);
     }
 }

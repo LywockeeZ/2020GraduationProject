@@ -7,7 +7,6 @@ using UnityEngine;
 /// </summary>
 public abstract class IStageScore 
 {
-
     /// <summary>
     /// 判定关卡结束的方法
     /// </summary>

@@ -4,53 +4,33 @@ using UnityEngine;
 
 public class Fire : IState
 {
-    //模型与模型生成高度增量
-    private GameObject model;
-    private float height = 0f;
 
-    //该状态私有属性
+    #region 私有属性
+    //模型生成高度增量
+    private float height = 0f;
     private bool canWalk = true;
     private bool canBeFire = false;
     private ENUM_StateBeFiredType _beFiredType = ENUM_StateBeFiredType.False;
-
+    #endregion
 
     public Fire(BaseUnit owner) : base(owner)
     {
-        stateType = ENUM_State.Fire;
+        StateType = ENUM_State.Fire;
         _stateName = "Fire";
-        beFiredType = _beFiredType;
+        BeFiredType = _beFiredType;
         OnStateBegin();
     }
-
 
 
     public override void OnStateBegin()
     {
         Owner.SetCanWalk(canWalk);
         Owner.SetCanBeFire(canBeFire);
-        //关卡记录火焰信息
-        Owner.GetStage().fireUnits.Add(Owner);
+        Owner.GetStage().fireUnits.Add(Owner);  //关卡记录火焰信息
 
-        //对关卡回合更新事件进行注册
-        RegisterEvent();
         SetFireModel();
+        RegisterEvent();                       //对关卡回合更新事件进行注册
     }
-
-
-
-    private EventListenerDelegate OnFireUpdate;
-    private void RegisterEvent()
-    {
-
-        Game.Instance.RegisterEvent(ENUM_GameEvent.FireUpdate,
-        OnFireUpdate = (Message evt) =>
-        {
-            OnStateHandle();
-        });
-
-    }
-
-
 
 
     public override void OnStateHandle()
@@ -63,32 +43,48 @@ public class Fire : IState
     }
 
 
-
-
     public override void OnStateEnd()
     {
         Owner.GetStage().fireUnits.Remove(Owner);
 
-        Game.Instance.DetachEvent(ENUM_GameEvent.FireUpdate, OnFireUpdate);
+        DetachEvent();
 
-        GameObject.Destroy(model);
+        GameFactory.GetAssetFactory().DestroyGameObject<GameObject>(Model);
+
     }
 
 
+    #region 事件的注册与销毁
+    private EventListenerDelegate OnFireUpdate;
+    private void RegisterEvent()
+    {
+        Game.Instance.RegisterEvent(ENUM_GameEvent.FireUpdate, OnFireUpdate = (Message evt) => {
+            OnStateHandle();
+        });
+    }
 
-    //加载火焰模型
+    private void DetachEvent()
+    {
+        Game.Instance.DetachEvent(ENUM_GameEvent.FireUpdate, OnFireUpdate);
+    }
+    #endregion
+
+
+    /// <summary>
+    /// 加载火焰模型
+    /// </summary>
     private void SetFireModel()
     {
-        GameObject fireModel = Resources.Load("Prefabs/Fire") as GameObject;
-        model = GameObject.Instantiate(fireModel, GetTargetPos(Owner.Model.transform.position, height), Quaternion.identity);
-        model.transform.SetParent(GameObject.Find("Units").transform);
+        Model = GameFactory.GetAssetFactory().InstantiateGameObject("Fire",
+            GetTargetPos(Owner.Model.transform.position, height));
+        Model.transform.SetParent(Owner.Model.transform);
     }
 
 
-
-
-
-    //将目标单元设置成Fire状态
+    /// <summary>
+    /// 将目标单元设置成Fire状态
+    /// </summary>
+    /// <param name="targetUnit"></param>
     private void Firing(BaseUnit targetUnit)
     {
         if (targetUnit != null && targetUnit.CanBeFire)
@@ -103,12 +99,12 @@ public class Fire : IState
             }
             else
             {
-                if (targetUnit.State.beFiredType == ENUM_StateBeFiredType.BeHandle)
+                if (targetUnit.State.BeFiredType == ENUM_StateBeFiredType.BeHandle)
                 {
                     targetUnit.StateRequest();
                 }
                 else
-                if (targetUnit.State.beFiredType == ENUM_StateBeFiredType.BeFire)
+                if (targetUnit.State.BeFiredType == ENUM_StateBeFiredType.BeFire)
                 {
                     targetUnit.StateEnd();
                     if (targetUnit.UpperUnit.Type != ENUM_UpperUnit.Player)

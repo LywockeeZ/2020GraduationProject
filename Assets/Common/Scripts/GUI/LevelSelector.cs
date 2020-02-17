@@ -16,6 +16,10 @@ public class LevelSelector : MonoBehaviour
     /// </summary>
     public virtual void GoToLevel()
     {
+        if (Game.Instance.isTest)
+        {
+            GameTest.Instance.CurrentStage = levelName;
+        }
         Game.Instance.LoadLevel(levelName);
     }
 
@@ -24,13 +28,13 @@ public class LevelSelector : MonoBehaviour
     /// </summary>
     public virtual void RestartLevel()
     {
-        //Game.Instance.LoadLevel(SceneManager.GetActiveScene().name);
+        Game.Instance.LoadLevel(SceneManager.GetActiveScene().name);
+    }
+
+    public virtual void RestartStage()
+    {
         Game.Instance.NotifyEvent(ENUM_GameEvent.StageRestart, null);
     }
 
-    public virtual void StartNextStage()
-    {
-        Game.Instance.NotifyEvent(ENUM_GameEvent.StageBegain,null);
-    }
 
 }

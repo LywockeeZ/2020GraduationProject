@@ -1,4 +1,6 @@
-﻿//状态
+﻿/// <summary>
+/// 下层类型的状态
+/// </summary>
 public enum ENUM_State
 {
     Ground,
@@ -10,16 +12,27 @@ public enum ENUM_State
 }
 
 /// <summary>
-/// 用来区分火焰是直接点燃还是触发操作
+/// 用来区分火焰对下层单元状态的操作，是直接点燃还是触发操作
 /// </summary>
 public enum ENUM_StateBeFiredType
 {
+    /// <summary>
+    /// 不能点燃
+    /// </summary>
     False,
+    /// <summary>
+    /// 可以被火焰点燃
+    /// </summary>
     BeFire,
+    /// <summary>
+    /// 可以被火焰触发操作
+    /// </summary>
     BeHandle,
 }
 
-//输入事件
+/// <summary>
+/// 输入事件
+/// </summary>
 public enum ENUM_InputEvent
 {
     Up,
@@ -28,6 +41,9 @@ public enum ENUM_InputEvent
     Right
 }
 
+/// <summary>
+/// 上层单元类型
+/// </summary>
 public enum ENUM_UpperUnit
 {
     NULL,
@@ -44,8 +60,17 @@ public enum ENUM_UpperUnit
 /// </summary>
 public enum ENUM_UpperUnitControlType
 {
+    /// <summary>
+    /// 无法操控
+    /// </summary>
     NULL,
+    /// <summary>
+    /// 可以移动
+    /// </summary>
     Movable,
+    /// <summary>
+    /// 固定触发
+    /// </summary>
     Fixed
 }
 
@@ -54,11 +79,19 @@ public enum ENUM_UpperUnitControlType
 /// </summary>
 public enum ENUM_UpperUnitBeFiredType
 {
+    /// <summary>
+    /// 无法触发
+    /// </summary>
     NULL,
+    /// <summary>
+    /// 可以被点燃
+    /// </summary>
     BeFire
 }
 
-//游戏事件
+/// <summary>
+/// 游戏主要事件
+/// </summary>
 public enum ENUM_GameEvent
 {
     RoundBegain,
@@ -80,12 +113,10 @@ public enum ENUM_GameEvent
     StartFire
 }
 
-public enum ENUM_UIEvent
-{
 
-}
-
-
+/// <summary>
+/// 建造时使用的下层类型
+/// </summary>
 public enum ENUM_Build_BaseUnit
 {
     Null,
@@ -96,6 +127,9 @@ public enum ENUM_Build_BaseUnit
     Block
 }
 
+/// <summary>
+/// 建造时使用的上层类型
+/// </summary>
 public enum ENUM_Build_UpperUnit
 {
     Null,
@@ -105,6 +139,29 @@ public enum ENUM_Build_UpperUnit
     WaterTank,
     Player,
     Survivor
+}
+
+/// <summary>
+/// 关卡的类型
+/// </summary>
+public enum ENUM_StageType
+{
+    /// <summary>
+    /// 普通的关卡
+    /// </summary>
+    Normal,
+    /// <summary>
+    /// 教学关卡
+    /// </summary>
+    Teach,
+    /// <summary>
+    /// 不进入关卡链的普通关卡
+    /// </summary>
+    NormalSingle,
+    /// <summary>
+    /// 不进入关卡链的教学关卡
+    /// </summary>
+    TeachSingle
 }
 
 

@@ -19,13 +19,19 @@ public class LocalNavMeshBuilder : MonoBehaviour
     NavMeshDataInstance m_Instance;
     List<NavMeshBuildSource> m_Sources = new List<NavMeshBuildSource>();
 
-    IEnumerator Start()
+
+    IEnumerator StartUpdate()
     {
         while (true)
-        {
+        {            
             UpdateNavMesh(true);
             yield return m_Operation;
         }
+    }
+
+    public void StartUpdateNavMesh()
+    {
+        StartCoroutine(StartUpdate());
     }
 
     void OnEnable()
@@ -71,7 +77,7 @@ public class LocalNavMeshBuilder : MonoBehaviour
         return new Bounds(Quantize(center, 0.1f * m_Size), m_Size);
     }
 
-    void OnDrawGizmosSelected()
+    void OnDrawGizmos()
     {
         if (m_NavMesh)
         {

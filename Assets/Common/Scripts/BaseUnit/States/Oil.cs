@@ -5,20 +5,20 @@ using System.Timers;
 
 public class Oil : IState
 {
-    private GameObject model;
-    private float height = 0f;
 
+    #region 私有属性
+    //该状态模型增量
+    private float height = 0f;
     private bool canWalk = true;
     private bool canBeFire = true;
     private ENUM_StateBeFiredType _beFiredType = ENUM_StateBeFiredType.BeHandle;
-
-
+    #endregion
 
     public Oil(BaseUnit owner) : base(owner)
     {
-        stateType = ENUM_State.Oil;
+        StateType = ENUM_State.Oil;
         _stateName = "Oil";
-        beFiredType = _beFiredType;
+        BeFiredType = _beFiredType;
         OnStateBegin();
     }
 
@@ -31,6 +31,7 @@ public class Oil : IState
 
         SetOilModel();
     }
+
 
     public override void OnStateHandle()
     {
@@ -76,25 +77,31 @@ public class Oil : IState
     public override void OnStateEnd()
     {
         Owner.GetStage().oilUnits.Remove(Owner);
-        GameObject.Destroy(model);
+        GameFactory.GetAssetFactory().DestroyGameObject<GameObject>(Model);
     }
 
 
+    /// <summary>
+    /// 设置油的模型
+    /// </summary>
     private void SetOilModel()
     {
-        GameObject oilModel = Resources.Load("Prefabs/Oil") as GameObject;
-        model = GameObject.Instantiate(oilModel, GetTargetPos(Owner.Model.transform.position, height), Quaternion.identity);
-        model.transform.SetParent(GameObject.Find("Units").transform);
+        Model = GameFactory.GetAssetFactory().InstantiateGameObject("Oil",
+            GetTargetPos(Owner.Model.transform.position, height));
+        Model.transform.SetParent(Owner.Model.transform);
     }
 
 
-    public void FireAround()
+    /// <summary>
+    /// 点燃四周单元
+    /// </summary>
+    private void FireAround()
     {
         //这里用来判定油的扩散结束
-        if (((Owner.Up    != null) && (Owner.Up.State.stateType    == ENUM_State.Oil)) ||
-            ((Owner.Down  != null) && (Owner.Down.State.stateType  == ENUM_State.Oil)) ||
-            ((Owner.Left  != null) && (Owner.Left.State.stateType  == ENUM_State.Oil)) ||
-            ((Owner.Right != null) && (Owner.Right.State.stateType == ENUM_State.Oil)))
+        if (((Owner.Up    != null) && (Owner.Up.State.StateType    == ENUM_State.Oil)) ||
+            ((Owner.Down  != null) && (Owner.Down.State.StateType  == ENUM_State.Oil)) ||
+            ((Owner.Left  != null) && (Owner.Left.State.StateType  == ENUM_State.Oil)) ||
+            ((Owner.Right != null) && (Owner.Right.State.StateType == ENUM_State.Oil)))
         {
             Firing(Owner.Up);
             Firing(Owner.Down);
@@ -106,17 +113,18 @@ public class Oil : IState
     }
 
 
-    //将状态为Oil的单元设置成Fire状态
+    /// <summary>
+    /// 将状态为Oil的单元设置成Fire状态
+    /// </summary>
+    /// <param name="targetUnit"></param>
     private void Firing(BaseUnit targetUnit)
     {
 
-        if (targetUnit != null && targetUnit.State.stateType == ENUM_State.Oil)
+        if (targetUnit != null && targetUnit.State.StateType == ENUM_State.Oil)
         {
             targetUnit.StateRequest();
         }
         
     }
-
-
 
 }

@@ -4,17 +4,29 @@ using UnityEngine;
 
 public class Ground : IState
 {
+
+    #region 私有属性
+    //模型生成高度增量
+    private float height = 0f;
     private bool canWalk = true;
     private bool canBeFire = true;
     private ENUM_StateBeFiredType _beFiredType = ENUM_StateBeFiredType.BeFire;
+    ////析构函数
+    //~Ground()
+    //{
+    //    Debug.Log("GroundState已销毁");
+    //}
+    #endregion
+
 
     public Ground(BaseUnit owner) : base(owner)
     {
-        stateType = ENUM_State.Ground;
+        StateType = ENUM_State.Ground;
         _stateName = "Ground";
-        beFiredType = _beFiredType;
+        BeFiredType = _beFiredType;
         OnStateBegin();
     }
+
 
     public override void OnStateBegin()
     {
@@ -22,10 +34,12 @@ public class Ground : IState
         Owner.SetCanBeFire(canBeFire);
     }
 
+
     public override void OnStateHandle()
     {
 
     }
+
 
     public override void OnStateEnd()
     {

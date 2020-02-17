@@ -10,18 +10,45 @@ public class Chest : MonoBehaviour, IUpperUnit, IMovableUnit
     public float    MoveSpeed { get { return _moveSpeed; } set { _moveSpeed = value; } }
     public bool     IsMoving  { get { return _isMoving ; } set { _isMoving  = value; } }
 
-    private ENUM_UpperUnit            Type        = ENUM_UpperUnit.Chest;               //放置单元的类型
-    private ENUM_UpperUnitControlType ControlType = ENUM_UpperUnitControlType.Movable;  //放置单元的操控类型
-    private ENUM_UpperUnitBeFiredType BeFiredType = ENUM_UpperUnitBeFiredType.NULL;    
 
+    #region 私有属性
     private BaseUnit _currentOn;
     private float    _heigth    = 0f;
     private bool     _canBeFire = false;
     private float    _moveSpeed = 4f;
     private bool     _isMoving  = false;
 
+    private ENUM_UpperUnit Type = ENUM_UpperUnit.Chest;               //放置单元的类型
+    private ENUM_UpperUnitControlType ControlType = ENUM_UpperUnitControlType.Movable;  //放置单元的操控类型
+    private ENUM_UpperUnitBeFiredType BeFiredType = ENUM_UpperUnitBeFiredType.NULL;     //被火焰操控类型
+
     private BaseUnit targetUnit;
     private Vector3 targetPos;
+    #endregion
+
+
+    public void Init()
+    {
+        //初始化状态
+        _currentOn.SetState(new Ground(_currentOn));
+        _currentOn.UpperUnit = new UpperUnit(Type, ControlType, BeFiredType);
+        _currentOn.SetUpperGameObject(gameObject);
+        _currentOn.SetCanBeFire(_canBeFire);
+
+
+        transform.position = SetTargetPos(transform.position);
+        targetPos = SetTargetPos(transform.position);
+        _isMoving = false;
+    }
+
+
+    public void End()
+    {
+        GameFactory.GetAssetFactory().DestroyGameObject<GameObject>(this.gameObject);
+        _currentOn.UpperUnit.InitOrReset();
+        CurrentOn.UpperGameObject = null;
+        Destroy(this);
+    }
 
 
     private void Start()
@@ -30,31 +57,16 @@ public class Chest : MonoBehaviour, IUpperUnit, IMovableUnit
     }
 
 
-
     private void Update()
     {
         MoveProcess();
     }
 
 
-
-    public void Init()
-    {
-        //初始化状态
-        _currentOn.StateEnd();
-        _currentOn.SetState(new Ground(_currentOn));
-        _currentOn.UpperUnit = new UpperUnit(Type, ControlType, BeFiredType);
-        _currentOn.SetUpperGameObject(gameObject);
-        _currentOn.SetCanBeFire(_canBeFire);
-
-        transform.position = SetTargetPos(transform.position);
-        targetPos = SetTargetPos(transform.position);
-        _isMoving = false;
-
-    }
-
-
-
+    /// <summary>
+    /// 外部调用推动此物体的方法
+    /// </summary>
+    /// <param name="inputEvent"></param>
     public void Move(ENUM_InputEvent inputEvent)
     {
         if (!_isMoving)
@@ -63,57 +75,6 @@ public class Chest : MonoBehaviour, IUpperUnit, IMovableUnit
             JudgeBaseStateAndMove(targetUnit);
         }
     }
-
-
-    /// <summary>
-    /// 处理移动的具体过程
-    /// </summary>
-    private void MoveProcess()
-    {
-        transform.position = Vector3.Lerp(transform.position, targetPos, _moveSpeed * Time.deltaTime);
-
-        if (Vector3.Magnitude(transform.position - targetPos) < 0.1f)
-        {
-            _isMoving = false;
-        }
-
-    }
-
-
-
-    //将单元的高度转换为模型高度
-    public Vector3 SetTargetPos(Vector3 _targetPos)
-    {
-        return new Vector3(_targetPos.x, _heigth, _targetPos.z);
-    }
-
-
-
-
-    private void JudgeBaseStateAndMove(BaseUnit targetUnit)
-    {
-        if (targetUnit != null && targetUnit.CanWalk)
-        {
-            targetPos = SetTargetPos(targetUnit.Model.transform.position);
-            if (targetUnit.State.stateType != ENUM_State.Block)
-            {
-                targetUnit.StateEnd();
-                //将箱子走过的路径设为地面
-                targetUnit.SetState(new Ground(targetUnit));
-            }
-            //更新目标单元的上层单元信息
-            targetUnit.UpperUnit = new UpperUnit(Type, ControlType, BeFiredType);
-            targetUnit.SetUpperGameObject(gameObject);
-            _currentOn.UpperUnit.InitOrReset();
-            _currentOn.SetUpperGameObject(null);
-            _currentOn = targetUnit;
-            //这里是移动的开关
-            _isMoving = true;
-        }
-
-    }
-
-
 
 
     /// <summary>
@@ -140,8 +101,65 @@ public class Chest : MonoBehaviour, IUpperUnit, IMovableUnit
     }
 
 
+    /// <summary>
+    /// 返回y值改为_height属性的向量
+    /// </summary>
+    /// <param name="_targetPos"></param>
+    /// <returns></returns>
+    public Vector3 SetTargetPos(Vector3 _targetPos)
+    {
+        return new Vector3(_targetPos.x, _heigth, _targetPos.z);
+    }
 
-    //获取目的地单元
+
+    /// <summary>
+    /// 处理移动的具体过程
+    /// </summary>
+    private void MoveProcess()
+    {
+        transform.position = Vector3.Lerp(transform.position, targetPos, _moveSpeed * Time.deltaTime);
+
+        if (Vector3.Magnitude(transform.position - targetPos) < 0.1f)
+        {
+            _isMoving = false;
+        }
+
+    }
+
+
+    /// <summary>
+    /// 判断底层的状态，并移动物体
+    /// </summary>
+    /// <param name="targetUnit"></param>
+    private void JudgeBaseStateAndMove(BaseUnit targetUnit)
+    {
+        if (targetUnit != null && targetUnit.CanWalk)
+        {
+            targetPos = SetTargetPos(targetUnit.Model.transform.position);
+            if (targetUnit.State.StateType != ENUM_State.Block)
+            {
+                targetUnit.StateEnd();
+                //将箱子走过的路径设为地面
+                targetUnit.SetState(new Ground(targetUnit));
+            }
+            //更新目标单元的上层单元信息
+            targetUnit.UpperUnit = new UpperUnit(Type, ControlType, BeFiredType);
+            targetUnit.SetUpperGameObject(gameObject);
+            _currentOn.UpperUnit.InitOrReset();
+            _currentOn.SetUpperGameObject(null);
+            _currentOn = targetUnit;
+            //这里是移动的开关
+            _isMoving = true;
+        }
+
+    }
+
+
+    /// <summary>
+    /// 获取目的地单元
+    /// </summary>
+    /// <param name="inputEvent"></param>
+    /// <returns></returns>
     private BaseUnit GetTargetUnit(ENUM_InputEvent inputEvent)
     {
         BaseUnit targetUnit = null;
@@ -168,9 +186,5 @@ public class Chest : MonoBehaviour, IUpperUnit, IMovableUnit
 
 
 
-    public void End()
-    {
-
-    }
 
 }

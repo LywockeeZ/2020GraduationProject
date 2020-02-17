@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+
 
 public class GameUnitFactory : IGameUnitFactory
 {
@@ -12,7 +14,7 @@ public class GameUnitFactory : IGameUnitFactory
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <returns></returns>
-    public override BaseUnit BuildBaseUnit(NormalStageData currentStageData, ENUM_Build_BaseUnit baseType, int x, int y, GameObject parent, int startPosX, int startPosY)
+    public override BaseUnit BuildBaseUnit(NormalStageData currentStageData, ENUM_Build_BaseUnit baseType, int x, int y, GameObject parent)
     {
         //如果枚举值为0则返回空
         if (baseType == ENUM_Build_BaseUnit.Null)
@@ -21,7 +23,7 @@ public class GameUnitFactory : IGameUnitFactory
         IAssetFactory m_AssetFactory = GameFactory.GetAssetFactory();
 
         //x,y坐标分别对应世界坐标下的x，z轴
-        GameObject baseUnitObject = m_AssetFactory.LoadModel("BaseUnit", new Vector3(x + startPosX, 0, y + startPosY));
+        GameObject baseUnitObject = m_AssetFactory.InstantiateGameObject("BaseUnit", new Vector3(x, 0, y));
         //给所有基本单元设置一个父物体
         baseUnitObject.transform.SetParent(parent.transform);
         BaseUnit baseUnit = new BaseUnit(baseUnitObject, currentStageData);
@@ -54,7 +56,7 @@ public class GameUnitFactory : IGameUnitFactory
 
 
     /// <summary>
-    /// 建造上层单元的基本步骤：获取目标地基单元->加载模型资源->挂载实例化类->初始化
+    /// 建造上层单元的基本步骤：获取目标地基单元->加载模型资源->挂载实例化类->初始化->设置父物体
     /// </summary>
     /// <param name="currentStage"></param>
     /// <param name="upperType"></param>
@@ -72,31 +74,35 @@ public class GameUnitFactory : IGameUnitFactory
                 return null;
 
             case ENUM_Build_UpperUnit.Chest:
-                GameObject chestObject = m_AssetFactory.LoadModel("Chest", targetUnit.Model.transform.position);
-                Chest _chest;
-                _chest = chestObject.AddComponent<Chest>();
+                GameObject chestObject = m_AssetFactory.InstantiateGameObject("Chest", targetUnit.Model.transform.position);
+                Chest _chest = chestObject.AddComponent<Chest>();
                 _chest.CurrentOn = targetUnit;
+                targetUnit.SetUpperGameObject(chestObject);
+                chestObject.transform.SetParent(targetUnit.Model.transform);
                 return chestObject;
 
             case ENUM_Build_UpperUnit.RoadBlock:
-                GameObject roadBlockObject = m_AssetFactory.LoadModel("RoadBlock", targetUnit.Model.transform.position);
-                RoadBlock _roadBlock;
-                _roadBlock = roadBlockObject.AddComponent<RoadBlock>();
+                GameObject roadBlockObject = m_AssetFactory.InstantiateGameObject("RoadBlock", targetUnit.Model.transform.position);
+                RoadBlock _roadBlock = roadBlockObject.AddComponent<RoadBlock>();
                 _roadBlock.CurrentOn = targetUnit;
+                targetUnit.SetUpperGameObject(roadBlockObject);
+                roadBlockObject.transform.SetParent(targetUnit.Model.transform);
                 return roadBlockObject;
 
             case ENUM_Build_UpperUnit.OilTank:
-                GameObject oilTankObject = m_AssetFactory.LoadModel("OilTank", targetUnit.Model.transform.position);
-                OilTank _oilTank;
-                _oilTank = oilTankObject.AddComponent<OilTank>();
+                GameObject oilTankObject = m_AssetFactory.InstantiateGameObject("OilTank", targetUnit.Model.transform.position);
+                OilTank _oilTank = oilTankObject.AddComponent<OilTank>();
                 _oilTank.CurrentOn = targetUnit;
+                targetUnit.SetUpperGameObject(oilTankObject);
+                oilTankObject.transform.SetParent(targetUnit.Model.transform);
                 return oilTankObject;
 
             case ENUM_Build_UpperUnit.WaterTank:
-                GameObject waterTankObject = m_AssetFactory.LoadModel("WaterTank", targetUnit.Model.transform.position);
-                WaterTank _waterTank;
-                _waterTank = waterTankObject.AddComponent<WaterTank>();
+                GameObject waterTankObject = m_AssetFactory.InstantiateGameObject("WaterTank", targetUnit.Model.transform.position);
+                WaterTank _waterTank = waterTankObject.AddComponent<WaterTank>();
                 _waterTank.CurrentOn = targetUnit;
+                targetUnit.SetUpperGameObject(waterTankObject);
+                waterTankObject.transform.SetParent(targetUnit.Model.transform);
                 return waterTankObject;
 
             case ENUM_Build_UpperUnit.Player:
@@ -104,27 +110,35 @@ public class GameUnitFactory : IGameUnitFactory
                 Player _playerUnit;
                 if (playerObject == null)
                 {
-                    playerObject = m_AssetFactory.LoadModel("Player", targetUnit.Model.transform.position);
-                    _playerUnit = playerObject.AddComponent<Player>();
+                    playerObject = m_AssetFactory.InstantiateGameObject("Player", targetUnit.Model.transform.position);
+                    _playerUnit = playerObject.GetComponent<Player>();
                 }
                 else
                 {
                     _playerUnit = playerObject.GetComponent<Player>();
+                    playerObject.transform.forward = Vector3.forward;
                 }
+         
+                //必须等此处赋值完后才能初始化，否则会空引用
                 _playerUnit.CurrentOn = targetUnit;
-                _playerUnit.Init();
+                //playerObject.transform.SetParent(targetUnit.Model.transform);
+
+                //等Navmesh加载完后再初始化，防止Navagent报错
+                Action call = () => { _playerUnit.Init(); };
+                CoroutineManager.StartCoroutineTask(call, 0.05f);
+
                 Game.Instance.SetPlayerUnit(_playerUnit);
                 return playerObject;
 
             case ENUM_Build_UpperUnit.Survivor:
-                GameObject survivorObject = m_AssetFactory.LoadModel("Survivor", targetUnit.Model.transform.position);
-                Survivor _survivor;
-                _survivor = survivorObject.AddComponent<Survivor>();
+                GameObject survivorObject = m_AssetFactory.InstantiateGameObject("Survivor", targetUnit.Model.transform.position);
+                Survivor _survivor = survivorObject.AddComponent<Survivor>();
                 _survivor.CurrentOn = targetUnit;
+                targetUnit.SetUpperGameObject(survivorObject);
                 return survivorObject;
 
             default:
-                Debug.Log("未找到此类型的单元");
+                Debug.LogError("未找到此类型的单元");
                 throw new System.InvalidOperationException();
         }
        

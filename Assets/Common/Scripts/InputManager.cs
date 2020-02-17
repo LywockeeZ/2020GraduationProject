@@ -42,6 +42,7 @@ public class InputManager : MonoBehaviour
         {
             Vector3 clickedPos;
 
+            //关卡模式中
             if (!Game.Instance.GetCanFreeMove())
             {
                 clickedPos = hitInfo.transform.position;

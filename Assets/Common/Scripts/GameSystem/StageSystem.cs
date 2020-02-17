@@ -18,12 +18,10 @@ public class StageSystem : IGameSystem
     private int m_NowStageLv = 1;       //目前的关卡
 
 
-
     public StageSystem()
     {
         Initialize();
     }
-
 
 
     public override void Initialize()
@@ -33,6 +31,7 @@ public class StageSystem : IGameSystem
     }
 
 
+    #region 事件注册与注销
     private EventListenerDelegate OnStageBegain;
     private EventListenerDelegate OnStageEnd;
     private EventListenerDelegate OnStageRestart;
@@ -70,36 +69,42 @@ public class StageSystem : IGameSystem
         Game.Instance.RegisterEvent(ENUM_GameEvent.StageRestart,
         OnStageRestart = (Message evt) =>
         {
+            CoroutineManager.StopAllCoroutine();
+            Game.Instance.SetCanInput(false);
             RestartStage();
+
         });
 
         Game.Instance.RegisterEvent(ENUM_GameEvent.LoadSceneStart,
         OnLoadSceneStart = (Message evt) =>
         {
+            Game.Instance.SetCanInput(false);
             ResetStage();
         });
 
         Game.Instance.RegisterEvent(ENUM_GameEvent.LoadSceneComplete,
         OnLoadSceneComplete = (Message evt) =>
         {
-            Game.Instance.NotifyEvent(ENUM_GameEvent.StageBegain, null);
+            //Game.Instance.NotifyEvent(ENUM_GameEvent.StageBegain, null);
         });
-
-
-
-
     }
 
 
-
+    private void DetachEvent()
+    {
+        Game.Instance.DetachEvent(ENUM_GameEvent.StageBegain, OnStageBegain);
+        Game.Instance.DetachEvent(ENUM_GameEvent.StageEnd, OnStageEnd);
+        Game.Instance.DetachEvent(ENUM_GameEvent.StageRestart, OnStageRestart);
+        Game.Instance.DetachEvent(ENUM_GameEvent.LoadSceneStart, OnLoadSceneStart);
+        Game.Instance.DetachEvent(ENUM_GameEvent.LoadSceneComplete, OnLoadSceneComplete);
+    }
+    #endregion
 
 
     public override void Release()
     {
-        
+        DetachEvent();
     }
-
-
 
 
     public override void Update()
@@ -111,116 +116,18 @@ public class StageSystem : IGameSystem
     }
 
 
-
-
     private void InitializeStageData()
     {
         if (m_RootStageHandler != null)
             return;
 
-
-        ////第1关
-        //StageMetaData StageMetadata = GameFactory.GetDataFactory().LoadStageData("第1关");
-        //NormalStageData StageData = new NormalStageData(StageMetadata);
-        //NormalStageScore StageScore = new NormalStageScore();
-        //NormalStageHandler NewStage = new NormalStageHandler(StageScore, StageData);
-        //Stages.Add("第1关", NewStage);
-
-        ////设定为起始关卡
-        //m_RootStageHandler = NewStage;
-        //m_NextStageHandler = NewStage;
-
-
-        ////第2关
-        //StageMetaData StageMetadata2 = GameFactory.GetDataFactory().LoadStageData("第2关");
-        //NormalStageData StageData2 = new NormalStageData(StageMetadata2);
-        //NormalStageScore StageScore2 = new NormalStageScore();
-        //NormalStageHandler NewStage2 = NewStage.SetNextHandler(new NormalStageHandler(StageScore2, StageData2)) as NormalStageHandler;
-        //Stages.Add("第2关", NewStage2);
-
-        ////设置关卡链的尽头
-        //NormalStageHandler NewStage3 = NewStage2.SetNextHandler(null) as NormalStageHandler;
-
-        ////FireTest
-        //StageMetaData FireTestMetadata = GameFactory.GetDataFactory().LoadStageData("FireTest");
-        //NormalStageData FireTestData = new NormalStageData(FireTestMetadata);
-        //NormalStageScore FireTestScore = new NormalStageScore();
-        //NormalStageHandler FireTest = new NormalStageHandler(FireTestScore, FireTestData);
-        //Stages.Add("FireTest", FireTest);
-
-        ////OilTest
-        //StageMetaData OilTestMetadata = GameFactory.GetDataFactory().LoadStageData("OilTest");
-        //NormalStageData OilTestData = new NormalStageData(OilTestMetadata);
-        //NormalStageScore OilTestScore = new NormalStageScore();
-        //NormalStageHandler OilTest = new NormalStageHandler(OilTestScore, OilTestData);
-        //Stages.Add("OilTest", OilTest);
-
-        ////WaterTest
-        //StageMetaData WaterTestMetadata = GameFactory.GetDataFactory().LoadStageData("WaterTest");
-        //NormalStageData WaterTestData = new NormalStageData(WaterTestMetadata);
-        //NormalStageScore WaterTestScore = new NormalStageScore();
-        //NormalStageHandler WaterTest = new NormalStageHandler(WaterTestScore, WaterTestData);
-        //Stages.Add("WaterTest", WaterTest);
-
-        //////OilTankTest
-        ////StageMetaData OilTankTestMetadata = GameFactory.GetDataFactory().LoadStageData("OilTankTest");
-        ////NormalStageData OilTankTestData = new NormalStageData(OilTankTestMetadata);
-        ////NormalStageScore OilTankTestScore = new NormalStageScore();
-        ////NormalStageHandler OilTankTest = new NormalStageHandler(OilTankTestScore, OilTankTestData);
-        ////Stages.Add("OilTankTest", OilTankTest);
-
-        StageMetaData StageMetadata1 = GameFactory.GetDataFactory().LoadStageData("教程1");
-        NormalStageData StageData1 = new NormalStageData(StageMetadata1);
-        TeachStageScore StageScore1 = new TeachStageScore();
-        TeachStageHandler stage1 = new TeachStageHandler(StageScore1, StageData1, 11, 5);
-        Stages.Add("教程1", stage1);
-
-        StageMetaData StageMetadata2 = GameFactory.GetDataFactory().LoadStageData("教程2");
-        NormalStageData StageData2 = new NormalStageData(StageMetadata2);
-        TeachStageScore StageScore2 = new TeachStageScore();
-        TeachStageHandler stage2 = stage1.SetNextHandler( new TeachStageHandler(StageScore2, StageData2, 10, 0)) as TeachStageHandler;
-        Stages.Add("教程2", stage2);
-
-        StageMetaData StageMetadata3 = GameFactory.GetDataFactory().LoadStageData("教程3");
-        NormalStageData StageData3 = new NormalStageData(StageMetadata3);
-        TeachStageScore StageScore3 = new TeachStageScore();
-        TeachStageHandler stage3 = stage2.SetNextHandler(new TeachStageHandler(StageScore3, StageData3, 0, 0)) as TeachStageHandler;
-        Stages.Add("教程3", stage3);
+        Stages = GameFactory.GetDataFactory().LoadStageData();
 
         //设置起点
-        m_RootStageHandler = stage1;
-        m_NextStageHandler = stage1;
-        //设置终点为空
-        TeachStageHandler stage4 = stage3.SetNextHandler(null) as TeachStageHandler;
+        m_RootStageHandler = Stages["第1关"];
+        m_NextStageHandler = Stages["第1关"];
 
     }
-
-
-    /// <summary>
-    /// 临时从文件中读取并加载目标关卡数据
-    /// </summary>
-    /// <param name="stageName"></param>
-    /// <returns></returns>
-    private NormalStageHandler AutoFindAndLoadStageData(string stageName,int x, int y)
-    {
-        StageMetaData StageMetadata = GameFactory.GetDataFactory().LoadStageData(stageName);
-        NormalStageData StageData = new NormalStageData(StageMetadata);
-        NormalStageScore StageScore = new NormalStageScore();
-        NormalStageHandler NewStage = new NormalStageHandler(StageScore, StageData, x, y);
-        return NewStage;
-    }
-
-    private NormalStageHandler AutoFindAndLoadTeachStageData(string stageName, int x, int y)
-    {
-        StageMetaData StageMetadata = GameFactory.GetDataFactory().LoadStageData(stageName);
-        NormalStageData StageData = new NormalStageData(StageMetadata);
-        TeachStageScore StageScore = new TeachStageScore();
-        NormalStageHandler NewStage = new NormalStageHandler(StageScore, StageData, x, y);
-        return NewStage;
-    }
-
-
-
 
 
     public bool IsStageEnd()
@@ -232,6 +139,7 @@ public class StageSystem : IGameSystem
             return true;
     }
 
+
     /// <summary>
     /// 清空关卡注册的事件
     /// </summary>
@@ -241,13 +149,18 @@ public class StageSystem : IGameSystem
         stage.DetachEvent();
     }
 
+
     /// <summary>
     /// 将关卡内容清空
     /// </summary>
     public void ResetStage()
     {
-        m_NowStageHandler.Reset();
+        if (m_NowStageHandler != null)
+        {
+            m_NowStageHandler.Reset();
+        }
     }
+
 
     /// <summary>
     /// 重新开始当前关卡，只重载关卡内容，不重载场景
@@ -257,8 +170,6 @@ public class StageSystem : IGameSystem
         ResetStage();
         CoroutineManager.StartCoroutineTask(()=>m_NowStageHandler.Start(), 0.1f);
     }
-
-
 
 
     /// <summary>
@@ -271,8 +182,6 @@ public class StageSystem : IGameSystem
     }
 
 
-
-
     /// <summary>
     /// 通过关卡名读取并加载指定关卡
     /// </summary>
@@ -281,15 +190,16 @@ public class StageSystem : IGameSystem
     {
         if (Stages.ContainsKey(stageName))
         {
+            Debug.Log("LoadStage:" + stageName);
             m_NowStageHandler = Stages[stageName];
             m_NowStageHandler.Start();
         }
         else
         {
-            m_NowStageHandler = AutoFindAndLoadStageData(stageName, 0, 0);
-            m_NowStageHandler.Start();
+            Debug.LogError("[" + stageName + "]此关卡不存在");
         }
     }
+
 
     /// <summary>
     /// 加载下一个关卡场景
@@ -312,6 +222,7 @@ public class StageSystem : IGameSystem
         }
     }
 
+
     /// <summary>
     /// 加载指定关卡场景
     /// </summary>
@@ -323,9 +234,32 @@ public class StageSystem : IGameSystem
             LoadNextLevel();
         else
         {
-            Game.Instance.NotifyEvent(ENUM_GameEvent.LoadSceneStart, levelName);
-            LoadingSceneManager.LoadScene(levelName);
+            if (!Game.Instance.isTest)
+            {
+                Game.Instance.NotifyEvent(ENUM_GameEvent.LoadSceneStart, levelName);
+                LoadingSceneManager.LoadScene(levelName);
+            }
+            else
+            {
+                Game.Instance.NotifyEvent(ENUM_GameEvent.LoadSceneStart, levelName);
+                if (levelName == "StartScene")
+                {
+                    LoadingSceneManager.LoadScene("StartScene");
+
+                }
+                else
+                    LoadingSceneManager.LoadScene("NewStage");
+            }
         }
+    }
+
+
+    /// <summary>
+    /// 获取关卡字典
+    /// </summary>
+    public Dictionary<string, IStageHandler> GetStages()
+    {
+        return Stages;
     }
 
 }

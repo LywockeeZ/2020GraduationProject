@@ -32,6 +32,12 @@ public static class CoroutineManager
     }
 
 
+    public static void StopAllCoroutine()
+    {
+        coroutine.StopAllCoroutines();
+    }
+
+
     /// <summary>
     /// 使用一个返回bool类型的回调函数,
     /// 当返回为true时，等待一定时间触发事件

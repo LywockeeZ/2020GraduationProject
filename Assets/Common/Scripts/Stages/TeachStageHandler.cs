@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TeachStageHandler : NormalStageHandler
 {
-    public TeachStageHandler(NormalStageScore StageScore, NormalStageData StageData, int x, int y):base(StageScore, StageData, x, y)
+    public TeachStageHandler(TeachStageScore StageScore, NormalStageData StageData):base(StageScore, StageData)
     {
 
     }

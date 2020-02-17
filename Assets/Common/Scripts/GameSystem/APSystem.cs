@@ -9,6 +9,7 @@ public class APSystem : IGameSystem
     public int Round_MAX_ActionPts = 0;      //每回合最大行动点数
     public int LastRoundRemainPts = 0;      //上回合未扣除的点数
     public int CostTotalPts = 0;        //花费的总点数
+    public int Rounds = 1;       //当前回合数,由外部具体关卡设置
 
 
     public APSystem()
@@ -24,30 +25,50 @@ public class APSystem : IGameSystem
     }
 
 
+    private EventListenerDelegate OnStageBegain;
+    private EventListenerDelegate OnStageRestart;
+    private EventListenerDelegate RoundBegain;
 
     private void RegisterEvent()
     {
         Game.Instance.RegisterEvent(ENUM_GameEvent.StageBegain,
-        delegate (Message evt)
+        OnStageBegain = (Message evt) =>
         {
             ResetActionPoints();
         });
 
         Game.Instance.RegisterEvent(ENUM_GameEvent.StageRestart,
-        delegate (Message evt)
+        OnStageRestart = (Message evt) =>
         {
             ResetAPSystem();
         });
 
         Game.Instance.RegisterEvent(ENUM_GameEvent.RoundBegain,
-        delegate (Message evt)
+        RoundBegain =  (Message evt) =>
         {
             ResetActionPoints();
-            GUIManager.Instance.SetAPBarImage(GetCurrentAP());
+            //等界面加载之后再设置ActionBar
+            Action call = () => {
+                Game.Instance.SetActionBar(ActionPts);
+            };
+            CoroutineManager.StartCoroutineTask(call, 0.01f);
+            //GUIManager.Instance.SetAPBarImage(GetCurrentAP());
             //GUIManager.Instance.SetAPText(GetCurrentAP());
             //GUIManager.Instance.SetCostAPText(CostTotalPts);
         });
 
+    }
+
+    private void DetachEvent()
+    {
+        Game.Instance.DetachEvent(ENUM_GameEvent.StageBegain, OnStageBegain);
+        Game.Instance.DetachEvent(ENUM_GameEvent.StageRestart, OnStageRestart);
+        Game.Instance.DetachEvent(ENUM_GameEvent.RoundBegain, RoundBegain);
+    }
+
+    public override void Release()
+    {
+        DetachEvent();
     }
 
 
@@ -72,9 +93,10 @@ public class APSystem : IGameSystem
             CostTotalPts += additionValue;
         }
 
+        Game.Instance.SetActionBar(ActionPts);
         //GUIManager.Instance.SetAPText(GetCurrentAP());
         //GUIManager.Instance.SetCostAPText(CostTotalPts);
-        GUIManager.Instance.SetAPBarImage(GetCurrentAP());
+        //GUIManager.Instance.SetAPBarImage(GetCurrentAP());
 
     }
 
@@ -94,7 +116,7 @@ public class APSystem : IGameSystem
 
 
 
-
+    
     public void SetRoundActionPts(int value)
     {
         ActionPts = value;
@@ -128,5 +150,10 @@ public class APSystem : IGameSystem
         return ActionPts;
     }
 
+    
+    public int GetTotalCostPts()
+    {
+        return CostTotalPts;
+    }
 
 }

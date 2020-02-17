@@ -4,41 +4,55 @@ using UnityEngine;
 
 public class Block : IState
 {
-    private float height = 0f;
-    private GameObject model;
 
-    private bool canWalk = true;
-    private bool canBeFire = false;
+    #region 私有属性
+    //模型生成高度增量
+    private float _height = 0f;
+    private bool _canWalk = true;
+    private bool _canBeFire = false;
+    private ENUM_StateBeFiredType _beFiredType = ENUM_StateBeFiredType.False;
+    #endregion
+
 
     public Block(BaseUnit owner) : base(owner)
     {
-        stateType = ENUM_State.Block;
+        StateType = ENUM_State.Block;
         _stateName = "Block";
+        BeFiredType = _beFiredType;
         OnStateBegin();
     }
 
+
     public override void OnStateBegin()
     {
-        Owner.SetCanWalk(canWalk);
-        Owner.SetCanBeFire(canBeFire);
+        Owner.SetCanWalk(_canWalk);
+        Owner.SetCanBeFire(_canBeFire);
+
         SetBlockModel();
     }
+
 
     public override void OnStateHandle()
     {
         
     }
 
+
     public override void OnStateEnd()
     {
-        GameObject.Destroy(model);
+        GameFactory.GetAssetFactory().DestroyGameObject<GameObject>(Model);
+        Owner = null;
     }
 
+
+    /// <summary>
+    /// 加载模型，设置下层单元为父物体
+    /// </summary>
     private void SetBlockModel()
     {
-        GameObject BlockModel = Resources.Load("Prefabs/Block") as GameObject;
-        model = GameObject.Instantiate(BlockModel, GetTargetPos(Owner.Model.transform.position, height), Quaternion.identity);
-        model.transform.SetParent(GameObject.Find("Units").transform);
+        Model = GameFactory.GetAssetFactory().InstantiateGameObject("Block",
+                    GetTargetPos(Owner.Model.transform.position, _height));
+        Model.transform.SetParent(Owner.Model.transform);
     }
 
 

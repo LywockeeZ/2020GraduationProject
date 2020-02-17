@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class IDataFactory 
 {
-    public abstract StageMetaData LoadStageData(string StageName);
+    public abstract Dictionary<string, IStageHandler> LoadStageData();
 }

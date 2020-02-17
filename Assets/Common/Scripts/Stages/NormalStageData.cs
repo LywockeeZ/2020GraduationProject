@@ -12,10 +12,13 @@ public class NormalStageData : IStageData
     public int[,,] StageData;     //储存关卡信息，包含是否有地基
 
 
-    public GameObject Units;
+    public GameObject Units;      //单元的父物体
     public List<BaseUnit> baseUnits = new List<BaseUnit>();     //放置所有的地基单元的容器
     public List<BaseUnit> fireUnits = new List<BaseUnit>();     //放置所有火焰单元
     public List<BaseUnit> oilUnits  = new List<BaseUnit>();     //放置所有油单元
+
+    public List<GameObject> stateModel = new List<GameObject>(); //各个状态的模型
+
 
 
     //油关卡不一定有，但火是一定有的
@@ -88,14 +91,24 @@ public class NormalStageData : IStageData
 
     public override void Reset()
     {
-        ClearBaseUnitAroundMessage();
-        baseUnits.Clear();
+        DetachEvent();
         fireUnits.Clear();
         oilUnits.Clear();
         isOilUpdateEnd  = true;
         isFireUpdateEnd = false;
-        GameObject.Destroy(Units);
-}
+
+        //依次通过对象池回收
+        foreach (var unit in baseUnits)
+        {
+            if (unit != null)
+            {
+                unit.End();
+            }
+        }
+        baseUnits.Clear();
+        //Debug.Log(baseUnits.Count);
+
+    }
 
 
 
@@ -103,12 +116,23 @@ public class NormalStageData : IStageData
     /// <summary>
     /// 依据元数据，按坐标构建关卡
     /// </summary>
-    public override void BuildStage(int startPosX, int startPosY)
+    public override void BuildStage()
     {
+
         IGameUnitFactory m_GameUnitFactory = GameFactory.GetGameUnitFactory();
 
-        Units = new GameObject("Units");
-        Units.transform.position = new Vector3(startPosX, 0, startPosY);
+        //开始构建之前保证上层单元容器为空，若不空说明重置关卡失败
+        if (baseUnits.Count!= 0)
+        {
+            Debug.LogError("关卡未完全重置：baseUnit未被完全清除");
+        }
+
+        //初次构建时新建父物体
+        if (Units == null)
+        {
+            Units = new GameObject("Units");
+            Units.transform.position = new Vector3(0, 0, 0);
+        }
 
         //单元坐标
         int x = 0;
@@ -118,15 +142,10 @@ public class NormalStageData : IStageData
             for (int j = 0; j <= Column - 1; j++)
             {
                 BaseUnit targetUnit = m_GameUnitFactory.BuildBaseUnit(this,
-                        (ENUM_Build_BaseUnit)StageData[0, i, j], x, y, Units, startPosX, startPosY);
+                        (ENUM_Build_BaseUnit)StageData[0, i, j], x, y, Units);
 
                 GameObject targetUpperUnit = m_GameUnitFactory.BuildUpperUnit(this,
                         (ENUM_Build_UpperUnit)StageData[1, i, j], targetUnit);
-                if (targetUpperUnit != null)
-                {
-                    //给所有上层物体设置一个父物体
-                    targetUpperUnit.transform.SetParent(Units.transform);
-                }
 
                 baseUnits.Add(targetUnit);
                 x += unitLength;

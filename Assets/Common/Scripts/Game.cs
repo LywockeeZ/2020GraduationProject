@@ -18,10 +18,12 @@ public class Game
     private Game() { }
     #endregion
 
+    public bool isTest = false;
 
     private StageSystem m_StageSystem = null;
     private GameEventSystem m_GameEventSystem = null;
     private APSystem m_APSystem = null;
+    private UISystem m_UISystem = null;
 
 
 
@@ -39,6 +41,7 @@ public class Game
         m_GameEventSystem = new GameEventSystem();
         m_StageSystem = new StageSystem();
         m_APSystem = new APSystem();
+        m_UISystem = new UISystem();
     }
 
     private void ResigerGameEvent()
@@ -58,6 +61,7 @@ public class Game
         m_GameEventSystem.Update();
         m_StageSystem.Update();
         m_APSystem.Update();
+        m_UISystem.Update();
     }
 
 
@@ -83,6 +87,11 @@ public class Game
     public void NotifyEvent(Message evt)
     {
         m_GameEventSystem.NotifyEvent(evt);
+    }
+
+    public void ClearAllEvent()
+    {
+        m_GameEventSystem.ClearAllEvent();
     }
     #endregion
 
@@ -133,6 +142,11 @@ public class Game
     {
         return m_APSystem.CostAP(value, additionValue);
     }
+
+    public int GetTotalCostPts()
+    {
+        return m_APSystem.GetTotalCostPts();
+    }
     #endregion
 
 
@@ -156,10 +170,15 @@ public class Game
         m_StageSystem.LoadStage(stageName);
     }
 
-    public void RestartStage()
+    /// <summary>
+    /// 获取全部关卡的字典
+    /// </summary>
+    /// <returns></returns>
+    public Dictionary<string, IStageHandler> GetStages()
     {
-        m_StageSystem.RestartStage();
+        return m_StageSystem.GetStages();
     }
+
 
 
     /// <summary>
@@ -187,6 +206,47 @@ public class Game
         return playerUnit;
     }
 
+    #endregion
+
+
+
+    #region UI系统的接口
+    /// <summary>
+    /// 设置BattleUI中的ActionBar
+    /// </summary>
+    /// <param name="ap"></param>
+    /// <param name="round"></param>
+    public void SetActionBar(int ap)
+    {
+        m_UISystem.SetActionBar(ap);
+    }
+
+
+    public void SetRoundTag(int round)
+    {
+        m_UISystem.SetRoundTag(round);
+    }
+
+
+    public void ShowUI(string UIFormName)
+    {
+        m_UISystem.ShowUI(UIFormName);
+    }
+
+    public void CloseUI(string UIFormName)
+    {
+        m_UISystem.CloseUI(UIFormName);
+    }
+
+    public void CloseAll()
+    {
+        m_UISystem.CloseAll();
+    }
+
+    public void UIShowMessag(string UIFormName , string content)
+    {
+        m_UISystem.ShowMessage(UIFormName, content);
+    }
     #endregion
 
 }

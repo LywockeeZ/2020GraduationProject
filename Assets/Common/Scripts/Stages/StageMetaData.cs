@@ -7,14 +7,18 @@ using UnityEngine;
 /// </summary>
 public class StageMetaData
 {
+    public string Name;
+    public int Type = 0;
     public int Row = 0;
     public int Column = 0;
     public int[,,] stageMetaData;
 
-    public StageMetaData(int[,,] _stageMetaData, int row, int column)
+    public StageMetaData(int[,,] _stageMetaData, string name, int row, int column, int type)
     {
         stageMetaData = _stageMetaData;
+        Name = name;
         Row = row;
         Column = column;
+        Type = type;
     }
 }

@@ -34,7 +34,6 @@ public class Dispatcher : IDispatcher
         EventListenerDelegate myListener = null;
         events.TryGetValue(type, out myListener);
         events[type] = (EventListenerDelegate)Delegate.Combine(myListener, listener);
-
     }
 
 

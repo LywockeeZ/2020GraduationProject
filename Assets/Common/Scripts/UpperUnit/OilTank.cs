@@ -8,23 +8,18 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
     public float    Height    { get { return _heigth   ; } set { _heigth    = value; } }
     public bool     CanBeFire { get { return _canBeFire; } set { _canBeFire = value; } }
 
+    public Animator animator;
+
+
+    #region 私有属性
     private ENUM_UpperUnit Type = ENUM_UpperUnit.OilTank;                             //放置单元的类型
     private ENUM_UpperUnitControlType ControlType = ENUM_UpperUnitControlType.Fixed;  //放置单元的操控类型
     private ENUM_UpperUnitBeFiredType BeFiredType = ENUM_UpperUnitBeFiredType.BeFire; 
 
-    public Animator animator;
-
     private BaseUnit _currentOn;
     private float    _heigth = 0f;
     private bool     _canBeFire = true;
-
-
-
-    private void Start()
-    {
-        Init();
-    }
-
+    #endregion
 
 
     public void Init()
@@ -36,11 +31,27 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
 
         transform.position = SetTargetPos(transform.position);
         animator = transform.GetChild(0).GetComponent<Animator>();
-
     }
 
 
+    public void End()
+    {
+        GameFactory.GetAssetFactory().DestroyGameObject<GameObject>(this.gameObject);
+        _currentOn.UpperUnit.InitOrReset();
+        CurrentOn.UpperGameObject = null;
+        Destroy(this);
+    }
 
+
+    private void Start()
+    {
+        Init();
+    }
+
+
+    /// <summary>
+    /// 玩家控制触发调用的方法
+    /// </summary>
     public void Handle()
     {
         Game.Instance.CostAP(1, 0);
@@ -55,35 +66,34 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
     }
 
 
-
+    /// <summary>
+    /// 火焰触发调用的方法
+    /// </summary>
     public void HandleByFire()
     {
         _currentOn.SetState(new Fire(_currentOn));
         CoroutineManager.StartCoroutine(BoomAccess());
 
+        if (animator != null) animator.SetTrigger("Break");
         End();
 
-        if (animator != null) animator.SetTrigger("Break");
-
     }
 
 
-
-    public void End()
-    {
-        _currentOn.UpperUnit.InitOrReset();
-    }
-
-
-
-    //将单元的高度转换为模型高度
+    /// <summary>
+    /// 返回y为_height的向量
+    /// </summary>
+    /// <param name="_targetPos"></param>
+    /// <returns></returns>
     public Vector3 SetTargetPos(Vector3 _targetPos)
     {
         return new Vector3(_targetPos.x, _heigth, _targetPos.z);
     }
 
 
-
+    /// <summary>
+    /// 将围绕单元一圈范围设置为油
+    /// </summary>
     private void SetAroundToOil()
     {
         List<BaseUnit> units = GetBoomRangeAround();
@@ -116,11 +126,14 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
     }
 
 
-
+    /// <summary>
+    /// 将目标单元设置为油
+    /// </summary>
+    /// <param name="targetUnit"></param>
     private void SetTargetToOil(BaseUnit targetUnit)
     {
         if (targetUnit != null &&
-            (targetUnit.State.stateType == ENUM_State.Ground || targetUnit.State.stateType == ENUM_State.Water || targetUnit.State.stateType == ENUM_State.Block))
+            (targetUnit.State.StateType == ENUM_State.Ground || targetUnit.State.StateType == ENUM_State.Water || targetUnit.State.StateType == ENUM_State.Block))
         {
             targetUnit.StateEnd();
             targetUnit.SetState(new Oil(targetUnit));
@@ -128,8 +141,10 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
     }
 
 
-
-
+    /// <summary>
+    /// 将目标单元设置为火
+    /// </summary>
+    /// <param name="targetUnit"></param>
     private void SetTargetToFire(BaseUnit targetUnit)
     {
         if (targetUnit != null)
@@ -154,13 +169,13 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
             }
             else
             {
-                if (targetUnit.State.beFiredType == ENUM_StateBeFiredType.BeFire)
+                if (targetUnit.State.BeFiredType == ENUM_StateBeFiredType.BeFire)
                 {
                     targetUnit.StateEnd();
                     targetUnit.SetState(new Fire(targetUnit));
                 }
                 else
-                if (targetUnit.State.beFiredType == ENUM_StateBeFiredType.BeHandle)
+                if (targetUnit.State.BeFiredType == ENUM_StateBeFiredType.BeHandle)
                 {
                     targetUnit.StateRequest();
                 }
@@ -170,8 +185,9 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
     }
 
 
-
-
+    /// <summary>
+    /// 油桶爆炸函数
+    /// </summary>
     private void Boom()
     {
         List<BaseUnit> units = GetBoomRangeAround();
@@ -182,7 +198,9 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
     }
 
 
-
+    /// <summary>
+    /// 对爆炸外围波及到的火焰蔓延
+    /// </summary>
     private void FireSpread()
     {
         List<BaseUnit> units = GetBoomRangeAdditionAround();
@@ -193,7 +211,7 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
             {
                 if (unit.UpperUnit.Type == ENUM_UpperUnit.NULL)
                 {
-                    if (unit.State.stateType == ENUM_State.Fire)
+                    if (unit.State.StateType == ENUM_State.Fire)
                     {
                         FireNeighbor.Add(unit);
                     }
@@ -208,9 +226,10 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
     }
 
 
-
-
-    //获取爆炸范围的信息
+    /// <summary>
+    /// 获取爆炸范围内的信息
+    /// </summary>
+    /// <returns></returns>
     private List<BaseUnit> GetBoomRangeAround()
     {
         NormalStageData _currentStage = CurrentOn.GetStage();
@@ -243,8 +262,10 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
     }
 
 
-
-    //爆炸范围外围信息
+    /// <summary>
+    /// 获取爆炸外围的信息
+    /// </summary>
+    /// <returns></returns>
     private List<BaseUnit> GetBoomRangeAdditionAround()
     {
         NormalStageData _currentStage = CurrentOn.GetStage();
@@ -290,7 +311,10 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
     }
 
 
-
+    /// <summary>
+    /// 爆炸的过程
+    /// </summary>
+    /// <returns></returns>
     IEnumerator BoomAccess()
     {
         _currentOn.GetStage().isOilUpdateEnd = false;
@@ -300,4 +324,5 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
         FireSpread();
         CoroutineManager.StopCoroutine(BoomAccess());
     }
+
 }

@@ -88,4 +88,9 @@ public class GameEventSystem : IGameSystem
     {
         Dispatcher.Instance.SendMessage(evt);
     }
+
+    public void ClearAllEvent()
+    {
+        Dispatcher.Instance.Clear();
+    }
 }
