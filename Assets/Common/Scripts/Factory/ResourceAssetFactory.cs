@@ -5,7 +5,7 @@ using UnityEngine;
 public class ResourceAssetFactory : IAssetFactory
 {
     //模型所在资源文件夹下的路径
-    public const string ModelPrefabsPath = "Prefabs/";
+    public const string ModelPrefabsPath = "Prefabs/Units/";
     //对象池的字典
     public Dictionary<string, ObjectPool> pools = new Dictionary<string, ObjectPool>();
     //对象池的父节点
