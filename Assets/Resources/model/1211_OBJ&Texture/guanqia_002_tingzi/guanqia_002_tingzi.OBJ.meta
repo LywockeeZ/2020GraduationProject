@@ -4,13 +4,14 @@ ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
-    100002: guanqia_002_tingzi:ZBrushPolyMesh3D
+    100002: ZBrushPolyMesh3D
     400000: //RootNode
-    400002: guanqia_002_tingzi:ZBrushPolyMesh3D
-    2100000: guanqia_002_tingzi_ZBrushPolyMesh3DMat
-    2300000: guanqia_002_tingzi:ZBrushPolyMesh3D
-    3300000: guanqia_002_tingzi:ZBrushPolyMesh3D
-    4300000: guanqia_002_tingzi:ZBrushPolyMesh3D
+    400002: ZBrushPolyMesh3D
+    2100000: ZBrushPolyMesh3DMat
+    2300000: ZBrushPolyMesh3D
+    3300000: ZBrushPolyMesh3D
+    4300000: ZBrushPolyMesh3D
+    2186277476908879412: ImportLogs
   externalObjects: {}
   materials:
     importMaterials: 1

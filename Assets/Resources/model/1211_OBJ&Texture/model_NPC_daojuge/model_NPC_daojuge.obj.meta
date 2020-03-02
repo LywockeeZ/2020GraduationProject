@@ -4,13 +4,19 @@ ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
-    100002: model_NPC_daojuge1:ZBrushPolyMesh3D
+    100002: polySurface4_polySurface6
+    100004: polySurface5_polySurface4
     400000: //RootNode
-    400002: model_NPC_daojuge1:ZBrushPolyMesh3D
-    2100000: model_NPC_daojuge1_ZBrushPolyMesh3DMat
-    2300000: model_NPC_daojuge1:ZBrushPolyMesh3D
-    3300000: model_NPC_daojuge1:ZBrushPolyMesh3D
-    4300000: model_NPC_daojuge1:ZBrushPolyMesh3D
+    400002: polySurface4_polySurface6
+    400004: polySurface5_polySurface4
+    2100000: polySurface4_polySurface6Mat
+    2100002: polySurface5_polySurface4Mat
+    2300000: polySurface4_polySurface6
+    2300002: polySurface5_polySurface4
+    3300000: polySurface4_polySurface6
+    3300002: polySurface5_polySurface4
+    4300000: polySurface4_polySurface6
+    4300002: polySurface5_polySurface4
   externalObjects: {}
   materials:
     importMaterials: 1
