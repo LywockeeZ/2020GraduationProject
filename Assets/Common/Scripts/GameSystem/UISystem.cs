@@ -139,6 +139,12 @@ public class UISystem : IGameSystem
     }
 
 
+    public void TriggerPopUp(string content)
+    {
+        UIManager.Instance.PopUp(content);
+    }
+
+
     #region 设置UI的接口
 
     /// <summary>

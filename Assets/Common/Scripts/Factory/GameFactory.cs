@@ -7,6 +7,7 @@ public static class GameFactory
     private static IAssetFactory m_AssetFactory = null;
     private static IGameUnitFactory m_GameUnitFactory = null;
     private static IDataFactory m_DataFactory = null;
+    private static ISkillFactory m_SkillFactory = null;
 
     //获取资源工厂
     public static IAssetFactory GetAssetFactory()
@@ -37,5 +38,15 @@ public static class GameFactory
             m_DataFactory = new XMLDataFactory();
         }
         return m_DataFactory;
+    }
+
+
+    public static ISkillFactory GetSkillFactory()
+    {
+        if (m_SkillFactory == null)
+        {
+            m_SkillFactory = new SkillFactory();
+        }
+        return m_SkillFactory;
     }
 }

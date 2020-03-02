@@ -10,6 +10,7 @@ public class NormalStageData : IStageData
     public int Row = 0;     //关卡最大行列信息
     public int Column = 0;
     public int[,,] StageData;     //储存关卡信息，包含是否有地基
+    public string StageName;
 
 
     public GameObject Units;      //单元的父物体
@@ -35,6 +36,7 @@ public class NormalStageData : IStageData
         Column = _stageData.Column;
         Row = _stageData.Row;
         StageData = _stageData.stageMetaData;
+        StageName = _stageData.Name;
     }
 
 
@@ -131,7 +133,21 @@ public class NormalStageData : IStageData
         if (Units == null)
         {
             Units = new GameObject("Units");
-            Units.transform.position = new Vector3(0, 0, 0);
+
+            GameObject spawnPoint;
+            StageSpawnPoint.SpawnPoint.TryGetValue(StageName, out spawnPoint);
+            if (spawnPoint == null)
+            {
+                Debug.Log("未找到生成点，已启用默认生成点");
+                Units.transform.position = new Vector3(0, 0, 0);
+            }
+            else
+            {
+                Units.transform.parent = spawnPoint.transform;
+                Units.transform.localPosition = new Vector3(0,0,0);
+                Units.transform.localScale = new Vector3(1, 1, 1);
+            }
+
         }
 
         //单元坐标
@@ -144,7 +160,7 @@ public class NormalStageData : IStageData
                 BaseUnit targetUnit = m_GameUnitFactory.BuildBaseUnit(this,
                         (ENUM_Build_BaseUnit)StageData[0, i, j], x, y, Units);
 
-                GameObject targetUpperUnit = m_GameUnitFactory.BuildUpperUnit(this,
+                GameObject targetUpperUnit = m_GameUnitFactory.BuildUpperUnit(
                         (ENUM_Build_UpperUnit)StageData[1, i, j], targetUnit);
 
                 baseUnits.Add(targetUnit);

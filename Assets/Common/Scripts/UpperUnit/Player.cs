@@ -4,13 +4,16 @@ using UnityEngine;
 using UnityEngine.AI;
 using System;
 
-public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
+public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
 {
     public BaseUnit CurrentOn { get { return _currentOn; } set { _currentOn = value; } }
     public float    Height    { get { return _heigth   ; } set { _heigth    = value; } }
     public bool     CanBeFire { get { return _canBeFire; } set { _canBeFire = value; } }
     public bool     IsMoving  { get { return _isMoving ; } set { _isMoving  = value; } }
     public float    MoveSpeed { get { return _moveSpeed; } set { _moveSpeed = value; } }
+
+    public IUpperUnit UpperUnit { get => this; }
+    public Animator SkillAnimator { get => m_Animator;  }
 
 
     #region 私有属性
@@ -43,10 +46,19 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
         _currentOn.SetUpperGameObject(gameObject);
         _currentOn.SetCanBeFire(_canBeFire);
 
-        transform.forward = Vector3.forward;
-        m_Agent.updatePosition = true;
-        m_NavMeshBuder.StartUpdateNavMesh();
-        m_Agent.Warp(SetTargetPos(_currentOn.Model.transform.position));
+        if (!Game.Instance.GetCanFreeMove())
+        {
+            transform.forward = Vector3.forward;
+            m_Agent.updatePosition = true;
+            m_NavMeshBuder.StartUpdateNavMesh();
+            m_Agent.Warp(SetTargetPos(_currentOn.Model.transform.position));
+        }
+        else
+        {
+            Move(SetTargetPos(_currentOn.Model.transform.position));
+            Game.Instance.SetCanFreeMove(false);
+        }
+
 
 
         _isMoving = false;
@@ -59,7 +71,10 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
     public void End()
     {
         m_Agent.updatePosition = false;
-        CurrentOn.UpperGameObject = null;
+        if (CurrentOn != null)
+        {
+            CurrentOn.UpperGameObject = null;
+        }
         gameObject.SetActive(false);
     }
 
@@ -105,6 +120,7 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
         }
         else m_Animator.SetBool("isWalking", false);
 
+        
 
     }
 
@@ -314,4 +330,20 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit
     {
         return false;
     }
+
+
+    public void ExecuteSkill()
+    {
+        Game.Instance.GetMainSkill().Execute(this);
+    }
+
+    /// <summary>
+    /// 技能事件调用
+    /// </summary>
+    public void OnAnimationEnd()
+    {
+        PlayAnimationTrigger animationTrigger = (PlayAnimationTrigger)Game.Instance.GetMainSkill()?.m_SkillTrigers[SkillTriggerType.Animation];
+        animationTrigger.OnAnimationEnd();
+    }
+
 }

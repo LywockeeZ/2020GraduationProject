@@ -10,7 +10,7 @@ public class LockAtPlayer : MonoBehaviour
     void Start() 
     {
         target = GameObject.FindGameObjectWithTag("Player").transform;
-        offset = transform.position - target.position;//获取相对位置
+        offset = (transform.position - target.position)/2;//获取相对位置
     }
 
 

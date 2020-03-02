@@ -142,7 +142,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.627451}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1260,7 +1260,7 @@ PrefabInstance:
     - target: {fileID: 6656264574071506358, guid: dd7a843a49d45a54c876373c8a2a1ba5,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -433
+      value: 73
       objectReference: {fileID: 0}
     - target: {fileID: 6656264574071506358, guid: dd7a843a49d45a54c876373c8a2a1ba5,
         type: 3}
@@ -1280,7 +1280,7 @@ PrefabInstance:
     - target: {fileID: 6656264574071506358, guid: dd7a843a49d45a54c876373c8a2a1ba5,
         type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6656264574071506358, guid: dd7a843a49d45a54c876373c8a2a1ba5,
         type: 3}
@@ -1290,7 +1290,7 @@ PrefabInstance:
     - target: {fileID: 6656264574071506358, guid: dd7a843a49d45a54c876373c8a2a1ba5,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6656264574071506358, guid: dd7a843a49d45a54c876373c8a2a1ba5,
         type: 3}

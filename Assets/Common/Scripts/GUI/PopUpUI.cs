@@ -32,4 +32,16 @@ public class PopUpUI : BaseUIForm
     {
         UIManager.Instance.CloseOrReturnUIForms("PopUpUI");
     }
+
+    private void OnEnable()
+    {
+        Game.Instance.SetCanInput(false);
+    }
+
+    private void OnDisable()
+    {
+        void action() { Game.Instance.SetCanInput(true); }
+        CoroutineManager.StartCoroutineTask(action, 0.5f);
+        
+    }
 }

@@ -50,6 +50,9 @@ public class LevelTest : MonoBehaviour
         {
             //如果测试的是自由模式，设置鼠标输入为自由模式的输入
             Game.Instance.SetCanFreeMove(true);
+            void action(){ Game.Instance.GetPlayerUnit().gameObject.GetComponent<LocalNavMeshBuilder>().StartUpdateNavMesh(); }
+            CoroutineManager.StartCoroutineTask(action, 0.5f);
+            
         }
 
 
@@ -57,6 +60,7 @@ public class LevelTest : MonoBehaviour
         {
             Game.Instance.UIShowMessag("TestStartUI", StartMessage);
         }
+
 
     }
 

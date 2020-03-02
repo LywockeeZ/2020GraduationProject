@@ -38,9 +38,10 @@ public class InputManager : MonoBehaviour
         if (Input.GetMouseButtonUp(0) == false)
             return;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray2 = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hitInfo, 200f, 1 << LayerMask.NameToLayer("BaseUnit")))
-        {
-            Vector3 clickedPos;
+        {     
+                Vector3 clickedPos;
 
             //关卡模式中
             if (!Game.Instance.GetCanFreeMove())
@@ -80,11 +81,15 @@ public class InputManager : MonoBehaviour
                 }
 
             }
-            else
+
+            if (Physics.Raycast(ray2, out RaycastHit hitInfo1, 200f, 1 << LayerMask.NameToLayer("CanMove")))
             {
-                clickedPos = hitInfo.point;
-                Game.Instance.GetPlayerUnit().Move(clickedPos);
-                Debug.Log(clickedPos);
+                if (Game.Instance.GetCanFreeMove())
+                {
+                    clickedPos = hitInfo.point;
+                    Game.Instance.GetPlayerUnit().Move(clickedPos);
+                    Debug.Log(clickedPos);
+                }
             }
 
         }

@@ -47,12 +47,12 @@ public class NormalStageHandler : IStageHandler
         m_StatgeData.RegisterEvent();
 
         Game.Instance.RegisterEvent(ENUM_GameEvent.RoundBegain,
-        OnRoundBegain = (Message evt) =>
-        {
-            //这里委托里的Rounds与类中的的Rounds并不是同一个，这里的是被封装到委托方法中去的
-            Game.Instance.SetRoundTag(Rounds++);
-            //GUIManager.Instance.SetRoundTagImage(Rounds++);
-        });
+            OnRoundBegain = (Message evt) =>
+            {
+                //这里委托里的Rounds与类中的的Rounds并不是同一个，这里的是被封装到委托方法中去的
+                Game.Instance.SetRoundTag(Rounds++);
+                //GUIManager.Instance.SetRoundTagImage(Rounds++);
+            });
 
         Game.Instance.RegisterEvent(ENUM_GameEvent.StageEnd,
             OnStageEnd = (Message evt) =>

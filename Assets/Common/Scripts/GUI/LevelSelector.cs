@@ -36,5 +36,13 @@ public class LevelSelector : MonoBehaviour
         Game.Instance.NotifyEvent(ENUM_GameEvent.StageRestart, null);
     }
 
+    /// <summary>
+    /// 加载场景，用于自由模式，不自动加载关卡
+    /// </summary>
+    public virtual void GoToScene()
+    {
+        LoadingSceneManager.LoadScene(levelName);
+    }
+
 
 }

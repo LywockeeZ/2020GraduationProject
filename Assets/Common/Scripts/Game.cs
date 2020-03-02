@@ -24,6 +24,7 @@ public class Game
     private GameEventSystem m_GameEventSystem = null;
     private APSystem m_APSystem = null;
     private UISystem m_UISystem = null;
+    private SkillSystem m_SkillSystem = null;
 
 
 
@@ -42,6 +43,7 @@ public class Game
         m_StageSystem = new StageSystem();
         m_APSystem = new APSystem();
         m_UISystem = new UISystem();
+        m_SkillSystem = new SkillSystem();
     }
 
     private void ResigerGameEvent()
@@ -62,6 +64,7 @@ public class Game
         m_StageSystem.Update();
         m_APSystem.Update();
         m_UISystem.Update();
+        m_SkillSystem.Update();
     }
 
 
@@ -206,6 +209,11 @@ public class Game
         return playerUnit;
     }
 
+    public IStageHandler GetCurrentStage()
+    {
+        return m_StageSystem.GetCurrentStage();
+    }
+
     #endregion
 
 
@@ -243,10 +251,57 @@ public class Game
         m_UISystem.CloseAll();
     }
 
+    /// <summary>
+    /// 发动弹窗
+    /// </summary>
+    /// <param name="content"></param>
+    public void TriggerPopUp(string content)
+    {
+        m_UISystem.TriggerPopUp(content);
+    }
+
+    /// <summary>
+    /// UI必须重写此方法才能调用
+    /// </summary>
+    /// <param name="UIFormName"></param>
+    /// <param name="content"></param>
     public void UIShowMessag(string UIFormName , string content)
     {
         m_UISystem.ShowMessage(UIFormName, content);
     }
     #endregion
+     
 
+
+    #region 技能系统接口
+    public SkillInstanceBase GetSkill(string skillName)
+    {
+        return m_SkillSystem.GetSkill(skillName);
+    }
+
+    public void UnlockSkill(string skillName)
+    {
+        m_SkillSystem.UnlockSkill(skillName);
+    }
+
+    public void UnlockAllSkill()
+    {
+        m_SkillSystem.UnlockAllSkill();
+    }
+
+    public void SetMainSkill(string skillName)
+    {
+        m_SkillSystem.SetMainSkill(skillName);
+    }
+
+    public SkillInstanceBase GetMainSkill()
+    {
+        return m_SkillSystem.GetMainSkill();
+    }
+
+    public Dictionary<string, SkillInstanceBase> GetUnlockSkills()
+    {
+        return m_SkillSystem.GetUnlockedSkills();
+    }
+    #endregion
 }

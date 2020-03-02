@@ -9,5 +9,5 @@ public abstract class IGameUnitFactory
 {
     public abstract BaseUnit BuildBaseUnit(NormalStageData currentStageData, ENUM_Build_BaseUnit baseType, int x, int y, GameObject Parent);
 
-    public abstract GameObject BuildUpperUnit(NormalStageData currentStageData, ENUM_Build_UpperUnit upperType, BaseUnit targetUnit);
+    public abstract GameObject BuildUpperUnit(ENUM_Build_UpperUnit upperType, BaseUnit targetUnit);
 }

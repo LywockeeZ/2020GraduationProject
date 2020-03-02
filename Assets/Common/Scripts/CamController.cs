@@ -32,7 +32,7 @@ public class CamController : MonoBehaviour
 
     private void Update()
     {
-        if (central == null)
+        if (central == null || !central.activeInHierarchy)
         {
             central = GameObject.FindGameObjectWithTag("Player");
         }
@@ -55,9 +55,11 @@ public class CamController : MonoBehaviour
                 distance = Mathf.Clamp(distance, 5f, 20f);
 
             }
-        
 
-        SetFreeViewPosition();
+        if (central!=null)
+        {
+            SetFreeViewPosition();
+        }
     }
 
     void GetCurrentRotation()

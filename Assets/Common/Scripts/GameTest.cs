@@ -28,6 +28,7 @@ public class GameTest : Singleton<GameTest>
         }
 
         Game.Instance.Initinal();
+        Game.Instance.UnlockAllSkill();
         DontDestroyOnLoad(gameObject);
     }
 

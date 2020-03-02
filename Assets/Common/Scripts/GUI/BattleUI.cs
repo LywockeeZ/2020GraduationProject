@@ -13,11 +13,13 @@ public class BattleUI :BaseUIForm
     public Image apBar;
     public Image roundTag;
 
+    private GameObject skillUI = null;
+
 
     private void Awake()
     {
         CurrentUIType.UIForm_Type = UIFormType.Normal;
-        CurrentUIType.UIForm_ShowMode = UIFormShowMode.HideOther;
+        CurrentUIType.UIForm_ShowMode = UIFormShowMode.Normal;
         CurrentUIType.UIForm_LucencyType = UIFormLucencyType.Pentrate;
 
         btn_Reset = UITool.GetUIComponent<Button>(gameObject, "btn_Reset");
@@ -53,11 +55,23 @@ public class BattleUI :BaseUIForm
             Game.Instance.NotifyEvent(ENUM_GameEvent.StageRestart);
             //Game.Instance.LoadLevel(SceneManager.GetActiveScene().name);
         });
+
+        
     }
 
     private void OnEnable()
     {
         RegisterEvent();
+        if (Game.Instance.GetMainSkill() != null)
+        {
+            skillUI = GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>(
+                "UI/SkillUI", Vector3.zero);
+            skillUI.transform.SetParent(transform);
+            RectTransform trans = skillUI.GetComponent<RectTransform>();
+            trans.sizeDelta = Vector2.zero;
+            skillUI.transform.localPosition = Vector3.zero;
+            skillUI.transform.localScale = Vector3.one;
+        }
     }
 
     private void Update()
@@ -80,12 +94,16 @@ public class BattleUI :BaseUIForm
 
     public void BtnEndRound()
     {
-        Game.Instance.NotifyEvent(ENUM_GameEvent.RoundEnd);
+        Game.Instance.NotifyEvent(ENUM_GameEvent.RoundUpdateBegain);
     }
 
     private void OnDisable()
     {
         DetachEvent();
+        if (skillUI != null)
+        {
+            Destroy(skillUI);
+        }
     }
 
 }

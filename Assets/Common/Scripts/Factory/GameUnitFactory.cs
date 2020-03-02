@@ -21,9 +21,9 @@ public class GameUnitFactory : IGameUnitFactory
             return null;
 
         IAssetFactory m_AssetFactory = GameFactory.GetAssetFactory();
-
+        Vector3 StartPos = parent.transform.position;
         //x,y坐标分别对应世界坐标下的x，z轴
-        GameObject baseUnitObject = m_AssetFactory.InstantiateGameObject("BaseUnit", new Vector3(x, 0, y));
+        GameObject baseUnitObject = m_AssetFactory.InstantiateGameObject("BaseUnit", new Vector3(StartPos.x + x, 0,StartPos.z + y));
         //给所有基本单元设置一个父物体
         baseUnitObject.transform.SetParent(parent.transform);
         BaseUnit baseUnit = new BaseUnit(baseUnitObject, currentStageData);
@@ -62,7 +62,7 @@ public class GameUnitFactory : IGameUnitFactory
     /// <param name="upperType"></param>
     /// <param name="targetUnit"></param>
     /// <returns></returns>
-    public override GameObject BuildUpperUnit(NormalStageData currentStageData, ENUM_Build_UpperUnit upperType, BaseUnit targetUnit)
+    public override GameObject BuildUpperUnit(ENUM_Build_UpperUnit upperType, BaseUnit targetUnit)
     {
         if (targetUnit == null) return null;
 
@@ -121,7 +121,6 @@ public class GameUnitFactory : IGameUnitFactory
          
                 //必须等此处赋值完后才能初始化，否则会空引用
                 _playerUnit.CurrentOn = targetUnit;
-                //playerObject.transform.SetParent(targetUnit.Model.transform);
 
                 //等Navmesh加载完后再初始化，防止Navagent报错
                 Action call = () => { _playerUnit.Init(); };

@@ -130,7 +130,7 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   DisabledSprite: {fileID: 21300000, guid: 6b5af5f7855e2704ba8dc542d2d3cac0, type: 3}
   DisabledChangeColor: 1
-  DisabledColor: {r: 0, g: 0, b: 0, a: 0.459}
+  DisabledColor: {r: 0.5377358, g: 0.5250534, b: 0.5250534, a: 0.83137256}
   PressedSprite: {fileID: 21300000, guid: 6b5af5f7855e2704ba8dc542d2d3cac0, type: 3}
   PressedChangeColor: 1
   PressedColor: {r: 0.6415094, g: 0.63386565, b: 0.6263795, a: 1}

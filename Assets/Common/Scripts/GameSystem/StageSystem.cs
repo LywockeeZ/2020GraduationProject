@@ -16,6 +16,7 @@ public class StageSystem : IGameSystem
     private IStageHandler m_NextStageHandler = null;
     private IStageHandler m_RootStageHandler = null;
     private int m_NowStageLv = 1;       //目前的关卡
+    private string startStageName;
 
 
     public StageSystem()
@@ -53,7 +54,6 @@ public class StageSystem : IGameSystem
             {
                 LoadStage(evt.Params[0].ToString());
             }
-            Game.Instance.SetCanFreeMove(false);
         });
 
         Game.Instance.RegisterEvent(ENUM_GameEvent.StageEnd,
@@ -124,11 +124,31 @@ public class StageSystem : IGameSystem
         Stages = GameFactory.GetDataFactory().LoadStageData();
 
         //设置起点
-        m_RootStageHandler = Stages["第1关"];
-        m_NextStageHandler = Stages["第1关"];
+        SetStartStage("关卡测试1");
 
     }
 
+    /// <summary>
+    /// 设置起始关卡
+    /// </summary>
+    /// <param name="stageName"></param>
+    public void SetStartStage(string stageName)
+    {
+        startStageName = stageName;
+        m_RootStageHandler = Stages[startStageName];
+        m_NextStageHandler = Stages[startStageName];
+        m_NowStageHandler = null;
+    }
+
+    /// <summary>
+    /// 重置关卡链为开始状态
+    /// </summary>
+    public void ResetStartStage()
+    {
+        m_RootStageHandler = Stages[startStageName];
+        m_NextStageHandler = Stages[startStageName];
+        m_NowStageHandler = null;
+    }
 
     public bool IsStageEnd()
     {
@@ -245,7 +265,7 @@ public class StageSystem : IGameSystem
                 if (levelName == "StartScene")
                 {
                     LoadingSceneManager.LoadScene("StartScene");
-
+                    ResetStartStage();
                 }
                 else
                     LoadingSceneManager.LoadScene("NewStage");
@@ -260,6 +280,11 @@ public class StageSystem : IGameSystem
     public Dictionary<string, IStageHandler> GetStages()
     {
         return Stages;
+    }
+
+    public IStageHandler GetCurrentStage()
+    {
+        return m_NowStageHandler;
     }
 
 }
