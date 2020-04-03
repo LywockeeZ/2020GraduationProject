@@ -4,13 +4,13 @@ ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
-    100002: polySurface72_pCube18
+    100002: polySurface22_wangjianglou_Scene:pCube18
     400000: //RootNode
-    400002: polySurface72_pCube18
-    2100000: polySurface72_pCube18Mat
-    2300000: polySurface72_pCube18
-    3300000: polySurface72_pCube18
-    4300000: polySurface72_pCube18
+    400002: polySurface22_wangjianglou_Scene:pCube18
+    2100000: polySurface22_wangjianglou_Scene_pCube18Mat
+    2300000: polySurface22_wangjianglou_Scene:pCube18
+    3300000: polySurface22_wangjianglou_Scene:pCube18
+    4300000: polySurface22_wangjianglou_Scene:pCube18
   externalObjects: {}
   materials:
     importMaterials: 1

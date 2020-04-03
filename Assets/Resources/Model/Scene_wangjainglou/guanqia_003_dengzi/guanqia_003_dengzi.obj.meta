@@ -5,12 +5,18 @@ ModelImporter:
   fileIDToRecycleName:
     100000: //RootNode
     100002: polySurface92
+    100004: textureEditorIsolateSelectSet_polySurface92
     400000: //RootNode
     400002: polySurface92
+    400004: textureEditorIsolateSelectSet_polySurface92
     2100000: polySurface92Mat
+    2100002: textureEditorIsolateSelectSet_polySurface92Mat
     2300000: polySurface92
+    2300002: textureEditorIsolateSelectSet_polySurface92
     3300000: polySurface92
+    3300002: textureEditorIsolateSelectSet_polySurface92
     4300000: polySurface92
+    4300002: textureEditorIsolateSelectSet_polySurface92
   externalObjects: {}
   materials:
     importMaterials: 1

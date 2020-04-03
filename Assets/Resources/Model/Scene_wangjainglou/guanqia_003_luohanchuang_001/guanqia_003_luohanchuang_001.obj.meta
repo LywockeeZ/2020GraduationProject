@@ -4,13 +4,13 @@ ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
-    100002: wangjianglou_Scene:pCube43
+    100002: wangjianglou_Scene:wangjianglou_Scene:pCube73
     400000: //RootNode
-    400002: wangjianglou_Scene:pCube43
-    2100000: wangjianglou_Scene_pCube43Mat
-    2300000: wangjianglou_Scene:pCube43
-    3300000: wangjianglou_Scene:pCube43
-    4300000: wangjianglou_Scene:pCube43
+    400002: wangjianglou_Scene:wangjianglou_Scene:pCube73
+    2100000: wangjianglou_Scene_wangjianglou_Scene_pCube73Mat
+    2300000: wangjianglou_Scene:wangjianglou_Scene:pCube73
+    3300000: wangjianglou_Scene:wangjianglou_Scene:pCube73
+    4300000: wangjianglou_Scene:wangjianglou_Scene:pCube73
   externalObjects: {}
   materials:
     importMaterials: 1

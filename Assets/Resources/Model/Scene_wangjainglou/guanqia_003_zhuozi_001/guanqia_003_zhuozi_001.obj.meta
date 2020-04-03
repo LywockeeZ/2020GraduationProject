@@ -4,13 +4,13 @@ ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
-    100002: pCube42
+    100002: pCube75
     400000: //RootNode
-    400002: pCube42
-    2100000: pCube42Mat
-    2300000: pCube42
-    3300000: pCube42
-    4300000: pCube42
+    400002: pCube75
+    2100000: pCube75Mat
+    2300000: pCube75
+    3300000: pCube75
+    4300000: pCube75
   externalObjects: {}
   materials:
     importMaterials: 1

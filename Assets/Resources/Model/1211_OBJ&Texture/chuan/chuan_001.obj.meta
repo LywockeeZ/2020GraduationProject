@@ -5,12 +5,18 @@ ModelImporter:
   fileIDToRecycleName:
     100000: //RootNode
     100002: chuan_001:pCube207
+    100004: textureEditorIsolateSelectSet_chuan_001:pCube207
     400000: //RootNode
     400002: chuan_001:pCube207
+    400004: textureEditorIsolateSelectSet_chuan_001:pCube207
     2100000: chuan_001_pCube207Mat
+    2100002: textureEditorIsolateSelectSet_chuan_001_pCube207Mat
     2300000: chuan_001:pCube207
+    2300002: textureEditorIsolateSelectSet_chuan_001:pCube207
     3300000: chuan_001:pCube207
+    3300002: textureEditorIsolateSelectSet_chuan_001:pCube207
     4300000: chuan_001:pCube207
+    4300002: textureEditorIsolateSelectSet_chuan_001:pCube207
   externalObjects: {}
   materials:
     importMaterials: 1
