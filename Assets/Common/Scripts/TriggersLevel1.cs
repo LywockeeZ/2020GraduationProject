@@ -52,6 +52,11 @@ public class TriggersLevel1 : MonoBehaviour
         Game.Instance.LoadLevelOnMain("Part5", "Part5");
     }
 
+    public void TriggerPart5_1()
+    {
+        Game.Instance.LoadLevelOnMain("Part5-1", "Part5-1");
+    }
+
     public void Test()
     {
         //Game.Instance.LoadLevelOnMain("Level1");

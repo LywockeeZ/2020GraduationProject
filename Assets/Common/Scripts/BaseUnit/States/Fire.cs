@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Fire : IState
 {
@@ -30,7 +31,11 @@ public class Fire : IState
 
         SetFireModel();
         RegisterEvent();                       //对关卡回合更新事件进行注册
-        FreeCamController.Instance.AddTarget(Model.transform, 2, 0);
+
+        if (SceneManager.GetActiveScene().name != "NewStage")
+        {
+            FreeCamController.Instance.AddTarget(Model.transform, 2, 0);
+        }
     }
 
 
@@ -46,7 +51,10 @@ public class Fire : IState
 
     public override void OnStateEnd()
     {
-        FreeCamController.Instance.RemoveTarget(Model.transform);
+        if (SceneManager.GetActiveScene().name != "NewStage")
+        {
+            FreeCamController.Instance.RemoveTarget(Model.transform);
+        }
 
         Owner.GetStage().fireUnits.Remove(Owner);
 
