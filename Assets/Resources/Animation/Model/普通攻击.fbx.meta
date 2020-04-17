@@ -230,7 +230,7 @@ ModelImporter:
     4300014: default8
     4300016: default9
     4300018: default10
-    7400000: Take 001
+    7400000: skill_NormalAttack
     9500000: //RootNode
     13700000: model_zhujue:polySurface97
     2186277476908879412: ImportLogs
@@ -247,7 +247,14 @@ ModelImporter:
     optimizeGameObjects: 0
     motionNodeName: 
     rigImportErrors: 
-    rigImportWarnings: 
+    rigImportWarnings: "Copied Avatar Rig Configuration mis-match. Bone length in
+      copied configuration does not match position in animation file:\n\t'mixamorig:LeftUpLeg'
+      : position error = 396.284271 mm\n\t'mixamorig:LeftLeg' : position error = 461.017792
+      mm\n\t'mixamorig:LeftFoot' : position error = 322.262848 mm\n\t'mixamorig:LeftToeBase'
+      : position error = 93.847466 mm\n\t'mixamorig:RightUpLeg' : position error =
+      396.318481 mm\n\t'mixamorig:RightLeg' : position error = 461.024170 mm\n\t'mixamorig:RightFoot'
+      : position error = 322.055420 mm\n\t'mixamorig:RightToeBase' : position error
+      = 94.823891 mm\n"
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
@@ -261,7 +268,35 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: skill_NormalAttack
+      takeName: Take 001
+      firstFrame: 16
+      lastFrame: 104
+      wrapMode: 0
+      orientationOffsetY: -40
+      level: -0.49
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 1
+      mirror: 1
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []

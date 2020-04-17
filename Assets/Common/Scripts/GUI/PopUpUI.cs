@@ -19,7 +19,7 @@ public class PopUpUI : BaseUIForm
     // Start is called before the first frame update
     void Start()
     {
-        
+        Game.Instance.SetCanInput(false);
     }
 
     // Update is called once per frame

@@ -11,17 +11,16 @@ public class LevelSelector : MonoBehaviour
     //目标关卡
     public string levelName;
 
+    public string sceneName;
+
     /// <summary>
     /// 使用Loading界面跳转到inspector面板上输入的关卡
     /// </summary>
     public virtual void GoToLevel()
     {
-        if (Game.Instance.isTest)
-        {
-            GameTest.Instance.CurrentStage = levelName;
-        }
         Game.Instance.LoadLevel(levelName);
     }
+
 
     /// <summary>
     /// 重新开始当前关卡
@@ -42,6 +41,20 @@ public class LevelSelector : MonoBehaviour
     public virtual void GoToScene()
     {
         LoadingSceneManager.LoadScene(levelName);
+    }
+
+    public virtual void GoToLevelOnMain()
+    {
+        Game.Instance.LoadLevelOnMain(sceneName, levelName);
+    }
+
+    public virtual void GoToNewStage()
+    {
+        if (Game.Instance.isTest)
+        {
+            GameTest.Instance.CurrentStage = levelName;
+        }
+        Game.Instance.LoadLevel("NewStage");
     }
 
 

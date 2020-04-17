@@ -1540,7 +1540,7 @@ PrefabInstance:
     - target: {fileID: 8819750199745041372, guid: 21708da3a856a3d4293aebe6a0b1f4bd,
         type: 3}
       propertyPath: levelName
-      value: Game
+      value: Part1
       objectReference: {fileID: 0}
     - target: {fileID: 7461471699589639196, guid: 21708da3a856a3d4293aebe6a0b1f4bd,
         type: 3}
@@ -1555,7 +1555,7 @@ PrefabInstance:
     - target: {fileID: 7461471698152986008, guid: 21708da3a856a3d4293aebe6a0b1f4bd,
         type: 3}
       propertyPath: ButtonPressedFirstTime.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: GoToScene
+      value: GoToLevelOnMain
       objectReference: {fileID: 0}
     - target: {fileID: 7461471698152986008, guid: 21708da3a856a3d4293aebe6a0b1f4bd,
         type: 3}

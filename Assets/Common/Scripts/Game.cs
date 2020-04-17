@@ -199,6 +199,11 @@ public class Game
         m_StageSystem.LoadNextLevel();
     }
 
+    public void LoadLevelOnMain(string sceneName, string levelName)
+    {
+        m_StageSystem.LoadLevelOnMain(sceneName,levelName);
+    }
+
     public void SetPlayerUnit(Player m_playerUnit)
     {
         playerUnit = m_playerUnit;
@@ -212,6 +217,19 @@ public class Game
     public IStageHandler GetCurrentStage()
     {
         return m_StageSystem.GetCurrentStage();
+    }
+
+    public string GetCurrentLevelOnMain()
+    {
+        return m_StageSystem.GetCurrentLevelOnMain();
+    }
+
+    /// <summary>
+    /// 将已进行的关卡清空
+    /// </summary>
+    public void ResetStage()
+    {
+        m_StageSystem.ResetStage();
     }
 
     #endregion

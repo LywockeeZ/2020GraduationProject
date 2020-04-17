@@ -11,12 +11,12 @@ public class GameEventTrigger : MonoBehaviour
 
     private void OnEnable()
     {
-        RegisterEvent();
+        CoroutineManager.StartCoroutineTask(RegisterEvent, 0.5f);
     }
 
     private void OnDisable()
     {
-        DetachEvent();
+        CoroutineManager.StartCoroutineTask(DetachEvent, 0f);
     }
 
     private EventListenerDelegate OnStageRestart;
@@ -39,6 +39,6 @@ public class GameEventTrigger : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         OnTriggerEvent.Invoke();
-        gameObject.GetComponent<BoxCollider>().enabled = false;
+        Destroy(gameObject);
     }
 }

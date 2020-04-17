@@ -69,6 +69,13 @@ public class UISystem : IGameSystem
                     Game.Instance.ShowUI("TestStartUI");
             });
 
+        Game.Instance.RegisterEvent(ENUM_GameEvent.LoadSceneStart,
+            OnLoadSceneStart = (Message evt) =>
+            {
+                Game.Instance.CloseAll();
+            });
+
+
     }
 
     private void DetachEvent()

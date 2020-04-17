@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 /*
  * 在构造函数中初始化自身属性，在OnStateBegain中初始化状态拥有者属性
@@ -49,6 +50,12 @@ public abstract class IState
     /// 状态结束时调用
     /// </summary>
     public abstract void OnStateEnd();
+
+    /// <summary>
+    /// 状态结束时调用，并调用回调
+    /// </summary>
+    /// <param name="callBack"></param>
+    public virtual void OnStateEnd(Action callBack) { }
 
     /// <summary>
     /// 返回一个y设置为height的向量

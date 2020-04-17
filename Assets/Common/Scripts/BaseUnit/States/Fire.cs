@@ -30,6 +30,7 @@ public class Fire : IState
 
         SetFireModel();
         RegisterEvent();                       //对关卡回合更新事件进行注册
+        FreeCamController.Instance.AddTarget(Model.transform, 2, 0);
     }
 
 
@@ -45,6 +46,8 @@ public class Fire : IState
 
     public override void OnStateEnd()
     {
+        FreeCamController.Instance.RemoveTarget(Model.transform);
+
         Owner.GetStage().fireUnits.Remove(Owner);
 
         DetachEvent();

@@ -33,15 +33,19 @@ public class TestStartUI : BaseUIForm
             skillSelectBar.SetActive(true);
             foreach (var item in m_UnlockedSkills)
             {
-                var skillIconObj = GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>(
-                    "UI/UIComponent/SkillSelectIcon/" + item.Key, Vector3.zero);
-                var skillBtn = UITool.GetUIComponent<MMTouchButton>(skillIconObj, "Background");
-                skillIconObj.transform.SetParent(skillItem.transform);
-                skillIconObj.transform.localScale = new Vector3(1, 1, 1);
-                void action() { OnSkillSelect(skillBtn, item.Key); }
-                skillBtn.ButtonPressedFirstTime.AddListener(action);
-                m_SkillIcon.Add(skillIconObj);
-                m_SkillSelectBtns.Add(item.Key, skillBtn);
+                //不用加载普通攻击
+                if (item.Key != "NormalAttack")
+                {
+                    var skillIconObj = GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>(
+                                        "UI/UIComponent/SkillSelectIcon/" + item.Key, Vector3.zero);
+                    var skillBtn = UITool.GetUIComponent<MMTouchButton>(skillIconObj, "Background");
+                    skillIconObj.transform.SetParent(skillItem.transform);
+                    skillIconObj.transform.localScale = new Vector3(1, 1, 1);
+                    void action() { OnSkillSelect(skillBtn, item.Key); }
+                    skillBtn.ButtonPressedFirstTime.AddListener(action);
+                    m_SkillIcon.Add(skillIconObj);
+                    m_SkillSelectBtns.Add(item.Key, skillBtn);
+                }
             }
         }
         else skillSelectBar.SetActive(false);

@@ -5,23 +5,10 @@ using Fungus;
 
 public class TriggersLevel1 : MonoBehaviour
 {
-    private bool isFirstTime = true;
 
     public void Trigger1()
     {
-        if (isFirstTime)
-        {
-            Game.Instance.TriggerPopUp("鼠标点击角色邻近单元来移动角色\n每一点行动点数可使角色移动一个单元");
-            Game.Instance.NotifyEvent(ENUM_GameEvent.StageBegain, "Level1");
-            Game.Instance.UIShowMessag("TestStartUI", "选择一个技能来开始关卡\n技能每个回合只能使用一次");
-            isFirstTime = false;
-        }
-        else
-        {
-            Game.Instance.UIShowMessag("TestStartUI", "选择一个技能来开始关卡\n技能每个回合只能使用一次");
-        }
-
-
+        Game.Instance.TriggerPopUp("鼠标点击角色邻近单元来移动角色\n每一点行动点数可使角色移动一个单元");
     }
 
     public void Trigger2()
@@ -38,7 +25,41 @@ public class TriggersLevel1 : MonoBehaviour
         stageHandler.GetBaseUnit(4, 1).SetState(new Fire(stageHandler.GetBaseUnit(4, 1)));
         stageHandler.GetBaseUnit(4, 3).SetState(new Fire(stageHandler.GetBaseUnit(4, 3)));
         GameFactory.GetGameUnitFactory().BuildUpperUnit(ENUM_Build_UpperUnit.WaterTank, stageHandler.GetBaseUnit(3, 2));
+    }
 
+    public void Trigger4()
+    {
+        Game.Instance.LoadLevelOnMain("Part2", "Part2");
+    }
+
+    public void Trigger5()
+    {
+        Flowchart.BroadcastFungusMessage("主角1");
+    }
+
+    public void TriggerPart2_1()
+    {
+        Game.Instance.LoadLevelOnMain("Part2-1", "Level2");
+    }
+
+    public void TriggerPart4()
+    {
+        Game.Instance.LoadLevelOnMain("Part4", "Part4");
+    }
+
+    public void TriggerPart5()
+    {
+        Game.Instance.LoadLevelOnMain("Part5", "Part5");
+    }
+
+    public void Test()
+    {
+        //Game.Instance.LoadLevelOnMain("Level1");
+    }
+
+    public void Test2()
+    {
+        //Game.Instance.LoadLevelOnMain("Part1");
     }
 
 }

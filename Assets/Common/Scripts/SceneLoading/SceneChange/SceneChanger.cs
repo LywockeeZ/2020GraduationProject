@@ -7,6 +7,7 @@ public class SceneChanger : MonoBehaviour
     public Animator animator;
     private int sceneToLoad;
     private string sceneToLoadstr;
+    private bool isLoadingScene = false;
     
     private static GameObject MonoSingletionRoot;
     private static SceneChanger instance;
@@ -60,22 +61,54 @@ public class SceneChanger : MonoBehaviour
         SceneManager.LoadScene(sceneToLoad);
     }
 
-
-    /// <summary>
-    /// 由LoadsceneManager调用
-    /// </summary>
+    //由动画事件调用
     public void OnFadeCompleteStr()
     {
-        SceneManager.LoadScene(sceneToLoadstr);
+        //加载到加载界面场景
+        if (isLoadingScene)
+        {
+            Game.Instance.NotifyEvent(ENUM_GameEvent.LoadSceneStart);
+            void action()
+            {
+                SceneManager.LoadScene("LoadingScreen");
+            }
+            CoroutineManager.StartCoroutineTask(action, 0f);
+        }
     }
 
+    /// <summary>
+    /// 由LoadsceneManager调用，在加载场景之前先由此触发淡出
+    /// </summary>
     public void LoadScene(string sceneName)
     {
+        isLoadingScene = true;
         sceneToLoadstr = sceneName;
+        FadeOut();
+    }
+
+    /// <summary>
+    /// 由LoadsceneManager调用，在加载场景之后由此触发淡入
+    /// </summary>
+    public void LoadSceneComplete()
+    {
+        isLoadingScene = false;
+        FadeIn();
+    }
+
+    /// <summary>
+    /// 用来渐变过渡
+    /// </summary>
+    public void FadeScene()
+    {
+        animator.SetTrigger("FadeOutAndIn");
+    }
+
+    public void FadeOut()
+    {
         animator.SetTrigger("FadeOut");
     }
 
-    public void LoadSceneComplete()
+    public void FadeIn()
     {
         animator.SetTrigger("FadeIn");
     }

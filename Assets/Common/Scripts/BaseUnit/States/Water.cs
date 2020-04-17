@@ -44,12 +44,10 @@ public class Water : IState
             {
                 if (Owner.UpperUnit.Type == ENUM_UpperUnit.Player)
                 {
-                    OnStateEnd();
                     Owner.SetState(new Block(Owner));
                 }
                 else
                 {
-                    OnStateEnd();
                     Owner.SetState(new Fire(Owner));
                 }
             }

@@ -197,7 +197,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8819750199745041372}
-        m_MethodName: GoToLevel
+        m_MethodName: GoToNewStage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -348,6 +348,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelName: FireTest
+  sceneName: 
 --- !u!1 &7461471698319646387
 GameObject:
   m_ObjectHideFlags: 0

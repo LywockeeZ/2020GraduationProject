@@ -136,7 +136,6 @@ public class NormalStageHandler : IStageHandler
     public override void FireTargetUnit(int x, int y)
     {
         var targetUnit = GetBaseUnit(x, y);
-        targetUnit.State.OnStateEnd();
         targetUnit.SetState(new Fire(targetUnit));
     }
 

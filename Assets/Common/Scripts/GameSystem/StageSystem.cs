@@ -17,6 +17,7 @@ public class StageSystem : IGameSystem
     private IStageHandler m_RootStageHandler = null;
     private int m_NowStageLv = 1;       //目前的关卡
     private string startStageName;
+    private string currentLevelOnMain;
 
 
     public StageSystem()
@@ -79,13 +80,16 @@ public class StageSystem : IGameSystem
         OnLoadSceneStart = (Message evt) =>
         {
             Game.Instance.SetCanInput(false);
-            ResetStage();
+            Game.Instance.ResetStage();
         });
 
         Game.Instance.RegisterEvent(ENUM_GameEvent.LoadSceneComplete,
         OnLoadSceneComplete = (Message evt) =>
         {
-            //Game.Instance.NotifyEvent(ENUM_GameEvent.StageBegain, null);
+            if (SceneManager.GetActiveScene().name == "StartScene")
+            {
+                ResetStartStage();
+            }
         });
     }
 
@@ -176,7 +180,7 @@ public class StageSystem : IGameSystem
     public void ResetStage()
     {
         if (m_NowStageHandler != null)
-        {
+        {           
             m_NowStageHandler.Reset();
         }
     }
@@ -229,7 +233,6 @@ public class StageSystem : IGameSystem
         //如果到达关卡链尽头，自动进入开始界面
         if (m_NextStageHandler == null)
         {
-            Game.Instance.NotifyEvent(ENUM_GameEvent.LoadSceneStart);
             LoadingSceneManager.LoadScene("StartScene");
         }
         else
@@ -237,7 +240,6 @@ public class StageSystem : IGameSystem
             //根据关卡链中下一个关卡，通过字典获得关卡名称
             //由值获取键，因为关卡一定不会重复，所以获取第一个就可以
             var levelName = Stages.FirstOrDefault(q => q.Value == m_NextStageHandler).Key;
-            Game.Instance.NotifyEvent(ENUM_GameEvent.LoadSceneStart);
             LoadingSceneManager.LoadScene(levelName);
         }
     }
@@ -254,23 +256,45 @@ public class StageSystem : IGameSystem
             LoadNextLevel();
         else
         {
-            if (!Game.Instance.isTest)
+
+            if (levelName != "NewStage")
             {
-                Game.Instance.NotifyEvent(ENUM_GameEvent.LoadSceneStart, levelName);
                 LoadingSceneManager.LoadScene(levelName);
             }
             else
-            {
-                Game.Instance.NotifyEvent(ENUM_GameEvent.LoadSceneStart, levelName);
-                if (levelName == "StartScene")
-                {
-                    LoadingSceneManager.LoadScene("StartScene");
-                    ResetStartStage();
-                }
-                else
-                    LoadingSceneManager.LoadScene("NewStage");
-            }
+                LoadingSceneManager.LoadScene("NewStage");
         }
+    }
+
+    
+    /// <summary>
+    /// 切换主场景上的关卡
+    /// </summary>
+    /// <param name="stageName"></param>
+    public void LoadLevelOnMain( string sceneName, string levelName)
+    {
+        currentLevelOnMain = levelName;
+
+        //判断是否在该主场景
+        if (SceneManager.GetActiveScene().name == sceneName)
+        {
+            SceneChanger.Instance.FadeScene();
+            LevelManager.Instance.LoadLevel(levelName);
+        }
+        else
+        {
+            LoadLevel(sceneName);
+        }
+    }
+
+
+    /// <summary>
+    /// 获取当前主场景上的关卡
+    /// </summary>
+    /// <returns></returns>
+    public string GetCurrentLevelOnMain()
+    {
+        return currentLevelOnMain;
     }
 
 

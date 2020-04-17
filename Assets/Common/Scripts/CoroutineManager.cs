@@ -51,6 +51,13 @@ public static class CoroutineManager
     }
 
 
+    public static void StartCoroutineTask(Func<bool> Judge, Action Callback, float waitTime)
+    {
+        coroutine.StartCoroutine(StartInnerCoroutine(Judge ,Callback, waitTime));
+    }
+
+
+
     /// <summary>
     /// 等待一定时间后执行任务
     /// </summary>
@@ -63,6 +70,13 @@ public static class CoroutineManager
 
 
 
+    /// <summary>
+    /// 使用一个返回bool类型的回调函数,
+    /// 当返回为true时，等待一定时间调用回调
+    /// </summary>
+    /// <param name="Callback"></param>
+    /// <param name="waitTime"></param>
+    /// <returns></returns>
     private static IEnumerator StartInnerCoroutine(Action Callback, float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
@@ -70,6 +84,17 @@ public static class CoroutineManager
         coroutine.StopCoroutine(StartInnerCoroutine(Callback, waitTime));
     }
 
+
+    private static IEnumerator StartInnerCoroutine(Func<bool> Judge, Action Callback, float waitTime)
+    {
+        while (!Judge())
+        {
+            yield return null;
+        }
+        yield return new WaitForSeconds(waitTime);
+        Callback();
+        coroutine.StopCoroutine(StartInnerCoroutine(Judge, Callback, waitTime));
+    }
 
 
     private static IEnumerator StartInnerCoroutine(Func<bool>Callback, ENUM_GameEvent _GameEvent, float waitTime)

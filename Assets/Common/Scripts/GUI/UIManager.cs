@@ -315,7 +315,7 @@ public class UIManager : Singleton<UIManager>
             }
 
             //设置隐藏
-            goCloneUIPrefabs.SetActive(false);
+            //goCloneUIPrefabs.SetActive(false);
             //把克隆体，加入到“所有UI窗体”（缓存）集合中。
             DicALLUIForms.Add(uiFormName, baseUiForm);
             return baseUiForm;

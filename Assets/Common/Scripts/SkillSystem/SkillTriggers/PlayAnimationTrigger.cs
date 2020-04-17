@@ -6,6 +6,7 @@ using System;
 public class PlayAnimationTrigger : AbstractSkillTrigger
 {
     private string m_AnimationName;
+    private Action m_callBack = null;
 
     private PlayAnimationTrigger() { }
 
@@ -16,6 +17,15 @@ public class PlayAnimationTrigger : AbstractSkillTrigger
         m_AnimationName = name;
     }
 
+    public PlayAnimationTrigger(string name, float startTime, Action onTriggerComplete, Action callBack)
+    {
+        OnTriggerComplete = onTriggerComplete;
+        m_StartTime = startTime;
+        m_AnimationName = name;
+        m_callBack = callBack;
+    }
+
+
     public override void Init()
     {
 
@@ -23,8 +33,8 @@ public class PlayAnimationTrigger : AbstractSkillTrigger
 
     public override bool Execute(ISkillCore instance)
     {
-        InitEvent(instance.SkillAnimator);
-        instance.SkillAnimator.SetTrigger(m_AnimationName);
+        //InitEvent(instance.SkillAnimator);
+        instance.SkillAnimator.SetTrigger(m_AnimationName, delegate() { OnAnimationEnd(); });
         return true;
     }
 
@@ -58,7 +68,11 @@ public class PlayAnimationTrigger : AbstractSkillTrigger
 
     public void OnAnimationEnd()
     {
-        OnTriggerComplete.Invoke();
+        OnTriggerComplete();
+        if (m_callBack != null)
+        {
+            m_callBack();
+        }
     }
 
 

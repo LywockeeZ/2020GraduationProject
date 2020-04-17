@@ -14,6 +14,8 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
 
     public IUpperUnit UpperUnit { get => this; }
     public Animator SkillAnimator { get => m_Animator;  }
+    public BaseUnit TargetUnit { get => targetUnit; }
+    public NavMeshAgent Agent { get => m_Agent; }
 
 
     #region 私有属性
@@ -55,7 +57,9 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
         }
         else
         {
-            Move(SetTargetPos(_currentOn.Model.transform.position));
+            //自由移动模式进入关卡时先移动到初始位置
+            //MoveByNavMesh(SetTargetPos(_currentOn.Model.transform.position));
+            m_Agent.Warp(SetTargetPos(_currentOn.Model.transform.position));
             Game.Instance.SetCanFreeMove(false);
         }
 
@@ -145,8 +149,12 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
     /// 移动到目标位置
     /// </summary>
     /// <param name="m_targetPos"></param>
-    public void Move(Vector3 m_targetPos)
+    public void MoveByNavMesh(Vector3 m_targetPos)
     {
+        //关卡中移动时扣除点数
+        if (!Game.Instance.GetCanFreeMove())
+            Game.Instance.CostAP(1, 0);
+
         m_Agent.SetDestination(m_targetPos);
         targetPos = m_targetPos;
         _isMoving = true;
@@ -199,7 +207,6 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
             if (_currentOn.State.StateType == ENUM_State.Oil)
             {
                 Game.Instance.CostAP(1, 0);
-                _currentOn.State.OnStateEnd();
                 _currentOn.SetState(new Block(_currentOn));
             }
             else
@@ -213,37 +220,38 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
                 
 
                 //保持在油，水，阻燃带上行走不改变状态
-                if (targetUnit.State.StateType != ENUM_State.Block &&
-                    targetUnit.State.StateType != ENUM_State.Oil &&
-                    targetUnit.State.StateType != ENUM_State.Water)
-                {
-                    targetUnit.State.OnStateEnd();
+                if (targetUnit.State.StateType == ENUM_State.Ground)
                     targetUnit.SetState(new Block(targetUnit));
-                }
-                targetUnit.UpperUnit = new UpperUnit(Type, ControlType, BeFiredType);
-                targetUnit.SetUpperGameObject(gameObject);
-                _currentOn.UpperUnit.InitOrReset();
-                _currentOn.SetUpperGameObject(null);
-                _currentOn = targetUnit;
 
-                //扣除移动点数，根据是否是油来减速
-                if (_currentOn.State.StateType == ENUM_State.Oil)
+                UpdateUnit(targetUnit);
+
+                //用来移动的方法
+                if (targetUnit.State.StateType == ENUM_State.Fire)
                 {
-                    Game.Instance.CostAP(1, 0);
-                    _moveSpeed = 2f;
+                    ExecuteSkill("NormalAttack");
                 }
-                else Game.Instance.CostAP(1, 0);
-
-                //这里是移动的开关
-                Move(targetUnit.Model.transform.position);
-                //_isMoving = true;
+                else  MoveByNavMesh(targetUnit.Model.transform.position);
 
             }
 
         }
     }
 
-    
+
+    /// <summary>
+    /// 更新目标单元和当前单元的信息,将当前单元换为参数所给单元
+    /// </summary>
+    /// <param name="targetUnit"></param>
+    private void UpdateUnit(BaseUnit targetUnit)
+    {
+        targetUnit.UpperUnit = new UpperUnit(Type, ControlType, BeFiredType);
+        targetUnit.SetUpperGameObject(gameObject);
+        _currentOn.UpperUnit.InitOrReset();
+        _currentOn.SetUpperGameObject(null);
+        _currentOn = targetUnit;
+    }
+
+
     /// <summary>
     /// 获取目的地单元
     /// </summary>
@@ -332,9 +340,17 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
     }
 
 
+    /// <summary>
+    /// 执行主技能
+    /// </summary>
     public void ExecuteSkill()
     {
         Game.Instance.GetMainSkill().Execute(this);
+    }
+
+    public void ExecuteSkill(string skillName)
+    {
+        Game.Instance.GetSkill(skillName).Execute(this);
     }
 
     /// <summary>
@@ -342,8 +358,8 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
     /// </summary>
     public void OnAnimationEnd()
     {
-        PlayAnimationTrigger animationTrigger = (PlayAnimationTrigger)Game.Instance.GetMainSkill()?.m_SkillTrigers[SkillTriggerType.Animation];
-        animationTrigger.OnAnimationEnd();
+        //PlayAnimationTrigger animationTrigger = (PlayAnimationTrigger)Game.Instance.GetMainSkill()?.m_SkillTrigers[SkillTriggerType.Animation];
+        //animationTrigger.OnAnimationEnd();
     }
 
 }

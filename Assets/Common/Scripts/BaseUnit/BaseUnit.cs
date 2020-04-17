@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -180,6 +181,21 @@ public class BaseUnit
         if (_myState != null)
         {
             _myState.OnStateEnd();
+        }
+        _myState = newState;
+    }
+
+
+    /// <summary>
+    /// 设置单元状态,结束后调用回调
+    /// </summary>
+    /// <param name="newState"></param>
+
+    public virtual void SetState(IState newState, Action callBack)
+    {
+        if (_myState != null)
+        {
+            _myState.OnStateEnd(callBack);
         }
         _myState = newState;
     }

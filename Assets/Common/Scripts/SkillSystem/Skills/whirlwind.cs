@@ -18,7 +18,7 @@ public class Whirlwind : SkillInstanceBase
         CoroutineManager.StartCoroutineTask(action, m_StartTime);
     }
 
-    public void DoSkillLogic(ISkillCore instance)
+    private void DoSkillLogic(ISkillCore instance)
     {
         Game.Instance.SetCanInput(false);
         Player player = (Player)instance.UpperUnit;
@@ -35,7 +35,7 @@ public class Whirlwind : SkillInstanceBase
         OnTriggerComplete();
     }
 
-    public void EndFire(BaseUnit unit)
+    private void EndFire(BaseUnit unit)
     {
         if (unit != null && unit.State.StateType == ENUM_State.Fire )
         {

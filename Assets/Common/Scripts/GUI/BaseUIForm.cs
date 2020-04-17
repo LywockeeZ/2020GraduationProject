@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using DG.Tweening;
 
 public class BaseUIForm : MonoBehaviour
 {
@@ -27,39 +28,21 @@ public class BaseUIForm : MonoBehaviour
     //页面显示
     public virtual void Display()
     {
-        this.gameObject.SetActive(true);
-
-        //设置模态窗体调用(必须是弹出窗体)
-        if (_CurrentUIType.UIForm_Type == UIFormType.PopUp)
-        {
-            UIMaskManager.Instance.SetMaskWindow(this.gameObject, _CurrentUIType.UIForm_LucencyType);
-        }
+        Open();
     }
 
 
     //页面隐藏(不在“栈”集合中)
     public virtual void Hiding()
     {
-        this.gameObject.SetActive(false);
-
-        //取消模态窗体调用
-        if (_CurrentUIType.UIForm_Type == UIFormType.PopUp)
-        {
-            UIMaskManager.Instance.CancelMaskWindow();
-        }
+        Close();
     }
 
 
     //页面重新显示
     public virtual void Redisplay()
     {
-        this.gameObject.SetActive(true);
-
-        //设置模态窗体调用(必须是弹出窗体)
-        if (_CurrentUIType.UIForm_Type == UIFormType.PopUp)
-        {
-            UIMaskManager.Instance.SetMaskWindow(this.gameObject, _CurrentUIType.UIForm_LucencyType);
-        }
+        Display();
     }
 
 
@@ -77,6 +60,28 @@ public class BaseUIForm : MonoBehaviour
     public virtual void ShowMessage(string content)
     {
         Debug.LogWarning("此UI界面未重写ShowMessage方法");
+    }
+
+    protected void Open()
+    {
+        this.gameObject.SetActive(true);
+
+        //设置模态窗体调用(必须是弹出窗体)
+        if (_CurrentUIType.UIForm_Type == UIFormType.PopUp)
+        {
+            UIMaskManager.Instance.SetMaskWindow(this.gameObject, _CurrentUIType.UIForm_LucencyType);
+        }
+    }
+
+    protected void Close()
+    {
+        this.gameObject.SetActive(false);
+
+        //取消模态窗体调用
+        if (_CurrentUIType.UIForm_Type == UIFormType.PopUp)
+        {
+            UIMaskManager.Instance.CancelMaskWindow();
+        }
     }
 
 }//Class_end

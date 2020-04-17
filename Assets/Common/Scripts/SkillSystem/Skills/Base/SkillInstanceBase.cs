@@ -59,16 +59,21 @@ public class SkillInstanceBase
         return count;
     }
 
-    public void OnTriggerComplete()
+    protected virtual void OnTriggerComplete()
     {
         completeCount++;
         if (completeCount == m_SkillTrigers.Count + 1)
         {
             m_SkillState = SkillState.End;
             completeCount = 0;
-            Game.Instance.SetCanInput(true);
+            OnSkillEnd();
             Debug.Log("技能结束");
         }
           
+    }
+
+    protected virtual void OnSkillEnd()
+    {
+        Game.Instance.SetCanInput(true);
     }
 }

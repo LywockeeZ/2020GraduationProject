@@ -12,7 +12,11 @@ public class SkillFactory : ISkillFactory
             case "Whirlwind":
                 skillInstance = new Whirlwind(skillName);
                 break;
+            case "NormalAttack":
+                skillInstance = new NormalAttack(skillName);
+                break;
             default:
+                Debug.LogError("未找到技能" + skillName);
                 break;
         }
 

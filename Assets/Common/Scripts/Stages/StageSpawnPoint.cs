@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public enum StageMode
+{
+    LevelMode,
+    FreeMode
+}
+
 public class StageSpawnPoint : MonoBehaviour
 {
     /// <summary>
@@ -9,10 +16,17 @@ public class StageSpawnPoint : MonoBehaviour
     /// </summary>
     public static Dictionary<string, GameObject> SpawnPoint = new Dictionary<string, GameObject>();
 
+    public StageMode stageMode;
+
     /// <summary>
     /// 将要在此处加载的关卡
     /// </summary>
     public string StageToLoad;
+
+    /// <summary>
+    /// 该关卡涉及到的触发器
+    /// </summary>
+    public GameObject Triggers;
 
     private void OnEnable()
     {
@@ -22,6 +36,39 @@ public class StageSpawnPoint : MonoBehaviour
     private void OnDisable()
     {
         SpawnPoint.Remove(StageToLoad);
+    }
+
+    /// <summary>
+    /// 初始化与关卡有关的物品
+    /// </summary>
+    public void Initialize()
+    {
+        if (Triggers != null)
+        {
+            Instantiate(Triggers, Vector3.zero, Quaternion.identity);
+        }
+    }
+
+    public void LoadStageOnMain()
+    {
+        switch (stageMode)
+        {
+            case StageMode.LevelMode:
+                Game.Instance.ResetStage();
+                Game.Instance.NotifyEvent(ENUM_GameEvent.StageBegain, StageToLoad);
+                break;
+            case StageMode.FreeMode:
+                Game.Instance.ResetStage();
+                PlayerSpawner.Instance.SpawnPlayer(transform);
+                Game.Instance.SetCanFreeMove(true);
+                Game.Instance.SetCanInput(true);
+                //开始更新角色寻路网格
+                void action() { Game.Instance.GetPlayerUnit().gameObject.GetComponent<LocalNavMeshBuilder>().StartUpdateNavMesh(); }
+                CoroutineManager.StartCoroutineTask(action, 0.5f);
+                break;
+            default:
+                break;
+        }
     }
 
 }

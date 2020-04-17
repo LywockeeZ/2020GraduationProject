@@ -28,7 +28,7 @@ public class APSystem : IGameSystem
     private EventListenerDelegate OnStageBegain;
     private EventListenerDelegate OnStageRestart;
     private EventListenerDelegate RoundBegain;
-
+    private EventListenerDelegate OnLoadSceneStart;
     private void RegisterEvent()
     {
         Game.Instance.RegisterEvent(ENUM_GameEvent.StageBegain,
@@ -57,6 +57,13 @@ public class APSystem : IGameSystem
             //GUIManager.Instance.SetCostAPText(CostTotalPts);
         });
 
+        Game.Instance.RegisterEvent(ENUM_GameEvent.LoadSceneStart,
+        OnLoadSceneStart = (Message evt) =>
+        {
+            ResetAPSystem();
+        });
+
+
     }
 
     private void DetachEvent()
@@ -64,6 +71,7 @@ public class APSystem : IGameSystem
         Game.Instance.DetachEvent(ENUM_GameEvent.StageBegain, OnStageBegain);
         Game.Instance.DetachEvent(ENUM_GameEvent.StageRestart, OnStageRestart);
         Game.Instance.DetachEvent(ENUM_GameEvent.RoundBegain, RoundBegain);
+        Game.Instance.DetachEvent(ENUM_GameEvent.LoadSceneStart, OnLoadSceneStart);
     }
 
     public override void Release()

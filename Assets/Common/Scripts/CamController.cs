@@ -52,7 +52,7 @@ public class CamController : MonoBehaviour
                 //滑轮转动越快，GetAxis返回值越大
                 float scrollSpeed = Input.GetAxis("Mouse ScrollWheel");
                 distance -= scrollSpeed * zoomSpeed;
-                distance = Mathf.Clamp(distance, 5f, 20f);
+                distance = Mathf.Clamp(distance, 3f, 8f);
 
             }
 

@@ -19,6 +19,7 @@ public class SkillSystem : IGameSystem
     public override void Initialize()
     {
         RegisterEvent();
+        UnlockSkill("NormalAttack");
     }
 
     public override void Update()

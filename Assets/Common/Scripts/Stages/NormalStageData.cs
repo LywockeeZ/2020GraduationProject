@@ -146,6 +146,8 @@ public class NormalStageData : IStageData
                 Units.transform.parent = spawnPoint.transform;
                 Units.transform.localPosition = new Vector3(0,0,0);
                 Units.transform.localScale = new Vector3(1, 1, 1);
+
+                spawnPoint.GetComponent<StageSpawnPoint>().Initialize();
             }
 
         }
