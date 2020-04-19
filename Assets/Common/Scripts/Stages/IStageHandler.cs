@@ -8,6 +8,9 @@ using UnityEngine;
 /// </summary>
 public abstract class IStageHandler 
 {
+    public readonly string levelPreviewUIPath = "Images/UI/LevelInfo/preview_";
+    public readonly string titleUIPath = "Images/UI/LevelInfo/leveltitle_1";
+    public bool isLoaded = false;
 
     public abstract IStageHandler SetNextHandler(IStageHandler NextHandler);
     public abstract IStageHandler CheckStage();

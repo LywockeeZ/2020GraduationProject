@@ -12,7 +12,7 @@ public class LevelManager : Singleton<LevelManager>
 
     private void Start()
     {
-        LoadLevel(Game.Instance.GetCurrentLevelOnMain());
+        LoadLevel(Game.Instance.GetLevelWillToOnMain());
     }
 
 

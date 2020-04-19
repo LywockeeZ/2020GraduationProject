@@ -17,7 +17,7 @@ public class InputManager : MonoBehaviour
 
     void Update()
     {
-        if (Game.Instance.GetCanInput() || Game.Instance.GetCanFreeMove())
+        if (Game.Instance.GetCanInput())
         {
             InputProcess();
         }

@@ -114,6 +114,8 @@ public class AnimatorPlayCall : MonoBehaviour
 
         /// <summary>
         /// 每帧检测动画状态
+        /// NextInfo只有在过渡态时才有值，其他时候为0
+        /// 必须有过渡才能正确被检测
         /// </summary>
         /// <returns></returns>
         public bool Check()

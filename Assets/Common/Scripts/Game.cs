@@ -103,6 +103,11 @@ public class Game
     #region 输入系统接口
     public void SetCanInput(bool value)
     {
+        //自由模式时，每当停止输入时让角色立刻停下
+        if (value == false && GetCanFreeMove())
+        {
+            GetPlayerUnit()?.MoveByNavMesh(GetPlayerUnit().transform.position);
+        }
         m_canInput = value;
     }
 
@@ -219,9 +224,19 @@ public class Game
         return m_StageSystem.GetCurrentStage();
     }
 
-    public string GetCurrentLevelOnMain()
+    public string GetLevelWillToOnMain()
     {
-        return m_StageSystem.GetCurrentLevelOnMain();
+        return m_StageSystem.GetLevelWillToOnMain();
+    }
+
+    public string GetSceneWillToOnMain()
+    {
+        return m_StageSystem.GetSceneWillToOnMain();
+    }
+
+    public void SetLevelWillToOnMain(string sceneName, string levelName)
+    {
+        m_StageSystem.SetLevelWillToOnMain(sceneName, levelName);
     }
 
     /// <summary>
@@ -317,9 +332,25 @@ public class Game
         return m_SkillSystem.GetMainSkill();
     }
 
+    public void SetMainItems(List<string> mainItems)
+    {
+        m_SkillSystem.SetMainItems(mainItems);
+    }
+
+    public List<SkillInstanceBase> GetMainItems()
+    {
+        return m_SkillSystem.GetMainItems();
+    }
+
     public Dictionary<string, SkillInstanceBase> GetUnlockSkills()
     {
         return m_SkillSystem.GetUnlockedSkills();
     }
+
+    public Queue<SkillInstanceBase> GetSkillsToUnlock()
+    {
+        return m_SkillSystem.GetSkillsToUnlock();
+    }
+
     #endregion
 }

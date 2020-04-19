@@ -1,47 +1,27 @@
 ﻿using UnityEngine;
+using System;
 using UnityEngine.SceneManagement;
 
-public class SceneChanger : MonoBehaviour
+public class SceneChanger : Singleton<SceneChanger>
 { 
 
     public Animator animator;
+
     private int sceneToLoad;
     private string sceneToLoadstr;
     private bool isLoadingScene = false;
+    private Action callBack;
     
-    private static GameObject MonoSingletionRoot;
-    private static SceneChanger instance;
-    public static SceneChanger Instance
+    protected override void Awake()
     {
-        get
-        {
-            if (MonoSingletionRoot==null)
-            {
-                MonoSingletionRoot = GameObject.Find("SceneChanger");
-                if (MonoSingletionRoot==null)
-                {
-                    MonoSingletionRoot = new GameObject();
-                    MonoSingletionRoot.name = "SceneChanger";
-                    DontDestroyOnLoad(MonoSingletionRoot);
-                }
-            }
+        base.Awake();
+    }
 
-            if (instance == null)
-            {
-                instance = MonoSingletionRoot.GetComponent<SceneChanger>();
-                if (instance == null)
-                {
-                    instance = MonoSingletionRoot.AddComponent<SceneChanger>();
-                }
-            }
-            return instance;
-        }
-    }
-    
-    private void Awake()
+    private void Update()
     {
-        //DontDestroyOnLoad(this.gameObject);
+        Debug.Log(Game.Instance.GetCanInput());
     }
+
 
     public void FadeToNextScene()
     {
@@ -52,7 +32,7 @@ public class SceneChanger : MonoBehaviour
     public void FadeToScene(int sceneIndex)
     {
         sceneToLoad = sceneIndex;
-        animator.SetTrigger("FadeOut");
+        animator.SetTrigger("scene_FadeOut");
     }
 
     //加载
@@ -73,6 +53,11 @@ public class SceneChanger : MonoBehaviour
                 SceneManager.LoadScene("LoadingScreen");
             }
             CoroutineManager.StartCoroutineTask(action, 0f);
+        }
+        else
+        {
+            callBack();
+            CoroutineManager.StartCoroutineTask(FadeIn, 0.5f);
         }
     }
 
@@ -98,18 +83,19 @@ public class SceneChanger : MonoBehaviour
     /// <summary>
     /// 用来渐变过渡
     /// </summary>
-    public void FadeScene()
+    public void FadeScene(Action action)
     {
-        animator.SetTrigger("FadeOutAndIn");
+        callBack = action;
+        FadeOut();
     }
 
     public void FadeOut()
     {
-        animator.SetTrigger("FadeOut");
+        animator.SetTrigger("scene_FadeOut");
     }
 
     public void FadeIn()
     {
-        animator.SetTrigger("FadeIn");
+        animator.SetTrigger("scene_FadeIn");
     }
 }

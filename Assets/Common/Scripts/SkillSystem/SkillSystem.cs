@@ -5,11 +5,18 @@ using UnityEngine;
 public class SkillSystem : IGameSystem
 {
     /// <summary>
+    /// 存放解锁技能的队列
+    /// </summary>
+    private Queue<SkillInstanceBase> m_skillToUnlock = new Queue<SkillInstanceBase>();
+
+    /// <summary>
     /// 存放当前已经解锁的技能
     /// </summary>
-    private Dictionary<string, SkillInstanceBase> m_Skill = new Dictionary<string, SkillInstanceBase>();
+    private Dictionary<string, SkillInstanceBase> m_UnlockSkills = new Dictionary<string, SkillInstanceBase>();
 
     private SkillInstanceBase MainSkill = null;
+
+    private List<SkillInstanceBase> MainItems = new List<SkillInstanceBase>();
 
     public SkillSystem()
     {
@@ -59,7 +66,7 @@ public class SkillSystem : IGameSystem
     public SkillInstanceBase GetSkill(string skillName)
     {
         SkillInstanceBase skillInstance = null;
-        m_Skill.TryGetValue(skillName, out skillInstance);
+        m_UnlockSkills.TryGetValue(skillName, out skillInstance);
 
         if (skillInstance == null)
         {
@@ -72,7 +79,7 @@ public class SkillSystem : IGameSystem
     public void UnlockSkill(string skillName)
     {
         SkillInstanceBase skillInstance = GameFactory.GetSkillFactory().GetSkillInstance(skillName);
-        m_Skill.Add(skillName, skillInstance);
+        m_UnlockSkills.Add(skillName, skillInstance);
     }
 
     public void UnlockAllSkill()
@@ -89,8 +96,18 @@ public class SkillSystem : IGameSystem
         else
         {
             Debug.Log("Set Main Skill " + skillName);
-            MainSkill = m_Skill[skillName];
+            MainSkill = m_UnlockSkills[skillName];
         }
+    }
+
+    public void SetMainItems(List<string> itemsName)
+    {
+
+    }
+
+    public List<SkillInstanceBase> GetMainItems()
+    {
+        return MainItems;
     }
 
 
@@ -101,6 +118,11 @@ public class SkillSystem : IGameSystem
 
     public Dictionary<string, SkillInstanceBase> GetUnlockedSkills()
     {
-        return m_Skill;
+        return m_UnlockSkills;
+    }
+
+    public Queue<SkillInstanceBase>GetSkillsToUnlock()
+    {
+        return m_skillToUnlock;
     }
 }

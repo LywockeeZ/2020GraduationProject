@@ -18,7 +18,7 @@ namespace MoreMountains.Tools
         /// 按钮的不同可能状态：
         /// Off（默认空闲状态）、ButtonDown（第一次按下按钮）、ButtonPressed（按下按钮）、
         /// ButtonUp（松开按钮）、Disabled（无法打开但仍显示在屏幕上）              ButtonDown和ButtonUp只会持续一帧，其他帧则会持续多长时间，您可以按它们/禁用它们/不执行任何操作
-        public enum ButtonStates { Off, ButtonDown, ButtonPressed, ButtonUp, Disabled }
+        public enum ButtonStates { Off, ButtonEnter , ButtonDown, ButtonPressed, ButtonUp, Disabled }
 		[Header("Binding")]
 		/// 按钮按下时调用的方法
 		public UnityEvent ButtonPressedFirstTime;
@@ -27,9 +27,12 @@ namespace MoreMountains.Tools
 		/// 按住时调用的方法
 		public UnityEvent ButtonPressed;
 
-		[Header("Sprite Swap")]
-		[Information("Here you can define, for disabled and pressed states, if you want a different sprite, and a different color.",InformationAttribute.InformationType.Info,false)]
-		public Sprite DisabledSprite;
+        [Header("Sprite Swap")]
+        [Information("Here you can define, for disabled and pressed states, if you want a different sprite, and a different color.", InformationAttribute.InformationType.Info, false)]
+        public Sprite EnteredSprite;
+        public bool EnteredChangeColor = false;
+        public Color EnteredColor = Color.white;
+        public Sprite DisabledSprite;
 		public bool DisabledChangeColor = false;
 		public Color DisabledColor = Color.white;
 		public Sprite PressedSprite;
@@ -45,6 +48,7 @@ namespace MoreMountains.Tools
         public float PressedOpacity = 1f;
 		public float IdleOpacity = 1f;
 		public float DisabledOpacity = 1f;
+        public float EnteredOpacity = 1f;
 
 		[Header("Delays")]
 		[Information("Specify here the delays to apply when the button is pressed initially, and when it gets released. Usually you'll keep them at 0.",InformationAttribute.InformationType.Info,false)]
@@ -60,6 +64,7 @@ namespace MoreMountains.Tools
 		public string IdleAnimationParameterName = "Idle";
 		public string DisabledAnimationParameterName = "Disabled";
 		public string PressedAnimationParameterName = "Pressed";
+        public string EnterAnimationParameterName = "Enter";
 
 		[Header("Mouse Mode")]
 		[Information("If you set this to true, you'll need to actually press the button for it to be triggered, otherwise a simple hover will trigger it (better to leave it unchecked if you're going for touch input).",InformationAttribute.InformationType.Info,false)]
@@ -68,8 +73,8 @@ namespace MoreMountains.Tools
 
 		public bool ReturnToInitialSpriteAutomatically { get; set; }
 
-		/// 当前按钮的状态(off, down, pressed or up)
-		public ButtonStates CurrentState { get; protected set; }
+        /// 当前按钮的状态(off, enter, down, pressed or up)
+        public ButtonStates CurrentState ;//{ get; protected set; }
 
 		protected bool _zonePressed = false;
 		protected CanvasGroup _canvasGroup;
@@ -80,11 +85,12 @@ namespace MoreMountains.Tools
 		protected Color _initialColor;
 		protected float _lastClickTimestamp = 0f;
 		protected Selectable _selectable;
+        protected bool isInArea = false;
 
-		/// <summary>
-		/// On Start, 获取canvasgroup，设置初始alpha值
-		/// </summary>
-		protected virtual void Awake()
+        /// <summary>
+        /// On Start, 获取canvasgroup，设置初始alpha值
+        /// </summary>
+        protected virtual void Awake()
 		{
 			Initialization ();
 		}
@@ -149,7 +155,26 @@ namespace MoreMountains.Tools
 					}
 					break;
 
-				case ButtonStates.Disabled:
+                case ButtonStates.ButtonEnter:
+                    SetOpacity(EnteredOpacity);
+                    if (_image != null)
+                    {
+                        if (EnteredSprite != null)
+                        {
+                            _image.sprite = EnteredSprite;
+                        }
+                        if (EnteredChangeColor)
+                        {
+                            _image.color = EnteredColor;
+                        }
+                    }
+                    if (_selectable != null)
+                    {
+                        _selectable.interactable = true;
+                    }
+                    break;
+
+                case ButtonStates.Disabled:
 					SetOpacity (DisabledOpacity);
 					if (_image != null)
 					{
@@ -201,8 +226,13 @@ namespace MoreMountains.Tools
         protected virtual void LateUpdate()
 		{
 			if (CurrentState == ButtonStates.ButtonUp)
-			{
-				CurrentState = ButtonStates.Off;
+            {
+                if (!isInArea)
+                {
+                    CurrentState = ButtonStates.Off;
+                }
+                else
+				    CurrentState = ButtonStates.ButtonEnter;
 			}
 			if (CurrentState == ButtonStates.ButtonDown)
 			{
@@ -220,7 +250,7 @@ namespace MoreMountains.Tools
 				return;
 			}
 
-			if (CurrentState != ButtonStates.Off)
+			if (CurrentState != ButtonStates.Off && CurrentState != ButtonStates.ButtonEnter)
 			{
 				return;
 			}
@@ -303,7 +333,15 @@ namespace MoreMountains.Tools
 			{
 				OnPointerDown (data);
 			}
-		}
+            else
+            {
+                if (CurrentState == ButtonStates.Off)
+                {
+                    CurrentState = ButtonStates.ButtonEnter;
+                }
+            }
+            isInArea = true;
+        }
 
         /// <summary>
         /// 当触摸进入区域时触发绑定指针退出操作
@@ -314,11 +352,19 @@ namespace MoreMountains.Tools
 			{
 				OnPointerUp(data);	
 			}
-		}
-		/// <summary>
-		/// OnEnable, 重置按钮状态
-		/// </summary>
-		protected virtual void OnEnable()
+            else
+            {
+                if (CurrentState == ButtonStates.ButtonEnter)
+                {
+                    CurrentState = ButtonStates.Off;
+                }
+            }
+            isInArea = false;
+        }
+        /// <summary>
+        /// OnEnable, 重置按钮状态
+        /// </summary>
+        protected virtual void OnEnable()
 		{
 			ResetButton();
 		}
@@ -362,7 +408,11 @@ namespace MoreMountains.Tools
 			{
 				_animator.SetBool (IdleAnimationParameterName, (CurrentState == ButtonStates.Off));
 			}
-		}
+            if (EnterAnimationParameterName != null)
+            {
+                _animator.SetBool(IdleAnimationParameterName, (CurrentState == ButtonStates.ButtonEnter));
+            }
+        }
 
 		public virtual void OnSubmit(BaseEventData eventData)
 		{

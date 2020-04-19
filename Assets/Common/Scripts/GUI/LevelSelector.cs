@@ -48,6 +48,11 @@ public class LevelSelector : MonoBehaviour
         Game.Instance.LoadLevelOnMain(sceneName, levelName);
     }
 
+    public virtual void LevelWillTo()
+    {
+        Game.Instance.SetLevelWillToOnMain(sceneName , levelName);
+    }
+
     public virtual void GoToNewStage()
     {
         if (Game.Instance.isTest)

@@ -17,7 +17,8 @@ public class StageSystem : IGameSystem
     private IStageHandler m_RootStageHandler = null;
     private int m_NowStageLv = 1;       //目前的关卡
     private string startStageName;
-    private string currentLevelOnMain;
+    private string levelWillToOnMain;
+    private string sceneWillToOnMain;
 
 
     public StageSystem()
@@ -179,7 +180,7 @@ public class StageSystem : IGameSystem
     /// </summary>
     public void ResetStage()
     {
-        if (m_NowStageHandler != null)
+        if (m_NowStageHandler != null && m_NowStageHandler.isLoaded)
         {           
             m_NowStageHandler.Reset();
         }
@@ -273,13 +274,12 @@ public class StageSystem : IGameSystem
     /// <param name="stageName"></param>
     public void LoadLevelOnMain( string sceneName, string levelName)
     {
-        currentLevelOnMain = levelName;
+        levelWillToOnMain = levelName;
 
         //判断是否在该主场景
         if (SceneManager.GetActiveScene().name == sceneName)
         {
-            SceneChanger.Instance.FadeScene();
-            LevelManager.Instance.LoadLevel(levelName);
+            SceneChanger.Instance.FadeScene(()=> { LevelManager.Instance.LoadLevel(levelName); });
         }
         else
         {
@@ -289,12 +289,37 @@ public class StageSystem : IGameSystem
 
 
     /// <summary>
-    /// 获取当前主场景上的关卡
+    /// 获取当前主场景上将要加载的关卡名
     /// </summary>
     /// <returns></returns>
-    public string GetCurrentLevelOnMain()
+    public string GetLevelWillToOnMain()
     {
-        return currentLevelOnMain;
+        return levelWillToOnMain;
+    }
+
+    public string GetSceneWillToOnMain()
+    {
+        return sceneWillToOnMain;
+    }
+
+    /// <summary>
+    /// 设置主场景上将要加载关卡名
+    /// </summary>
+    /// <param name="levelName"></param>
+    public void SetLevelWillToOnMain(string sceneName, string levelName)
+    {
+        levelWillToOnMain = levelName;
+        sceneWillToOnMain = sceneName;
+        //触发技能选择UI之前就设置好要加载的关卡
+        if (levelWillToOnMain != null)
+        {
+            Stages.TryGetValue(levelWillToOnMain, out IStageHandler stage);
+            if (stage != null)
+            {
+                m_NowStageHandler = Stages[levelWillToOnMain];
+            }
+        }
+
     }
 
 
