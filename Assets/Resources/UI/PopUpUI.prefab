@@ -91,6 +91,7 @@ GameObject:
   - component: {fileID: 2839769714903712405}
   - component: {fileID: 2839769714903712406}
   - component: {fileID: 6738765304623805386}
+  - component: {fileID: 470572906615020376}
   m_Layer: 5
   m_Name: PopUpUI
   m_TagString: Untagged
@@ -168,6 +169,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   popUpText: {fileID: 0}
+--- !u!225 &470572906615020376
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2839769714903712401}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2839769715412523738
 GameObject:
   m_ObjectHideFlags: 0

@@ -42,10 +42,13 @@ public class UISystem : IGameSystem
         Game.Instance.RegisterEvent(ENUM_GameEvent.StageBegain,
             OnStageBegain = (Message evt) =>
             {
-                //if (Game.Instance.isTest == false)
-                //    Game.Instance.ShowUI("StartStageUI");
-                //else
-                //    Game.Instance.ShowUI("TestStartUI");
+                if (Game.Instance.isTest)
+                {
+                    //Game.Instance.ShowUI("TestStartUI");
+                    Game.Instance.ShowUI("SkillSelectUI");
+                }
+                else Game.Instance.NotifyEvent(ENUM_GameEvent.RoundBegain);
+
             });
 
         Game.Instance.RegisterEvent(ENUM_GameEvent.RoundBegain,

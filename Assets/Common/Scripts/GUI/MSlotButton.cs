@@ -26,6 +26,7 @@ public class MSlotButton : MMTouchButton
     protected Sprite _initialSlotSprite;
     protected Color _initialEnterColor;
     protected Color _initialSlotColor;
+    private bool isFirstOpen = true;
 
     protected override void Initialization()
     {
@@ -39,6 +40,16 @@ public class MSlotButton : MMTouchButton
     protected override void OnEnable()
     {
         ResetButton();
+    }
+
+    private void OnDisable()
+    {
+        Unequip();
+    }
+
+    private void Start()
+    {
+        isFirstOpen = false;
     }
 
     protected override void Update()
@@ -105,8 +116,6 @@ public class MSlotButton : MMTouchButton
     protected override void ResetButton()
     {
         base.ResetButton();
-        SetState(SlotButtonStates.Unequiped);
-        equipedItem = null;
     }
 
     public void Disabled()
@@ -123,7 +132,7 @@ public class MSlotButton : MMTouchButton
     public void EquipCheck()
     {
         //未选中时也可以删除
-        if (selectMenu.selectedButton == null)
+        if (selectMenu.SelectedButton == null)
         {
             if (slotState == SlotButtonStates.Equiped)
             {
@@ -151,22 +160,22 @@ public class MSlotButton : MMTouchButton
     public void Equip()
     {
         SetState(SlotButtonStates.Equiped);
-        skillIcon.sprite = selectMenu.selectedButton.DisabledSprite;
-        equipedItem = selectMenu.selectedButton;
+        skillIcon.sprite = selectMenu.SelectedButton.DisabledSprite;
+        equipedItem = selectMenu.SelectedButton;
         OnEquipComplete();
         Debug.Log("Equiped:" + equipedItem.itemName);
     }
 
     public void Unequip()
     {
-        Debug.Log("Unequip:" + equipedItem.itemName);
+        Debug.Log("Unequip:" + equipedItem?.itemName);
         SetState(SlotButtonStates.Unequiped);
         equipedItem = null;
     }
 
     public void OnEquipComplete()
     {
-        selectMenu.selectedButton = null;
+        selectMenu.SelectedButton = null;
         selectMenu.SelectComplete();
     }
 

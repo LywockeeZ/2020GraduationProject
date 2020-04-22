@@ -34,7 +34,7 @@ public class TestStartUI : BaseUIForm
             foreach (var item in m_UnlockedSkills)
             {
                 //不用加载普通攻击
-                if (item.Key != "NormalAttack")
+                if (item.Key != "skill_NormalAttack")
                 {
                     var skillIconObj = GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>(
                                         "UI/UIComponent/SkillSelectIcon/" + item.Key, Vector3.zero);

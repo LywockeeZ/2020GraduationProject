@@ -6,7 +6,7 @@ public class BaseUIForm : MonoBehaviour
     /*  字段  */
     //当前(基类)窗口的类型
     private UIType _CurrentUIType = new UIType();
-
+    protected CanvasGroup canvasGroup;
     /*  属性  */
     /// <summary>
     /// 属性_当前UI窗体类型
@@ -28,6 +28,8 @@ public class BaseUIForm : MonoBehaviour
     //页面显示
     public virtual void Display()
     {
+        canvasGroup = GetComponent<CanvasGroup>();
+        canvasGroup.DOFade(1, 0.5f).ChangeStartValue(0);
         Open();
     }
 
@@ -35,7 +37,7 @@ public class BaseUIForm : MonoBehaviour
     //页面隐藏(不在“栈”集合中)
     public virtual void Hiding()
     {
-        Close();
+        canvasGroup.DOFade(0, 0.5f).ChangeStartValue(1).OnComplete(Close);
     }
 
 

@@ -11,19 +11,52 @@ public class MSkillButton : MMTouchButton
 
     [Header("Skill Setting")]
     public SkillButtonStates SkBtnState;//{ get; protected set; }
-    [HideInInspector]
+    public SkillButtonStates defaultState;
     public string itemName;
-
-    public SkillSelectUI seletMenu;
+    public ISelectItem seletMenu;
     public MMTouchButton LockBtn;
     public Image preview;
     public Sprite previewSprite;
 
     private bool isUnlocking = false;
+    private SkillButtonStates lastState;
+    private bool isFirstOpen = true;
 
     protected override void OnEnable()
     {
-        ResetButton();
+        if (!isFirstOpen)
+        {
+            ResetButton();
+        }
+    }
+
+
+    private void OnDisable()
+    {
+        lastState = SkBtnState;
+        if (SkBtnState == SkillButtonStates.Selected)
+        {
+            seletMenu.SelectCancel();
+        }
+    }
+
+
+    protected override void Initialization()
+    {
+        //在按钮状态初始化前，设置为默认状态，因为base的初始化方法中有重置按钮方法，必须在重置之前设置为defaultstate
+        lastState = defaultState;
+        if (preview != null)
+        {
+            preview.color = Color.clear;
+        }
+        
+        base.Initialization();
+    }
+
+    private void Start()
+    {
+        isFirstOpen = false;
+        seletMenu.SelectedButton = null;
     }
 
     protected override void Update()
@@ -44,11 +77,21 @@ public class MSkillButton : MMTouchButton
                 }
                 break;
             case SkillButtonStates.Normal:
+                seletMenu.SelectedButton = null;
+                if (preview != null)
+                {
+                    preview.color = Color.clear;
+                }
                 LockBtn.DisableButton();
                 EnableButton();
                 break;
             case SkillButtonStates.Selected:
                 CurrentState = ButtonStates.ButtonPressed;
+                if (preview!= null)
+                {
+                    preview.sprite = previewSprite;
+                    preview.color = Color.white;
+                }
                 break;
             case SkillButtonStates.Disabled:
                 LockBtn.DisableButton();
@@ -64,16 +107,14 @@ public class MSkillButton : MMTouchButton
     protected override void LateUpdate()
     {
         base.LateUpdate();
-        //进入选中状态
+        //进入选中状态,进入瞬间调用
         if (Input.GetMouseButtonDown(0) && SkBtnState == SkillButtonStates.Normal && isInArea)
         {
-            seletMenu.Select(this);
             SkBtnState = SkillButtonStates.Selected;
-            preview.sprite = previewSprite;
-            preview.color = Color.white;
+            seletMenu.Select(this);
             return;
         }
-        //进入取消状态
+        //进入取消状态，进入瞬间调用
         if (Input.GetMouseButtonDown(1) && SkBtnState == SkillButtonStates.Selected ||
             Input.GetMouseButtonDown(0) && SkBtnState == SkillButtonStates.Selected && isInArea)
         {
@@ -84,10 +125,11 @@ public class MSkillButton : MMTouchButton
             }
             else
                 CurrentState = ButtonStates.Off;
-            preview.color = Color.clear;
             seletMenu.SelectCancel();
+            return;
         }
 
+        //选中状态关闭界面再打开时，使按键恢复正常
         if (CurrentState == ButtonStates.ButtonPressed)
         {
             CurrentState = ButtonStates.Off;
@@ -101,9 +143,11 @@ public class MSkillButton : MMTouchButton
     protected override void ResetButton()
     {
         base.ResetButton();
-        SkBtnState = SkillButtonStates.Normal;
-        preview.color = Color.clear;
-        seletMenu.selectedButton = null;
+        if (lastState != SkillButtonStates.Selected && lastState != SkillButtonStates.Disabled)
+        {
+            SkBtnState = lastState;
+        }
+        else SkBtnState = SkillButtonStates.Normal;
     }
 
 
@@ -117,6 +161,12 @@ public class MSkillButton : MMTouchButton
         SkBtnState = SkillButtonStates.Disabled;
     }
 
+    public virtual void Locked()
+    {
+        CancelSelect();
+        SkBtnState = SkillButtonStates.Locked;
+    }
+
     public virtual void Unlocked()
     {
         SkBtnState = SkillButtonStates.Normal;
@@ -126,5 +176,31 @@ public class MSkillButton : MMTouchButton
     {
         isUnlocking = true;
         SkBtnState = SkillButtonStates.Unlocking;
+    }
+
+    public virtual void SetSelectMeun(ISelectItem selectUI)
+    {
+        seletMenu = selectUI;
+    }
+
+    public virtual void Unselectable()
+    {
+        _selectable.interactable = false;
+    }
+
+    public virtual void Selectable()
+    {
+        _selectable.interactable = true;
+    }
+
+    /// <summary>
+    /// 直接强制转换状态时，先检查是不是在选择状态，然后取消选择
+    /// </summary>
+    private void CancelSelect()
+    {
+        if (SkBtnState == SkillButtonStates.Selected)
+        {
+            seletMenu.SelectCancel();
+        }
     }
 }

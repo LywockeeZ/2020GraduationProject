@@ -228,7 +228,7 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
                 //用来移动的方法
                 if (targetUnit.State.StateType == ENUM_State.Fire)
                 {
-                    ExecuteSkill("NormalAttack");
+                    ExecuteSkill("skill_NormalAttack");
                 }
                 else  MoveByNavMesh(targetUnit.Model.transform.position);
 

@@ -19,7 +19,9 @@ namespace MoreMountains.Tools
         /// Off（默认空闲状态）、ButtonDown（第一次按下按钮）、ButtonPressed（按下按钮）、
         /// ButtonUp（松开按钮）、Disabled（无法打开但仍显示在屏幕上）              ButtonDown和ButtonUp只会持续一帧，其他帧则会持续多长时间，您可以按它们/禁用它们/不执行任何操作
         public enum ButtonStates { Off, ButtonEnter , ButtonDown, ButtonPressed, ButtonUp, Disabled }
-		[Header("Binding")]
+        [Header("Binding")]
+        /// 按钮进入时调用的方法
+        public UnityEvent ButtonEntered;
 		/// 按钮按下时调用的方法
 		public UnityEvent ButtonPressedFirstTime;
 		/// 松开时调用的方法
@@ -157,6 +159,10 @@ namespace MoreMountains.Tools
 
                 case ButtonStates.ButtonEnter:
                     SetOpacity(EnteredOpacity);
+                    if (ButtonEntered != null)
+                    {
+                        ButtonEntered.Invoke();
+                    }
                     if (_image != null)
                     {
                         if (EnteredSprite != null)

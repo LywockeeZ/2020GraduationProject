@@ -19,7 +19,7 @@ public class SceneChanger : Singleton<SceneChanger>
 
     private void Update()
     {
-        Debug.Log(Game.Instance.GetCanInput());
+
     }
 
 

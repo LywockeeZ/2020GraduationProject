@@ -102,6 +102,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87a286771fa86194e979f187a1691a2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ButtonEntered:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   ButtonPressedFirstTime:
     m_PersistentCalls:
       m_Calls:
@@ -128,6 +133,9 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  EnteredSprite: {fileID: 0}
+  EnteredChangeColor: 0
+  EnteredColor: {r: 1, g: 1, b: 1, a: 1}
   DisabledSprite: {fileID: 21300000, guid: 6b5af5f7855e2704ba8dc542d2d3cac0, type: 3}
   DisabledChangeColor: 1
   DisabledColor: {r: 0.5377358, g: 0.5250534, b: 0.5250534, a: 0.83137256}
@@ -140,6 +148,7 @@ MonoBehaviour:
   PressedOpacity: 1
   IdleOpacity: 1
   DisabledOpacity: 1
+  EnteredOpacity: 1
   PressedFirstTimeDelay: 0
   ReleasedDelay: 0
   BufferDuration: 0
@@ -147,7 +156,9 @@ MonoBehaviour:
   IdleAnimationParameterName: Idle
   DisabledAnimationParameterName: Disabled
   PressedAnimationParameterName: Pressed
+  EnterAnimationParameterName: Enter
   MouseMode: 1
+  CurrentState: 0
 --- !u!82 &438302299932775547
 AudioSource:
   m_ObjectHideFlags: 0
@@ -257,6 +268,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelName: 
+  sceneName: 
 --- !u!1 &2101964379061730213
 GameObject:
   m_ObjectHideFlags: 0
@@ -546,6 +558,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87a286771fa86194e979f187a1691a2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ButtonEntered:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   ButtonPressedFirstTime:
     m_PersistentCalls:
       m_Calls:
@@ -572,6 +589,9 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  EnteredSprite: {fileID: 0}
+  EnteredChangeColor: 0
+  EnteredColor: {r: 1, g: 1, b: 1, a: 1}
   DisabledSprite: {fileID: 21300000, guid: 6b5af5f7855e2704ba8dc542d2d3cac0, type: 3}
   DisabledChangeColor: 1
   DisabledColor: {r: 0, g: 0, b: 0, a: 0.459}
@@ -584,6 +604,7 @@ MonoBehaviour:
   PressedOpacity: 1
   IdleOpacity: 1
   DisabledOpacity: 1
+  EnteredOpacity: 1
   PressedFirstTimeDelay: 0
   ReleasedDelay: 0
   BufferDuration: 0
@@ -591,7 +612,9 @@ MonoBehaviour:
   IdleAnimationParameterName: Idle
   DisabledAnimationParameterName: Disabled
   PressedAnimationParameterName: Pressed
+  EnterAnimationParameterName: Enter
   MouseMode: 1
+  CurrentState: 0
 --- !u!82 &5469958899059337324
 AudioSource:
   m_ObjectHideFlags: 0
@@ -701,6 +724,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelName: 
+  sceneName: 
 --- !u!1 &2989887695320863276
 GameObject:
   m_ObjectHideFlags: 0
@@ -1044,6 +1068,7 @@ GameObject:
   - component: {fileID: 7440786439673291593}
   - component: {fileID: 1343652984794164379}
   - component: {fileID: 4350480511179432279}
+  - component: {fileID: 4453029144886780980}
   m_Layer: 5
   m_Name: PauseUI
   m_TagString: Untagged
@@ -1091,6 +1116,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd7530f37251f6445823c62b9ef11faf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!225 &4453029144886780980
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4504971282408907998}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &4938241028244800110
 GameObject:
   m_ObjectHideFlags: 0
@@ -1305,6 +1342,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87a286771fa86194e979f187a1691a2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ButtonEntered:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   ButtonPressedFirstTime:
     m_PersistentCalls:
       m_Calls:
@@ -1331,6 +1373,9 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  EnteredSprite: {fileID: 0}
+  EnteredChangeColor: 0
+  EnteredColor: {r: 1, g: 1, b: 1, a: 1}
   DisabledSprite: {fileID: 21300000, guid: 6b5af5f7855e2704ba8dc542d2d3cac0, type: 3}
   DisabledChangeColor: 1
   DisabledColor: {r: 0, g: 0, b: 0, a: 0.459}
@@ -1343,6 +1388,7 @@ MonoBehaviour:
   PressedOpacity: 1
   IdleOpacity: 1
   DisabledOpacity: 1
+  EnteredOpacity: 1
   PressedFirstTimeDelay: 0
   ReleasedDelay: 0
   BufferDuration: 0
@@ -1350,7 +1396,9 @@ MonoBehaviour:
   IdleAnimationParameterName: Idle
   DisabledAnimationParameterName: Disabled
   PressedAnimationParameterName: Pressed
+  EnterAnimationParameterName: Enter
   MouseMode: 1
+  CurrentState: 0
 --- !u!82 &4306432679132677093
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1460,6 +1508,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelName: 
+  sceneName: 
 --- !u!1 &5935195274403769305
 GameObject:
   m_ObjectHideFlags: 0

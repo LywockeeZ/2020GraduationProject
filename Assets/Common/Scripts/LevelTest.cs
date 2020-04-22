@@ -42,7 +42,11 @@ public class LevelTest : MonoBehaviour
             }
             else
             {
-                LevelManager.Instance.LoadLevel(LevelName);
+                if (!string.IsNullOrEmpty(LevelName))
+                {
+                    Game.Instance.NotifyEvent(ENUM_GameEvent.StageBegain, LevelName);
+                }
+                else Debug.LogError("关卡名不能为空");
             }
         }
         else
@@ -52,12 +56,7 @@ public class LevelTest : MonoBehaviour
 
         if (!string.IsNullOrEmpty(StartMessage) && !isStartScene)
         {
-            Game.Instance.UIShowMessag("TestStartUI", StartMessage);
-        }
-
-        if (GameTest.Instance.CurrentStage == "Level3")
-        {
-            GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>("Prefabs/Scene_wangjianglou", Vector3.zero);
+            //Game.Instance.UIShowMessag("TestStartUI", StartMessage);
         }
 
     }
@@ -65,6 +64,11 @@ public class LevelTest : MonoBehaviour
     private void Update()
     {
         //Debug.Log(Game.Instance.GetPlayerUnit().CurrentOn.State.Model.transform.position);
+    }
+
+    public void OnDestroy()
+    {
+        Game.Instance.isTest = false;
     }
 
 }

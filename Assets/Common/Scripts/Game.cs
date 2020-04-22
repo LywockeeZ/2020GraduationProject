@@ -206,7 +206,13 @@ public class Game
 
     public void LoadLevelOnMain(string sceneName, string levelName)
     {
-        m_StageSystem.LoadLevelOnMain(sceneName,levelName);
+        if (isTest)
+        {
+            Game.Instance.CloseUI("SkillSelectUI");
+            Game.Instance.NotifyEvent(ENUM_GameEvent.RoundBegain);
+        }
+        else
+            m_StageSystem.LoadLevelOnMain(sceneName,levelName);
     }
 
     public void SetPlayerUnit(Player m_playerUnit)
@@ -221,7 +227,7 @@ public class Game
 
     public IStageHandler GetCurrentStage()
     {
-        return m_StageSystem.GetCurrentStage();
+        return m_StageSystem?.GetCurrentStage();
     }
 
     public string GetLevelWillToOnMain()

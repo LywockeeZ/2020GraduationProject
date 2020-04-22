@@ -9,10 +9,10 @@ public class SkillFactory : ISkillFactory
         SkillInstanceBase skillInstance = null;
         switch (skillName)
         {
-            case "Whirlwind":
+            case "skill_Whirlwind":
                 skillInstance = new Whirlwind(skillName);
                 break;
-            case "NormalAttack":
+            case "skill_NormalAttack":
                 skillInstance = new NormalAttack(skillName);
                 break;
             default:

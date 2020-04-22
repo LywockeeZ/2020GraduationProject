@@ -55,10 +55,7 @@ public class LevelSelector : MonoBehaviour
 
     public virtual void GoToNewStage()
     {
-        if (Game.Instance.isTest)
-        {
-            GameTest.Instance.CurrentStage = levelName;
-        }
+        GameTest.Instance.CurrentStage = levelName;
         Game.Instance.LoadLevel("NewStage");
     }
 

@@ -78,6 +78,7 @@ public class UIManager : Singleton<UIManager>
             _DicFormsPaths.Add("PauseUI", @"UI\PauseUI");
             _DicFormsPaths.Add("EndStageUI", @"UI\EndStageUI");
             _DicFormsPaths.Add("SkillSelectUI", @"UI\SkillSelectUI");
+            _DicFormsPaths.Add("SkillBarUI", @"UI\SkillBarUI");
         }
     }
 

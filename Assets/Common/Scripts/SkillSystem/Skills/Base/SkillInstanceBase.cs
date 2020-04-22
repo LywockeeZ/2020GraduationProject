@@ -9,7 +9,7 @@ public class SkillInstanceBase
 {
     public string SkillName;
     public bool m_IsUsed = false;
-    public SkillState m_SkillState = SkillState.End;
+    public SkillState m_SkillState = SkillState.Ready;
     public Dictionary<SkillTriggerType, ISkillTrigger> m_SkillTrigers = new Dictionary<SkillTriggerType, ISkillTrigger>();
     private int completeCount = 0;
 
@@ -48,17 +48,25 @@ public class SkillInstanceBase
         }
     }
 
-    public int GetTriggerClone(string typeName)
+    /// <summary>
+    /// 显示技能指示器
+    /// </summary>
+    public virtual void ShowIndicator()
     {
-        int count = 0;
-        foreach (var trigger in m_SkillTrigers)
-        {
-            if (trigger.Value.GetTypeName() == typeName)
-                ++count;
-        }
-        return count;
+
     }
 
+    /// <summary>
+    /// 显示技能发射器
+    /// </summary>
+    public virtual void ShowEmitter()
+    {
+
+    }
+
+    /// <summary>
+    /// 每一个触发器执行完时调用此函数，用来判断所有触发器是否执行完
+    /// </summary>
     protected virtual void OnTriggerComplete()
     {
         completeCount++;
@@ -74,6 +82,21 @@ public class SkillInstanceBase
 
     protected virtual void OnSkillEnd()
     {
+        m_SkillState = SkillState.Ready;
         Game.Instance.SetCanInput(true);
     }
+
+
+    public int GetTriggerClone(string typeName)
+    {
+        int count = 0;
+        foreach (var trigger in m_SkillTrigers)
+        {
+            if (trigger.Value.GetTypeName() == typeName)
+                ++count;
+        }
+        return count;
+    }
+
+
 }

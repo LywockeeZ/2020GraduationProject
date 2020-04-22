@@ -32,7 +32,7 @@ public class Fire : IState
         SetFireModel();
         RegisterEvent();                       //对关卡回合更新事件进行注册
 
-        if (SceneManager.GetActiveScene().name != "NewStage")
+        if (!Game.Instance.isTest)
         {
             FreeCamController.Instance.AddTarget(Model.transform, 2, 0);
         }
@@ -51,7 +51,7 @@ public class Fire : IState
 
     public override void OnStateEnd()
     {
-        if (SceneManager.GetActiveScene().name != "NewStage")
+        if (!Game.Instance.isTest)
         {
             FreeCamController.Instance.RemoveTarget(Model.transform);
         }

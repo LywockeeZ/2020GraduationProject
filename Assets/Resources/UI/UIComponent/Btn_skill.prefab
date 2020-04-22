@@ -244,6 +244,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87a286771fa86194e979f187a1691a2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ButtonEntered:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   ButtonPressedFirstTime:
     m_PersistentCalls:
       m_Calls: []
@@ -284,6 +289,7 @@ MonoBehaviour:
   PressedAnimationParameterName: Pressed
   EnterAnimationParameterName: Enter
   MouseMode: 1
+  CurrentState: 0
 --- !u!82 &3371605663337557999
 AudioSource:
   m_ObjectHideFlags: 0
@@ -392,7 +398,7 @@ GameObject:
   - component: {fileID: 4741056840170581435}
   - component: {fileID: 7771440671015960740}
   m_Layer: 5
-  m_Name: Btn_skill 1
+  m_Name: Btn_skill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -721,6 +727,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcde19b7c2403f84faaf7ff5317c6c53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ButtonEntered:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   ButtonPressedFirstTime:
     m_PersistentCalls:
       m_Calls: []
@@ -761,7 +772,10 @@ MonoBehaviour:
   PressedAnimationParameterName: Pressed
   EnterAnimationParameterName: Enter
   MouseMode: 1
+  CurrentState: 0
   SkBtnState: 0
+  defaultState: 0
+  itemName: 
   LockBtn: {fileID: 2946368998187570509}
   preview: {fileID: 0}
   previewSprite: {fileID: 0}

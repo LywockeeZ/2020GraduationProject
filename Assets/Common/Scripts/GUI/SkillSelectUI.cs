@@ -5,14 +5,13 @@ using MoreMountains.Tools;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public class SkillSelectUI : BaseUIForm
+public class SkillSelectUI : BaseUIForm, ISelectItem
 {
     public List<MSkillButton> skillBtns;
     public List<MSkillButton> itemBtns;
     public MSlotButton mainSkillSlot;
     public List<MSlotButton> itemSlots;
-    [HideInInspector]
-    public MSkillButton selectedButton;
+    public MSkillButton SelectedButton { get; set; }
     public Image preview_Level;
     public Image title;
 
@@ -23,7 +22,7 @@ public class SkillSelectUI : BaseUIForm
     {
         if (!isFirstOpen)
         {
-            //CheckSkill();
+            CheckSkill();
         }
 
         SetLevelPreviewAndTitle();
@@ -39,13 +38,21 @@ public class SkillSelectUI : BaseUIForm
         CoroutineManager.StartCoroutineTask(action, 0.5f);
     }
 
+    private void Awake()
+    {
+        CurrentUIType.UIForm_Type = UIFormType.Normal;
+        CurrentUIType.UIForm_ShowMode = UIFormShowMode.Normal;
+        CurrentUIType.UIForm_LucencyType = UIFormLucencyType.Pentrate;
+        SetSelectMenuToAll();
+    }
+
     private void Start()
     {
-        //AddButton("whirlwind", skillBtns[0]);
-        //LoadUnLockSkill();
-        //CheckSkill();
-        Test();
-        TestUnlockAll();
+        AddButton("skill_Whirlwind", skillBtns[0]);
+        LoadUnLockSkill();
+        CheckSkill();
+        //TestAddAll();
+        //TestUnlockAll();
         isFirstOpen = false;
     }
 
@@ -82,9 +89,12 @@ public class SkillSelectUI : BaseUIForm
         }
     }
 
+    /// <summary>
+    /// 设置关卡预览界面和关卡标题
+    /// </summary>
     public void SetLevelPreviewAndTitle()
     {
-        if (Game.Instance.GetCurrentStage()!= null)
+        if (Game.Instance.GetCurrentStage()!= null && !Game.Instance.isTest)
         {
             preview_Level.sprite = GameFactory.GetAssetFactory().LoadAsset<Sprite>(Game.Instance.GetCurrentStage().levelPreviewUIPath + Game.Instance.GetLevelWillToOnMain());
 
@@ -100,12 +110,15 @@ public class SkillSelectUI : BaseUIForm
     public void Select(MSkillButton mSkillButton)
     {
         Debug.Log("Select:" + mSkillButton.itemName);
-        selectedButton = mSkillButton;
+        SelectedButton = mSkillButton;
         for (int i = 0; i < skillBtns.Count; i++)
         {
             if (skillBtns[i] != mSkillButton)
             {
-                skillBtns[i].Disabled();
+                if (skillBtns[i].SkBtnState != MSkillButton.SkillButtonStates.Locked)
+                {
+                    skillBtns[i].Disabled();
+                }
             }
             else
                 DisableItemSlot();
@@ -116,7 +129,10 @@ public class SkillSelectUI : BaseUIForm
         {
             if (itemBtns[i] != mSkillButton)
             {
-                itemBtns[i].Disabled();
+                if (itemBtns[i].SkBtnState != MSkillButton.SkillButtonStates.Locked)
+                {
+                    itemBtns[i].Disabled();
+                }
             }
             else
                 DisableSkillSlot();
@@ -166,8 +182,8 @@ public class SkillSelectUI : BaseUIForm
     /// </summary>
     public void SelectCancel()
     {
-        Debug.Log("SelectCancel:"+selectedButton.itemName);
-        selectedButton = null;
+        Debug.Log("SelectCancel:"+SelectedButton?.itemName);
+        SelectedButton = null;
         SelectComplete();
     }
 
@@ -184,6 +200,20 @@ public class SkillSelectUI : BaseUIForm
         mainSkillSlot.Disabled();
     }
 
+    public void SetSelectMenuToAll()
+    {
+        for (int i = 0; i < skillBtns.Count; i++)
+        {
+            skillBtns[i].SetSelectMeun(this);
+        }
+
+        for (int i = 0; i < itemBtns.Count; i++)
+        {
+            itemBtns[i].SetSelectMeun(this);
+        }
+
+    }
+
     public void EnterButton()
     {
         List<string> itemNames = new List<string>();
@@ -191,6 +221,7 @@ public class SkillSelectUI : BaseUIForm
         {
             if (itemSlots[i].equipedItem != null)
                 itemNames.Add(itemSlots[i].equipedItem.itemName);
+            else itemNames.Add(null);
         }
         Game.Instance.SetMainItems(itemNames);
         Game.Instance.SetMainSkill(mainSkillSlot.equipedItem?.itemName);
@@ -218,7 +249,7 @@ public class SkillSelectUI : BaseUIForm
 
     }
 
-    public void Test()
+    public void TestAddAll()
     {
         AddButton("A", skillBtns[0]);
         AddButton("B", skillBtns[1]);
@@ -227,6 +258,11 @@ public class SkillSelectUI : BaseUIForm
         AddButton("3", itemBtns[2]);
     }
 
+    /// <summary>
+    /// 在此界面控制器上注册按钮
+    /// </summary>
+    /// <param name="itemName"></param>
+    /// <param name="button"></param>
     public void AddButton(string itemName, MSkillButton button)
     {
         btns.Add(itemName, button);

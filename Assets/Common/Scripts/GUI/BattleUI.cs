@@ -53,7 +53,6 @@ public class BattleUI :BaseUIForm
         btn_Reset.onClick.AddListener(() => {
             Game.Instance.CloseUI("BattleUI");
             Game.Instance.NotifyEvent(ENUM_GameEvent.StageRestart);
-            //Game.Instance.LoadLevel(SceneManager.GetActiveScene().name);
         });
 
         
@@ -62,16 +61,18 @@ public class BattleUI :BaseUIForm
     private void OnEnable()
     {
         RegisterEvent();
-        if (Game.Instance.GetMainSkill() != null)
-        {
-            skillUI = GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>(
-                "UI/SkillUI", Vector3.zero);
-            skillUI.transform.SetParent(transform);
-            RectTransform trans = skillUI.GetComponent<RectTransform>();
-            trans.sizeDelta = Vector2.zero;
-            skillUI.transform.localPosition = Vector3.zero;
-            skillUI.transform.localScale = Vector3.one;
-        }
+        //if (Game.Instance.GetMainSkill() != null)
+        //{
+        //    skillUI = GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>(
+        //        "UI/SkillUI", Vector3.zero);
+        //    skillUI.transform.SetParent(transform);
+        //    RectTransform trans = skillUI.GetComponent<RectTransform>();
+        //    trans.sizeDelta = Vector2.zero;
+        //    skillUI.transform.localPosition = Vector3.zero;
+        //    skillUI.transform.localScale = Vector3.one;
+        //}
+
+        Game.Instance.ShowUI("SkillBarUI");
     }
 
     private void Update()

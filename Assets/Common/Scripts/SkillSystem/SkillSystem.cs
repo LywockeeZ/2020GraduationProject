@@ -26,7 +26,7 @@ public class SkillSystem : IGameSystem
     public override void Initialize()
     {
         RegisterEvent();
-        UnlockSkill("NormalAttack");
+        UnlockSkill("skill_NormalAttack");
     }
 
     public override void Update()
@@ -84,7 +84,7 @@ public class SkillSystem : IGameSystem
 
     public void UnlockAllSkill()
     {
-        UnlockSkill("Whirlwind");
+        UnlockSkill("skill_Whirlwind");
     }
 
     public void SetMainSkill(string skillName)
@@ -102,7 +102,14 @@ public class SkillSystem : IGameSystem
 
     public void SetMainItems(List<string> itemsName)
     {
-
+        for (int i = 0; i < itemsName.Count; i++)
+        {
+            if (itemsName[i] != null)
+            {
+                MainItems.Add(m_UnlockSkills[itemsName[i]]);
+            }
+            else MainItems.Add(null);
+        }
     }
 
     public List<SkillInstanceBase> GetMainItems()

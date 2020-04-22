@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using HighlightingSystem;
 
 public class Whirlwind : SkillInstanceBase
 {
@@ -42,4 +43,44 @@ public class Whirlwind : SkillInstanceBase
             unit.SetState(new Ground(unit));
         }
     }
+
+    public override void ShowIndicator()
+    {
+        Debug.Log("ShowIndicator:" + SkillName);
+        Highlight(Color.blue, Game.Instance.GetPlayerUnit().CurrentOn);
+    }
+
+    public override void ShowEmitter()
+    {
+        Debug.Log("ShowEmittor:" + SkillName);
+        Game.Instance.SetCanInput(false);
+        Highlight(Color.red, Game.Instance.GetPlayerUnit().CurrentOn);
+        if (Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("技能施放");
+            Game.Instance.GetPlayerUnit().ExecuteSkill();
+        }
+    }
+
+    private void HighlightTarget(BaseUnit unit, Color color)
+    {
+        if (unit != null)
+        {
+            unit.Model.transform.GetChild(0).GetComponent<Highlighter>().Hover(color);
+        }
+    }
+
+    private void Highlight(Color color, BaseUnit baseUnit)
+    {
+        Color hightlightColor = color;
+        HighlightTarget(baseUnit?.Up, color);
+        HighlightTarget(baseUnit?.Up?.Right, color);
+        HighlightTarget(baseUnit?.Right, color);
+        HighlightTarget(baseUnit?.Right?.Down, color);
+        HighlightTarget(baseUnit?.Down, color);
+        HighlightTarget(baseUnit?.Down?.Left, color);
+        HighlightTarget(baseUnit?.Left, color);
+        HighlightTarget(baseUnit?.Left?.Up, color);
+    }
+
 }

@@ -20,6 +20,7 @@ public enum SkillTriggerState
 
 public enum SkillState
 {
+    Ready,
     Playing,
     End
 }

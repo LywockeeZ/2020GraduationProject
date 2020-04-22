@@ -175,6 +175,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87a286771fa86194e979f187a1691a2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ButtonEntered:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   ButtonPressedFirstTime:
     m_PersistentCalls:
       m_Calls: []
@@ -190,6 +195,9 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  EnteredSprite: {fileID: 0}
+  EnteredChangeColor: 0
+  EnteredColor: {r: 1, g: 1, b: 1, a: 1}
   DisabledSprite: {fileID: 0}
   DisabledChangeColor: 0
   DisabledColor: {r: 1, g: 1, b: 1, a: 1}
@@ -202,6 +210,7 @@ MonoBehaviour:
   PressedOpacity: 1
   IdleOpacity: 1
   DisabledOpacity: 1
+  EnteredOpacity: 1
   PressedFirstTimeDelay: 0
   ReleasedDelay: 0
   BufferDuration: 0
@@ -209,7 +218,9 @@ MonoBehaviour:
   IdleAnimationParameterName: Idle
   DisabledAnimationParameterName: Disabled
   PressedAnimationParameterName: Pressed
+  EnterAnimationParameterName: Enter
   MouseMode: 0
+  CurrentState: 0
 --- !u!1 &5031971538361716162
 GameObject:
   m_ObjectHideFlags: 0
@@ -292,6 +303,7 @@ GameObject:
   - component: {fileID: 5031971538440922300}
   - component: {fileID: 5031971538440922301}
   - component: {fileID: 1061732416612440733}
+  - component: {fileID: 1153617840778265867}
   m_Layer: 5
   m_Name: SkillUI
   m_TagString: Untagged
@@ -339,6 +351,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e401aeec7e7a3c47a1f0efa932b9dac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!225 &1153617840778265867
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5031971538440922291}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &5031971538466273342
 GameObject:
   m_ObjectHideFlags: 0

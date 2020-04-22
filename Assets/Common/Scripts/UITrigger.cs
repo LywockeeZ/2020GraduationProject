@@ -15,4 +15,13 @@ public class UITrigger : MonoBehaviour
         }
         CoroutineManager.StartCoroutineTask(action, delay);
     }
+
+    public void CloseUI()
+    {
+        void action()
+        {
+            Game.Instance.CloseUI(UIName);
+        }
+        CoroutineManager.StartCoroutineTask(action, delay);
+    }
 }

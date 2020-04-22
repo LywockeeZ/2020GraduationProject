@@ -4,6 +4,7 @@ using UnityEngine;
 using Fungus;
 using Cinemachine;
 using DG.Tweening;
+using HighlightingSystem;
 
 public class CharacterTalk : MonoBehaviour
 {

@@ -214,6 +214,7 @@ GameObject:
   - component: {fileID: 1275433981772836071}
   - component: {fileID: 6480220834544162728}
   - component: {fileID: 3952608120182870796}
+  - component: {fileID: 7689266287680770104}
   m_Layer: 5
   m_Name: BattleUI
   m_TagString: Untagged
@@ -266,6 +267,18 @@ MonoBehaviour:
   ActionBar: {fileID: 0}
   apBar: {fileID: 0}
   roundTag: {fileID: 0}
+--- !u!225 &7689266287680770104
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2109305439336646425}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &3189730658135894861
 GameObject:
   m_ObjectHideFlags: 0
@@ -1337,32 +1350,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 36.6
       objectReference: {fileID: 0}
-    - target: {fileID: 1921010690820403368, guid: dd7a843a49d45a54c876373c8a2a1ba5,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4269669578812871107, guid: dd7a843a49d45a54c876373c8a2a1ba5,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4269669578812871107, guid: dd7a843a49d45a54c876373c8a2a1ba5,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4269669578812871107, guid: dd7a843a49d45a54c876373c8a2a1ba5,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4269669578812871107, guid: dd7a843a49d45a54c876373c8a2a1ba5,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: e4b0d1cd80da94a45aa0330e683ec925,
-        type: 3}
     - target: {fileID: 7597425400674803201, guid: dd7a843a49d45a54c876373c8a2a1ba5,
         type: 3}
       propertyPath: ButtonPressedFirstTime.m_PersistentCalls.m_Calls.Array.size
@@ -1396,6 +1383,32 @@ PrefabInstance:
     - target: {fileID: 7597425400674803201, guid: dd7a843a49d45a54c876373c8a2a1ba5,
         type: 3}
       propertyPath: PressedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e4b0d1cd80da94a45aa0330e683ec925,
+        type: 3}
+    - target: {fileID: 1921010690820403368, guid: dd7a843a49d45a54c876373c8a2a1ba5,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4269669578812871107, guid: dd7a843a49d45a54c876373c8a2a1ba5,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4269669578812871107, guid: dd7a843a49d45a54c876373c8a2a1ba5,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4269669578812871107, guid: dd7a843a49d45a54c876373c8a2a1ba5,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4269669578812871107, guid: dd7a843a49d45a54c876373c8a2a1ba5,
+        type: 3}
+      propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: e4b0d1cd80da94a45aa0330e683ec925,
         type: 3}
