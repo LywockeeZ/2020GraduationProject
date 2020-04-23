@@ -3,14 +3,15 @@ guid: 546c0146b3a68224d898d3b528e2b70a
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: polySurface1009
-    100002: //RootNode
-    400000: polySurface1009
-    400002: //RootNode
-    2100000: polySurface1009Mat
-    2300000: polySurface1009
-    3300000: polySurface1009
-    4300000: polySurface1009
+    100000: //RootNode
+    100002: ZBrushPolyMesh3D
+    400000: //RootNode
+    400002: ZBrushPolyMesh3D
+    2100000: ZBrushPolyMesh3DMat
+    2300000: ZBrushPolyMesh3D
+    3300000: ZBrushPolyMesh3D
+    4300000: ZBrushPolyMesh3D
+    2186277476908879412: ImportLogs
   externalObjects: {}
   materials:
     importMaterials: 1
