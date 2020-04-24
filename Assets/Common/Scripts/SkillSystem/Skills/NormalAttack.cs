@@ -25,7 +25,7 @@ public class NormalAttack : SkillInstanceBase
         Player player = (Player)instance.UpperUnit;
         player.transform.DOLookAt(instance.TargetUnit.Model.transform.position, 0.5f);
         targetUnit = Game.Instance.GetPlayerUnit().TargetUnit;
-        void action() { targetUnit.SetState(new Block(targetUnit)); };
+        void action() { targetUnit.SetState(new Block(targetUnit), null); };
         CoroutineManager.StartCoroutineTask(action, 0.5f);
 
         OnTriggerComplete();

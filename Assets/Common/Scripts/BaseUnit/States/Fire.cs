@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -6,12 +7,13 @@ using UnityEngine.SceneManagement;
 public class Fire : IState
 {
 
-    #region 私有属性
+    #region 私有字段
     //模型生成高度增量
     private float height = 0f;
     private bool canWalk = true;
     private bool canBeFire = false;
     private ENUM_StateBeFiredType _beFiredType = ENUM_StateBeFiredType.False;
+    private FireController fireController;
     #endregion
 
     public Fire(BaseUnit owner) : base(owner)
@@ -61,7 +63,18 @@ public class Fire : IState
         DetachEvent();
 
         GameFactory.GetAssetFactory().DestroyGameObject<GameObject>(Model);
+    }
 
+
+    public override void OnStateEnd(Action callBack)
+    {
+        fireController.FireDisappear();
+        void action()
+        {
+            OnStateEnd();
+            callBack?.Invoke();
+        }
+        CoroutineManager.StartCoroutineTask(fireController.IsFireEnd, action, 0f);
     }
 
 
@@ -89,6 +102,7 @@ public class Fire : IState
         Model = GameFactory.GetAssetFactory().InstantiateGameObject("Fire",
             GetTargetPos(Owner.Model.transform.position, height));
         Model.transform.SetParent(Owner.Model.transform);
+        fireController = Model.GetComponent<FireController>();
     }
 
 

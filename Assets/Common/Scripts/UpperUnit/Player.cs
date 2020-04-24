@@ -18,7 +18,7 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
     public NavMeshAgent Agent { get => m_Agent; }
 
 
-    #region 私有属性
+    #region 私有字段
     private BaseUnit _currentOn;
     private float _heigth = 0f;
     private bool _canBeFire = false;

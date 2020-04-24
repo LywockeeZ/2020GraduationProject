@@ -40,7 +40,7 @@ public class Whirlwind : SkillInstanceBase
     {
         if (unit != null && unit.State.StateType == ENUM_State.Fire )
         {
-            unit.SetState(new Ground(unit));
+            unit.SetState(new Ground(unit), null);
         }
     }
 
