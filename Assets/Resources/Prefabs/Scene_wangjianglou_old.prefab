@@ -5209,7 +5209,7 @@ Transform:
   m_GameObject: {fileID: 5154402958050866813}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.73, y: 0.73, z: 0.73}
   m_Children:
   - {fileID: 3627419406389513671}
   - {fileID: 43670238137686501}
@@ -9218,6 +9218,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: model_zhujue
+      objectReference: {fileID: 0}
+    - target: {fileID: 8103335477746915814, guid: 02818b464eba96345998c3872f7022a9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3011985840107631196, guid: 02818b464eba96345998c3872f7022a9,
         type: 3}

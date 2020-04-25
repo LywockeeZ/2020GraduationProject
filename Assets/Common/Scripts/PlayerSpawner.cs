@@ -40,11 +40,11 @@ public class PlayerSpawner : Singleton<PlayerSpawner>
         Game.Instance.RegisterEvent(ENUM_GameEvent.LoadSceneStart,
             OnLoadSceneStart = (Message evt) =>
             {
-                if (Game.Instance.GetCurrentStage() == null)
+                if (Game.Instance.GetCanFreeMove())
                 {
                     GameFactory.GetAssetFactory().DestroyGameObject<IUpperUnit>(Player);
                 }
-                else Game.Instance.GetCurrentStage().Reset();
+                else Game.Instance.ResetStage();
                 Game.Instance.SetCanFreeMove(false);
             });
     }

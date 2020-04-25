@@ -52,7 +52,8 @@ public class SkillBarUI : BaseUIForm, ISelectItem
         Game.Instance.RegisterEvent(ENUM_GameEvent.RoundBegain,
             OnRoundBegain = (Message evt) =>
             {
-                buttons[3]?.Normal();
+                if (buttons.Count == 4)
+                    buttons[3]?.Normal();
             });
     }
 

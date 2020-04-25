@@ -104,6 +104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bbddc030dc08364aaae8b27f67ff539, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dontDestroyOnTouch: 0
   OnTriggerEvent:
     m_PersistentCalls:
       m_Calls:
@@ -273,6 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bbddc030dc08364aaae8b27f67ff539, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dontDestroyOnTouch: 0
   OnTriggerEvent:
     m_PersistentCalls:
       m_Calls:
@@ -406,6 +408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bbddc030dc08364aaae8b27f67ff539, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dontDestroyOnTouch: 0
   OnTriggerEvent:
     m_PersistentCalls:
       m_Calls:
@@ -526,6 +529,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bbddc030dc08364aaae8b27f67ff539, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dontDestroyOnTouch: 0
   OnTriggerEvent:
     m_PersistentCalls:
       m_Calls:
@@ -632,8 +636,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0195217, y: 1, z: 1}
-  m_Center: {x: -0.009760857, y: 0, z: 0}
+  m_Size: {x: 1.0195217, y: 1, z: 0.6953042}
+  m_Center: {x: -0.009760857, y: 0, z: -0.15234809}
 --- !u!114 &8075002108191044693
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -646,6 +650,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bbddc030dc08364aaae8b27f67ff539, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dontDestroyOnTouch: 0
   OnTriggerEvent:
     m_PersistentCalls:
       m_Calls:

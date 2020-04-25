@@ -223,6 +223,7 @@ public class SkillSelectUI : BaseUIForm, ISelectItem
                 itemNames.Add(itemSlots[i].equipedItem.itemName);
             else itemNames.Add(null);
         }
+        Game.Instance.GetMainItems()?.Clear();
         Game.Instance.SetMainItems(itemNames);
         Game.Instance.SetMainSkill(mainSkillSlot.equipedItem?.itemName);
         Game.Instance.LoadLevelOnMain(Game.Instance.GetSceneWillToOnMain(), Game.Instance.GetLevelWillToOnMain());

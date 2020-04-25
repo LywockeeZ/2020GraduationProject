@@ -109,6 +109,8 @@ public class NormalStageData : IStageData
         }
         baseUnits.Clear();
         //Debug.Log(baseUnits.Count);
+        StageSpawnPoint.SpawnPoint.TryGetValue(StageName, out GameObject spawnPoint);
+        spawnPoint?.GetComponent<StageSpawnPoint>().Release();
 
     }
 
@@ -133,24 +135,21 @@ public class NormalStageData : IStageData
         if (Units == null)
         {
             Units = new GameObject("Units");
-
-            GameObject spawnPoint;
-            StageSpawnPoint.SpawnPoint.TryGetValue(StageName, out spawnPoint);
-            if (spawnPoint == null)
-            {
-                Debug.Log("未找到生成点，已启用默认生成点");
-                Units.transform.position = new Vector3(0, 0, 0);
-            }
-            else
-            {
-                Units.transform.parent = spawnPoint.transform;
-                Units.transform.localPosition = new Vector3(0,0,0);
-                Units.transform.localScale = new Vector3(1, 1, 1);
-
-                spawnPoint.GetComponent<StageSpawnPoint>().Initialize();
-            }
-
         }
+
+        StageSpawnPoint.SpawnPoint.TryGetValue(StageName, out GameObject spawnPoint);
+        if (spawnPoint == null)
+        {
+            Debug.Log("未找到生成点，已启用默认生成点");
+            Units.transform.position = new Vector3(0, 0, 0);
+        }
+        else
+        {
+            Units.transform.parent = spawnPoint.transform;
+            Units.transform.localPosition = new Vector3(0, 0, 0);
+            Units.transform.localScale = new Vector3(1, 1, 1);
+        }
+
 
         //单元坐标
         int x = 0;
@@ -174,6 +173,10 @@ public class NormalStageData : IStageData
         }
 
         InitBaseUnitAroundMessage();
+
+        //基本单元加载完再初始化关卡上的东西
+        spawnPoint?.GetComponent<StageSpawnPoint>().Initialize();
+
     }
 
 

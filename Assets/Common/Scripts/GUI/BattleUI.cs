@@ -52,7 +52,12 @@ public class BattleUI :BaseUIForm
 
         btn_Reset.onClick.AddListener(() => {
             Game.Instance.CloseUI("BattleUI");
-            Game.Instance.NotifyEvent(ENUM_GameEvent.StageRestart);
+            Game.Instance.CloseUI("SkillBarUI");
+            if (Game.Instance.isTest)
+            {
+                Game.Instance.NotifyEvent(ENUM_GameEvent.StageRestart);
+            }
+            else LevelManager.Instance.BackToLevel();
         });
 
         

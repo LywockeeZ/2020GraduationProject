@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 
 public enum StageMode
@@ -23,10 +24,12 @@ public class StageSpawnPoint : MonoBehaviour
     /// </summary>
     public string StageToLoad;
 
+    public CinemachineVirtualCamera levelCamera;
     /// <summary>
     /// 该关卡涉及到的触发器
     /// </summary>
     public GameObject Triggers;
+    private GameObject _triggers;
 
     private void OnEnable()
     {
@@ -43,10 +46,20 @@ public class StageSpawnPoint : MonoBehaviour
     /// </summary>
     public void Initialize()
     {
+        Debug.Log("Stage Initialized");
         if (Triggers != null)
-        {
-            Instantiate(Triggers, Vector3.zero, Quaternion.identity);
-        }
+            _triggers = Instantiate(Triggers, Vector3.zero, Quaternion.identity);
+        if (levelCamera != null)
+            levelCamera.m_Follow = Game.Instance.GetPlayerUnit().transform;
+        levelCamera?.gameObject.SetActive(true);
+    }
+
+
+    public void Release()
+    {
+        if (_triggers != null)
+            Destroy(_triggers);
+        levelCamera?.gameObject.SetActive(false);
     }
 
     public void LoadStageOnMain()

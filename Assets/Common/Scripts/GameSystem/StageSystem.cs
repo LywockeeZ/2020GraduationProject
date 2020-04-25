@@ -181,7 +181,7 @@ public class StageSystem : IGameSystem
     public void ResetStage()
     {
         if (m_NowStageHandler != null && m_NowStageHandler.isLoaded)
-        {           
+        {
             m_NowStageHandler.Reset();
         }
     }

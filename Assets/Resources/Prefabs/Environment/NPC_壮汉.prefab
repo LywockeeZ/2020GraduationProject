@@ -268,7 +268,7 @@ Transform:
   m_GameObject: {fileID: 3507990415825150678}
   m_LocalRotation: {x: 0, y: 0.38888276, z: 0, w: 0.92128724}
   m_LocalPosition: {x: 24.14, y: -1.863, z: -7.81}
-  m_LocalScale: {x: 0.3723, y: 0.3723, z: 0.3723}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 7320650058394381828}
   - {fileID: 8562962538812358392}
@@ -365,3 +365,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trigger1: {fileID: 0}
   NpcCam: {fileID: 7052946435947943130}
+  message: 
