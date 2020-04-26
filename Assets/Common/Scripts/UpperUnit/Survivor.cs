@@ -52,7 +52,6 @@ public class Survivor : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
     public void HandleByFire()
     {
         Game.Instance.NotifyEvent(ENUM_GameEvent.StageEnd, null);
-        GUIManager.Instance.SetEndText("很遗憾，幸存者死了");
         End();
     }
 

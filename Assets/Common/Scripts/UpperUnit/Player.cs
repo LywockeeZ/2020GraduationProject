@@ -37,6 +37,7 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
     private Animator m_Animator;
     private NavMeshAgent m_Agent;
     private LocalNavMeshBuilder m_NavMeshBuder;
+    private bool isRandomIdle = false;
     #endregion
 
 
@@ -113,7 +114,6 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
         //处理移动的判断和动画
         if (_isMoving)
         {
-            m_Animator.SetFloat("Blend", 0);
             m_Animator.SetBool("isWalking", true);
 
             if ((transform.position - targetPos).magnitude <= 0.5f)
@@ -124,10 +124,39 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
         }
         else m_Animator.SetBool("isWalking", false);
 
-        
+        if (m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Player_idle") && !isRandomIdle)
+        {
+            StartCoroutine(RandomIdle());
+            isRandomIdle = true;
+        }
 
     }
 
+    IEnumerator RandomIdle()
+    {
+        float waitTime = UnityEngine.Random.Range(15, 25);
+        int state = UnityEngine.Random.Range(1, 3);
+        
+        yield return new WaitForSeconds(waitTime);
+        if (m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Player_idle"))
+        {
+            switch (state)
+            {
+                case 1:
+                    m_Animator.SetTrigger("idle1");
+                    isRandomIdle = false;
+                    break;
+                case 2:
+                    m_Animator.SetTrigger("idle2");
+                    isRandomIdle = false;
+                    break;
+                default:
+                    break;
+            }
+        }
+        else
+            isRandomIdle = false;
+    }
 
     /// <summary>
     /// 用来判断移动，判断是否可移动，并不执行具体的移动
