@@ -20,16 +20,31 @@ public class EndStageUI : BaseUIForm
 
     public void RestartBtn()
     {
-        Game.Instance.CloseUI("EndStageUI");
-        Game.Instance.NotifyEvent(ENUM_GameEvent.StageRestart);
+        if (Game.Instance.isTest)
+        {
+            Game.Instance.CloseUI("EndStageUI");
+            Game.Instance.NotifyEvent(ENUM_GameEvent.StageRestart);
+        }
+        else
+        {
+            Game.Instance.CloseUI("EndStageUI");
+            LevelManager.Instance.BackToLevel();
+        }
     }
 
 
     public void NextBtn()
     {
-        Game.Instance.CloseUI("EndStageUI");
-        Game.Instance.LoadLevel("StartScene");
-
+        if (Game.Instance.isTest)
+        {
+            Game.Instance.CloseUI("EndStageUI");
+            Game.Instance.LoadLevel("StartScene");
+        }
+        else
+        {
+            Game.Instance.CloseUI("EndStageUI");
+            LevelManager.Instance.BackToLevel();
+        }
     }
 
 

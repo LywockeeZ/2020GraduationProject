@@ -29,6 +29,7 @@ public class Survivor : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
         _currentOn.UpperUnit = new UpperUnit(Type, ControlType, BeFiredType);
         _currentOn.SetUpperGameObject(gameObject);
         _currentOn.SetCanBeFire(_canBeFire);
+        _currentOn.SetCanWalk(false);
 
         transform.position = SetTargetPos(transform.position);
     }
@@ -52,6 +53,7 @@ public class Survivor : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
     public void HandleByFire()
     {
         Game.Instance.NotifyEvent(ENUM_GameEvent.StageEnd, null);
+        Game.Instance.UIShowMessag("EndStageUI", "很遗憾，幸存者被烧死了！");
         End();
     }
 

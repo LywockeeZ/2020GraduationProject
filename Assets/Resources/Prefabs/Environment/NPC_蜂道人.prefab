@@ -268,9 +268,9 @@ MonoBehaviour:
   _tweenRepeatCount: -1
   _tweenUseUnscaledTime: 0
   _constant: 0
-  _constantColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  _constantFadeInTime: 0.1
-  _constantFadeOutTime: 0.25
+  _constantColor: {r: 1, g: 1, b: 1, a: 1}
+  _constantFadeInTime: 0
+  _constantFadeOutTime: 0
   _constantEasing: 0
   _constantUseUnscaledTime: 0
   _filterMode: 0
@@ -290,6 +290,23 @@ MonoBehaviour:
   trigger1: {fileID: 0}
   NpcCam: {fileID: 3556382654876698728}
   message: "\u8702\u9053\u4EBA1"
+  highlightDistance: 5
+  OnMouseClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6624443641785802695}
+        m_MethodName: Talk
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1001 &4375345842221771022
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -268,7 +268,7 @@ Transform:
   m_GameObject: {fileID: 3507990415825150678}
   m_LocalRotation: {x: 0, y: 0.38888276, z: 0, w: 0.92128724}
   m_LocalPosition: {x: 24.14, y: -1.863, z: -7.81}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.45, y: 0.45, z: 0.45}
   m_Children:
   - {fileID: 7320650058394381828}
   - {fileID: 8562962538812358392}
@@ -344,9 +344,9 @@ MonoBehaviour:
   _tweenRepeatCount: -1
   _tweenUseUnscaledTime: 0
   _constant: 0
-  _constantColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  _constantFadeInTime: 0.1
-  _constantFadeOutTime: 0.25
+  _constantColor: {r: 1, g: 1, b: 1, a: 1}
+  _constantFadeInTime: 0
+  _constantFadeOutTime: 0
   _constantEasing: 0
   _constantUseUnscaledTime: 0
   _filterMode: 0
@@ -366,3 +366,20 @@ MonoBehaviour:
   trigger1: {fileID: 0}
   NpcCam: {fileID: 7052946435947943130}
   message: 
+  highlightDistance: 5
+  OnMouseClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7794142555910567600}
+        m_MethodName: Talk
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null

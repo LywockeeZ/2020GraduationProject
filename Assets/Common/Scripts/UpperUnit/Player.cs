@@ -124,11 +124,15 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
         }
         else m_Animator.SetBool("isWalking", false);
 
-        if (m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Player_idle") && !isRandomIdle)
+        if (m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Player_idle"))
         {
-            StartCoroutine(RandomIdle());
-            isRandomIdle = true;
+            if (!isRandomIdle)
+            {
+                StartCoroutine(RandomIdle());
+                isRandomIdle = true;
+            }
         }
+        else StopCoroutine(RandomIdle());
 
     }
 

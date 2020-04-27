@@ -120,34 +120,32 @@ public class InputManager : MonoBehaviour
             if (Physics.Raycast(ray, out RaycastHit hitInfo, 200f, 1 << LayerMask.NameToLayer("BaseUnit")))
             {
                 Vector3 hoverPos = hitInfo.transform.position;
-                if (hoverPos == Game.Instance.GetPlayerUnit().CurrentOn.Right?.Model.transform.position ||
-                    hoverPos == Game.Instance.GetPlayerUnit().CurrentOn.Left?.Model.transform.position ||
-                    hoverPos == Game.Instance.GetPlayerUnit().CurrentOn.Up?.Model.transform.position ||
-                    hoverPos == Game.Instance.GetPlayerUnit().CurrentOn.Down?.Model.transform.position)
+                if (CanUnitHighlight(hoverPos))
                 {
                     Highlighter highlighter = hitInfo.transform.gameObject.GetComponent<Highlighter>();
                     highlighter.Hover(Color.white);
                 }
             }
         }
-        else
+    }
+
+    private bool CanUnitHighlight(Vector3 hoverPos)
+    {
+        return CheckCanUnitHighlight(hoverPos, Game.Instance.GetPlayerUnit().CurrentOn.Right) ||
+               CheckCanUnitHighlight(hoverPos, Game.Instance.GetPlayerUnit().CurrentOn.Left) ||
+               CheckCanUnitHighlight(hoverPos, Game.Instance.GetPlayerUnit().CurrentOn.Up) ||
+               CheckCanUnitHighlight(hoverPos, Game.Instance.GetPlayerUnit().CurrentOn.Down) ;
+    }
+
+    private bool CheckCanUnitHighlight(Vector3 hoverPos, BaseUnit unit)
+    {
+        if (hoverPos == unit?.Model.transform.position)
         {
-            if (Physics.Raycast(ray, out RaycastHit hitInfo, 20f, 1 << LayerMask.NameToLayer("NPC")))
+            if (unit.CanWalk)
             {
-                if ((hitInfo.transform.position - Game.Instance.GetPlayerUnit().transform.position).magnitude < 5)
-                {
-                    Vector3 hoverPos = hitInfo.transform.position;
-                    Highlighter highlighter = hitInfo.transform.gameObject.GetComponent<Highlighter>();
-                    highlighter.Hover(Color.white);
-
-                    if (Input.GetMouseButtonDown(0))
-                    {
-                        hitInfo.transform.gameObject.GetComponent<CharacterTalk>().Talk();
-                        return;
-                    }
-                }
+                return true;
             }
-
         }
+        return false;
     }
 }
