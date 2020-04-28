@@ -56,8 +56,9 @@ public class NormalStageHandler : IStageHandler
         Game.Instance.RegisterEvent(ENUM_GameEvent.StageEnd,
             OnStageEnd = (Message evt) =>
             {
+                Game.Instance.ShowUI("EndSuccessUI");
                 string content = "花费点数：" + Game.Instance.GetTotalCostPts().ToString();
-                Game.Instance.UIShowMessag("EndStageUI", content);
+                Game.Instance.UIShowMessag("EndSuccessUI", content);
             });
 
 

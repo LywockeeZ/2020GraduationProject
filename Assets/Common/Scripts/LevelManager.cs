@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class LevelManager : Singleton<LevelManager>
 {
-    [Header("level to load")]
+    [Header("Level to load")]
     public string LevelName;
-    [Header("level to back")]
+    [Header("Level to back")]
     public string SceneName;
     public string PointName;
+    [Header("Level to next")]
+    public string NextSceneName;
+    public string NextPointName;
+
     private string levelToLoad;
     
 
@@ -52,5 +56,10 @@ public class LevelManager : Singleton<LevelManager>
     public void BackToLevel()
     {
         Game.Instance.LoadLevelOnMain(SceneName, PointName);
+    }
+
+    public void LevelToNext()
+    {
+        Game.Instance.LoadLevelOnMain(NextSceneName, NextPointName);
     }
 }

@@ -60,7 +60,7 @@ public class UISystem : IGameSystem
         Game.Instance.RegisterEvent(ENUM_GameEvent.StageEnd,
             OnStageEnd = (Message evt) =>
             {
-                Game.Instance.ShowUI("EndStageUI");
+                //Game.Instance.ShowUI("EndStageUI");
             });
 
         Game.Instance.RegisterEvent(ENUM_GameEvent.StageRestart,
