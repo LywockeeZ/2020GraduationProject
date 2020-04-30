@@ -50,7 +50,10 @@ public class StageSpawnPoint : MonoBehaviour
         if (Triggers != null)
             _triggers = Instantiate(Triggers, Vector3.zero, Quaternion.identity);
         if (levelCamera != null)
+        {
             levelCamera.m_Follow = Game.Instance.GetPlayerUnit().transform;
+            CameraChanger.Instance.SetLevelCamera(levelCamera);
+        }
         levelCamera?.gameObject.SetActive(true);
     }
 
@@ -60,6 +63,7 @@ public class StageSpawnPoint : MonoBehaviour
         if (_triggers != null)
             Destroy(_triggers);
         levelCamera?.gameObject.SetActive(false);
+        CameraChanger.Instance.SetLevelCamera(null);
     }
 
     public void LoadStageOnMain()

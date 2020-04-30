@@ -54,6 +54,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -65,6 +66,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -162,7 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 1
-  m_FollowOffset: {x: -1.19804, y: 2.6170588, z: -9.907925}
+  m_FollowOffset: {x: -2.3526497, y: 1.9954584, z: -7.5214534}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -195,14 +197,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6305827762479771119}
-  m_LocalRotation: {x: -0.048285797, y: -0.96364355, z: 0.2351573, w: -0.11730619}
-  m_LocalPosition: {x: -2.7700007, y: 8.47, z: 14.509999}
+  m_LocalRotation: {x: -0.051477212, y: 0.9654358, z: -0.21708122, w: -0.13475728}
+  m_LocalPosition: {x: 3.19, y: 6.97, z: 12.41}
   m_LocalScale: {x: 2.6853576, y: 2.6853569, z: 2.6853576}
   m_Children:
   - {fileID: 6305827762124005776}
   m_Father: {fileID: 6305827763096053633}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 27.681002, y: 166.723, z: 2.4520001}
+  m_LocalEulerAnglesHint: {x: 25.66, y: 195.3, z: -2.6}
 --- !u!114 &6305827762479771113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,8 +238,6 @@ MonoBehaviour:
     m_OnCameraLive:
       m_PersistentCalls:
         m_Calls: []
-      m_TypeName: Cinemachine.CinemachineBrain+VcamActivatedEvent, Cinemachine, Version=0.0.0.0,
-        Culture=neutral, PublicKeyToken=null
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 6305827762124005776}
 --- !u!1 &6305827763096053632
@@ -382,8 +382,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!1 &6305827763615165101
 GameObject:
   m_ObjectHideFlags: 0
@@ -438,6 +436,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -449,6 +448,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0

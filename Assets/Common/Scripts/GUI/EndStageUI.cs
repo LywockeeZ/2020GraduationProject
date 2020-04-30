@@ -27,6 +27,8 @@ public class EndStageUI : BaseUIForm
         }
         else
         {
+            Game.Instance.CloseUI("BattleUI");
+            Game.Instance.CloseUI("SkillBarUI");
             Game.Instance.CloseUI("EndStageUI");
             LevelManager.Instance.BackToLevel();
         }
@@ -37,6 +39,8 @@ public class EndStageUI : BaseUIForm
     {
         if (Game.Instance.isTest)
         {
+            Game.Instance.CloseUI("BattleUI");
+            Game.Instance.CloseUI("SkillBarUI");
             Game.Instance.CloseUI("EndStageUI");
             Game.Instance.LoadLevel("StartScene");
         }

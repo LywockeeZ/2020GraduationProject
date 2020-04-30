@@ -6,9 +6,9 @@ public class Water : IState
 {
     #region 私有属性
     //模型生成高度增量
-    private float height = 0f;
-    private bool canWalk = true;
-    private bool canBeFire = true;
+    private float _height = 0f;
+    private bool _canWalk = true;
+    private new bool _canBeFire = true;
     private ENUM_StateBeFiredType _beFiredType = ENUM_StateBeFiredType.BeHandle;
 
     private int beFiredCount = 2;   //水能承受火的次数
@@ -26,8 +26,8 @@ public class Water : IState
 
     public override void OnStateBegin()
     {
-        Owner.SetCanWalk(canWalk);
-        Owner.SetCanBeFire(canBeFire);
+        Owner.SetCanWalk(_canWalk);
+        Owner.SetCanBeFire(_canBeFire);
 
         RegisterEvent();
         SetWaterModel();
@@ -94,7 +94,7 @@ public class Water : IState
     private void SetWaterModel()
     {
         Model = GameFactory.GetAssetFactory().InstantiateGameObject("Water",
-            GetTargetPos(Owner.Model.transform.position, height));
+            GetTargetPos(Owner.Model.transform.position, _height));
         Model.transform.SetParent(Owner.Model.transform);
     }
 
@@ -105,7 +105,7 @@ public class Water : IState
     private void SetWaterFogModel()
     {
         Model = GameFactory.GetAssetFactory().InstantiateGameObject("WaterFog",
-            GetTargetPos(Owner.Model.transform.position, height));
+            GetTargetPos(Owner.Model.transform.position, _height));
         Model.transform.SetParent(Owner.Model.transform);
     }
 

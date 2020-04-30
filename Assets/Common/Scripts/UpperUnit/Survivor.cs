@@ -52,7 +52,7 @@ public class Survivor : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
 
     public void HandleByFire()
     {
-        Game.Instance.NotifyEvent(ENUM_GameEvent.StageEnd, null);
+        Game.Instance.ShowUI("EndStageUI");
         Game.Instance.UIShowMessag("EndStageUI", "很遗憾，幸存者被烧死了！");
         End();
     }
@@ -71,7 +71,7 @@ public class Survivor : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
     /// <returns></returns>
     public Vector3 SetTargetPos(Vector3 _targetPos)
     {
-        return new Vector3(_targetPos.x, _heigth, _targetPos.z);
+        return new Vector3(_targetPos.x, _targetPos.y + _heigth, _targetPos.z);
     }
 
 }

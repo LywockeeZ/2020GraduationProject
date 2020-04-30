@@ -108,7 +108,7 @@ public class Chest : MonoBehaviour, IUpperUnit, IMovableUnit
     /// <returns></returns>
     public Vector3 SetTargetPos(Vector3 _targetPos)
     {
-        return new Vector3(_targetPos.x, _heigth, _targetPos.z);
+        return new Vector3(_targetPos.x,_targetPos.y + _heigth, _targetPos.z);
     }
 
 

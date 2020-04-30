@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public class NormalStageHandler : IStageHandler
 {
-    public new readonly string titleUIPath = "Images/UI/LevelInfo/leveltitle_1";
+    public new readonly string titleUIPath = "Images/UI/LevelInfo/leveltitle_245";
 
     //该关卡最大行动点数
     public int RoundActionPts = 4;
@@ -56,8 +56,9 @@ public class NormalStageHandler : IStageHandler
         Game.Instance.RegisterEvent(ENUM_GameEvent.StageEnd,
             OnStageEnd = (Message evt) =>
             {
+                Game.Instance.ShowUI("EndSuccessUI");
                 string content = "花费点数：" + Game.Instance.GetTotalCostPts().ToString();
-                Game.Instance.UIShowMessag("EndStageUI", content);
+                Game.Instance.UIShowMessag("EndSuccessUI", content);
             });
 
 

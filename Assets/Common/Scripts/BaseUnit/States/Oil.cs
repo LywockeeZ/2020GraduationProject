@@ -8,9 +8,9 @@ public class Oil : IState
 
     #region 私有属性
     //该状态模型增量
-    private float height = 0f;
-    private bool canWalk = true;
-    private bool canBeFire = true;
+    private float _height = 0f;
+    private bool _canWalk = true;
+    private new bool _canBeFire = true;
     private ENUM_StateBeFiredType _beFiredType = ENUM_StateBeFiredType.BeHandle;
     #endregion
 
@@ -25,8 +25,8 @@ public class Oil : IState
 
     public override void OnStateBegin()
     {
-        Owner.SetCanWalk(canWalk);
-        Owner.SetCanBeFire(canBeFire);
+        Owner.SetCanWalk(_canWalk);
+        Owner.SetCanBeFire(_canBeFire);
         Owner.GetStage().oilUnits.Add(Owner);
 
         SetOilModel();
@@ -87,7 +87,7 @@ public class Oil : IState
     private void SetOilModel()
     {
         Model = GameFactory.GetAssetFactory().InstantiateGameObject("Oil",
-            GetTargetPos(Owner.Model.transform.position, height));
+            GetTargetPos(Owner.Model.transform.position, _height));
         Model.transform.SetParent(Owner.Model.transform);
     }
 

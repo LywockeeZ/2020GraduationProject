@@ -23,7 +23,7 @@ public class GameUnitFactory : IGameUnitFactory
         IAssetFactory m_AssetFactory = GameFactory.GetAssetFactory();
         Vector3 StartPos = parent.transform.position;
         //x,y坐标分别对应世界坐标下的x，z轴
-        GameObject baseUnitObject = m_AssetFactory.InstantiateGameObject("BaseUnit", new Vector3(StartPos.x + x, 0,StartPos.z + y));
+        GameObject baseUnitObject = m_AssetFactory.InstantiateGameObject("BaseUnit", new Vector3(StartPos.x + x, StartPos.y,StartPos.z + y));
         //给所有基本单元设置一个父物体
         baseUnitObject.transform.SetParent(parent.transform);
         BaseUnit baseUnit = new BaseUnit(baseUnitObject, currentStageData);
@@ -135,6 +135,12 @@ public class GameUnitFactory : IGameUnitFactory
                 _survivor.CurrentOn = targetUnit;
                 targetUnit.SetUpperGameObject(survivorObject);
                 return survivorObject;
+            case ENUM_Build_UpperUnit.Bee:
+                GameObject beeObject = m_AssetFactory.InstantiateGameObject("Bee", targetUnit.Model.transform.position);
+                Bee _bee = beeObject.AddComponent<Bee>();
+                _bee.CurrentOn = targetUnit;
+                targetUnit.SetUpperGameObject(beeObject);
+                return beeObject;
 
             default:
                 Debug.LogError("未找到此类型的单元");

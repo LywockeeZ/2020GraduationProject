@@ -98,7 +98,7 @@ public class SkillSelectUI : BaseUIForm, ISelectItem
         {
             preview_Level.sprite = GameFactory.GetAssetFactory().LoadAsset<Sprite>(Game.Instance.GetCurrentStage().levelPreviewUIPath + Game.Instance.GetLevelWillToOnMain());
 
-            title.sprite = GameFactory.GetAssetFactory().LoadAsset<Sprite>(Game.Instance.GetCurrentStage().titleUIPath);
+            title.sprite = GameFactory.GetAssetFactory().LoadAsset<Sprite>(Game.Instance.GetCurrentStage().titleUIPath + Game.Instance.GetLevelWillToOnMain());
 
         }
     }

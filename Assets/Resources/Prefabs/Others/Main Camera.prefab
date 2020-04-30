@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 6761746764632316676}
   - component: {fileID: 6761746764632316679}
   - component: {fileID: 6761746764632316677}
+  - component: {fileID: 8938884435488361997}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -53,9 +54,10 @@ Camera:
   m_ClearFlags: 2
   m_BackGroundColor: {r: 0.8745099, g: 0.7607844, b: 0.58431375, a: 1}
   m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
-  m_GateFitMode: 2
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
@@ -325,8 +327,6 @@ MonoBehaviour:
   onHover:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: HighlightingSystem.Demo.RaycastEvent, Assembly-CSharp, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!114 &6761746764632316677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -344,9 +344,10 @@ MonoBehaviour:
   m_IgnoreTimeScale: 0
   m_WorldUpOverride: {fileID: 0}
   m_UpdateMethod: 2
+  m_BlendUpdateMethod: 1
   m_DefaultBlend:
     m_Style: 1
-    m_Time: 2
+    m_Time: 1.7
     m_CustomCurve:
       serializedVersion: 2
       m_Curve: []
@@ -357,10 +358,18 @@ MonoBehaviour:
   m_CameraCutEvent:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Cinemachine.CinemachineBrain+BrainEvent, Cinemachine, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: Cinemachine.CinemachineBrain+VcamActivatedEvent, Cinemachine, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+--- !u!114 &8938884435488361997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6761746764632316680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2a67189dbda4e245b06b6bea8fd90f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
