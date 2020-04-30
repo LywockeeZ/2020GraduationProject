@@ -52,7 +52,8 @@ public enum ENUM_UpperUnit
     OilTank,
     WaterTank,
     Player,
-    Survivor
+    Survivor,
+    Bee
 }
 
 /// <summary>
@@ -110,7 +111,8 @@ public enum ENUM_GameEvent
 
     GamePause,
 
-    StartFire
+    StartFire,
+    PlayerMove
 }
 
 
@@ -138,7 +140,8 @@ public enum ENUM_Build_UpperUnit
     OilTank,
     WaterTank,
     Player,
-    Survivor
+    Survivor,
+    Bee
 }
 
 /// <summary>

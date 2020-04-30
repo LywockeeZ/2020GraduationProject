@@ -62,4 +62,5 @@ public class LevelManager : Singleton<LevelManager>
     {
         Game.Instance.LoadLevelOnMain(NextSceneName, NextPointName);
     }
+
 }

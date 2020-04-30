@@ -155,6 +155,7 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
                     isRandomIdle = false;
                     break;
                 default:
+                    isRandomIdle = false;
                     break;
             }
         }
@@ -191,6 +192,7 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
         m_Agent.SetDestination(m_targetPos);
         targetPos = m_targetPos;
         _isMoving = true;
+        Game.Instance.NotifyEvent(ENUM_GameEvent.PlayerMove);
     }
 
 
@@ -201,7 +203,7 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
     /// <returns></returns>
     public Vector3 SetTargetPos(Vector3 _targetPos)
     {
-        return new Vector3(_targetPos.x, _heigth, _targetPos.z);
+        return new Vector3(_targetPos.x, _targetPos.y + _heigth, _targetPos.z);
     }
 
 
@@ -363,6 +365,7 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
                 fixedUnit.Handle();
             }
         }
+        else JudgeBaseStateAndMove(targetUnit);
 
     }
 

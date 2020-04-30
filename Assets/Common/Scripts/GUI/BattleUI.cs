@@ -103,6 +103,11 @@ public class BattleUI :BaseUIForm
         Game.Instance.NotifyEvent(ENUM_GameEvent.RoundUpdateBegain);
     }
 
+    public void BtnChangeCam()
+    {
+        CameraChanger.Instance.ChangeCam();
+    }
+
     private void OnDisable()
     {
         DetachEvent();

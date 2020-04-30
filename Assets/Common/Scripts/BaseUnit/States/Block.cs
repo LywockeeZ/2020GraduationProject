@@ -9,7 +9,7 @@ public class Block : IState
     //模型生成高度增量
     private float _height = 0f;
     private bool _canWalk = true;
-    private bool _canBeFire = false;
+    private new bool _canBeFire = false;
     private ENUM_StateBeFiredType _beFiredType = ENUM_StateBeFiredType.False;
     #endregion
 

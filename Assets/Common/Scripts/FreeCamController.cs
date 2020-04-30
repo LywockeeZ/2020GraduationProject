@@ -6,17 +6,31 @@ using Cinemachine;
 public class FreeCamController : Singleton<FreeCamController>
 {
     public CinemachineTargetGroup targetGroup;
+    public Transform playerTrans;
+    public CinemachineFreeLook freeLookCam;
 
-    private CinemachineFreeLook freeLookCam;
-
+    private Vector3 pos;
     protected override void Awake()
     {
         base.Awake();
+        freeLookCam = GetComponent<CinemachineFreeLook>();
+        pos = transform.position;
+    }
+
+    private void OnEnable()
+    {
+        OnLive();
+    }
+
+    private void OnDisable()
+    {
+        freeLookCam.Follow = null;
+        freeLookCam.LookAt = null;
+        transform.position = pos;
     }
 
     void Start()
     {
-        freeLookCam = GetComponent<CinemachineFreeLook>();
         freeLookCam.m_XAxis.m_InputAxisName = null;
         freeLookCam.m_YAxis.m_InputAxisName = null;
     }
@@ -24,25 +38,28 @@ public class FreeCamController : Singleton<FreeCamController>
     void Update()
     {
 
-        if (Input.GetMouseButton(1))
+        if (Input.GetMouseButton(1) && Game.Instance.GetCanInput())
         {
             freeLookCam.m_XAxis.m_InputAxisName = "Mouse X";
             freeLookCam.m_YAxis.m_InputAxisName = "Mouse Y";
         }
         else
         {
-            freeLookCam.m_YAxis.m_InputAxisName = null;
-            freeLookCam.m_XAxis.m_InputAxisName = null;
-            freeLookCam.m_XAxis.m_InputAxisValue = 0;
-            freeLookCam.m_YAxis.m_InputAxisValue = 0;
+            if (freeLookCam != null)
+            {
+                freeLookCam.m_YAxis.m_InputAxisName = null;
+                freeLookCam.m_XAxis.m_InputAxisName = null;
+                freeLookCam.m_XAxis.m_InputAxisValue = 0;
+                freeLookCam.m_YAxis.m_InputAxisValue = 0;
+            }
         }
 
     }
 
     public void OnLive()
     {
-        freeLookCam.Follow = Game.Instance.GetPlayerUnit().transform;
-        AddTarget(Game.Instance.GetPlayerUnit().transform, 4, 0);
+        freeLookCam.Follow = playerTrans;
+        freeLookCam.LookAt = playerTrans;
     }
 
     public void AddTarget(Transform target, float weight, float radius)

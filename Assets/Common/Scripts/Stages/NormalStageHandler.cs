@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public class NormalStageHandler : IStageHandler
 {
-    public new readonly string titleUIPath = "Images/UI/LevelInfo/leveltitle_1";
+    public new readonly string titleUIPath = "Images/UI/LevelInfo/leveltitle_245";
 
     //该关卡最大行动点数
     public int RoundActionPts = 4;

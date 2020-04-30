@@ -9,9 +9,9 @@ public class Fire : IState
 
     #region 私有字段
     //模型生成高度增量
-    private float height = 0f;
-    private bool canWalk = true;
-    private bool canBeFire = false;
+    private float _height = 0f;
+    private bool _canWalk = true;
+    private new bool _canBeFire = false;
     private ENUM_StateBeFiredType _beFiredType = ENUM_StateBeFiredType.False;
     private FireController fireController;
     #endregion
@@ -27,17 +27,13 @@ public class Fire : IState
 
     public override void OnStateBegin()
     {
-        Owner.SetCanWalk(canWalk);
-        Owner.SetCanBeFire(canBeFire);
+        Owner.SetCanWalk(_canWalk);
+        Owner.SetCanBeFire(_canBeFire);
         Owner.GetStage().fireUnits.Add(Owner);  //关卡记录火焰信息
 
         SetFireModel();
         RegisterEvent();                       //对关卡回合更新事件进行注册
 
-        if (!Game.Instance.isTest)
-        {
-            FreeCamController.Instance.AddTarget(Model.transform, 2, 0);
-        }
     }
 
 
@@ -53,10 +49,6 @@ public class Fire : IState
 
     public override void OnStateEnd()
     {
-        if (!Game.Instance.isTest)
-        {
-            FreeCamController.Instance.RemoveTarget(Model.transform);
-        }
 
         Owner.GetStage().fireUnits.Remove(Owner);
 
@@ -100,7 +92,7 @@ public class Fire : IState
     private void SetFireModel()
     {
         Model = GameFactory.GetAssetFactory().InstantiateGameObject("Fire",
-            GetTargetPos(Owner.Model.transform.position, height));
+            GetTargetPos(Owner.Model.transform.position, _height));
         Model.transform.SetParent(Owner.Model.transform);
         fireController = Model.GetComponent<FireController>();
     }

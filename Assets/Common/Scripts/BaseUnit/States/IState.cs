@@ -17,6 +17,11 @@ public abstract class IState
     /// </summary>
     public ENUM_StateBeFiredType BeFiredType;
     /// <summary>
+    /// 状态是否能被点燃
+    /// </summary>
+    public bool CanBeFire { get { return _canBeFire; } }
+    protected bool _canBeFire = true;
+    /// <summary>
     /// 状态所用的模型
     /// </summary>
     public GameObject Model;
@@ -65,7 +70,7 @@ public abstract class IState
     /// <returns></returns>
     public Vector3 GetTargetPos(Vector3 pos, float height)
     {
-        return new Vector3(pos.x, height, pos.z);
+        return new Vector3(pos.x,pos.y + height, pos.z);
     }
 
 }

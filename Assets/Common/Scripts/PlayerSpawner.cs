@@ -27,6 +27,7 @@ public class PlayerSpawner : Singleton<PlayerSpawner>
         {
             Player = Game.Instance.GetPlayerUnit().gameObject;
             Player.SetActive(true);
+            Player.transform.rotation = transform.rotation;
             Player.GetComponent<NavMeshAgent>().Warp(targetTrans.position);
             Player.GetComponent<NavMeshAgent>().updatePosition = true;
         }
