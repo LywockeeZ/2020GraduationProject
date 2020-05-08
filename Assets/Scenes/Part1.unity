@@ -1145,6 +1145,12 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1213625646 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1367727917, guid: 79b446bf0dcec554a8e12d20d51453f9,
+    type: 3}
+  m_PrefabInstance: {fileID: 1261131437}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1261131437
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1560,6 +1566,8 @@ GameObject:
   - component: {fileID: 1448459227}
   - component: {fileID: 1448459229}
   - component: {fileID: 1448459228}
+  - component: {fileID: 1448459231}
+  - component: {fileID: 1448459230}
   m_Layer: 0
   m_Name: Flowchart
   m_TagString: Untagged
@@ -1666,9 +1674,9 @@ MonoBehaviour:
     width: 1114
     height: 859
   selectedBlocks:
-  - {fileID: 1448459212}
+  - {fileID: 1448459198}
   selectedCommands:
-  - {fileID: 1448459213}
+  - {fileID: 1448459230}
   variables: []
   description: 
   stepPause: 0
@@ -1798,6 +1806,7 @@ MonoBehaviour:
   description: 
   eventHandler: {fileID: 1448459222}
   commandList:
+  - {fileID: 1448459231}
   - {fileID: 1448459202}
   - {fileID: 1448459201}
   - {fileID: 1448459204}
@@ -1810,6 +1819,7 @@ MonoBehaviour:
   - {fileID: 1448459199}
   - {fileID: 1448459227}
   - {fileID: 1448459196}
+  - {fileID: 1448459230}
   suppressAllAutoSelections: 0
 --- !u!114 &1448459199
 MonoBehaviour:
@@ -2575,6 +2585,40 @@ MonoBehaviour:
   eventHandler: {fileID: 1448459228}
   commandList: []
   suppressAllAutoSelections: 0
+--- !u!114 &1448459230
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448459189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17a200dbd67304446a3019434503338a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemId: 38
+  indentLevel: 0
+  targetObject: {fileID: 1213625646}
+  methodName: InputOn
+  delay: 0
+--- !u!114 &1448459231
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448459189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17a200dbd67304446a3019434503338a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemId: 37
+  indentLevel: 0
+  targetObject: {fileID: 1213625646}
+  methodName: InputOff
+  delay: 0
 --- !u!1 &1463593524
 GameObject:
   m_ObjectHideFlags: 0
@@ -4095,7 +4139,7 @@ PrefabInstance:
     - target: {fileID: 7376993544751704124, guid: 22f493e39844b4849a03cfb286e96295,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.45
+      value: -1.658
       objectReference: {fileID: 0}
     - target: {fileID: 7376993544751704124, guid: 22f493e39844b4849a03cfb286e96295,
         type: 3}
@@ -4146,6 +4190,11 @@ PrefabInstance:
         type: 3}
       propertyPath: message
       value: "\u58EE\u6C491"
+      objectReference: {fileID: 0}
+    - target: {fileID: 7794142555910567600, guid: 22f493e39844b4849a03cfb286e96295,
+        type: 3}
+      propertyPath: TalkAnimation
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8562962538812358392, guid: 22f493e39844b4849a03cfb286e96295,
         type: 3}

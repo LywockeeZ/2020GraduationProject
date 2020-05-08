@@ -11,6 +11,8 @@ public class CharacterTalk : MonoBehaviour
 {
     public GameObject trigger1;
     public CinemachineVirtualCamera NpcCam;
+    public Animator animator;
+    public string TalkAnimation;
     public string message;
     public float highlightDistance = 5f;
     public UnityEvent OnMouseClick;
@@ -46,6 +48,10 @@ public class CharacterTalk : MonoBehaviour
         {
             highlighter.ConstantOff(highlighter.constantFadeOutTime);
             OnMouseClick?.Invoke();
+            if (animator != null && !string.IsNullOrEmpty(TalkAnimation))
+            {
+                animator.SetTrigger(TalkAnimation);
+            }
         }
     }
 

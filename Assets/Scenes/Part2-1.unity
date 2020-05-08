@@ -690,20 +690,25 @@ PrefabInstance:
       propertyPath: m_FollowOffset.y
       value: 1.0335541
       objectReference: {fileID: 0}
+    - target: {fileID: 6669186351982028903, guid: 22f493e39844b4849a03cfb286e96295,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 7c9df56e389a7bf489d55891e4796e2c, type: 2}
     - target: {fileID: 7376993544751704124, guid: 22f493e39844b4849a03cfb286e96295,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.034
+      value: 0.169
       objectReference: {fileID: 0}
     - target: {fileID: 7376993544751704124, guid: 22f493e39844b4849a03cfb286e96295,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.255
+      value: 0.169
       objectReference: {fileID: 0}
     - target: {fileID: 7376993544751704124, guid: 22f493e39844b4849a03cfb286e96295,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 7.991
+      value: 7.776
       objectReference: {fileID: 0}
     - target: {fileID: 7376993544751704124, guid: 22f493e39844b4849a03cfb286e96295,
         type: 3}

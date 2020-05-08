@@ -63,4 +63,14 @@ public class LevelManager : Singleton<LevelManager>
         Game.Instance.LoadLevelOnMain(NextSceneName, NextPointName);
     }
 
+    public void InputOn()
+    {
+        Game.Instance.SetCanInput(true);
+    }
+
+    public void InputOff()
+    {
+        Game.Instance.SetCanInput(false);
+    }
+
 }
