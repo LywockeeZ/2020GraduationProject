@@ -44,7 +44,7 @@ public class CharacterTalk : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (canClick)
+        if ((transform.position - Game.Instance.GetPlayerUnit().transform.position).magnitude < highlightDistance && canClick)
         {
             highlighter.ConstantOff(highlighter.constantFadeOutTime);
             OnMouseClick?.Invoke();

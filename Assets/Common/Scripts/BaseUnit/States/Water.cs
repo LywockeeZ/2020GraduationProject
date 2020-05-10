@@ -96,6 +96,7 @@ public class Water : IState
         Model = GameFactory.GetAssetFactory().InstantiateGameObject("Water",
             GetTargetPos(Owner.Model.transform.position, _height));
         Model.transform.SetParent(Owner.Model.transform);
+        Model.transform.GetChild(0).GetComponent<MeshRenderer>().material.mainTextureOffset = new Vector2((Model.transform.position.x % 3) * 0.333f, (Model.transform.position.z % 3) * 0.333f);
     }
 
 
@@ -107,6 +108,7 @@ public class Water : IState
         Model = GameFactory.GetAssetFactory().InstantiateGameObject("WaterFog",
             GetTargetPos(Owner.Model.transform.position, _height));
         Model.transform.SetParent(Owner.Model.transform);
+        Model.transform.GetChild(0).GetComponent<MeshRenderer>().material.mainTextureOffset = new Vector2((Model.transform.position.x % 3) * 0.333f, (Model.transform.position.z % 3) * 0.333f);
     }
 
 

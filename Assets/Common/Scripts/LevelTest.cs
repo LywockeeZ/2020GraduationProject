@@ -46,7 +46,7 @@ public class LevelTest : MonoBehaviour
                 {
                     Game.Instance.NotifyEvent(ENUM_GameEvent.StageBegain, LevelName);
                 }
-                else Debug.LogError("关卡名不能为空");
+                else Debug.Log("关卡名不能为空");
             }
         }
         else
