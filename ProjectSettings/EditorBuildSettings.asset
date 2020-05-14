@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Art_zhuyetu.unity
+    guid: 23eafb31dbdb88443a72d343307f9c6b
+  - enabled: 1
     path: Assets/Scenes/StartScene.unity
     guid: a241413d8e4c53645b8a04bb890270f5
   - enabled: 1
