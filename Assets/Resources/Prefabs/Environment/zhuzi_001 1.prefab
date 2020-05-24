@@ -511,6 +511,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: guanqia_003_zhuzi_h_yezi_001 (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 5700798482726946391, guid: 708bdccaf8d116c4e91dc534a243c456,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1dead2416b22f7841b00f99a2ac65739, type: 2}
     - target: {fileID: 7993849750113164467, guid: 708bdccaf8d116c4e91dc534a243c456,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -691,6 +696,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: guanqia_003_zhuzi_h_yezi_001 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 5700798482726946391, guid: 708bdccaf8d116c4e91dc534a243c456,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1dead2416b22f7841b00f99a2ac65739, type: 2}
     - target: {fileID: 7993849750113164467, guid: 708bdccaf8d116c4e91dc534a243c456,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -961,6 +971,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: guanqia_003_zhuzi_h_yezi_001 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 5700798482726946391, guid: 708bdccaf8d116c4e91dc534a243c456,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1dead2416b22f7841b00f99a2ac65739, type: 2}
     - target: {fileID: 7993849750113164467, guid: 708bdccaf8d116c4e91dc534a243c456,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1051,6 +1066,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: guanqia_003_zhuzi_h_yezi_001 (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 5700798482726946391, guid: 708bdccaf8d116c4e91dc534a243c456,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1dead2416b22f7841b00f99a2ac65739, type: 2}
     - target: {fileID: 7993849750113164467, guid: 708bdccaf8d116c4e91dc534a243c456,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1141,6 +1161,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: guanqia_003_zhuzi_h_yezi_001 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5700798482726946391, guid: 708bdccaf8d116c4e91dc534a243c456,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1dead2416b22f7841b00f99a2ac65739, type: 2}
     - target: {fileID: 7993849750113164467, guid: 708bdccaf8d116c4e91dc534a243c456,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1321,6 +1346,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: guanqia_003_zhuzi_h_yezi_001 (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 5700798482726946391, guid: 708bdccaf8d116c4e91dc534a243c456,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1dead2416b22f7841b00f99a2ac65739, type: 2}
     - target: {fileID: 7993849750113164467, guid: 708bdccaf8d116c4e91dc534a243c456,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1596,6 +1626,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: guanqia_003_zhuzi_h_yezi_001 (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 5700798482726946391, guid: 708bdccaf8d116c4e91dc534a243c456,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1dead2416b22f7841b00f99a2ac65739, type: 2}
     - target: {fileID: 7993849750113164467, guid: 708bdccaf8d116c4e91dc534a243c456,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1686,6 +1721,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: guanqia_003_zhuzi_h_yezi_001
       objectReference: {fileID: 0}
+    - target: {fileID: 5700798482726946391, guid: 708bdccaf8d116c4e91dc534a243c456,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1dead2416b22f7841b00f99a2ac65739, type: 2}
     - target: {fileID: 7993849750113164467, guid: 708bdccaf8d116c4e91dc534a243c456,
         type: 3}
       propertyPath: m_LocalPosition.x
