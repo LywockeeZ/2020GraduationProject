@@ -18,6 +18,8 @@ public class NormalStageHandler : IStageHandler
     public NormalStageScore m_StageScore  = null;      //关卡的条件，负责判断
     public IStageHandler    m_NextHandler = null;      //下一个关卡
 
+    private bool isStageEnd = false;
+
 
     //设置下一个关卡
     public override IStageHandler SetNextHandler(IStageHandler NextHandler)
@@ -56,9 +58,7 @@ public class NormalStageHandler : IStageHandler
         Game.Instance.RegisterEvent(ENUM_GameEvent.StageEnd,
             OnStageEnd = (Message evt) =>
             {
-                Game.Instance.ShowUI("EndSuccessUI");
-                string content = "花费点数：" + Game.Instance.GetTotalCostPts().ToString();
-                Game.Instance.UIShowMessag("EndSuccessUI", content);
+                isStageEnd = true;
             });
 
 
@@ -99,7 +99,10 @@ public class NormalStageHandler : IStageHandler
         //Debug.Log("FireCounts: " + m_StatgeData.GetFireCounts());
 
         //判断回合是否结束
-        m_StageScore.CheckRound();
+        if (!isStageEnd)
+        {
+            m_StageScore.CheckRound();
+        }
     }
 
 

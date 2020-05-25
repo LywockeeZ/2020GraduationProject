@@ -1238,7 +1238,7 @@ ModelImporter:
       - time: 0.35936764
         functionName: SetKnife
         data: 
-        objectReferenceParameter: {fileID: 931885985, guid: f6044cbdc4a2db8499e090196e29a1c3,
+        objectReferenceParameter: {fileID: 8803965923507620028, guid: b98aa76c07d402f4c86ccc7dd0fbe282,
           type: 3}
         floatParameter: 0
         intParameter: 0

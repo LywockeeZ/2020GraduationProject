@@ -160,6 +160,16 @@ public class Game
 
 
     #region 关卡系统接口
+    public bool GetIsInStage()
+    {
+        return m_StageSystem.GetIsInStage();
+    }
+
+    public void SetIsInStage(bool value)
+    {
+        m_StageSystem.SetIsInStage(value);
+    }
+
     public bool IsCurrentStageEnd()
     {
         return m_StageSystem.IsStageEnd();

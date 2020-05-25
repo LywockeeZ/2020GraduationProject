@@ -3308,6 +3308,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1837829995}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1911370200 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1367727918, guid: 79b446bf0dcec554a8e12d20d51453f9,
+    type: 3}
+  m_PrefabInstance: {fileID: 1040081928}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 410d261e3a5be6345ac59c3b68b8a77a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1929805850
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3721,32 +3733,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &5979927962618977302 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3749511838470350557, guid: 845f513ff2a60dd4599a11ec76060c2f,
-    type: 3}
-  m_PrefabInstance: {fileID: 7418565387743263435}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5979927962618977303 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3749511838470350556, guid: 845f513ff2a60dd4599a11ec76060c2f,
     type: 3}
   m_PrefabInstance: {fileID: 7418565387743263435}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5979927962618977304
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5979927962618977302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dabadb71e7c06ab499798bed3d1b852b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  levelName: Part5
-  sceneName: Part5
 --- !u!1001 &7418565387743263435
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3763,11 +3755,11 @@ PrefabInstance:
         type: 3}
       propertyPath: OnMouseClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5979927962618977304}
+      objectReference: {fileID: 1911370200}
     - target: {fileID: 3749511838470350545, guid: 845f513ff2a60dd4599a11ec76060c2f,
         type: 3}
       propertyPath: OnMouseClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: GoToLevelOnMain
+      value: OnStageEnd
       objectReference: {fileID: 0}
     - target: {fileID: 3749511838470350545, guid: 845f513ff2a60dd4599a11ec76060c2f,
         type: 3}

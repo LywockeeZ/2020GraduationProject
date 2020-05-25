@@ -52,8 +52,9 @@ public class Survivor : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
 
     public void HandleByFire()
     {
-        Game.Instance.ShowUI("EndStageUI");
-        Game.Instance.UIShowMessag("EndStageUI", "很遗憾，幸存者被烧死了！");
+        //Game.Instance.ShowUI("EndStageUI");
+        //Game.Instance.UIShowMessag("EndStageUI", "很遗憾，幸存者被烧死了！");
+        Game.Instance.NotifyEvent(ENUM_GameEvent.StageEnd, 2);
         End();
     }
 

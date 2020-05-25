@@ -784,11 +784,11 @@ PrefabInstance:
         type: 3}
       propertyPath: OnMouseClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1141704706}
+      objectReference: {fileID: 1663444586}
     - target: {fileID: 7794142555910567600, guid: 22f493e39844b4849a03cfb286e96295,
         type: 3}
       propertyPath: OnMouseClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: GoToLevelOnMain
+      value: OnStageEnd
       objectReference: {fileID: 0}
     - target: {fileID: 7794142555910567600, guid: 22f493e39844b4849a03cfb286e96295,
         type: 3}
@@ -817,26 +817,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 22f493e39844b4849a03cfb286e96295, type: 3}
---- !u!1 &1141704705 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3507990415825150678, guid: 22f493e39844b4849a03cfb286e96295,
-    type: 3}
-  m_PrefabInstance: {fileID: 1141704704}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1141704706
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1141704705}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dabadb71e7c06ab499798bed3d1b852b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  levelName: Part3
-  sceneName: Part3
 --- !u!1 &1447770531
 GameObject:
   m_ObjectHideFlags: 1
@@ -1066,6 +1046,14 @@ PrefabInstance:
       propertyPath: PointName
       value: RePart2-1
       objectReference: {fileID: 0}
+    - target: {fileID: 1367727918, guid: 79b446bf0dcec554a8e12d20d51453f9, type: 3}
+      propertyPath: NextSceneName
+      value: Part3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1367727918, guid: 79b446bf0dcec554a8e12d20d51453f9, type: 3}
+      propertyPath: NextPointName
+      value: Part3
+      objectReference: {fileID: 0}
     - target: {fileID: 1367727920, guid: 79b446bf0dcec554a8e12d20d51453f9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1112,6 +1100,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79b446bf0dcec554a8e12d20d51453f9, type: 3}
+--- !u!114 &1663444586 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1367727918, guid: 79b446bf0dcec554a8e12d20d51453f9,
+    type: 3}
+  m_PrefabInstance: {fileID: 1663444585}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 410d261e3a5be6345ac59c3b68b8a77a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2028379687
 GameObject:
   m_ObjectHideFlags: 0

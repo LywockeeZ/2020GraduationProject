@@ -1193,7 +1193,8 @@ ModelImporter:
       - time: 0.770551
         functionName: CancelKnife
         data: 
-        objectReferenceParameter: {instanceID: 0}
+        objectReferenceParameter: {fileID: 8803965923507620028, guid: b98aa76c07d402f4c86ccc7dd0fbe282,
+          type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0

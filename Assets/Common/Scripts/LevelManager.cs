@@ -73,4 +73,9 @@ public class LevelManager : Singleton<LevelManager>
         Game.Instance.SetCanInput(false);
     }
 
+    public void OnStageEnd()
+    {
+        Game.Instance.NotifyEvent(ENUM_GameEvent.StageEnd, 0);
+    }
+
 }

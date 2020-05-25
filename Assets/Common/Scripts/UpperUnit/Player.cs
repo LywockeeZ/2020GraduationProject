@@ -88,7 +88,7 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
     {
         //对输入事件注册
         InputManager.InputEvent += Move;
-        m_Animator = GetComponent<Animator>();
+        m_Animator = transform.GetChild(0).GetComponent<Animator>();
         m_Agent = GetComponent<NavMeshAgent>();
         m_NavMeshBuder = GetComponent<LocalNavMeshBuilder>();
 
@@ -139,7 +139,7 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
     IEnumerator RandomIdle()
     {
         float waitTime = UnityEngine.Random.Range(15, 25);
-        int state = UnityEngine.Random.Range(1, 3);
+        int state = UnityEngine.Random.Range(1, 4);
         
         yield return new WaitForSeconds(waitTime);
         if (m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Player_idle"))
@@ -152,6 +152,10 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
                     break;
                 case 2:
                     m_Animator.SetTrigger("idle2");
+                    isRandomIdle = false;
+                    break;
+                case 3:
+                    m_Animator.SetTrigger("idle3");
                     isRandomIdle = false;
                     break;
                 default:

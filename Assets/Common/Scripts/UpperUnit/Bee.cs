@@ -172,8 +172,9 @@ public class Bee : MonoBehaviour, IUpperUnit
     {
         if (other.tag == "Player")
         {
-            Game.Instance.ShowUI("EndStageUI");
-            Game.Instance.UIShowMessag("EndStageUI", "你死了！");
+            //Game.Instance.ShowUI("EndStageUI");
+            //Game.Instance.UIShowMessag("EndStageUI", "你死了！");
+            Game.Instance.NotifyEvent(ENUM_GameEvent.StageEnd, 1);
         }
     }
 }

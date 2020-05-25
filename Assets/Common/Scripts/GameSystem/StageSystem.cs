@@ -19,6 +19,7 @@ public class StageSystem : IGameSystem
     private string startStageName;
     private string levelWillToOnMain;
     private string sceneWillToOnMain;
+    private bool isInStage = false;
 
 
     public StageSystem()
@@ -56,6 +57,7 @@ public class StageSystem : IGameSystem
             {
                 LoadStage(evt.Params[0].ToString());
             }
+            Game.Instance.SetIsInStage(true);
         });
 
         Game.Instance.RegisterEvent(ENUM_GameEvent.StageEnd,
@@ -65,7 +67,7 @@ public class StageSystem : IGameSystem
             //关卡结束时从关卡链中获取下一个关卡
             m_NextStageHandler = m_NowStageHandler.CheckStage();
             Game.Instance.SetCanInput(false);
-
+            Game.Instance.SetIsInStage(false);
         });
 
         Game.Instance.RegisterEvent(ENUM_GameEvent.StageRestart,
@@ -334,6 +336,16 @@ public class StageSystem : IGameSystem
     public IStageHandler GetCurrentStage()
     {
         return m_NowStageHandler;
+    }
+
+    public bool GetIsInStage()
+    {
+        return isInStage;
+    }
+
+    public void SetIsInStage(bool value)
+    {
+        isInStage = value;
     }
 
 }

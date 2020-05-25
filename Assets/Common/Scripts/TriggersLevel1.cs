@@ -32,7 +32,8 @@ public class TriggersLevel1 : MonoBehaviour
 
     public void Trigger4()
     {
-        Game.Instance.LoadLevelOnMain("Part2", "Part2");
+        //Game.Instance.LoadLevelOnMain("Part2", "Part2");
+        Game.Instance.NotifyEvent(ENUM_GameEvent.StageEnd, 0);
     }
 
     public void Trigger5()

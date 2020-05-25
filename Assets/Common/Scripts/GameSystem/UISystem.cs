@@ -60,6 +60,24 @@ public class UISystem : IGameSystem
         Game.Instance.RegisterEvent(ENUM_GameEvent.StageEnd,
             OnStageEnd = (Message evt) =>
             {
+                switch (evt.Params[0])
+                {
+                    case 0:
+                        Game.Instance.ShowUI("EndSuccessUI");
+                        string content = "花费点数：" + Game.Instance.GetTotalCostPts().ToString();
+                        Game.Instance.UIShowMessag("EndSuccessUI", content);
+                        break;
+                    case 1:
+                        Game.Instance.ShowUI("EndStageUI");
+                        Game.Instance.UIShowMessag("EndStageUI", "你死了！");
+                        break;
+                    case 2:
+                        Game.Instance.ShowUI("EndStageUI");
+                        Game.Instance.UIShowMessag("EndStageUI", "很遗憾，幸存者被烧死了！");
+                        break;
+                    default:
+                        break;
+                }
                 //Game.Instance.ShowUI("EndStageUI");
             });
 
