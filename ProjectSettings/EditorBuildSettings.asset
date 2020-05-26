@@ -6,10 +6,13 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Art_zhuyetu.unity
+    path: Assets/Scenes/StartScene.unity
     guid: 23eafb31dbdb88443a72d343307f9c6b
   - enabled: 1
-    path: Assets/Scenes/StartScene.unity
+    path: Assets/Scenes/StartSceneBack.unity
+    guid: 23a7d29ba873a4b42b17061309b03d37
+  - enabled: 1
+    path: Assets/Scenes/LevelSelector.unity
     guid: a241413d8e4c53645b8a04bb890270f5
   - enabled: 1
     path: Assets/Scenes/Sample/NewStage.unity
