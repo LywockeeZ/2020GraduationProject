@@ -98,7 +98,7 @@ public class GameUnitFactory : IGameUnitFactory
                 return oilTankObject;
 
             case ENUM_Build_UpperUnit.WaterTank:
-                GameObject waterTankObject = m_AssetFactory.InstantiateGameObject("WaterTank", targetUnit.Model.transform.position);
+                GameObject waterTankObject = m_AssetFactory.InstantiateGameObject<GameObject>("Prefabs/Units/WaterTank", targetUnit.Model.transform.position);
                 WaterTank _waterTank = waterTankObject.AddComponent<WaterTank>();
                 _waterTank.CurrentOn = targetUnit;
                 targetUnit.SetUpperGameObject(waterTankObject);

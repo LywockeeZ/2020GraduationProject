@@ -117,7 +117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Tracked: {fileID: 8803965923507619973}
-  m_Size: {x: 10, y: 3, z: 10}
+  m_Size: {x: 20, y: 3, z: 20}
 --- !u!114 &8803965923507620030
 MonoBehaviour:
   m_ObjectHideFlags: 0

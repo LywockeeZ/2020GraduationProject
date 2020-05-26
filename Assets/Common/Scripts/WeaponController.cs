@@ -27,6 +27,7 @@ public class WeaponController : Singleton<WeaponController>
     private void Update()
     {
         transform.localRotation = Quaternion.Euler(Vector3.zero);
+        transform.localPosition = Vector3.zero;
     }
 
     private void OnEnable()

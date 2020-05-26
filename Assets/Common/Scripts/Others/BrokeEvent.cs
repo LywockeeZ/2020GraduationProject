@@ -1,21 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class BrokeEvent : MonoBehaviour
 {
-    public Rigidbody[] parts;
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public GameObject completeObj;
+    public GameObject brokeObj;
+    public GameObject platform;
 
     void Destroy()
     {
@@ -24,22 +16,12 @@ public class BrokeEvent : MonoBehaviour
 
     public void Broken()
     {
-        foreach (var item in parts)
+        completeObj.SetActive(false);
+        brokeObj.SetActive(true);
+        CoroutineManager.StartCoroutineTask(() =>
         {
-            item.isKinematic = false;
-            item.useGravity = true;
-        }
-        StartCoroutine(destroySelf());
-
+            transform.parent.DOScale(0f, 1f).SetEase(Ease.OutExpo).OnComplete(Destroy);
+        }, 1f);
     }
 
-    IEnumerator destroySelf()
-    {
-        yield return new WaitForSeconds(5f);
-        foreach (var item in parts)
-        {
-            GameObject.Destroy(item.gameObject);
-        }
-        StopCoroutine(destroySelf());
-    }
 }

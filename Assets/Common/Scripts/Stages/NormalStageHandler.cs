@@ -84,7 +84,9 @@ public class NormalStageHandler : IStageHandler
     public override IStageHandler CheckStage()
     {
         if (m_StageScore.CheckStage())
+        {
             return m_NextHandler;
+        }
         else
             return this;
     }
@@ -101,7 +103,13 @@ public class NormalStageHandler : IStageHandler
         //判断回合是否结束
         if (!isStageEnd)
         {
-            m_StageScore.CheckRound();
+            if (Game.Instance.GetIsInStage() && m_StageScore.CheckStage())
+            {
+                Game.Instance.NotifyEvent(ENUM_GameEvent.StageEnd, 0);
+            }
+            else
+                m_StageScore.CheckRound();
+
         }
     }
 

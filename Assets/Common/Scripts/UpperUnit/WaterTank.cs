@@ -47,9 +47,10 @@ public class WaterTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
 
     public void End()
     {
-        GameFactory.GetAssetFactory().DestroyGameObject<GameObject>(this.gameObject);
+        //GameFactory.GetAssetFactory().DestroyGameObject<GameObject>(this.gameObject);
         _currentOn.UpperUnit.InitOrReset();
         CurrentOn.UpperGameObject = null;
+        brokeEvent.Broken();
         Destroy(this);
     }
 

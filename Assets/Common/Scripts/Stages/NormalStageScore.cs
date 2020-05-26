@@ -38,10 +38,11 @@ public class NormalStageScore : IStageScore
         {
             Game.Instance.SetCanInput(false);
             //回合结束时判断关卡是否结束
-            if (CheckStage())
-                Game.Instance.NotifyEvent(ENUM_GameEvent.StageEnd, null);
-            else
+            if (!CheckStage())
                 Game.Instance.NotifyEvent(ENUM_GameEvent.RoundBegain, null);
+            //    Game.Instance.NotifyEvent(ENUM_GameEvent.StageEnd, null);
+            //else
+            //    Game.Instance.NotifyEvent(ENUM_GameEvent.RoundBegain, null);
         });
 
 

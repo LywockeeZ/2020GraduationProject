@@ -136,6 +136,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -1132
       objectReference: {fileID: 0}
+    - target: {fileID: 343957641, guid: 8771e9a56c4e8fd4ab92f1e2c0243011, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -686
+      objectReference: {fileID: 0}
     - target: {fileID: 343957642, guid: 8771e9a56c4e8fd4ab92f1e2c0243011, type: 3}
       propertyPath: m_Color.a
       value: 0
@@ -186,7 +190,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1021513748, guid: 8771e9a56c4e8fd4ab92f1e2c0243011, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -1132
+      value: -1137
+      objectReference: {fileID: 0}
+    - target: {fileID: 1021513748, guid: 8771e9a56c4e8fd4ab92f1e2c0243011, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -596
       objectReference: {fileID: 0}
     - target: {fileID: 1021513749, guid: 8771e9a56c4e8fd4ab92f1e2c0243011, type: 3}
       propertyPath: m_Color.a
@@ -195,6 +203,10 @@ PrefabInstance:
     - target: {fileID: 1631318710, guid: 8771e9a56c4e8fd4ab92f1e2c0243011, type: 3}
       propertyPath: m_Name
       value: Stage
+      objectReference: {fileID: 0}
+    - target: {fileID: 1670918309, guid: 8771e9a56c4e8fd4ab92f1e2c0243011, type: 3}
+      propertyPath: m_Color.a
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8771e9a56c4e8fd4ab92f1e2c0243011, type: 3}
@@ -1696,8 +1708,7 @@ MonoBehaviour:
     height: 859
   selectedBlocks:
   - {fileID: 1448459236}
-  selectedCommands:
-  - {fileID: 1448459234}
+  selectedCommands: []
   variables: []
   description: 
   stepPause: 0
@@ -2326,7 +2337,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 24
   indentLevel: 0
-  storyText: "\u54B1\u4EEC\u5C31\u5728\u8FD9\u91CC\u4E0A\u5CB8\uFF0C\n{color=cyan}\u5F80\u5317{/color}\u8D70\u4E2A\u51E0\u767E\u6B65\uFF0C\u5C31\u662F{color=cyan}\u5E84\u56ED\u7684\u89D2\u95E8{/color}\u4E86\u3002"
+  storyText: "\u54B1\u4EEC\u5C31\u5728\u8FD9\u91CC\u4E0A\u5CB8\uFF0C\n\u5F80\u5317\u8D70\u4E2A\u51E0\u767E\u6B65\uFF0C\u5C31\u662F\u5E84\u56ED\u7684\u89D2\u95E8\u4E86\u3002"
   description: 
   character: {fileID: 1424577798}
   portrait: {fileID: 0}
@@ -2368,8 +2379,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeRect:
     serializedVersion: 2
-    x: 75
-    y: 233
+    x: 76
+    y: 234
     width: 120
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
@@ -4132,12 +4143,12 @@ PrefabInstance:
     - target: {fileID: 1990423343275336844, guid: 155b9c67245941445a017d3b27af7066,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 4.3
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 1990423343275336844, guid: 155b9c67245941445a017d3b27af7066,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -181.8
+      value: -171
       objectReference: {fileID: 0}
     - target: {fileID: 1990423343934521513, guid: 155b9c67245941445a017d3b27af7066,
         type: 3}

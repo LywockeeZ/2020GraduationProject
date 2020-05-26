@@ -57,7 +57,11 @@ public class BattleUI :BaseUIForm
             {
                 Game.Instance.NotifyEvent(ENUM_GameEvent.StageRestart);
             }
-            else LevelManager.Instance.BackToLevel();
+            else
+            {
+                Game.Instance.NotifyEvent(ENUM_GameEvent.StageEnd, 4);
+                LevelManager.Instance.BackToLevel();
+            }
         });
 
         

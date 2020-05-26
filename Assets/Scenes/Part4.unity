@@ -1179,7 +1179,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 1
   indentLevel: 0
-  storyText: "{color=cyan}\u6C34\u888B{/color}\u5DF2\u51C6\u5907\u59A5\u5F53\uFF0C\u8BF7\u5144\u957F\u653E\u5FC3\u4F7F\u7528\u3002\r\n{wi}\u6B64\u7269{color=cyan}\u5EF6\u8DEF\u6EDA\u52A8\uFF0C\u89E6\u706B\u5373\u7834{/color}\u4ECE\u800C{color=cyan}\u5411\u5DE6\u53F3\u91CA\u51FA\u6240\u76DB\u4E4B\u6C34{/color}\u3002"
+  storyText: "\u6C34\u888B\u5DF2\u51C6\u5907\u59A5\u5F53\uFF0C\u8BF7\u5144\u957F\u653E\u5FC3\u4F7F\u7528\u3002\r\n{wi}\u6B64\u7269\u5EF6\u8DEF\u6EDA\u52A8\uFF0C\u89E6\u706B\u5373\u7834\u4ECE\u800C\u5411\u5DE6\u53F3\u91CA\u51FA\u6240\u76DB\u4E4B\u6C34\u3002"
   description: 
   character: {fileID: 1929805851}
   portrait: {fileID: 0}
@@ -1263,9 +1263,9 @@ MonoBehaviour:
     width: 1114
     height: 859
   selectedBlocks:
-  - {fileID: 462603129}
+  - {fileID: 462603103}
   selectedCommands:
-  - {fileID: 462603123}
+  - {fileID: 462603099}
   variables: []
   description: 
   stepPause: 0

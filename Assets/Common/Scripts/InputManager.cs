@@ -88,7 +88,7 @@ public class InputManager : MonoBehaviour
             if (Physics.Raycast(ray2, out RaycastHit hitInfo1, 200f, 1 << LayerMask.NameToLayer("CanMove")))
             {
                 //自由移动模式中的移动
-                if (Game.Instance.GetCanFreeMove())
+                if (Game.Instance.GetCanFreeMove() && (hitInfo.point - Game.Instance.GetPlayerUnit().transform.position).magnitude <=10f)
                 {
                     clickedPos = hitInfo.point;
                     Game.Instance.GetPlayerUnit().MoveByNavMesh(clickedPos);
