@@ -1063,7 +1063,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 15
   indentLevel: 0
-  storyText: "\u706B\u7130\u4EE5\u4E00\u5B57\u957F\u86C7\u4E4B\u52BF\u6392\u5E03\u65F6\uFF0C\u4F7F\u7528\u5527\u7B52\u6700\u662F\u5408\u9002\u3002\r\n\u53EA\u6D88\u6309\u538B\u62C9\u6746\uFF0C{color=cyan}\u5C04\u51FA\u6C34\u67F1\uFF0C\u4FBF\u53EF\u6251\u706D\u76F4\u7EBF\u4E0A\u7684\u706B\u7130{/color}\u3002\r\n"
+  storyText: "\u706B\u7130\u4EE5\u4E00\u5B57\u957F\u86C7\u4E4B\u52BF\u6392\u5E03\u65F6\uFF0C\u4F7F\u7528\u5527\u7B52\u6700\u662F\u5408\u9002\u3002\r\n\u53EA\u6D88\u6309\u538B\u62C9\u6746\uFF0C\u5C04\u51FA\u6C34\u67F1\uFF0C\u4FBF\u53EF\u6251\u706D\u76F4\u7EBF\u4E0A\u7684\u706B\u7130\u3002\r\n"
   description: 
   character: {fileID: 1360623444}
   portrait: {fileID: 0}
@@ -1447,7 +1447,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 1
   indentLevel: 0
-  storyText: "{color=cyan}\u5527\u7B52{/color}\u5DF2\u51C6\u5907\u59A5\u5F53\uFF0C\u8BF7\u5144\u957F\u653E\u5FC3\u4F7F\u7528\u3002\r\n{wi}\u5176\u4F59\u9053\u5177\u4E5F\u5728\u51C6\u5907\u4E4B\u5217\u3002"
+  storyText: "\u5527\u7B52\u5DF2\u51C6\u5907\u59A5\u5F53\uFF0C\u8BF7\u5144\u957F\u653E\u5FC3\u4F7F\u7528\u3002\r\n{wi}\u5176\u4F59\u9053\u5177\u4E5F\u5728\u51C6\u5907\u4E4B\u5217\u3002"
   description: 
   character: {fileID: 1360623444}
   portrait: {fileID: 0}
@@ -1531,7 +1531,7 @@ MonoBehaviour:
     width: 1114
     height: 859
   selectedBlocks:
-  - {fileID: 639206520}
+  - {fileID: 639206507}
   selectedCommands: []
   variables: []
   description: 
