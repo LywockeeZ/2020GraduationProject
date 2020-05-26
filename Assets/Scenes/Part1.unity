@@ -134,11 +134,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 343957641, guid: 8771e9a56c4e8fd4ab92f1e2c0243011, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -1132
+      value: -1137
       objectReference: {fileID: 0}
     - target: {fileID: 343957641, guid: 8771e9a56c4e8fd4ab92f1e2c0243011, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -686
+      value: -665
+      objectReference: {fileID: 0}
+    - target: {fileID: 343957641, guid: 8771e9a56c4e8fd4ab92f1e2c0243011, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 272.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 343957641, guid: 8771e9a56c4e8fd4ab92f1e2c0243011, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 309.9
       objectReference: {fileID: 0}
     - target: {fileID: 343957642, guid: 8771e9a56c4e8fd4ab92f1e2c0243011, type: 3}
       propertyPath: m_Color.a
@@ -194,12 +202,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1021513748, guid: 8771e9a56c4e8fd4ab92f1e2c0243011, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -596
+      value: -571
+      objectReference: {fileID: 0}
+    - target: {fileID: 1021513748, guid: 8771e9a56c4e8fd4ab92f1e2c0243011, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 272.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1021513748, guid: 8771e9a56c4e8fd4ab92f1e2c0243011, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 309.9
       objectReference: {fileID: 0}
     - target: {fileID: 1021513749, guid: 8771e9a56c4e8fd4ab92f1e2c0243011, type: 3}
       propertyPath: m_Color.a
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1021513749, guid: 8771e9a56c4e8fd4ab92f1e2c0243011, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 152f8877515348a4b9da96df130ba89f,
+        type: 3}
     - target: {fileID: 1631318710, guid: 8771e9a56c4e8fd4ab92f1e2c0243011, type: 3}
       propertyPath: m_Name
       value: Stage

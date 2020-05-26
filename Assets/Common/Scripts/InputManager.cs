@@ -2,16 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 using HighlightingSystem;
+using DG.Tweening;
 
 public class InputManager : MonoBehaviour
 {
     public delegate void mydelegate(ENUM_InputEvent inputEvent);
     public static event mydelegate InputEvent;
-
+    [HideInInspector]
+    public GameObject clickTag;
+    private Material clickTagMaterial;
+    private bool isTagFade = false;
 
     void Start()
     {
-
+        if (clickTag == null)
+        {
+            clickTag = GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>("Prefabs/Others/ClickTag", Vector3.zero);
+            clickTag.transform.rotation = Quaternion.Euler(90f, 0, 0);
+            clickTagMaterial = clickTag.GetComponent<Projector>().material;
+        }
     }
 
 
@@ -21,6 +30,16 @@ public class InputManager : MonoBehaviour
         {
             InputProcess();
         }
+
+        if ((Game.Instance.GetPlayerUnit().transform.position - clickTag.transform.position).magnitude < 0.1f || !Game.Instance.GetCanInput())
+        {
+            if (!isTagFade)
+            {
+                clickTagMaterial.DOFade(0, 0.2f);
+                isTagFade = true;
+            }
+        }
+
     }
 
     private void InputProcess()
@@ -92,6 +111,9 @@ public class InputManager : MonoBehaviour
                 {
                     clickedPos = hitInfo.point;
                     Game.Instance.GetPlayerUnit().MoveByNavMesh(clickedPos);
+                    clickTagMaterial.DOFade(1, 0.2f);
+                    isTagFade = false;
+                    clickTag.transform.position = clickedPos;
                     Debug.Log(clickedPos);
                 }
             }

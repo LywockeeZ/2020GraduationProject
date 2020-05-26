@@ -105,6 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1548f08f9c54cfa45ba72cabb3dea856, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clickTag: {fileID: 0}
 --- !u!114 &6761746764632316674
 MonoBehaviour:
   m_ObjectHideFlags: 0

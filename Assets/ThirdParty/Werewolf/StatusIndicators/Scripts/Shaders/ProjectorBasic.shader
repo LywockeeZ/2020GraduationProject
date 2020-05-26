@@ -4,7 +4,7 @@
 
 Shader "Werewolf/Indicators/Basic" {
 	Properties {
-		_MainColor ("Main Color", Color) = (1,1,1,1)
+		_Color ("Main Color", Color) = (1,1,1,1)
 		_MainTex ("Shape", 2D) = "" {}
 	}
 	
@@ -41,13 +41,13 @@ Shader "Werewolf/Indicators/Basic" {
 				return o;
 			}
 			
-			fixed4 _MainColor;
+			fixed4 _Color;
 			sampler2D _MainTex;
 
 			fixed4 frag (v2f i) : SV_Target
 			{
 				fixed4 texS = tex2Dproj (_MainTex, UNITY_PROJ_COORD(i.uvMain));
-				texS.rgba *= _MainColor.rgba;
+				texS.rgba *= _Color.rgba;
 				fixed4 res = texS;    
 				UNITY_APPLY_FOG_COLOR(i.fogCoord, res, fixed4(0,0,0,0));
 				return res;
