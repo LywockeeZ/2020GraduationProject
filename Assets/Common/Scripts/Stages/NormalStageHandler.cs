@@ -42,6 +42,7 @@ public class NormalStageHandler : IStageHandler
 
     private EventListenerDelegate OnRoundBegain;
     private EventListenerDelegate OnStageEnd;
+    private EventListenerDelegate OnStageBegain;
     public void RegisterEvent()
     {
         m_StageScore.RegisterEvent();
@@ -61,6 +62,11 @@ public class NormalStageHandler : IStageHandler
                 isStageEnd = true;
             });
 
+        Game.Instance.RegisterEvent(ENUM_GameEvent.StageBegain,
+            OnStageEnd = (Message evt) =>
+            {
+                isStageEnd = false;
+            });
 
     }
 
@@ -72,6 +78,8 @@ public class NormalStageHandler : IStageHandler
         m_StatgeData.DetachEvent();
         Game.Instance.DetachEvent(ENUM_GameEvent.RoundBegain, OnRoundBegain);
         Game.Instance.DetachEvent(ENUM_GameEvent.StageEnd, OnStageEnd);
+        Game.Instance.DetachEvent(ENUM_GameEvent.StageBegain, OnStageBegain);
+
     }
 
 

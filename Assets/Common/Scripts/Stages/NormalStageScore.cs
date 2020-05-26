@@ -81,7 +81,6 @@ public class NormalStageScore : IStageScore
     /// </summary>
     public override void CheckRound()
     {
-
         if (Game.Instance.GetCurrentAP() == 0 && isRoundShouldUpdate)
         {
             Game.Instance.NotifyEvent(ENUM_GameEvent.RoundUpdateBegain, null);
