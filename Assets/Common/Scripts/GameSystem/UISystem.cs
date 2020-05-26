@@ -69,7 +69,7 @@ public class UISystem : IGameSystem
                         break;
                     case 1:
                         Game.Instance.ShowUI("EndStageUI");
-                        Game.Instance.UIShowMessag("EndStageUI", "你死了！");
+                        Game.Instance.UIShowMessag("EndStageUI", "你失败了！");
                         break;
                     case 2:
                         Game.Instance.ShowUI("EndStageUI");
