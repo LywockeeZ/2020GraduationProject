@@ -49,6 +49,7 @@ public class SkillSelectUI : BaseUIForm, ISelectItem
     private void Start()
     {
         AddButton("skill_Whirlwind", skillBtns[0]);
+        AddButton("skill_Slash", skillBtns[1]);
         LoadUnLockSkill();
         CheckSkill();
         //TestAddAll();

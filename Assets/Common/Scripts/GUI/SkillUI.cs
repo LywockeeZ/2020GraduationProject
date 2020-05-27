@@ -59,12 +59,12 @@ public class SkillUI : BaseUIForm
         Game.Instance.RegisterEvent(ENUM_GameEvent.RoundBegain,
             OnRoundBegain = (Message evt) =>
             {
-                skillBtn.EnableButton();
+                //skillBtn.EnableButton();
             });
         Game.Instance.RegisterEvent(ENUM_GameEvent.RoundUpdateBegain,
             OnRoundUpdateBegain = (Message evt) =>
             {
-                skillBtn.DisableButton();
+                //skillBtn.DisableButton();
             });
 
     }

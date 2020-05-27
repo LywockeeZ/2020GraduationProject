@@ -85,6 +85,7 @@ public class SkillSystem : IGameSystem
     public void UnlockAllSkill()
     {
         UnlockSkill("skill_Whirlwind");
+        UnlockSkill("skill_Slash");
     }
 
     public void SetMainSkill(string skillName)

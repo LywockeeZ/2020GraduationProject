@@ -15,6 +15,9 @@ public class SkillFactory : ISkillFactory
             case "skill_NormalAttack":
                 skillInstance = new NormalAttack(skillName);
                 break;
+            case "skill_Slash":
+                skillInstance = new Slash(skillName);
+                break;
             default:
                 Debug.LogError("未找到技能" + skillName);
                 break;

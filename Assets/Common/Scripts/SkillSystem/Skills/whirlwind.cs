@@ -38,9 +38,9 @@ public class Whirlwind : SkillInstanceBase
 
     private void EndFire(BaseUnit unit)
     {
-        if (unit != null && unit.State.StateType == ENUM_State.Fire )
+        if (unit != null && unit.State.StateType != ENUM_State.Block )
         {
-            unit.SetState(new Ground(unit), null);
+            unit.SetState(new Water(unit), null);
         }
     }
 
@@ -59,6 +59,11 @@ public class Whirlwind : SkillInstanceBase
         {
             Debug.Log("技能施放");
             Game.Instance.GetPlayerUnit().ExecuteSkill();
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            Game.Instance.SetCanInput(true);
         }
     }
 

@@ -199,6 +199,17 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
         Game.Instance.NotifyEvent(ENUM_GameEvent.PlayerMove);
     }
 
+    /// <summary>
+    /// 技能中使用的位移方法
+    /// </summary>
+    /// <param name="m_targetPos"></param>
+    public void MoveByNavMeshInSkill(Vector3 m_targetPos)
+    {
+        m_Agent.SetDestination(m_targetPos);
+        targetPos = m_targetPos;
+        _isMoving = true;
+    }
+
 
     /// <summary>
     /// 将单元的高度转换为模型高度
@@ -281,7 +292,7 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
     /// 更新目标单元和当前单元的信息,将当前单元换为参数所给单元
     /// </summary>
     /// <param name="targetUnit"></param>
-    private void UpdateUnit(BaseUnit targetUnit)
+    public void UpdateUnit(BaseUnit targetUnit)
     {
         targetUnit.UpperUnit = new UpperUnit(Type, ControlType, BeFiredType);
         targetUnit.SetUpperGameObject(gameObject);
