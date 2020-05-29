@@ -206,7 +206,10 @@ public class Slash : SkillInstanceBase
                     unitsOnPath[0].SetState(new Block(unitsOnPath[0]));
                 }
                 else
-                    unitsOnPath[0].SetState(new Ground(unitsOnPath[0]));
+                {
+                    if (unitsOnPath[0].State.StateType == ENUM_State.Fire)
+                        unitsOnPath[0].SetState(new Ground(unitsOnPath[0]));
+                }
                 unitsOnPath.RemoveAt(0);
             }
             yield return null;
