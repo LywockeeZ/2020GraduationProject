@@ -7,6 +7,9 @@ using System;
 
 public class Slash : SkillInstanceBase
 {
+    private Coroutine m_coroutine;
+    private Coroutine m_coroutine1;
+
     private float m_StartTime = 0f;
     /// <summary>
     /// 技能选择器选中的单元
@@ -38,66 +41,105 @@ public class Slash : SkillInstanceBase
         Highlight(Color.blue, Game.Instance.GetPlayerUnit().CurrentOn);
     }
 
+    public override void CloseIndicator()
+    {
+        Debug.Log("CloseIndicator:" + SkillName);
+        Highlight(Color.blue, Game.Instance.GetPlayerUnit().CurrentOn, false);
+    }
+
     public override void ShowEmitter()
     {
         Debug.Log("ShowEmittor:" + SkillName);
         Game.Instance.SetCanInput(false);
         Highlight(Color.red, Game.Instance.GetPlayerUnit().CurrentOn);
+        m_coroutine = CoroutineManager.StartCoroutineReturn(SkillEmitter());
+    }
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hitInfo, 200f, 1 << LayerMask.NameToLayer("BaseUnit")))
+    public override void CloseEmitter()
+    {
+        Debug.Log("CloseEmittor:" + SkillName);
+        Game.Instance.SetCanInput(true);
+        HideEmitter();
+        CoroutineManager.StopCoroutine(m_coroutine);
+    }
+
+    private void HideEmitter()
+    {
+        Highlight(Color.red, Game.Instance.GetPlayerUnit().CurrentOn, false);
+    }
+
+    /// <summary>
+    /// 用来执行技能释放器的逻辑
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator SkillEmitter()
+    {
+        bool isEnd = false;
+        yield return null;
+        do
         {
-            if (Input.GetMouseButtonDown(0))
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hitInfo, 200f, 1 << LayerMask.NameToLayer("BaseUnit")))
             {
-                Vector3 clickedPos = hitInfo.transform.position;
-                if (Game.Instance.GetPlayerUnit().CurrentOn.Up != null && Game.Instance.GetPlayerUnit().CurrentOn.Up.UpperGameObject == null)
+                if (Input.GetMouseButtonDown(0))
                 {
-                    if (clickedPos == Game.Instance.GetPlayerUnit().CurrentOn.Up.Model.transform.position)
+                    Vector3 clickedPos = hitInfo.transform.position;
+                    if (Game.Instance.GetPlayerUnit().CurrentOn.Up != null && Game.Instance.GetPlayerUnit().CurrentOn.Up.UpperGameObject == null)
                     {
-                        chooseUnit = Game.Instance.GetPlayerUnit().CurrentOn.Up;
-                        Debug.Log("技能施放");
-                        Game.Instance.GetPlayerUnit().ExecuteSkill();
+                        if (clickedPos == Game.Instance.GetPlayerUnit().CurrentOn.Up.Model.transform.position)
+                        {
+                            chooseUnit = Game.Instance.GetPlayerUnit().CurrentOn.Up;
+                            Debug.Log("技能施放");
+                            Game.Instance.GetPlayerUnit().ExecuteSkill();
+                            isEnd = true;
+                            break;
+                        }
                     }
-                }
-                if (Game.Instance.GetPlayerUnit().CurrentOn.Down != null && Game.Instance.GetPlayerUnit().CurrentOn.Down.UpperGameObject == null)
-                {
-                    if (clickedPos == Game.Instance.GetPlayerUnit().CurrentOn.Down.Model.transform.position)
+                    if (Game.Instance.GetPlayerUnit().CurrentOn.Down != null && Game.Instance.GetPlayerUnit().CurrentOn.Down.UpperGameObject == null)
                     {
-                        chooseUnit = Game.Instance.GetPlayerUnit().CurrentOn.Down;
-                        Debug.Log("技能施放");
-                        Game.Instance.GetPlayerUnit().ExecuteSkill();
+                        if (clickedPos == Game.Instance.GetPlayerUnit().CurrentOn.Down.Model.transform.position)
+                        {
+                            chooseUnit = Game.Instance.GetPlayerUnit().CurrentOn.Down;
+                            Debug.Log("技能施放");
+                            Game.Instance.GetPlayerUnit().ExecuteSkill();
+                            isEnd = true;
+                            break;
+                        }
                     }
-                }
-                if (Game.Instance.GetPlayerUnit().CurrentOn.Left != null && Game.Instance.GetPlayerUnit().CurrentOn.Left.UpperGameObject == null)
-                {
-                    if (clickedPos == Game.Instance.GetPlayerUnit().CurrentOn.Left.Model.transform.position)
+                    if (Game.Instance.GetPlayerUnit().CurrentOn.Left != null && Game.Instance.GetPlayerUnit().CurrentOn.Left.UpperGameObject == null)
                     {
-                        chooseUnit = Game.Instance.GetPlayerUnit().CurrentOn.Left;
-                        Debug.Log("技能施放");
-                        Game.Instance.GetPlayerUnit().ExecuteSkill();
+                        if (clickedPos == Game.Instance.GetPlayerUnit().CurrentOn.Left.Model.transform.position)
+                        {
+                            chooseUnit = Game.Instance.GetPlayerUnit().CurrentOn.Left;
+                            Debug.Log("技能施放");
+                            Game.Instance.GetPlayerUnit().ExecuteSkill();
+                            isEnd = true;
+                            break;
+                        }
                     }
-                }
-                if (Game.Instance.GetPlayerUnit().CurrentOn.Right != null && Game.Instance.GetPlayerUnit().CurrentOn.Right.UpperGameObject == null)
-                {
-                    if (clickedPos == Game.Instance.GetPlayerUnit().CurrentOn.Right.Model.transform.position)
+                    if (Game.Instance.GetPlayerUnit().CurrentOn.Right != null && Game.Instance.GetPlayerUnit().CurrentOn.Right.UpperGameObject == null)
                     {
-                        chooseUnit = Game.Instance.GetPlayerUnit().CurrentOn.Right;
-                        Debug.Log("技能施放");
-                        Game.Instance.GetPlayerUnit().ExecuteSkill();
+                        if (clickedPos == Game.Instance.GetPlayerUnit().CurrentOn.Right.Model.transform.position)
+                        {
+                            chooseUnit = Game.Instance.GetPlayerUnit().CurrentOn.Right;
+                            Debug.Log("技能施放");
+                            Game.Instance.GetPlayerUnit().ExecuteSkill();
+                            isEnd = true;
+                            break;
+                        }
                     }
                 }
             }
-        }
-
-        if (Input.GetMouseButtonDown(1))
-        {
-            Game.Instance.SetCanInput(true);
-        }
-
+            yield return null;
+        } while (!isEnd);
+        CoroutineManager.StopCoroutine(m_coroutine);
     }
+
 
     public override void Execute(ISkillCore instance)
     {
+        HideEmitter();
+        OnSkillStart();
         base.Execute(instance);
         void action() { DoSkillLogic(instance); }
         CoroutineManager.StartCoroutineTask(action, m_StartTime);
@@ -119,7 +161,7 @@ public class Slash : SkillInstanceBase
         });
 
         //开始改变路径上单元的状态
-        CoroutineManager.StartCoroutine(EndFireProcess());
+        m_coroutine1 =  CoroutineManager.StartCoroutineReturn(EndFireProcess());
 
         bool JudgeIsEnd()
         {
@@ -137,10 +179,17 @@ public class Slash : SkillInstanceBase
             player.Agent.speed = 1.5f;
             player.UpdateUnit(finalUnitOnPath);
             player.SkillAnimator.SetTrigger("skill_SlashEnd");
+            if (pathNextUnit != null)
+            {
+                pathNextUnit.UpperGameObject.GetComponent<IFixedUnit>().Handle(false);
+                pathNextUnit = null;
+            }
+
+            OnTriggerComplete();
+
         }
         CoroutineManager.StartCoroutineTask(JudgeIsEnd, OnEndFireProcessEnd, 0f);
 
-        OnTriggerComplete();
     }
 
     IEnumerator EndFireProcess()
@@ -152,12 +201,17 @@ public class Slash : SkillInstanceBase
             Vector2 unitPos = new Vector2(unitsOnPath[0].Model.transform.position.x, unitsOnPath[0].Model.transform.position.z);
             if ((playerPos - unitPos).magnitude < 0.2f)
             {
-                unitsOnPath[0].SetState(new Block(unitsOnPath[0]));
+                if (unitsOnPath.Count == 1)
+                {
+                    unitsOnPath[0].SetState(new Block(unitsOnPath[0]));
+                }
+                else
+                    unitsOnPath[0].SetState(new Ground(unitsOnPath[0]));
                 unitsOnPath.RemoveAt(0);
             }
             yield return null;
         } while (unitsOnPath.Count != 0);
-        CoroutineManager.StopCoroutine(EndFireProcess());
+        CoroutineManager.StopCoroutine(m_coroutine1);
     }
 
     private List<BaseUnit> FindUnitsOnPath(BaseUnit chooseUnit)
@@ -167,10 +221,16 @@ public class Slash : SkillInstanceBase
         unitsOnPath.Add(chooseUnit);
         if (direction.x > 0.0001)
         {
+            int i = 0;
             while(chooseUnit.Right != null && chooseUnit.Right.UpperGameObject == null)
             {
                 unitsOnPath.Add(chooseUnit.Right);
                 chooseUnit = chooseUnit.Right;
+                i++;
+                if (i == 7)
+                {
+                    break;
+                }
             }
             if (chooseUnit.Right?.UpperGameObject != null)
             {
@@ -182,10 +242,16 @@ public class Slash : SkillInstanceBase
         else
         if (direction.x < -0.0001)
         {
+            int i = 0;
             while (chooseUnit.Left != null && chooseUnit.Left.UpperGameObject == null)
             {
                 unitsOnPath.Add(chooseUnit.Left);
                 chooseUnit = chooseUnit.Left;
+                i++;
+                if (i == 7)
+                {
+                    break;
+                }
             }
             if (chooseUnit.Left?.UpperGameObject != null)
             {
@@ -197,10 +263,16 @@ public class Slash : SkillInstanceBase
 
         if (direction.z > 0.0001)
         {
+            int i = 0;
             while (chooseUnit.Up != null && chooseUnit.Up.UpperGameObject == null)
             {
                 unitsOnPath.Add(chooseUnit.Up);
                 chooseUnit = chooseUnit.Up;
+                i++;
+                if (i == 7)
+                {
+                    break;
+                }
             }
             if (chooseUnit.Up?.UpperGameObject != null)
             {
@@ -212,10 +284,16 @@ public class Slash : SkillInstanceBase
         else
         if (direction.z < -0.0001)
         {
+            int i = 0;
             while (chooseUnit.Down != null && chooseUnit.Down.UpperGameObject == null)
             {
                 unitsOnPath.Add(chooseUnit.Down);
                 chooseUnit = chooseUnit.Down;
+                i++;
+                if (i == 7)
+                {
+                    break;
+                }
             }
             if (chooseUnit.Down?.UpperGameObject != null)
             {
@@ -229,30 +307,27 @@ public class Slash : SkillInstanceBase
         return unitsOnPath;
     }
 
-    private void EndFire(BaseUnit unit)
+
+    private void HighlightTarget(BaseUnit unit, Color color, bool isOn = true)
     {
-        if (unit != null && unit.State.StateType != ENUM_State.Block)
+        if (unit != null)
         {
-            unit.SetState(new Water(unit), null);
+            if (isOn)
+            {
+                unit.Model.transform.GetChild(0).GetComponent<Highlighter>().ConstantOn(color, 0.1f);
+            }
+            else
+                unit.Model.transform.GetChild(0).GetComponent<Highlighter>().ConstantOff(0.1f);
         }
     }
 
-
-    private void HighlightTarget(BaseUnit unit, Color color)
-    {
-        if (unit != null && unit.UpperGameObject == null)
-        {
-            unit.Model.transform.GetChild(0).GetComponent<Highlighter>().Hover(color);
-        }
-    }
-
-    private void Highlight(Color color, BaseUnit baseUnit)
+    private void Highlight(Color color, BaseUnit baseUnit, bool isOn = true)
     {
         Color hightlightColor = color;
-        HighlightTarget(baseUnit?.Up, color);
-        HighlightTarget(baseUnit?.Right, color);
-        HighlightTarget(baseUnit?.Down, color);
-        HighlightTarget(baseUnit?.Left, color);
+        HighlightTarget(baseUnit?.Up, color, isOn);
+        HighlightTarget(baseUnit?.Right, color, isOn);
+        HighlightTarget(baseUnit?.Down, color, isOn);
+        HighlightTarget(baseUnit?.Left, color, isOn);
     }
 
 }

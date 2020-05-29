@@ -59,7 +59,7 @@ public class RoadBlock : MonoBehaviour, IUpperUnit, IFixedUnit
     }
 
 
-    public void Handle()
+    public void Handle(bool isCost = true)
     {
 
     }

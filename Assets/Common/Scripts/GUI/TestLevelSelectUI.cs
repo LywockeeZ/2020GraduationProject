@@ -39,7 +39,7 @@ public class TestLevelSelectUI : BaseUIForm
     }
 
 
-    public void Close()
+    public new void Close()
     {
         Game.Instance.CloseUI("TestLevelSelectUI");
     }

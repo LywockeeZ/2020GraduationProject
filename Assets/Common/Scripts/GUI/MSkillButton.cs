@@ -71,8 +71,9 @@ public class MSkillButton : MMTouchButton
                 //执行解锁动画部分
                 if (isUnlocking)
                 {
-                    void action() { SkBtnState = SkillButtonStates.Locked; }
-                    LockBtn.Animator.SetBool("Unlocking", true, action);
+                    //void action() { SkBtnState = SkillButtonStates.Locked; }
+                    //LockBtn.Animator.SetBool("Unlocking", true, action);
+                    SkBtnState = SkillButtonStates.Locked;
                     isUnlocking = false;
                 }
                 break;
@@ -112,6 +113,7 @@ public class MSkillButton : MMTouchButton
         {
             SkBtnState = SkillButtonStates.Selected;
             seletMenu.Select(this);
+            ButtonSelectBegain?.Invoke();
             return;
         }
         //进入取消状态，进入瞬间调用
@@ -126,6 +128,7 @@ public class MSkillButton : MMTouchButton
             else
                 CurrentState = ButtonStates.Off;
             seletMenu.SelectCancel();
+            ButtonSelectCancel?.Invoke();
             return;
         }
 
@@ -150,6 +153,30 @@ public class MSkillButton : MMTouchButton
         else SkBtnState = SkillButtonStates.Normal;
     }
 
+    /// <summary>
+    /// 当触摸进入区域时触发绑定指针进入操作
+    /// </summary>
+    public override void OnPointerEnter(PointerEventData data)
+    {
+        if (!MouseMode)
+        {
+            OnPointerDown(data);
+        }
+        else
+        {
+            if (CurrentState == ButtonStates.Off)
+            {
+                CurrentState = ButtonStates.ButtonEnter;
+                if (SkBtnState == SkillButtonStates.Normal)
+                {
+                    ButtonEnteredFirstTime?.Invoke();
+                }
+            }
+        }
+        isInArea = true;
+    }
+
+
 
     public virtual void Normal()
     {
@@ -163,13 +190,14 @@ public class MSkillButton : MMTouchButton
 
     public virtual void Locked()
     {
-        CancelSelect();
+        //CancelSelect();
         SkBtnState = SkillButtonStates.Locked;
     }
 
     public virtual void Unlocked()
     {
         SkBtnState = SkillButtonStates.Normal;
+        lastState = SkBtnState;
     }
 
     public virtual void Unlocking()

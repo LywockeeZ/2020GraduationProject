@@ -50,6 +50,7 @@ public class SkillSelectUI : BaseUIForm, ISelectItem
     {
         AddButton("skill_Whirlwind", skillBtns[0]);
         AddButton("skill_Slash", skillBtns[1]);
+        AddButton("item_WaterSac", itemBtns[0]);
         LoadUnLockSkill();
         CheckSkill();
         //TestAddAll();
@@ -79,14 +80,15 @@ public class SkillSelectUI : BaseUIForm, ISelectItem
     /// </summary>
     public void CheckSkill()
     {
-        Dictionary<string, SkillInstanceBase> unlockedSkills = Game.Instance.GetUnlockSkills();
         Queue<SkillInstanceBase> skillsToUnlock = Game.Instance.GetSkillsToUnlock();
         while (skillsToUnlock.Count != 0)
         {
             SkillInstanceBase skill = skillsToUnlock.Dequeue();
-            unlockedSkills.Add(skill.SkillName, skill);
             btns.TryGetValue(skill.SkillName, out MSkillButton button);
-            button?.Unlocking();
+            //button?.Unlocking();
+            button.Unlocked();
+            Debug.Log(button.SkBtnState);
+
         }
     }
 

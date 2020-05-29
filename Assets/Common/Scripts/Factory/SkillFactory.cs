@@ -18,6 +18,9 @@ public class SkillFactory : ISkillFactory
             case "skill_Slash":
                 skillInstance = new Slash(skillName);
                 break;
+            case "item_WaterSac":
+                skillInstance = new WaterSac(skillName);
+                break;
             default:
                 Debug.LogError("未找到技能" + skillName);
                 break;

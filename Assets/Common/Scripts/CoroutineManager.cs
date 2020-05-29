@@ -25,6 +25,15 @@ public static class CoroutineManager
         coroutine.StartCoroutine(routine);
     }
 
+    public static Coroutine StartCoroutineReturn(IEnumerator routine)
+    {
+        return coroutine.StartCoroutine(routine);
+    }
+
+    public static void StopCoroutine(Coroutine m_coroutine)
+    {
+        coroutine.StopCoroutine(m_coroutine);
+    }
 
     public static void StopCoroutine(IEnumerator routine)
     {

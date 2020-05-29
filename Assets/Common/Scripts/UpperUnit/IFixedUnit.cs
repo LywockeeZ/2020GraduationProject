@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface IFixedUnit
 {
-    void Handle();
+    void Handle(bool isCost = true);
 
 }

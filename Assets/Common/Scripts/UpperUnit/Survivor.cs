@@ -44,7 +44,7 @@ public class Survivor : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
     }
 
 
-    public void Handle()
+    public void Handle(bool isCost = true)
     {
 
     }

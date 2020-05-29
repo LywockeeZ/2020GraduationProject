@@ -112,7 +112,9 @@ public enum ENUM_GameEvent
     GamePause,
 
     StartFire,
-    PlayerMove
+    PlayerMove,
+
+    SkillEnd
 }
 
 

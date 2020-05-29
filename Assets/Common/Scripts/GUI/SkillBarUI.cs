@@ -47,19 +47,27 @@ public class SkillBarUI : BaseUIForm, ISelectItem
     }
 
     private EventListenerDelegate OnRoundBegain;
+    private EventListenerDelegate OnSkillEnd;
     private void RegisterEvent()
     {
         Game.Instance.RegisterEvent(ENUM_GameEvent.RoundBegain,
             OnRoundBegain = (Message evt) =>
             {
-                if (buttons.Count == 4)
-                    buttons[3]?.Normal();
+                //if (buttons.Count == 4)
+                //    buttons[3]?.Normal();
+            });
+
+        Game.Instance.RegisterEvent(ENUM_GameEvent.SkillEnd,
+            OnSkillEnd = (Message evt) =>
+            {
+                SelectCancel();
             });
     }
 
     private void DetachEvent()
     {
         Game.Instance.DetachEvent(ENUM_GameEvent.RoundBegain, OnRoundBegain);
+        Game.Instance.DetachEvent(ENUM_GameEvent.SkillEnd, OnSkillEnd);
     }
 
 
@@ -95,6 +103,22 @@ public class SkillBarUI : BaseUIForm, ISelectItem
         buttons.Clear();
     }
 
+    public void DisableAll()
+    {
+        for (int i = 0; i < buttons.Count; i++)
+        {
+            if (buttons[i] != null)
+            {
+                if (buttons[i].SkBtnState != MSkillButton.SkillButtonStates.Locked)
+                {
+                    buttons[i].Disabled();
+                }
+            }
+
+        }
+    }
+
+
     public void Select(MSkillButton mSkillButton)
     {
         Debug.Log("Select:" + mSkillButton.itemName);
@@ -114,7 +138,7 @@ public class SkillBarUI : BaseUIForm, ISelectItem
 
     public void SelectCancel()
     {
-        Debug.Log("SelectCancel:" + SelectedButton.itemName);
+        Debug.Log("SelectCancel:" + SelectedButton?.itemName);
         SelectedButton = null;
         for (int i = 0; i < buttons.Count; i++)
         {
@@ -139,19 +163,36 @@ public class SkillBarUI : BaseUIForm, ISelectItem
 
             //注册行为
             //进入状态显示技能指示器
-            button.ButtonEntered.AddListener(() =>
+            button.ButtonEnteredFirstTime.AddListener(() =>
             {
                 skillInstance.ShowIndicator();
             });
-            //选中状态显示技能发射器
-            button.ButtonPressed.AddListener(() =>
+            button.ButtonLeaved.AddListener(() =>
             {
-                //如果未执行，显示发射器，执行了则将按钮锁定，再根据回合事件开启
+                skillInstance.CloseIndicator();
+            });
+
+            //选中状态显示技能发射器
+            button.ButtonSelectBegain.AddListener(() =>
+            {
+                //按下的第一帧，显示发射器
                 if (skillInstance.m_SkillState == SkillState.Ready)
                 {
                     skillInstance.ShowEmitter();
                 }
-                else button.Locked();
+            });
+            button.ButtonPressed.AddListener(() =>
+            {
+                //如果未执行，显示发射器，执行了则将按钮锁定，再根据回合事件开启
+                if (skillInstance.m_SkillState != SkillState.Ready)
+                {
+                    button.Locked();
+                }
+            });
+
+            button.ButtonSelectCancel.AddListener(() =>
+            {
+                skillInstance.CloseEmitter();
             });
         }
         else

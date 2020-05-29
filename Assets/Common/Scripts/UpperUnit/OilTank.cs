@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
 {
@@ -52,9 +53,12 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
     /// <summary>
     /// 玩家控制触发调用的方法
     /// </summary>
-    public void Handle()
+    public void Handle(bool isCost = true)
     {
-        Game.Instance.CostAP(1, 0);
+        Player player = Game.Instance.GetPlayerUnit();
+        player.transform.DOLookAt(CurrentOn.Model.transform.position, 0.3f);
+        if (isCost)
+            Game.Instance.CostAP(1, 0);
 
         _currentOn.StateEnd();
         _currentOn.SetState(new Oil(_currentOn));
@@ -133,7 +137,7 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
     private void SetTargetToOil(BaseUnit targetUnit)
     {
         if (targetUnit != null &&
-            (targetUnit.State.StateType == ENUM_State.Ground || targetUnit.State.StateType == ENUM_State.Water || targetUnit.State.StateType == ENUM_State.Block))
+            (targetUnit.State.StateType == ENUM_State.Ground || targetUnit.State.StateType == ENUM_State.Block))
         {
             targetUnit.StateEnd();
             targetUnit.SetState(new Oil(targetUnit));
