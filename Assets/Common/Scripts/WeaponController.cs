@@ -9,8 +9,13 @@ public enum Weapon
 
 public class WeaponController : Singleton<WeaponController>
 {
+    public delegate void mydelegate();
+    public event mydelegate setWaterSac;
+    public event mydelegate throwWaterSac;
+
     public List<GameObject> weapons;
     public Transform handPos;
+    public Transform hip;
 
     private Animator animator;
     private GameObject currentWeapon;
@@ -22,6 +27,9 @@ public class WeaponController : Singleton<WeaponController>
     private void Start()
     {
         animator = GetComponent<Animator>();
+        originPos = weapons[0].transform.localPosition;
+        originRotation = weapons[0].transform.localRotation;
+        originParent = hip;
     }
 
     private void Update()
@@ -93,9 +101,6 @@ public class WeaponController : Singleton<WeaponController>
     public void SetKnife()
     {
         currentWeapon = weapons[0];
-        originPos = currentWeapon.transform.localPosition;
-        originRotation = currentWeapon.transform.localRotation;
-        originParent = currentWeapon.transform.parent;
         currentWeapon.transform.SetParent(handPos);
         currentWeapon.transform.localPosition = new Vector3(-0.00122f, 0.0007f, 0f);
         currentWeapon.transform.localRotation = Quaternion.Euler(new Vector3(-18.948f, 30.631f, -109.925f));
@@ -110,5 +115,15 @@ public class WeaponController : Singleton<WeaponController>
             currentWeapon.transform.localRotation = originRotation;
         }
         else isFirstTime = false;
+    }
+
+    public void SetWaterSac()
+    {
+        setWaterSac();
+    }
+
+    public void ThrowWaterSac()
+    {
+        throwWaterSac();
     }
 }

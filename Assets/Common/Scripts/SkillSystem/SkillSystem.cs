@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class SkillSystem : IGameSystem
 {
+    private SkillInstanceBase skillExecuting = null;
+
+    /// <summary>
+    /// 待执行的技能队列
+    /// </summary>
+    private Queue<SkillInstanceBase> m_skillToExecuting = new Queue<SkillInstanceBase>();
+
     /// <summary>
     /// 存放解锁技能的队列
     /// </summary>
@@ -32,6 +39,11 @@ public class SkillSystem : IGameSystem
     public override void Update()
     {
         //Debug.Log(MainSkill);
+        //检测技能是否执行完
+        if (skillExecuting != null && skillExecuting.m_SkillState == SkillState.Ready)
+        {
+            skillExecuting = null;
+        }
     }
 
     public override void Release()
@@ -79,6 +91,10 @@ public class SkillSystem : IGameSystem
     public void UnlockSkill(string skillName)
     {
         SkillInstanceBase skillInstance = GameFactory.GetSkillFactory().GetSkillInstance(skillName);
+        if (skillName != "skill_NormalAttack")
+        {
+            m_skillToUnlock.Enqueue(skillInstance);
+        }
         m_UnlockSkills.Add(skillName, skillInstance);
     }
 
@@ -86,6 +102,7 @@ public class SkillSystem : IGameSystem
     {
         UnlockSkill("skill_Whirlwind");
         UnlockSkill("skill_Slash");
+        UnlockSkill("item_WaterSac");
     }
 
     public void SetMainSkill(string skillName)
@@ -122,6 +139,16 @@ public class SkillSystem : IGameSystem
     public SkillInstanceBase GetMainSkill()
     {
         return MainSkill;
+    }
+
+    public SkillInstanceBase GetExecutingSkill()
+    {
+        return skillExecuting;
+    }
+
+    public void SetExecutingSkill(SkillInstanceBase skill)
+    {
+        skillExecuting = skill;
     }
 
     public Dictionary<string, SkillInstanceBase> GetUnlockedSkills()

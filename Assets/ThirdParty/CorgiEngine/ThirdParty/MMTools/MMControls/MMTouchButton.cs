@@ -22,12 +22,20 @@ namespace MoreMountains.Tools
         [Header("Binding")]
         /// 按钮进入时调用的方法
         public UnityEvent ButtonEntered;
+		/// 按钮第一次进入时调用的方法
+		public UnityEvent ButtonEnteredFirstTime;
+		/// 离开按钮时调用的方法
+		public UnityEvent ButtonLeaved;
 		/// 按钮按下时调用的方法
 		public UnityEvent ButtonPressedFirstTime;
 		/// 松开时调用的方法
 		public UnityEvent ButtonReleased;
 		/// 按住时调用的方法
 		public UnityEvent ButtonPressed;
+		/// 取消选中时调用
+		public UnityEvent ButtonSelectCancel;
+		/// 刚进入选中状态时调用
+		public UnityEvent ButtonSelectBegain;
 
         [Header("Sprite Swap")]
         [Information("Here you can define, for disabled and pressed states, if you want a different sprite, and a different color.", InformationAttribute.InformationType.Info, false)]
@@ -328,6 +336,7 @@ namespace MoreMountains.Tools
 		{
 			SetOpacity(_initialOpacity);
 			CurrentState = ButtonStates.Off;
+			isInArea = false;
 		}
 
         /// <summary>
@@ -344,8 +353,9 @@ namespace MoreMountains.Tools
                 if (CurrentState == ButtonStates.Off)
                 {
                     CurrentState = ButtonStates.ButtonEnter;
-                }
-            }
+					ButtonEnteredFirstTime?.Invoke();
+				}
+			}
             isInArea = true;
         }
 
@@ -363,6 +373,7 @@ namespace MoreMountains.Tools
                 if (CurrentState == ButtonStates.ButtonEnter)
                 {
                     CurrentState = ButtonStates.Off;
+					ButtonLeaved.Invoke();
                 }
             }
             isInArea = false;

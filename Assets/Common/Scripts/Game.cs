@@ -368,5 +368,15 @@ public class Game
         return m_SkillSystem.GetSkillsToUnlock();
     }
 
+    public SkillInstanceBase GetExecutingSkill()
+    {
+        return m_SkillSystem.GetExecutingSkill();
+    }
+
+    public void SetExecutingSkill(SkillInstanceBase skill)
+    {
+        m_SkillSystem.SetExecutingSkill(skill);
+    }
+
     #endregion
 }

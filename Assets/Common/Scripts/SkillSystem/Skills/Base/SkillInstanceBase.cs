@@ -33,7 +33,6 @@ public class SkillInstanceBase
 
     public virtual void Execute(ISkillCore instance)
     {
-        m_SkillState = SkillState.Playing;
         foreach (var trigger in m_SkillTrigers)
         {
             trigger.Value.Execute(instance);
@@ -57,9 +56,25 @@ public class SkillInstanceBase
     }
 
     /// <summary>
+    /// 关闭技能指示器
+    /// </summary>
+    public virtual void CloseIndicator()
+    {
+
+    }
+
+    /// <summary>
     /// 显示技能发射器
     /// </summary>
     public virtual void ShowEmitter()
+    {
+
+    }
+
+    /// <summary>
+    /// 关闭技能发射器
+    /// </summary>
+    public virtual void CloseEmitter()
     {
 
     }
@@ -80,10 +95,21 @@ public class SkillInstanceBase
           
     }
 
+    /// <summary>
+    /// 每个技能一开始必须调用
+    /// </summary>
+    protected virtual void OnSkillStart()
+    {
+        m_SkillState = SkillState.Playing;
+        Game.Instance.SetCanInput(false);
+        Game.Instance.SetExecutingSkill(this);
+    }
+
     protected virtual void OnSkillEnd()
     {
         m_SkillState = SkillState.Ready;
         Game.Instance.SetCanInput(true);
+        Game.Instance.NotifyEvent(ENUM_GameEvent.SkillEnd);
     }
 
 

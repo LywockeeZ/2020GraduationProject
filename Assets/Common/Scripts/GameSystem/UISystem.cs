@@ -87,7 +87,7 @@ public class UISystem : IGameSystem
                 if (Game.Instance.isTest == false)
                     Game.Instance.ShowUI("StartStageUI");
                 else
-                    Game.Instance.ShowUI("TestStartUI");
+                    Game.Instance.ShowUI("SkillSelectUI");
             });
 
         Game.Instance.RegisterEvent(ENUM_GameEvent.LoadSceneStart,

@@ -11,6 +11,7 @@ namespace MoreMountains.Tools
         public int SortingLayerID = 0;
         [ReadOnly]
         public int NumberOfCurves = 0;
+        public Vector3[] path = new Vector3[15];
 
         protected LineRenderer _lineRenderer;    
 
@@ -27,10 +28,10 @@ namespace MoreMountains.Tools
 
         protected virtual void Update()
         {
-            DrawCurve();
+            //DrawCurve();
         }
 
-        protected virtual void DrawCurve()
+        public virtual void DrawCurve()
         {
             for (int i = 0; i < NumberOfCurves; i++)
             {
@@ -41,6 +42,8 @@ namespace MoreMountains.Tools
                     Vector3 point = BezierPoint(t, AdjustmentHandles[pointIndex].position, AdjustmentHandles[pointIndex + 1].position, AdjustmentHandles[pointIndex + 2].position, AdjustmentHandles[pointIndex + 3].position);
                     _lineRenderer.positionCount = (i * NumberOfSegments) + j;                    
                     _lineRenderer.SetPosition((i * NumberOfSegments) + (j - 1), point);
+                    //曲线上的顶点加入path
+                    path[j - 1] = point;
                 }
             }
         }

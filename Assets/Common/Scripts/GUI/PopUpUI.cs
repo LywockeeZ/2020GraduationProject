@@ -28,7 +28,7 @@ public class PopUpUI : BaseUIForm
         
     }
 
-    public void Close()
+    public new void Close()
     {
         UIManager.Instance.CloseOrReturnUIForms("PopUpUI");
     }
