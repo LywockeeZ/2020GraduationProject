@@ -33,12 +33,15 @@ public class InputManager : MonoBehaviour
 
         if (!Game.Instance.isTest)
         {
-            if ((Game.Instance.GetPlayerUnit().transform.position - clickTag.transform.position).magnitude < 0.1f || !Game.Instance.GetCanInput())
+            if (Game.Instance.GetPlayerUnit() != null)
             {
-                if (!isTagFade)
+                if ((Game.Instance.GetPlayerUnit().transform.position - clickTag.transform.position).magnitude < 0.1f || !Game.Instance.GetCanInput())
                 {
-                    clickTagMaterial.DOFade(0, 0.2f);
-                    isTagFade = true;
+                    if (!isTagFade)
+                    {
+                        clickTagMaterial.DOFade(0, 0.2f);
+                        isTagFade = true;
+                    }
                 }
             }
         }

@@ -2001,17 +2001,14 @@ GameObject:
   - component: {fileID: 1448459215}
   - component: {fileID: 1448459212}
   - component: {fileID: 1448459211}
-  - component: {fileID: 1448459227}
-  - component: {fileID: 1448459237}
   - component: {fileID: 1448459236}
-  - component: {fileID: 1448459235}
   - component: {fileID: 1448459234}
   - component: {fileID: 1448459233}
   - component: {fileID: 1448459232}
   - component: {fileID: 1448459231}
-  - component: {fileID: 1448459230}
   - component: {fileID: 1448459229}
   - component: {fileID: 1448459228}
+  - component: {fileID: 1448459227}
   - component: {fileID: 1448459214}
   m_Layer: 0
   m_Name: Flowchart
@@ -2122,7 +2119,8 @@ MonoBehaviour:
     height: 859
   selectedBlocks:
   - {fileID: 1448459236}
-  selectedCommands: []
+  selectedCommands:
+  - {fileID: 1448459234}
   variables: []
   description: 
   stepPause: 0
@@ -2574,7 +2572,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentBlock: {fileID: 1448459226}
   suppressBlockAutoSelect: 0
-  message: UnlockItemA
+  message: item_WaterSac
 --- !u!114 &1448459212
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -2615,23 +2613,49 @@ MonoBehaviour:
   targetGameObjectOLD: {fileID: 0}
 --- !u!114 &1448459214
 MonoBehaviour:
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1448459189}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c43743931d28f43f89eced820d907351, type: 3}
+  m_Script: {fileID: 11500000, guid: 688e35811870d403f9e2b1ab2a699d98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemId: 75
+  itemId: 78
   indentLevel: 0
-  messageTarget: 0
-  _message:
-    stringRef: {fileID: 0}
-    stringVal: UnlockSkillB
-  messageOLD: 
+  description: 
+  targetObject: {fileID: 483249233}
+  targetComponentAssemblyName: SkillUnlocker, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null
+  targetComponentFullname: UnityEngine.Component[]
+  targetComponentText: SkillUnlocker
+  targetMethod: UnlockSkill
+  targetMethodText: 'UnlockSkill (String): Void'
+  methodParameters:
+  - objValue:
+      typeAssemblyname: System.String, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      typeFullname: System.String
+      intValue: 0
+      boolValue: 0
+      floatValue: 0
+      stringValue: skill_Slash
+      colorValue: {r: 0, g: 0, b: 0, a: 0}
+      gameObjectValue: {fileID: 0}
+      materialValue: {fileID: 0}
+      objectValue: {fileID: 0}
+      spriteValue: {fileID: 0}
+      textureValue: {fileID: 0}
+      vector2Value: {x: 0, y: 0}
+      vector3Value: {x: 0, y: 0, z: 0}
+    variableKey: 
+  saveReturnValue: 0
+  returnValueVariableKey: 
+  returnValueType: System.Void
+  showInherited: 0
+  callMode: 0
 --- !u!114 &1448459215
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -2921,7 +2945,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 257.3277
     y: 215
-    width: 122.34042
+    width: 134.25531
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -2935,64 +2959,12 @@ MonoBehaviour:
   - {fileID: 1448459217}
   - {fileID: 1448459216}
   - {fileID: 1448459215}
-  - {fileID: 1448459237}
   - {fileID: 1448459212}
   - {fileID: 1448459214}
   suppressAllAutoSelections: 0
 --- !u!114 &1448459227
 MonoBehaviour:
-  m_ObjectHideFlags: 2
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1448459189}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c43743931d28f43f89eced820d907351, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemId: 65
-  indentLevel: 0
-  messageTarget: 0
-  _message:
-    stringRef: {fileID: 0}
-    stringVal: UnlockItemA
-  messageOLD: 
---- !u!114 &1448459228
-MonoBehaviour:
-  m_ObjectHideFlags: 2
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1448459189}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d7d417659cd54a6787f70f763950c34, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parentBlock: {fileID: 1448459236}
-  suppressBlockAutoSelect: 0
-  message: UnlockSkillB
---- !u!114 &1448459229
-MonoBehaviour:
-  m_ObjectHideFlags: 2
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1448459189}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17a200dbd67304446a3019434503338a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemId: 74
-  indentLevel: 0
-  targetObject: {fileID: 816182495}
-  methodName: InputOn
-  delay: 0
---- !u!114 &1448459230
-MonoBehaviour:
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -3002,7 +2974,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 688e35811870d403f9e2b1ab2a699d98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemId: 73
+  itemId: 77
   indentLevel: 0
   description: 
   targetObject: {fileID: 483249233}
@@ -3020,7 +2992,7 @@ MonoBehaviour:
       intValue: 0
       boolValue: 0
       floatValue: 0
-      stringValue: skill_Slash
+      stringValue: item_WaterSac
       colorValue: {r: 0, g: 0, b: 0, a: 0}
       gameObjectValue: {fileID: 0}
       materialValue: {fileID: 0}
@@ -3035,6 +3007,38 @@ MonoBehaviour:
   returnValueType: System.Void
   showInherited: 0
   callMode: 0
+--- !u!114 &1448459228
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448459189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d7d417659cd54a6787f70f763950c34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentBlock: {fileID: 1448459236}
+  suppressBlockAutoSelect: 0
+  message: skill_Slash
+--- !u!114 &1448459229
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448459189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17a200dbd67304446a3019434503338a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemId: 74
+  indentLevel: 0
+  targetObject: {fileID: 816182495}
+  methodName: InputOn
+  delay: 0
 --- !u!114 &1448459231
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -3139,24 +3143,6 @@ MonoBehaviour:
   targetObject: {fileID: 816182495}
   methodName: InputOff
   delay: 0
---- !u!114 &1448459235
-MonoBehaviour:
-  m_ObjectHideFlags: 2
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1448459189}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3315ad2ebb85443909a1203d56d9344e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemId: 68
-  indentLevel: 0
-  _duration:
-    floatRef: {fileID: 0}
-    floatVal: 1
-  durationOLD: 0
 --- !u!114 &1448459236
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -3173,7 +3159,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 425.53198
     y: 208.14896
-    width: 122.34042
+    width: 121.48936
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -3182,59 +3168,12 @@ MonoBehaviour:
   description: 
   eventHandler: {fileID: 1448459228}
   commandList:
-  - {fileID: 1448459235}
   - {fileID: 1448459234}
   - {fileID: 1448459233}
   - {fileID: 1448459232}
   - {fileID: 1448459231}
-  - {fileID: 1448459230}
   - {fileID: 1448459229}
   suppressAllAutoSelections: 0
---- !u!114 &1448459237
-MonoBehaviour:
-  m_ObjectHideFlags: 2
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1448459189}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 688e35811870d403f9e2b1ab2a699d98, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemId: 66
-  indentLevel: 0
-  description: 
-  targetObject: {fileID: 483249233}
-  targetComponentAssemblyName: SkillUnlocker, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-    PublicKeyToken=null
-  targetComponentFullname: UnityEngine.Component[]
-  targetComponentText: SkillUnlocker
-  targetMethod: UnlockSkill
-  targetMethodText: 'UnlockSkill (String): Void'
-  methodParameters:
-  - objValue:
-      typeAssemblyname: System.String, mscorlib, Version=4.0.0.0, Culture=neutral,
-        PublicKeyToken=b77a5c561934e089
-      typeFullname: System.String
-      intValue: 0
-      boolValue: 0
-      floatValue: 0
-      stringValue: item_WaterSac
-      colorValue: {r: 0, g: 0, b: 0, a: 0}
-      gameObjectValue: {fileID: 0}
-      materialValue: {fileID: 0}
-      objectValue: {fileID: 0}
-      spriteValue: {fileID: 0}
-      textureValue: {fileID: 0}
-      vector2Value: {x: 0, y: 0}
-      vector3Value: {x: 0, y: 0, z: 0}
-    variableKey: 
-  saveReturnValue: 0
-  returnValueVariableKey: 
-  returnValueType: System.Void
-  showInherited: 0
-  callMode: 0
 --- !u!1 &1453835202
 GameObject:
   m_ObjectHideFlags: 0

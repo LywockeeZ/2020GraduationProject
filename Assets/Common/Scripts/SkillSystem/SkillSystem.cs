@@ -160,4 +160,9 @@ public class SkillSystem : IGameSystem
     {
         return m_skillToUnlock;
     }
+
+    public void ClearUnlockedSkill()
+    {
+        m_UnlockSkills.Clear();
+    }
 }
