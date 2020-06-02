@@ -378,5 +378,9 @@ public class Game
         m_SkillSystem.SetExecutingSkill(skill);
     }
 
+    public void ClearUnlockedSkills()
+    {
+        m_SkillSystem.ClearUnlockedSkill();
+    }
     #endregion
 }

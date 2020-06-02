@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fungus;
 
 public class SkillUnlocker : MonoBehaviour
 {
@@ -11,7 +12,17 @@ public class SkillUnlocker : MonoBehaviour
             Debug.LogError("SkillName不能为空");
         }
         else
-            Game.Instance.UnlockSkill(name);
+        {
+            Dictionary<string, SkillInstanceBase> unlockskills = Game.Instance.GetUnlockSkills();
+            SkillInstanceBase skill = null;
+            unlockskills.TryGetValue(name, out skill);
+            if (skill == null)
+            {
+                Game.Instance.UnlockSkill(name);
+                Flowchart.BroadcastFungusMessage(name);
+            }
+
+        }
     }
 
 }

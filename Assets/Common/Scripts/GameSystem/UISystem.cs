@@ -120,7 +120,9 @@ public class UISystem : IGameSystem
 
     public override void Update()
     {
-        if (SceneManager.GetActiveScene().name != "StartScene")
+        if (SceneManager.GetActiveScene().name != "StartScene" && 
+            SceneManager.GetActiveScene().name != "StartSceneBack" &&
+            SceneManager.GetActiveScene().name != "LevelSelector")
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {

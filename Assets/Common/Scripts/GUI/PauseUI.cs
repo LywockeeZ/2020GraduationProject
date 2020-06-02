@@ -12,7 +12,7 @@ public class PauseUI : BaseUIForm
     {
         CurrentUIType.UIForm_Type = UIFormType.PopUp;
         CurrentUIType.UIForm_ShowMode = UIFormShowMode.ReverseChange;
-        CurrentUIType.UIForm_LucencyType = UIFormLucencyType.Translucence;
+        CurrentUIType.UIForm_LucencyType = UIFormLucencyType.Lucency;
         restartBtnObj = UnityTool.FindChildGameObject(gameObject, "Btn_restart");
         restartBtn = UITool.GetUIComponent<MMTouchButton>(restartBtnObj, "Background");
     }

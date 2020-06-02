@@ -1686,10 +1686,9 @@ GameObject:
   - component: {fileID: 1448459248}
   - component: {fileID: 1448459247}
   - component: {fileID: 1448459246}
-  - component: {fileID: 1448459245}
   - component: {fileID: 1448459252}
   - component: {fileID: 1448459253}
-  - component: {fileID: 1448459254}
+  - component: {fileID: 1448459245}
   m_Layer: 0
   m_Name: Flowchart
   m_TagString: Untagged
@@ -1797,9 +1796,8 @@ MonoBehaviour:
     width: 1114
     height: 859
   selectedBlocks:
-  - {fileID: 1448459251}
-  selectedCommands:
-  - {fileID: 1448459254}
+  - {fileID: 1448459192}
+  selectedCommands: []
   variables: []
   description: 
   stepPause: 0
@@ -3020,23 +3018,49 @@ MonoBehaviour:
   setSayDialog: {fileID: 3802674186586879231}
 --- !u!114 &1448459245
 MonoBehaviour:
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1448459189}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c43743931d28f43f89eced820d907351, type: 3}
+  m_Script: {fileID: 11500000, guid: 688e35811870d403f9e2b1ab2a699d98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemId: 66
+  itemId: 71
   indentLevel: 0
-  messageTarget: 0
-  _message:
-    stringRef: {fileID: 0}
-    stringVal: UnlockSkillA
-  messageOLD: 
+  description: 
+  targetObject: {fileID: 1166188708}
+  targetComponentAssemblyName: SkillUnlocker, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null
+  targetComponentFullname: UnityEngine.Component[]
+  targetComponentText: SkillUnlocker
+  targetMethod: UnlockSkill
+  targetMethodText: 'UnlockSkill (String): Void'
+  methodParameters:
+  - objValue:
+      typeAssemblyname: System.String, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      typeFullname: System.String
+      intValue: 0
+      boolValue: 0
+      floatValue: 0
+      stringValue: skill_Whirlwind
+      colorValue: {r: 0, g: 0, b: 0, a: 0}
+      gameObjectValue: {fileID: 0}
+      materialValue: {fileID: 0}
+      objectValue: {fileID: 0}
+      spriteValue: {fileID: 0}
+      textureValue: {fileID: 0}
+      vector2Value: {x: 0, y: 0}
+      vector3Value: {x: 0, y: 0, z: 0}
+    variableKey: 
+  saveReturnValue: 0
+  returnValueVariableKey: 
+  returnValueType: System.Void
+  showInherited: 0
+  callMode: 0
 --- !u!114 &1448459246
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -3081,7 +3105,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentBlock: {fileID: 1448459251}
   suppressBlockAutoSelect: 0
-  message: UnlockSkillA
+  message: skill_Whirlwind
 --- !u!114 &1448459248
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -3159,7 +3183,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 274
     y: 298
-    width: 123.6
+    width: 134.8
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
   useCustomTint: 0
@@ -3173,7 +3197,6 @@ MonoBehaviour:
   - {fileID: 1448459246}
   - {fileID: 1448459249}
   - {fileID: 1448459252}
-  - {fileID: 1448459254}
   - {fileID: 1448459248}
   suppressAllAutoSelections: 0
 --- !u!114 &1448459252
@@ -3224,51 +3247,6 @@ MonoBehaviour:
     floatRef: {fileID: 0}
     floatVal: 1
   durationOLD: 0
---- !u!114 &1448459254
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1448459189}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 688e35811870d403f9e2b1ab2a699d98, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemId: 70
-  indentLevel: 0
-  description: 
-  targetObject: {fileID: 1166188708}
-  targetComponentAssemblyName: SkillUnlocker, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-    PublicKeyToken=null
-  targetComponentFullname: UnityEngine.Component[]
-  targetComponentText: SkillUnlocker
-  targetMethod: UnlockSkill
-  targetMethodText: 'UnlockSkill (String): Void'
-  methodParameters:
-  - objValue:
-      typeAssemblyname: System.String, mscorlib, Version=4.0.0.0, Culture=neutral,
-        PublicKeyToken=b77a5c561934e089
-      typeFullname: System.String
-      intValue: 0
-      boolValue: 0
-      floatValue: 0
-      stringValue: skill_Whirlwind
-      colorValue: {r: 0, g: 0, b: 0, a: 0}
-      gameObjectValue: {fileID: 0}
-      materialValue: {fileID: 0}
-      objectValue: {fileID: 0}
-      spriteValue: {fileID: 0}
-      textureValue: {fileID: 0}
-      vector2Value: {x: 0, y: 0}
-      vector3Value: {x: 0, y: 0, z: 0}
-    variableKey: 
-  saveReturnValue: 0
-  returnValueVariableKey: 
-  returnValueType: System.Void
-  showInherited: 0
-  callMode: 0
 --- !u!1 &1463593524
 GameObject:
   m_ObjectHideFlags: 0
