@@ -163,6 +163,11 @@ public class SkillSystem : IGameSystem
 
     public void ClearUnlockedSkill()
     {
-        m_UnlockSkills.Clear();
+        foreach (KeyValuePair<string, SkillInstanceBase> skill in m_UnlockSkills)
+        {
+            if(skill.Key != "skill_NormalAttack")
+                m_UnlockSkills.Remove(skill.Key);
+        }
+        
     }
 }
