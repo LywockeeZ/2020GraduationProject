@@ -378,6 +378,16 @@ public class Game
         m_SkillSystem.SetExecutingSkill(skill);
     }
 
+    public SkillInstanceBase GetSelectedSkill()
+    {
+        return m_SkillSystem.GetSelectedSkill();
+    }
+
+    public void SetSelectedSkill(SkillInstanceBase skill)
+    {
+        m_SkillSystem.SetSelectedSkill(skill);
+    }
+
     public void ClearUnlockedSkills()
     {
         m_SkillSystem.ClearUnlockedSkill();

@@ -9,14 +9,14 @@ using Fungus;
 
 public class WaterSac : SkillInstanceBase
 {
-    private Coroutine m_coroutine;
     private float m_StartTime = 0f;
     private List<BaseUnit> targetUnits = new List<BaseUnit>();
     private BaseUnit chooseUnit;
     private GameObject itemTrail;
-    private GameObject shuinang;
+    private GameObject waterSac;
     private MMBezierLineRenderer bezierLine = null;
     private Vector3[] path;
+    private bool isSkillStart = false;
 
     public WaterSac(string name) : base(name)
     {
@@ -38,10 +38,11 @@ public class WaterSac : SkillInstanceBase
 
     public override void ShowEmitter()
     {
+        base.ShowEmitter();
         Debug.Log("ShowEmittor:" + SkillName);
         Highlight(Color.red, true);
         Game.Instance.SetCanInput(false);
-        m_coroutine = CoroutineManager.StartCoroutineReturn(SkillEmitter());
+        m_skillEmitterCoroutine = CoroutineManager.StartCoroutineReturn(SkillEmitter());
     }
 
     /// <summary>
@@ -52,14 +53,15 @@ public class WaterSac : SkillInstanceBase
         Debug.Log("CloseEmittor:" + SkillName);
         Game.Instance.SetCanInput(true);
         HideEmitter();
-        CoroutineManager.StopCoroutine(m_coroutine);
+        CoroutineManager.StopCoroutine(m_skillEmitterCoroutine);
     }
 
     /// <summary>
     /// 由内部调用，仅仅隐藏技能发射器
     /// </summary>
-    private void HideEmitter()
+    protected override void HideEmitter()
     {
+        base.HideEmitter();
         Highlight(Color.blue, false);
         itemTrail?.SetActive(false);
         targetUnits.Clear();
@@ -103,47 +105,50 @@ public class WaterSac : SkillInstanceBase
             else itemTrail?.SetActive(false);
             yield return null;
         } while (!isEnd);
-        CoroutineManager.StopCoroutine(m_coroutine);
+        CoroutineManager.StopCoroutine(m_skillEmitterCoroutine);
     }
 
 
     public override void Execute(ISkillCore instance)
     {
-        OnSkillStart();
-        HideEmitter();
-
         //先将技能逻辑注册给动画，再开始触发动画触发器
         WeaponController.Instance.setWaterSac += setWaterSac;
         WeaponController.Instance.throwWaterSac += throwWaterSac;
         WeaponController.Instance.EndKnife();
-
-        Player player = (Player)instance.UpperUnit;
-        player.transform.DOLookAt(chooseUnit.Model.transform.position, 0.5f).OnComplete(() => {
-            base.Execute(instance);
-        });
-
+        base.Execute(instance);
     }
 
     void setWaterSac()
     {
-        shuinang = GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>("Prefabs/Items/daoju_shuinang", WeaponController.Instance.handPos.position);
-        shuinang.transform.SetParent(WeaponController.Instance.handPos);
+        waterSac = GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>("Prefabs/Items/daoju_shuinang", WeaponController.Instance.rightHandPos.position);
+        waterSac.transform.SetParent(WeaponController.Instance.rightHandPos);
     }
 
     void throwWaterSac()
     {
-        DoSkillLogic();
+        isSkillStart = true;
     }
 
-
-
-    private void DoSkillLogic()
+    protected override IEnumerator SkillProcess(ISkillCore instance)
     {
-        shuinang.transform.SetParent(null);
-        //shuinang.transform.GetChild(0).DOLocalRotate(new Vector3, 1.5f);
-        shuinang.transform.DOLocalPath(bezierLine.path, 0.8f, PathType.CatmullRom).SetEase(Ease.Linear).OnComplete(() =>
+        WaitForSeconds startTime =  new WaitForSeconds(m_StartTime);
+        yield return startTime;
+
+        Player player = (Player)instance.UpperUnit;
+        tweeners.Add(player.transform.DOLookAt(chooseUnit.Model.transform.position, 0.5f));
+        WaitForSeconds time = new WaitForSeconds(0.5f);
+        yield return time;
+
+        while(!isSkillStart)
         {
-            GameObject.Destroy(shuinang);
+            yield return null;
+        }
+
+        waterSac.transform.SetParent(null);
+        //shuinang.transform.GetChild(0).DOLocalRotate(new Vector3, 1.5f);
+        tweeners.Add(waterSac.transform.DOLocalPath(bezierLine.path, 0.8f, PathType.CatmullRom).SetEase(Ease.Linear).OnComplete(() =>
+        {
+            GameObject.Destroy(waterSac);
             if (chooseUnit.UpperUnit.ControlType == ENUM_UpperUnitControlType.Fixed)
             {
                 chooseUnit.UpperGameObject.GetComponent<IFixedUnit>().Handle(false);
@@ -151,17 +156,20 @@ public class WaterSac : SkillInstanceBase
             else
                 chooseUnit.SetState(new Water(chooseUnit));
             OnTriggerComplete();
-        });
-
-
+            CoroutineManager.StopCoroutine(m_skillProcessCoroutine);
+        }));
     }
+
 
     protected override void OnSkillEnd()
     {
-        base.OnSkillEnd();
         WeaponController.Instance.StartKnife();
         WeaponController.Instance.setWaterSac -= setWaterSac;
         WeaponController.Instance.throwWaterSac -= throwWaterSac;
+        isSkillStart = false;
+        if(waterSac != null)
+            GameObject.Destroy(waterSac);
+        base.OnSkillEnd();
     }
 
     /// <summary>
@@ -231,7 +239,7 @@ public class WaterSac : SkillInstanceBase
     {
         if (unit != null && unit.State.StateType != ENUM_State.Block)
         {
-            unit.SetState(new Water(unit), null);
+            unit.SetState(new Water(unit));
         }
     }
 

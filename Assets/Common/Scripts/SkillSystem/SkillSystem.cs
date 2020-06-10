@@ -5,6 +5,7 @@ using UnityEngine;
 public class SkillSystem : IGameSystem
 {
     private SkillInstanceBase skillExecuting = null;
+    private SkillInstanceBase selectedSkill = null;
 
     /// <summary>
     /// 待执行的技能队列
@@ -65,6 +66,10 @@ public class SkillSystem : IGameSystem
             OnStageRestart = (Message evt) =>
             {
                 SetMainSkill(null);
+                if(skillExecuting != null)
+                {
+                    skillExecuting.Reset();
+                }
             });
 
     }
@@ -103,6 +108,8 @@ public class SkillSystem : IGameSystem
         UnlockSkill("skill_Whirlwind");
         UnlockSkill("skill_Slash");
         UnlockSkill("item_WaterSac");
+        UnlockSkill("item_Pump");
+        UnlockSkill("item_WaterBag");
     }
 
     public void SetMainSkill(string skillName)
@@ -149,6 +156,16 @@ public class SkillSystem : IGameSystem
     public void SetExecutingSkill(SkillInstanceBase skill)
     {
         skillExecuting = skill;
+    }
+
+    public void SetSelectedSkill(SkillInstanceBase skill)
+    {
+        selectedSkill = skill;
+    }
+
+    public SkillInstanceBase GetSelectedSkill()
+    {
+        return selectedSkill;
     }
 
     public Dictionary<string, SkillInstanceBase> GetUnlockedSkills()

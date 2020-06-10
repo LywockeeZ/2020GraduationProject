@@ -34,7 +34,7 @@ public struct UpperUnit
 
 
 
-public class BaseUnit 
+public class BaseUnit : MonoBehaviour
 {
     //对周围单元的引用
     public BaseUnit Up    { get { return _up   ; } }
@@ -85,8 +85,10 @@ public class BaseUnit
 
     #endregion
 
-
-    public BaseUnit(GameObject _model, NormalStageData _stage)
+    /// <summary>
+    /// 外部调用用来初始化单元
+    /// </summary>
+    public void BaseUnitInit(GameObject _model, NormalStageData _stage)
     {
         currentStage = _stage;
         Model = _model;
@@ -119,6 +121,7 @@ public class BaseUnit
 
         UpperGameObject = null;
         ClearAround();
+        Destroy(this);
     }
 
 

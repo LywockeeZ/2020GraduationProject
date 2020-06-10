@@ -7,9 +7,6 @@ using System;
 
 public class Slash : SkillInstanceBase
 {
-    private Coroutine m_coroutine;
-    private Coroutine m_coroutine1;
-
     private float m_StartTime = 0f;
     /// <summary>
     /// 技能选择器选中的单元
@@ -26,7 +23,7 @@ public class Slash : SkillInstanceBase
     /// <summary>
     /// 存放路径上单元的列表
     /// </summary>
-    private List<BaseUnit> unitsOnPath;
+    private List<BaseUnit> unitsOnPath;     
 
 
 
@@ -49,10 +46,11 @@ public class Slash : SkillInstanceBase
 
     public override void ShowEmitter()
     {
+        base.ShowEmitter();
         Debug.Log("ShowEmittor:" + SkillName);
         Game.Instance.SetCanInput(false);
         Highlight(Color.red, Game.Instance.GetPlayerUnit().CurrentOn);
-        m_coroutine = CoroutineManager.StartCoroutineReturn(SkillEmitter());
+        m_skillEmitterCoroutine = CoroutineManager.StartCoroutineReturn(SkillEmitter());
     }
 
     public override void CloseEmitter()
@@ -60,11 +58,12 @@ public class Slash : SkillInstanceBase
         Debug.Log("CloseEmittor:" + SkillName);
         Game.Instance.SetCanInput(true);
         HideEmitter();
-        CoroutineManager.StopCoroutine(m_coroutine);
+        CoroutineManager.StopCoroutine(m_skillEmitterCoroutine);
     }
 
-    private void HideEmitter()
+    protected override void HideEmitter()
     {
+        base.HideEmitter();
         Highlight(Color.red, Game.Instance.GetPlayerUnit().CurrentOn, false);
     }
 
@@ -132,69 +131,28 @@ public class Slash : SkillInstanceBase
             }
             yield return null;
         } while (!isEnd);
-        CoroutineManager.StopCoroutine(m_coroutine);
+        CoroutineManager.StopCoroutine(m_skillEmitterCoroutine);
     }
 
 
-    public override void Execute(ISkillCore instance)
+    protected override IEnumerator SkillProcess(ISkillCore instance)
     {
-        HideEmitter();
-        OnSkillStart();
-        base.Execute(instance);
-        void action() { DoSkillLogic(instance); }
-        CoroutineManager.StartCoroutineTask(action, m_StartTime);
-    }
-
-
-    private void DoSkillLogic(ISkillCore instance)
-    {
-        Game.Instance.SetCanInput(false);
+        WaitForSeconds startTime =  new WaitForSeconds(m_StartTime);
+        yield return startTime;
         Player player = (Player)instance.UpperUnit;
 
         //获取路径上所有单元
         unitsOnPath = FindUnitsOnPath(chooseUnit);
-        player.transform.DOLookAt(chooseUnit.Model.transform.position, 0.3f).OnComplete(()=> {
+        tweeners.Add(player.transform.DOLookAt(chooseUnit.Model.transform.position, 0.3f).OnComplete(()=> {
             //开始移动
             player.Agent.acceleration = 10f;
             player.Agent.speed = 8f;
             player.MoveByNavMeshInSkill(finalUnitOnPath.Model.transform.position);
-        });
+        }));
 
-        //开始改变路径上单元的状态
-        m_coroutine1 =  CoroutineManager.StartCoroutineReturn(EndFireProcess());
-
-        bool JudgeIsEnd()
-        {
-            if (unitsOnPath.Count != 0)
-            {
-                return false;
-            }
-            else
-                return true;
-        }
-        void OnEndFireProcessEnd()
-        {
-            player.Agent.velocity = Vector3.zero;
-            player.Agent.acceleration = 6f;
-            player.Agent.speed = 1.5f;
-            player.UpdateUnit(finalUnitOnPath);
-            player.SkillAnimator.SetTrigger("skill_SlashEnd");
-            if (pathNextUnit != null)
-            {
-                pathNextUnit.UpperGameObject.GetComponent<IFixedUnit>().Handle(false);
-                pathNextUnit = null;
-            }
-
-            OnTriggerComplete();
-
-        }
-        CoroutineManager.StartCoroutineTask(JudgeIsEnd, OnEndFireProcessEnd, 0f);
-
-    }
-
-    IEnumerator EndFireProcess()
-    {
         WaitForSeconds waitTime = new WaitForSeconds(0.1f);
+        yield return waitTime;
+        //开始改变路径上单元的状态
         do
         {
             Vector2 playerPos = new Vector2(Game.Instance.GetPlayerUnit().transform.position.x, Game.Instance.GetPlayerUnit().transform.position.z);
@@ -212,9 +170,42 @@ public class Slash : SkillInstanceBase
                 }
                 unitsOnPath.RemoveAt(0);
             }
+            
+            if(unitsOnPath.Count == 0)
+            {
+                OnEndFireProcessEnd();
+            }
             yield return null;
         } while (unitsOnPath.Count != 0);
-        CoroutineManager.StopCoroutine(m_coroutine1);
+        CoroutineManager.StopCoroutine(m_skillProcessCoroutine);
+    }
+
+
+    private void OnEndFireProcessEnd()
+    {
+        Player player = Game.Instance.GetPlayerUnit();
+        player.Agent.velocity = Vector3.zero;
+        player.Agent.acceleration = 6f;
+        player.Agent.speed = 1.5f;
+        player.UpdateUnit(finalUnitOnPath);
+        player.SkillAnimator.SetTrigger("skill_SlashEnd");
+        if (pathNextUnit != null)
+        {
+            pathNextUnit.UpperGameObject.GetComponent<IFixedUnit>().Handle(false);
+            pathNextUnit = null;
+        }
+
+         OnTriggerComplete();
+
+    }
+
+    protected override void OnSkillEnd()
+    {
+        base.OnSkillEnd();
+        Player player = Game.Instance.GetPlayerUnit();
+        player.Agent.velocity = Vector3.zero;
+        player.Agent.acceleration = 6f;
+        player.Agent.speed = 1.5f;
     }
 
     private List<BaseUnit> FindUnitsOnPath(BaseUnit chooseUnit)

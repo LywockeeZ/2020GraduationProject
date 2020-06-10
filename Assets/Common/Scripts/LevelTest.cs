@@ -37,6 +37,7 @@ public class LevelTest : MonoBehaviour
             //开始界面加载而来的关卡，开始前显示关卡名
             if (SceneManager.GetActiveScene().name == "NewStage")
             {
+                Game.Instance.UnlockAllSkill();
                 StartMessage = GameTest.Instance.CurrentStage;
                 Game.Instance.NotifyEvent(ENUM_GameEvent.StageBegain, GameTest.Instance.CurrentStage);
             }

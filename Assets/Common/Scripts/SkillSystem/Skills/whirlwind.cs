@@ -6,7 +6,7 @@ using HighlightingSystem;
 public class Whirlwind : SkillInstanceBase
 {
     private float m_StartTime = 0.8f;
-    private Coroutine m_coroutine;
+
 
     public Whirlwind(string name) : base(name)
     {
@@ -26,10 +26,11 @@ public class Whirlwind : SkillInstanceBase
 
     public override void ShowEmitter()
     {
+        base.ShowEmitter();
         Debug.Log("ShowEmittor:" + SkillName);
         Game.Instance.SetCanInput(false);
         Highlight(Color.red, Game.Instance.GetPlayerUnit().CurrentOn);
-        m_coroutine = CoroutineManager.StartCoroutineReturn(SkillEmitter());
+        m_skillEmitterCoroutine = CoroutineManager.StartCoroutineReturn(SkillEmitter());
     }
 
     /// <summary>
@@ -40,14 +41,15 @@ public class Whirlwind : SkillInstanceBase
         Debug.Log("CloseEmittor:" + SkillName);
         Game.Instance.SetCanInput(true);
         HideEmitter();
-        CoroutineManager.StopCoroutine(m_coroutine);
+        CoroutineManager.StopCoroutine(m_skillEmitterCoroutine);
     }
 
     /// <summary>
     /// 由内部调用，仅仅隐藏技能发射器
     /// </summary>
-    private void HideEmitter()
+    protected override void HideEmitter()
     {
+        base.HideEmitter();
         Highlight(Color.red, Game.Instance.GetPlayerUnit().CurrentOn, false);
     }
 
@@ -69,21 +71,14 @@ public class Whirlwind : SkillInstanceBase
             }
             yield return null;
         } while (!isEnd);
-        CoroutineManager.StopCoroutine(m_coroutine);
+        CoroutineManager.StopCoroutine(m_skillEmitterCoroutine);
     }
 
 
-    public override void Execute(ISkillCore instance)
+    protected override IEnumerator SkillProcess(ISkillCore instance)
     {
-        HideEmitter();
-        OnSkillStart();
-        base.Execute(instance);      
-        void action() { DoSkillLogic(instance);}
-        CoroutineManager.StartCoroutineTask(action, m_StartTime);
-    }
-
-    private void DoSkillLogic(ISkillCore instance)
-    {
+        WaitForSeconds startTime =  new WaitForSeconds(m_StartTime);
+        yield return startTime;
         Player player = (Player)instance.UpperUnit;
         BaseUnit baseUnit = player.CurrentOn;
 
@@ -96,7 +91,9 @@ public class Whirlwind : SkillInstanceBase
         EndFire(baseUnit?.Left);
         EndFire(baseUnit?.Left?.Up);
         OnTriggerComplete();
+        CoroutineManager.StopCoroutine(m_skillProcessCoroutine);
     }
+
 
     private void EndFire(BaseUnit unit)
     {

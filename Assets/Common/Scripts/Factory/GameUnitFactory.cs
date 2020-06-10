@@ -26,7 +26,8 @@ public class GameUnitFactory : IGameUnitFactory
         GameObject baseUnitObject = m_AssetFactory.InstantiateGameObject("BaseUnit", new Vector3(StartPos.x + x, StartPos.y,StartPos.z + y));
         //给所有基本单元设置一个父物体
         baseUnitObject.transform.SetParent(parent.transform);
-        BaseUnit baseUnit = new BaseUnit(baseUnitObject, currentStageData);
+        BaseUnit baseUnit = baseUnitObject.AddComponent<BaseUnit>();
+        baseUnit.BaseUnitInit(baseUnitObject, currentStageData);
         baseUnit.SetPosition(x, y);
 
 

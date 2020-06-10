@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 /// <summary>
 /// 管理SkillTrigger和Skill的触发
@@ -11,6 +12,12 @@ public class SkillInstanceBase
     public bool m_IsUsed = false;
     public SkillState m_SkillState = SkillState.Ready;
     public Dictionary<SkillTriggerType, ISkillTrigger> m_SkillTrigers = new Dictionary<SkillTriggerType, ISkillTrigger>();
+    /// <summary>
+    /// 存放正在播放的dotween动画
+    /// </summary>
+    protected List<Tweener> tweeners = new List<Tweener>();
+    protected Coroutine m_skillEmitterCoroutine;
+    protected Coroutine m_skillProcessCoroutine;
     private int completeCount = 0;
 
     public SkillInstanceBase(string name) { SkillName = name; }
@@ -33,18 +40,38 @@ public class SkillInstanceBase
 
     public virtual void Execute(ISkillCore instance)
     {
+        HideEmitter();
+        OnSkillStart();
         foreach (var trigger in m_SkillTrigers)
         {
             trigger.Value.Execute(instance);
         }
+        DoSkillLogic(instance);
     }
 
     public virtual void Reset()
     {
+        if(Game.Instance.GetSelectedSkill() != null)
+            Game.Instance.GetSelectedSkill().HideEmitter();
+
         foreach(var trigger in m_SkillTrigers)
         {
             trigger.Value.Reset();
         }
+
+        if(tweeners.Count != 0)
+        {
+            foreach(var tweener in tweeners)
+            {
+                if(tweener != null && !tweener.IsComplete())
+                    tweener.Kill();
+            }
+        }
+        tweeners.Clear();
+        if(m_skillProcessCoroutine != null)
+            CoroutineManager.StopCoroutine(m_skillProcessCoroutine);
+        OnSkillEnd();
+        completeCount = 0;
     }
 
     /// <summary>
@@ -68,7 +95,7 @@ public class SkillInstanceBase
     /// </summary>
     public virtual void ShowEmitter()
     {
-
+        Game.Instance.SetSelectedSkill(this);
     }
 
     /// <summary>
@@ -77,6 +104,21 @@ public class SkillInstanceBase
     public virtual void CloseEmitter()
     {
 
+    }
+
+    protected virtual void HideEmitter()
+    {
+        Game.Instance.SetSelectedSkill(null);
+    }
+
+    protected virtual void DoSkillLogic(ISkillCore instance)
+    {
+        m_skillProcessCoroutine =  CoroutineManager.StartCoroutineReturn(SkillProcess(instance));
+    }
+
+    protected virtual IEnumerator SkillProcess(ISkillCore instance)
+    {
+        yield return null;
     }
 
     /// <summary>
@@ -110,6 +152,7 @@ public class SkillInstanceBase
         m_SkillState = SkillState.Ready;
         Game.Instance.SetCanInput(true);
         Game.Instance.NotifyEvent(ENUM_GameEvent.SkillEnd);
+        tweeners.Clear();
     }
 
 

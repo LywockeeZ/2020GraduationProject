@@ -21,6 +21,12 @@ public class SkillFactory : ISkillFactory
             case "item_WaterSac":
                 skillInstance = new WaterSac(skillName);
                 break;
+            case "item_Pump":
+                skillInstance = new Pump(skillName);
+                break;
+            case "item_WaterBag":
+                skillInstance = new WaterBag(skillName);
+                break;
             default:
                 Debug.LogError("未找到技能" + skillName);
                 break;

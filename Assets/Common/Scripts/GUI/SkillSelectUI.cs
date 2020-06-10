@@ -51,6 +51,8 @@ public class SkillSelectUI : BaseUIForm, ISelectItem
         AddButton("skill_Whirlwind", skillBtns[0]);
         AddButton("skill_Slash", skillBtns[1]);
         AddButton("item_WaterSac", itemBtns[0]);
+        AddButton("item_Pump", itemBtns[1]);
+        AddButton("item_WaterBag", itemBtns[2]);
         LoadUnLockSkill();
         CheckSkill();
         //TestAddAll();
@@ -87,7 +89,6 @@ public class SkillSelectUI : BaseUIForm, ISelectItem
             btns.TryGetValue(skill.SkillName, out MSkillButton button);
             //button?.Unlocking();
             button.Unlocked();
-            Debug.Log(button.SkBtnState);
 
         }
     }
