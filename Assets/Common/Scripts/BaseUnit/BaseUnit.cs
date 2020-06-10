@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using HighlightingSystem;
 
 /// <summary>
 /// 存放上层单元信息的结构体，包括单元类型，玩家操控类型，火焰触发类型
@@ -121,6 +122,7 @@ public class BaseUnit : MonoBehaviour
 
         UpperGameObject = null;
         ClearAround();
+        transform.GetChild(0).GetComponent<Highlighter>().ConstantOffImmediate();
         Destroy(this);
     }
 

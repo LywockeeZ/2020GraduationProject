@@ -93,14 +93,29 @@ public class SkillSystem : IGameSystem
         return skillInstance;
     }
 
-    public void UnlockSkill(string skillName)
+    public bool UnlockSkill(string skillName)
     {
-        SkillInstanceBase skillInstance = GameFactory.GetSkillFactory().GetSkillInstance(skillName);
-        if (skillName != "skill_NormalAttack")
+        if (string.IsNullOrEmpty(skillName))
         {
-            m_skillToUnlock.Enqueue(skillInstance);
+            Debug.LogError("SkillName不能为空");
+            return false;
         }
-        m_UnlockSkills.Add(skillName, skillInstance);
+        else
+        {
+            SkillInstanceBase skill = null;
+            m_UnlockSkills.TryGetValue(skillName, out skill);
+            if (skill == null)
+            {
+                SkillInstanceBase skillInstance = GameFactory.GetSkillFactory().GetSkillInstance(skillName);
+                if (skillName != "skill_NormalAttack")
+                {
+                    m_skillToUnlock.Enqueue(skillInstance);
+                }
+                m_UnlockSkills.Add(skillName, skillInstance);
+                return true;
+            }
+            else return false;
+        }
     }
 
     public void UnlockAllSkill()

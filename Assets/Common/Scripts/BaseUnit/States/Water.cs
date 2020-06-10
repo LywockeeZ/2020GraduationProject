@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,6 +14,8 @@ public class Water : IState
 
     private int beFiredCount = 2;   //水能承受火的次数
     private bool isUpdating = false;//切换为雾的标签
+    private GameObject waterEffect;
+    private GameObject waterSmokeEffect;
     #endregion
 
     public Water(BaseUnit owner) : base(owner)
@@ -54,7 +57,7 @@ public class Water : IState
             else
             {
                 GameFactory.GetAssetFactory().DestroyGameObject<GameObject>(Model);
-                SetWaterFogModel();
+                SetWaterFogModel();             
             }
 
         }
@@ -63,8 +66,12 @@ public class Water : IState
 
     public override void OnStateEnd()
     {
-        DetachEvnt();
-        GameFactory.GetAssetFactory().DestroyGameObject<GameObject>(Model);
+        Model.transform.GetChild(0).GetComponent<MeshRenderer>().material.DOFade(0, 0.5f).OnComplete(() => {
+            DetachEvnt();
+            GameObject.Destroy(waterEffect);
+            GameObject.Destroy(waterSmokeEffect);
+            GameFactory.GetAssetFactory().DestroyGameObject<GameObject>(Model);
+        });
     }
 
 
@@ -93,10 +100,12 @@ public class Water : IState
     /// </summary>
     private void SetWaterModel()
     {
+        waterEffect = GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>("Effects/WaterDrop", Owner.transform.position);
         Model = GameFactory.GetAssetFactory().InstantiateGameObject("Water",
             GetTargetPos(Owner.Model.transform.position, _height));
         Model.transform.SetParent(Owner.Model.transform);
         Model.transform.GetChild(0).GetComponent<MeshRenderer>().material.mainTextureOffset = new Vector2((Model.transform.position.x % 3) * 0.333f, (Model.transform.position.z % 3) * 0.333f);
+        Model.transform.GetChild(0).GetComponent<MeshRenderer>().material.DOFade(1, 0.5f).From(0);
     }
 
 
@@ -105,10 +114,12 @@ public class Water : IState
     /// </summary>
     private void SetWaterFogModel()
     {
+        waterSmokeEffect = GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>("Effects/WaterSmoke", Owner.transform.position);
         Model = GameFactory.GetAssetFactory().InstantiateGameObject("WaterFog",
             GetTargetPos(Owner.Model.transform.position, _height));
         Model.transform.SetParent(Owner.Model.transform);
         Model.transform.GetChild(0).GetComponent<MeshRenderer>().material.mainTextureOffset = new Vector2((Model.transform.position.x % 3) * 0.333f, (Model.transform.position.z % 3) * 0.333f);
+        Model.transform.GetChild(0).GetComponent<MeshRenderer>().material.DOFade(0.5f, 0.5f).From(1);
     }
 
 

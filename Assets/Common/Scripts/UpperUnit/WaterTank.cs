@@ -15,7 +15,7 @@ public class WaterTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
     #region 私有属性
     private ENUM_UpperUnit Type = ENUM_UpperUnit.WaterTank;                            //放置单元的类型
     private ENUM_UpperUnitControlType ControlType = ENUM_UpperUnitControlType.Fixed;   //放置单元的操控类型
-    private ENUM_UpperUnitBeFiredType BeFiredType = ENUM_UpperUnitBeFiredType.BeFire;
+    private ENUM_UpperUnitBeFiredType BeFiredType = ENUM_UpperUnitBeFiredType.NULL;
 
     private BaseUnit _currentOn;
     private float    _heigth    = 0f;

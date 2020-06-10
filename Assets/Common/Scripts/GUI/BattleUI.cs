@@ -55,12 +55,12 @@ public class BattleUI :BaseUIForm
             Game.Instance.CloseUI("SkillBarUI");
             if (Game.Instance.isTest)
             {
-                Game.Instance.NotifyEvent(ENUM_GameEvent.StageRestart);
+                Game.Instance.NotifyEvent(ENUM_GameEvent.StageEnd, 4);
             }
             else
             {
                 Game.Instance.NotifyEvent(ENUM_GameEvent.StageEnd, 4);
-                LevelManager.Instance.BackToLevel();
+                //LevelManager.Instance.BackToLevel();
             }
         });
 

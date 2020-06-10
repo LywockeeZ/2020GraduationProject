@@ -17,6 +17,16 @@ public class PauseUI : BaseUIForm
         restartBtn = UITool.GetUIComponent<MMTouchButton>(restartBtnObj, "Background");
     }
 
+    private void OnEnable()
+    {
+        Game.Instance.SetCanInput(false);
+    }
+
+    private void OnDisable()
+    {
+        Game.Instance.SetCanInput(true);
+    }
+
     private void Update()
     {
         if (Game.Instance.GetCanFreeMove())

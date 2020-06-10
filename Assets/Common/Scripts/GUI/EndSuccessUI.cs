@@ -38,7 +38,7 @@ public class EndSuccessUI : BaseUIForm
         if (Game.Instance.isTest)
         {
             Game.Instance.CloseUI("EndSuccessUI");
-            Game.Instance.LoadLevel("StartScene");
+            Game.Instance.LoadLevel("LevelSelector");
         }
         else
         {

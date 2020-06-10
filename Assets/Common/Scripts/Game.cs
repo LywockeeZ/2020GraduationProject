@@ -328,9 +328,9 @@ public class Game
         return m_SkillSystem.GetSkill(skillName);
     }
 
-    public void UnlockSkill(string skillName)
+    public bool UnlockSkill(string skillName)
     {
-        m_SkillSystem.UnlockSkill(skillName);
+        return m_SkillSystem.UnlockSkill(skillName);
     }
 
     public void UnlockAllSkill()

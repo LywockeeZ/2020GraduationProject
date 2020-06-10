@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
+using Fungus;
 
 public class Block : IState
 {
@@ -11,6 +13,7 @@ public class Block : IState
     private bool _canWalk = true;
     private new bool _canBeFire = false;
     private ENUM_StateBeFiredType _beFiredType = ENUM_StateBeFiredType.False;
+    private GameObject blockEffect = null;
     #endregion
 
 
@@ -40,8 +43,12 @@ public class Block : IState
 
     public override void OnStateEnd()
     {
-        GameFactory.GetAssetFactory().DestroyGameObject<GameObject>(Model);
-        Owner = null;
+        Model.transform.GetChild(0).GetComponent<MeshRenderer>().material.DOFade(0, 0.5f).OnComplete(() => {
+            GameFactory.GetAssetFactory().DestroyGameObject<GameObject>(Model);
+            GameObject.Destroy(blockEffect);
+            Owner = null;
+        });
+
     }
 
 
@@ -50,10 +57,12 @@ public class Block : IState
     /// </summary>
     private void SetBlockModel()
     {
+        blockEffect = GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>("Effects/DustExplosion", Owner.transform.position);
         Model = GameFactory.GetAssetFactory().InstantiateGameObject("Block",
                     GetTargetPos(Owner.Model.transform.position, _height));
         Model.transform.SetParent(Owner.Model.transform);
         Model.transform.GetChild(0).GetComponent<MeshRenderer>().material.mainTextureOffset = new Vector2((Model.transform.position.x % 3) * 0.333f, (Model.transform.position.z % 3) * 0.333f);
+        Model.transform.GetChild(0).GetComponent<MeshRenderer>().material.DOFade(1, 0.5f).From(0);
     }
 
 

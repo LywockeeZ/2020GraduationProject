@@ -4,8 +4,9 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: LaserToonWater
   m_Shader: {fileID: 4800000, guid: 1c90be5cb715ac44bb8a97305d42be8a, type: 3}
   m_ShaderKeywords: _USEENDROUND_ON
@@ -44,7 +45,7 @@ Material:
     - _StartRound: 6
     - _TextureVertexPower: 0.6
     - _UseEndRound: 1
-    - _VertexPower: 0.12
+    - _VertexPower: 0.1
     - __dirty: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
@@ -52,7 +53,7 @@ Material:
     - _EndPosition: {r: -10, g: 1, b: 0, a: 0}
     - _Main: {r: 0, g: 0, b: 0, a: 0}
     - _MainTexTilingXYNoiseTilingZW: {r: 0.6, g: 0.4, b: 1, a: 0.1}
-    - _SpeedMainTexUVNoiseZW: {r: -0.5, g: -20, b: -0.5, a: -10}
+    - _SpeedMainTexUVNoiseZW: {r: -0.5, g: -8, b: -0.5, a: -10}
     - _StartPoint: {r: 0, g: 1, b: 0, a: 0}
     - _StartPos: {r: 0, g: 1, b: 0, a: 0}
     - _Vector0: {r: 0, g: 0, b: 0, a: 0}

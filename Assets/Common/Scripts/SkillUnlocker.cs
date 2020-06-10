@@ -7,21 +7,9 @@ public class SkillUnlocker : MonoBehaviour
 {
     public void UnlockSkill(string name)
     {
-        if (string.IsNullOrEmpty(name))
+        if (Game.Instance.UnlockSkill(name))
         {
-            Debug.LogError("SkillName不能为空");
-        }
-        else
-        {
-            Dictionary<string, SkillInstanceBase> unlockskills = Game.Instance.GetUnlockSkills();
-            SkillInstanceBase skill = null;
-            unlockskills.TryGetValue(name, out skill);
-            if (skill == null)
-            {
-                Game.Instance.UnlockSkill(name);
-                Flowchart.BroadcastFungusMessage(name);
-            }
-
+            Flowchart.BroadcastFungusMessage(name);
         }
     }
 

@@ -16,6 +16,7 @@ public class Pump : SkillInstanceBase
     /// 存放路径上单元的列表
     /// </summary>
     private List<BaseUnit> unitsOnPath;
+    private GameObject skillEffect = null;
 
     public Pump(string name) : base(name)
     {
@@ -139,6 +140,10 @@ public class Pump : SkillInstanceBase
         yield return waitTime;
         //开始改变路径上单元的状态
         WaitForSeconds interval = new WaitForSeconds(0.2f);
+        WeaponController.Instance.firePos.forward = Game.Instance.GetPlayerUnit().transform.forward;
+        skillEffect = GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>("Effects/Laser Toon Water", WeaponController.Instance.firePos.position);
+        skillEffect.transform.forward = Game.Instance.GetPlayerUnit().transform.forward;
+        skillEffect.transform.GetChild(0).DOMove(unitsOnPath[unitsOnPath.Count - 1].transform.position, unitsOnPath.Count * 0.2f).SetEase(Ease.Linear);
         do
         {
             unitsOnPath[0].SetState(new Water(unitsOnPath[0]));
@@ -146,6 +151,8 @@ public class Pump : SkillInstanceBase
             
             if(unitsOnPath.Count == 0)
             {
+                yield return interval;
+                GameObject.Destroy(skillEffect);
                 break;
             }
             yield return interval;
@@ -154,6 +161,14 @@ public class Pump : SkillInstanceBase
         yield return new WaitForSeconds(1f);
         OnTriggerComplete();
         CoroutineManager.StopCoroutine(m_skillProcessCoroutine);
+    }
+
+    protected override void OnSkillEnd()
+    {
+        WeaponController.Instance.ResetImediately();
+        if (skillEffect != null)
+            GameObject.Destroy(skillEffect);
+        base.OnSkillEnd();
     }
 
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Timers;
+using DG.Tweening;
 
 public class Oil : IState
 {
@@ -76,8 +77,10 @@ public class Oil : IState
 
     public override void OnStateEnd()
     {
-        Owner.GetStage().oilUnits.Remove(Owner);
-        GameFactory.GetAssetFactory().DestroyGameObject<GameObject>(Model);
+        Model.transform.GetChild(0).GetComponent<MeshRenderer>().material.DOFade(0, 0.5f).OnComplete(() => {
+            Owner.GetStage().oilUnits.Remove(Owner);
+            GameFactory.GetAssetFactory().DestroyGameObject<GameObject>(Model);
+        });
     }
 
 
@@ -90,6 +93,7 @@ public class Oil : IState
             GetTargetPos(Owner.Model.transform.position, _height));
         Model.transform.SetParent(Owner.Model.transform);
         Model.transform.GetChild(0).GetComponent<MeshRenderer>().material.mainTextureOffset = new Vector2((Model.transform.position.x % 3) * 0.333f, (Model.transform.position.z % 3) * 0.333f);
+        Model.transform.GetChild(0).GetComponent<MeshRenderer>().material.DOFade(1, 0.5f).From(0);
     }
 
 

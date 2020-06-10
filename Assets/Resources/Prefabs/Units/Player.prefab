@@ -18,6 +18,7 @@ MonoBehaviour:
   rightHandPos: {fileID: 2982183557702373740}
   leftHandPos: {fileID: 5685155809631044279}
   hip: {fileID: 4084094695174648969}
+  firePos: {fileID: 5239046344226743228}
 --- !u!1 &8803965923507620028
 GameObject:
   m_ObjectHideFlags: 0
@@ -364,6 +365,12 @@ PrefabInstance:
 --- !u!1 &3544123107719649954 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5405086378929744824, guid: 124f068b6575aae45bec38fb3e9cc84e,
+    type: 3}
+  m_PrefabInstance: {fileID: 8803965923947639066}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5239046344226743228 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3645994545121546918, guid: 124f068b6575aae45bec38fb3e9cc84e,
     type: 3}
   m_PrefabInstance: {fileID: 8803965923947639066}
   m_PrefabAsset: {fileID: 0}

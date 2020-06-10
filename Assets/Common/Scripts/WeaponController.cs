@@ -19,6 +19,7 @@ public class WeaponController : Singleton<WeaponController>
     public Transform rightHandPos;
     public Transform leftHandPos;
     public Transform hip;
+    public Transform firePos;
 
     private Animator animator;
     private GameObject currentWeapon;
@@ -27,9 +28,13 @@ public class WeaponController : Singleton<WeaponController>
     private Transform originParent;
     private bool isFirstTime = true;
 
-    private void Start()
+    protected override void Awake()
     {
+        base.Awake();
         animator = GetComponent<Animator>();
+        originPos = weapons[0].transform.localPosition;
+        originRotation = weapons[0].transform.localRotation;
+        originParent = hip;
     }
 
     private void Update()
@@ -51,7 +56,7 @@ public class WeaponController : Singleton<WeaponController>
                 EndKnife();
             }
         }
-        CoroutineManager.StartCoroutineTask(action, 0.2f);
+        CoroutineManager.StartCoroutineTask(action, 0f);
         RegisterEvent();
     }
 
@@ -118,9 +123,13 @@ public class WeaponController : Singleton<WeaponController>
     {
         if (!isFirstTime)
         {
-            currentWeapon.transform.SetParent(originParent);
-            currentWeapon.transform.localPosition = originPos;
-            currentWeapon.transform.localRotation = originRotation;
+            if (currentWeapon != null)
+            {
+                currentWeapon.transform.SetParent(hip);
+                currentWeapon.transform.localPosition = new Vector3(-0.00287f, 0.00287f, 0.00439f);
+                currentWeapon.transform.localRotation = Quaternion.Euler(new Vector3(-2.589f, 53.194f, -0.568f));
+                currentWeapon = null;
+            }
         }
         else isFirstTime = false;
     }
@@ -141,6 +150,7 @@ public class WeaponController : Singleton<WeaponController>
         currentWeapon.transform.SetParent(originParent);
         currentWeapon.transform.localPosition = originPos;
         currentWeapon.transform.localRotation = originRotation;
+        currentWeapon = weapons[0];
     }
 
     public void SetWaterSac()
@@ -161,5 +171,15 @@ public class WeaponController : Singleton<WeaponController>
     public void ThrowWaterBag()
     {
         throwWaterBag.Invoke();
+    }
+
+    public void ResetImediately()
+    {
+        if (currentWeapon != null)
+        {
+            currentWeapon.transform.SetParent(originParent);
+            currentWeapon.transform.localPosition = originPos;
+            currentWeapon.transform.localRotation = originRotation;
+        }
     }
 }
