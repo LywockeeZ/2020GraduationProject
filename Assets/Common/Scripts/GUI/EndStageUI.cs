@@ -10,8 +10,8 @@ public class EndStageUI : BaseUIForm
 
     private void Awake()
     {
-        CurrentUIType.UIForm_Type = UIFormType.PopUp;
-        CurrentUIType.UIForm_ShowMode = UIFormShowMode.ReverseChange;
+        CurrentUIType.UIForm_Type = UIFormType.Normal;
+        CurrentUIType.UIForm_ShowMode = UIFormShowMode.HideOther;
         CurrentUIType.UIForm_LucencyType = UIFormLucencyType.Lucency;
 
         messageText = UITool.GetUIComponent<Text>(this.gameObject, "Txt_panel");

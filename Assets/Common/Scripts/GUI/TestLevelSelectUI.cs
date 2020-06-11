@@ -8,7 +8,7 @@ public class TestLevelSelectUI : BaseUIForm
 {
     private void Awake()
     {
-        CurrentUIType.UIForm_Type = UIFormType.Normal;
+        CurrentUIType.UIForm_Type = UIFormType.Fixed;
         CurrentUIType.UIForm_ShowMode = UIFormShowMode.HideOther;
         CurrentUIType.UIForm_LucencyType = UIFormLucencyType.Lucency;
     }
@@ -41,7 +41,7 @@ public class TestLevelSelectUI : BaseUIForm
 
     public new void Close()
     {
-        Game.Instance.CloseUI("TestLevelSelectUI");
+        Game.Instance.CloseAll();
     }
 
 }

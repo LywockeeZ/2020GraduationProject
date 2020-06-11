@@ -244,8 +244,16 @@ public class SkillSelectUI : BaseUIForm, ISelectItem
 
     public void BackButton()
     {
-        Game.Instance.GetPlayerUnit().MoveByNavMesh(Game.Instance.GetPlayerUnit().transform.position -2*Game.Instance.GetPlayerUnit().transform.forward);
-        Game.Instance.CloseUI("SkillSelectUI");
+        if (!Game.Instance.isTest)
+        {
+            Game.Instance.GetPlayerUnit().MoveByNavMesh(Game.Instance.GetPlayerUnit().transform.position - 2 * Game.Instance.GetPlayerUnit().transform.forward);
+            Game.Instance.CloseUI("SkillSelectUI");
+        }
+        else
+        {
+            Game.Instance.LoadLevel("LevelSelector");
+            Game.Instance.CloseAll();
+        }
     }
 
 
