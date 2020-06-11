@@ -142,6 +142,13 @@ public class GameUnitFactory : IGameUnitFactory
                 _bee.CurrentOn = targetUnit;
                 targetUnit.SetUpperGameObject(beeObject);
                 return beeObject;
+            case ENUM_Build_UpperUnit.Stone:
+                GameObject stoneObject = m_AssetFactory.InstantiateGameObject("Stone", targetUnit.Model.transform.position);
+                RoadBlock _stone = stoneObject.AddComponent<Stone>();
+                _stone.CurrentOn = targetUnit;
+                targetUnit.SetUpperGameObject(stoneObject);
+                stoneObject.transform.SetParent(targetUnit.Model.transform);
+                return stoneObject;
 
             default:
                 Debug.LogError("未找到此类型的单元");

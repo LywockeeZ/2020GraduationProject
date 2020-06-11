@@ -21,7 +21,7 @@ public class RoadBlock : MonoBehaviour, IUpperUnit, IFixedUnit
     #endregion
 
 
-    public void Init()
+    public virtual void Init()
     {
         _currentOn.StateEnd();
         _currentOn.SetState(new Ground(_currentOn));
@@ -33,7 +33,7 @@ public class RoadBlock : MonoBehaviour, IUpperUnit, IFixedUnit
     }
 
 
-    public void End()
+    public virtual void End()
     {
         GameFactory.GetAssetFactory().DestroyGameObject<GameObject>(this.gameObject);
         _currentOn.UpperUnit.InitOrReset();

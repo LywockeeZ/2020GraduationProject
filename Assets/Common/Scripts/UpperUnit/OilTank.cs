@@ -31,6 +31,7 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
         _currentOn.SetCanBeFire(_canBeFire);
 
         transform.position = SetTargetPos(transform.position);
+        transform.rotation = Quaternion.Euler(0, UnityEngine.Random.Range(0, 360), 0);
         animator = transform.GetChild(0).GetComponent<Animator>();
     }
 

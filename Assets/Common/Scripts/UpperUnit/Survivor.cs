@@ -24,8 +24,8 @@ public class Survivor : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
     public void Init()
     {
         //初始化状态
-        _currentOn.StateEnd();
-        _currentOn.SetState(new Ground(_currentOn));
+        //_currentOn.StateEnd();
+        //_currentOn.SetState(new Ground(_currentOn));
         _currentOn.UpperUnit = new UpperUnit(Type, ControlType, BeFiredType);
         _currentOn.SetUpperGameObject(gameObject);
         _currentOn.SetCanBeFire(_canBeFire);
