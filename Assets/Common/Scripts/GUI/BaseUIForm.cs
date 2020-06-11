@@ -29,7 +29,7 @@ public class BaseUIForm : MonoBehaviour
     public virtual void Display()
     {
         canvasGroup = GetComponent<CanvasGroup>();
-        canvasGroup.DOFade(1, 0.5f).ChangeStartValue(0);
+        canvasGroup.DOFade(1, 0.25f).ChangeStartValue(0);
         Open();
     }
 
@@ -37,7 +37,7 @@ public class BaseUIForm : MonoBehaviour
     //页面隐藏(不在“栈”集合中)
     public virtual void Hiding()
     {
-        canvasGroup.DOFade(0, 0.5f).ChangeStartValue(1).OnComplete(Close);
+        canvasGroup.DOFade(0, 0.25f).ChangeStartValue(1).OnComplete(Close);
     }
 
 

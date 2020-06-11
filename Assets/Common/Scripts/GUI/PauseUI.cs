@@ -53,5 +53,11 @@ public class PauseUI : BaseUIForm
         Game.Instance.LoadLevel("StartScene");
     }
 
+    public void ReturnToLevelSelector()
+    {
+        Game.Instance.CloseAll();
+        Game.Instance.LoadLevel("LevelSelector");
+    }
+
 
 }
