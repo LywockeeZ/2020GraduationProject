@@ -149,6 +149,13 @@ public class GameUnitFactory : IGameUnitFactory
                 targetUnit.SetUpperGameObject(stoneObject);
                 stoneObject.transform.SetParent(targetUnit.Model.transform);
                 return stoneObject;
+            case ENUM_Build_UpperUnit.Stool:
+                GameObject stoolObject = m_AssetFactory.InstantiateGameObject("Stool", targetUnit.Model.transform.position);
+                RoadBlock _stool = stoolObject.AddComponent<Stool>();
+                _stool.CurrentOn = targetUnit;
+                targetUnit.SetUpperGameObject(stoolObject);
+                stoolObject.transform.SetParent(targetUnit.Model.transform);
+                return stoolObject;
 
             default:
                 Debug.LogError("未找到此类型的单元");

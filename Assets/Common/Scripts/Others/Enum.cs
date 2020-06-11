@@ -144,7 +144,8 @@ public enum ENUM_Build_UpperUnit
     Player,
     Survivor,
     Bee,
-    Stone
+    Stone,
+    Stool
 }
 
 /// <summary>
