@@ -1463,6 +1463,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1529044113053426436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6972383001818959614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45cc4a0f39e33714c8a0cd9cb93bae90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &526527101934639973
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1583,7 +1595,7 @@ PrefabInstance:
     - target: {fileID: 7461471698152986008, guid: 21708da3a856a3d4293aebe6a0b1f4bd,
         type: 3}
       propertyPath: ButtonPressedFirstTime.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7461471698152986008, guid: 21708da3a856a3d4293aebe6a0b1f4bd,
         type: 3}
@@ -1615,6 +1627,31 @@ PrefabInstance:
       propertyPath: ButtonPressedFirstTime.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 7461471698152986008, guid: 21708da3a856a3d4293aebe6a0b1f4bd,
+        type: 3}
+      propertyPath: ButtonPressedFirstTime.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7461471698152986008, guid: 21708da3a856a3d4293aebe6a0b1f4bd,
+        type: 3}
+      propertyPath: ButtonPressedFirstTime.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7461471698152986008, guid: 21708da3a856a3d4293aebe6a0b1f4bd,
+        type: 3}
+      propertyPath: ButtonPressedFirstTime.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 1529044113053426436}
+    - target: {fileID: 7461471698152986008, guid: 21708da3a856a3d4293aebe6a0b1f4bd,
+        type: 3}
+      propertyPath: ButtonPressedFirstTime.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: UnlockSkillAllSkill
+      objectReference: {fileID: 0}
+    - target: {fileID: 7461471698152986008, guid: 21708da3a856a3d4293aebe6a0b1f4bd,
+        type: 3}
+      propertyPath: ButtonPressedFirstTime.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7461471699589639196, guid: 21708da3a856a3d4293aebe6a0b1f4bd,
         type: 3}
       propertyPath: m_Text
@@ -1632,6 +1669,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 21708da3a856a3d4293aebe6a0b1f4bd, type: 3}
+--- !u!1 &6972383001818959614 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7461471698152986011, guid: 21708da3a856a3d4293aebe6a0b1f4bd,
+    type: 3}
+  m_PrefabInstance: {fileID: 526527101934639973}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &6972383001564810307 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7461471697872361254, guid: 21708da3a856a3d4293aebe6a0b1f4bd,

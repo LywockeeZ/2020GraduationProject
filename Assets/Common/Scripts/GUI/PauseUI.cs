@@ -49,14 +49,23 @@ public class PauseUI : BaseUIForm
 
     public void ReturnBtn()
     {
+        if (Game.Instance.GetIsInStage())
+        {
+            Game.Instance.NotifyEvent(ENUM_GameEvent.StageEnd);
+        }
         Game.Instance.CloseAll();
         Game.Instance.LoadLevel("StartScene");
     }
 
     public void ReturnToLevelSelector()
     {
+        if (Game.Instance.GetIsInStage())
+        {
+            Game.Instance.NotifyEvent(ENUM_GameEvent.StageEnd);
+        }
         Game.Instance.CloseAll();
         Game.Instance.LoadLevel("LevelSelector");
+        Game.Instance.SetLevelWillToOnMain(null, null);
     }
 
 

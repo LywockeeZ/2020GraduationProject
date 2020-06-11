@@ -13,4 +13,9 @@ public class SkillUnlocker : MonoBehaviour
         }
     }
 
+    public void UnlockSkillAllSkill()
+    {
+        Game.Instance.UnlockAllSkill();
+    }
+
 }

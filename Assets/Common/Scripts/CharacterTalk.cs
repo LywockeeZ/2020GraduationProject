@@ -31,9 +31,12 @@ public class CharacterTalk : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        if ((transform.position - Game.Instance.GetPlayerUnit().transform.position).magnitude < highlightDistance && canClick && Game.Instance.GetCanInput())
+        if (Game.Instance.GetPlayerUnit()!= null)
         {
-            highlighter.ConstantOn(highlighter.constantFadeInTime);
+            if ((transform.position - Game.Instance.GetPlayerUnit().transform.position).magnitude < highlightDistance && canClick && Game.Instance.GetCanInput())
+            {
+                highlighter.ConstantOn(highlighter.constantFadeInTime);
+            }
         }
     }
 

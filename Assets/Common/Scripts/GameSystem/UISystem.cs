@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -60,7 +61,7 @@ public class UISystem : IGameSystem
         Game.Instance.RegisterEvent(ENUM_GameEvent.StageEnd,
             OnStageEnd = (Message evt) =>
             {
-                if (evt != null)
+                if (evt != null && evt.Params.Length != 0)
                 {
                     switch (evt.Params[0])
                     {

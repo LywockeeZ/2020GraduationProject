@@ -142,7 +142,7 @@ public class Pump : SkillInstanceBase
         WaitForSeconds interval = new WaitForSeconds(0.2f);
         WeaponController.Instance.firePos.forward = Game.Instance.GetPlayerUnit().transform.forward;
         skillEffect = GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>("Effects/Laser Toon Water", WeaponController.Instance.firePos.position);
-        skillEffect.transform.forward = Game.Instance.GetPlayerUnit().transform.forward;
+        skillEffect.transform.forward = chooseUnit.transform.position - Game.Instance.GetPlayerUnit().transform.position;
         skillEffect.transform.GetChild(0).DOMove(unitsOnPath[unitsOnPath.Count - 1].transform.position, unitsOnPath.Count * 0.2f).SetEase(Ease.Linear);
         do
         {
