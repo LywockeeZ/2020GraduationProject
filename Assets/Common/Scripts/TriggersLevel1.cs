@@ -25,8 +25,8 @@ public class TriggersLevel1 : MonoBehaviour
         Flowchart.BroadcastFungusMessage("PopUp3");
         //Game.Instance.TriggerPopUp("水桶等物体会被火焰烧毁而对周围产生影响\n也可由玩家花费行动点数手动破坏");
         TeachStageHandler stageHandler = Game.Instance.GetCurrentStage() as TeachStageHandler;
-        stageHandler.GetBaseUnit(4, 1).SetState(new Fire(stageHandler.GetBaseUnit(4, 1)));
-        stageHandler.GetBaseUnit(4, 3).SetState(new Fire(stageHandler.GetBaseUnit(4, 3)));
+        stageHandler.GetBaseUnit(4, 1).SetState(new Fire(stageHandler.GetBaseUnit(3, 1)));
+        stageHandler.GetBaseUnit(4, 3).SetState(new Fire(stageHandler.GetBaseUnit(3, 3)));
         GameFactory.GetGameUnitFactory().BuildUpperUnit(ENUM_Build_UpperUnit.WaterTank, stageHandler.GetBaseUnit(3, 2));
     }
 

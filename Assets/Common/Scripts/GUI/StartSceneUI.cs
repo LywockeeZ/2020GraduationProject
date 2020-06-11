@@ -16,6 +16,8 @@ public class StartSceneUI : MonoBehaviour
     void Start()
     {
         currentState = defaultState;
+        //清空
+        Game.Instance.SetLevelWillToOnMain(null, null);
     }
 
     void Update()

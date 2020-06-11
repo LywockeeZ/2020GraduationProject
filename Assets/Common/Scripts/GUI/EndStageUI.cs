@@ -22,6 +22,8 @@ public class EndStageUI : BaseUIForm
     {
         if (Game.Instance.isTest)
         {
+            Game.Instance.CloseUI("BattleUI");
+            Game.Instance.CloseUI("SkillBarUI");
             Game.Instance.CloseUI("EndStageUI");
             Game.Instance.NotifyEvent(ENUM_GameEvent.StageRestart);
         }

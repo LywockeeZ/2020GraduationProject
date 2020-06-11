@@ -40,7 +40,7 @@ public class LevelSelector : MonoBehaviour
     /// </summary>
     public virtual void GoToScene()
     {
-        LoadingSceneManager.LoadScene(levelName);
+        LoadingSceneManager.LoadScene(sceneName);
     }
 
     public virtual void GoToLevelOnMain()

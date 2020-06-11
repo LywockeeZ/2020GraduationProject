@@ -32,9 +32,6 @@ public class WeaponController : Singleton<WeaponController>
     {
         base.Awake();
         animator = GetComponent<Animator>();
-        originPos = weapons[0].transform.localPosition;
-        originRotation = weapons[0].transform.localRotation;
-        originParent = hip;
     }
 
     private void Update()
@@ -110,47 +107,34 @@ public class WeaponController : Singleton<WeaponController>
     /// </summary>
     public void SetKnife()
     {
-        originPos = weapons[0].transform.localPosition;
-        originRotation = weapons[0].transform.localRotation;
-        originParent = hip;
-        currentWeapon = weapons[0];
-        currentWeapon.transform.SetParent(rightHandPos);
-        currentWeapon.transform.localPosition = new Vector3(-0.00122f, 0.0007f, 0f);
-        currentWeapon.transform.localRotation = Quaternion.Euler(new Vector3(-18.948f, 30.631f, -109.925f));
+        weapons[0].transform.SetParent(rightHandPos);
+        weapons[0].transform.localPosition = new Vector3(-0.00122f, 0.0007f, 0f);
+        weapons[0].transform.localRotation = Quaternion.Euler(new Vector3(-18.948f, 30.631f, -109.925f));
     }
 
     public void CancelKnife()
     {
         if (!isFirstTime)
         {
-            if (currentWeapon != null)
-            {
-                currentWeapon.transform.SetParent(hip);
-                currentWeapon.transform.localPosition = new Vector3(-0.00287f, 0.00287f, 0.00439f);
-                currentWeapon.transform.localRotation = Quaternion.Euler(new Vector3(-2.589f, 53.194f, -0.568f));
-                currentWeapon = null;
-            }
+            weapons[0].transform.SetParent(hip);
+            weapons[0].transform.localPosition = new Vector3(-0.00287f, 0.00287f, 0.00439f);
+            weapons[0].transform.localRotation = Quaternion.Euler(new Vector3(-2.589f, 53.194f, -0.568f));
         }
         else isFirstTime = false;
     }
 
     public void SetPump()
     {
-        originPos = weapons[1].transform.localPosition;
-        originRotation = weapons[1].transform.localRotation;
-        originParent = hip;
-        currentWeapon = weapons[1];
-        currentWeapon.transform.SetParent(leftHandPos);
-        currentWeapon.transform.localPosition = new Vector3(0.0039f, 0.0017f, 0.001f);
-        currentWeapon.transform.localRotation = Quaternion.Euler(new Vector3(64.979f, 72.316f, 11.165f));
+        weapons[1].transform.SetParent(leftHandPos);
+        weapons[1].transform.localPosition = new Vector3(0.0039f, 0.0017f, 0.001f);
+        weapons[1].transform.localRotation = Quaternion.Euler(new Vector3(64.979f, 72.316f, 11.165f));
     }
 
     public void CancelPump()
     {
-        currentWeapon.transform.SetParent(originParent);
-        currentWeapon.transform.localPosition = originPos;
-        currentWeapon.transform.localRotation = originRotation;
-        currentWeapon = weapons[0];
+        weapons[1].transform.SetParent(hip);
+        weapons[1].transform.localPosition = new Vector3(0.00016f, 0.00265f, -0.00351f);
+        weapons[1].transform.localRotation = Quaternion.Euler(new Vector3(-4.766f, 8.532001f, 47.754f));
     }
 
     public void SetWaterSac()
@@ -175,11 +159,8 @@ public class WeaponController : Singleton<WeaponController>
 
     public void ResetImediately()
     {
-        if (currentWeapon != null)
-        {
-            currentWeapon.transform.SetParent(originParent);
-            currentWeapon.transform.localPosition = originPos;
-            currentWeapon.transform.localRotation = originRotation;
-        }
+        weapons[1].transform.SetParent(hip);
+        weapons[1].transform.localPosition = new Vector3(0.00016f, 0.00265f, -0.00351f);
+        weapons[1].transform.localRotation = Quaternion.Euler(new Vector3(-4.766f, 8.532001f, 47.754f));
     }
 }

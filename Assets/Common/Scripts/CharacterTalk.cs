@@ -76,7 +76,7 @@ public class CharacterTalk : MonoBehaviour
         Game.Instance.SetCanFreeMove(false);
         Game.Instance.GetPlayerUnit().MoveByNavMesh(Game.Instance.GetPlayerUnit().transform.position);
         Game.Instance.GetPlayerUnit().transform.DOLookAt(transform.position, 1f);
-        Game.Instance.GetPlayerUnit().MoveByNavMesh((Game.Instance.GetPlayerUnit().transform.position-transform.position).normalized*1.5f + transform.position);
+        Game.Instance.GetPlayerUnit().MoveByNavMesh((Game.Instance.GetPlayerUnit().transform.position-transform.position).normalized*2f + transform.position);
         Flowchart.BroadcastFungusMessage(message);
     }
 

@@ -122,8 +122,8 @@ MonoBehaviour:
   mode: 0
   forceRender: 0
   color: {r: 1, g: 1, b: 1, a: 1}
-  _overlay: 1
-  _occluder: 0
+  _overlay: 0
+  _occluder: 1
   _tween: 0
   _tweenGradient:
     serializedVersion: 2
@@ -167,7 +167,7 @@ MonoBehaviour:
   _constantFadeOutTime: 0.25
   _constantEasing: 0
   _constantUseUnscaledTime: 0
-  _filterMode: 0
+  _filterMode: 2
   _filterList: []
 --- !u!1 &7711228761545424596
 GameObject:

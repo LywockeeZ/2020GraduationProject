@@ -105,7 +105,7 @@ public class BaseUnit : MonoBehaviour
     public virtual void Init()
     {
         //需要改动
-        SetState(new Ground(this));
+        SetState(new Ground(this)); 
     }
 
 

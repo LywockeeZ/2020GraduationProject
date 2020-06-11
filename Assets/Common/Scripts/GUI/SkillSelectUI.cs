@@ -22,6 +22,7 @@ public class SkillSelectUI : BaseUIForm, ISelectItem
     {
         if (!isFirstOpen)
         {
+            LoadUnLockSkill();
             CheckSkill();
         }
 
@@ -31,6 +32,13 @@ public class SkillSelectUI : BaseUIForm, ISelectItem
 
     public void OnDisable()
     {
+        foreach (var button in btns)
+        {
+            if (button.Value.SkBtnState != MSkillButton.SkillButtonStates.Locked)
+            {
+                button.Value.Locked();
+            }
+        }
         void action()
         {
             Game.Instance.SetCanInput(true);
@@ -236,6 +244,7 @@ public class SkillSelectUI : BaseUIForm, ISelectItem
 
     public void BackButton()
     {
+        Game.Instance.GetPlayerUnit().MoveByNavMesh(Game.Instance.GetPlayerUnit().transform.position -2*Game.Instance.GetPlayerUnit().transform.forward);
         Game.Instance.CloseUI("SkillSelectUI");
     }
 

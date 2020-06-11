@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SkillSystem : IGameSystem
@@ -195,11 +196,7 @@ public class SkillSystem : IGameSystem
 
     public void ClearUnlockedSkill()
     {
-        foreach (KeyValuePair<string, SkillInstanceBase> skill in m_UnlockSkills)
-        {
-            if(skill.Key != "skill_NormalAttack")
-                m_UnlockSkills.Remove(skill.Key);
-        }
-        
+        m_UnlockSkills.Clear();
+        UnlockSkill("skill_NormalAttack");
     }
 }

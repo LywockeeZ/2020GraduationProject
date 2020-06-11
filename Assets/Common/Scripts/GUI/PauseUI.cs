@@ -44,13 +44,13 @@ public class PauseUI : BaseUIForm
     public void RestartBtn()
     {
         Game.Instance.CloseUI("PauseUI");
-        Game.Instance.NotifyEvent(ENUM_GameEvent.StageRestart);
+        Game.Instance.NotifyEvent(ENUM_GameEvent.StageEnd, 4);
     }
 
     public void ReturnBtn()
     {
         Game.Instance.CloseAll();
-        Game.Instance.LoadLevel("StartSceneBack");
+        Game.Instance.LoadLevel("StartScene");
     }
 
 

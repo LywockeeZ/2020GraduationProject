@@ -444,7 +444,7 @@ MonoBehaviour:
   updateEvent: 1
   layerMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 8704
   rayLength: -1
   onHover:
     m_PersistentCalls:
@@ -462,12 +462,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fillAlpha: 0
-  _downsampleFactor: 4
+  _downsampleFactor: 1
   _iterations: 2
-  _blurMinSpread: 0.65
-  _blurSpread: 0.25
-  _blurIntensity: 0.3
-  _blurDirections: 0
+  _blurMinSpread: 1
+  _blurSpread: 0
+  _blurIntensity: 1
+  _blurDirections: 2
   _blitter: {fileID: 0}
   _antiAliasing: 0
   _presets:

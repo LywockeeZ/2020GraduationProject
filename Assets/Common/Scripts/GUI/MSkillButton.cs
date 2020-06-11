@@ -192,6 +192,7 @@ public class MSkillButton : MMTouchButton
     {
         //CancelSelect();
         SkBtnState = SkillButtonStates.Locked;
+        lastState = SkBtnState;
     }
 
     public virtual void Unlocked()

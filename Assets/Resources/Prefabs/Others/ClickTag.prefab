@@ -49,4 +49,4 @@ Projector:
   m_Material: {fileID: 2100000, guid: 13f014d34a8cee24596d006d90fbfba8, type: 2}
   m_IgnoreLayers:
     serializedVersion: 2
-    m_Bits: 7990
+    m_Bits: 16182

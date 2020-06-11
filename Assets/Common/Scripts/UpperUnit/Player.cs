@@ -193,7 +193,8 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
         if (!Game.Instance.GetCanFreeMove())
             Game.Instance.CostAP(1, 0);
 
-        m_Agent.SetDestination(m_targetPos);
+        if (m_Agent.isActiveAndEnabled)
+            m_Agent.SetDestination(m_targetPos);
         targetPos = m_targetPos;
         _isMoving = true;
         Game.Instance.NotifyEvent(ENUM_GameEvent.PlayerMove);
