@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using MoonSharp.Interpreter.Interop.StandardDescriptors.HardwiredDescriptors;
 
 public class WaterTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
 {
@@ -59,7 +60,10 @@ public class WaterTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
     public void Handle(bool isCost = true)
     {
         Player player = Game.Instance.GetPlayerUnit();
-        player.transform.DOLookAt(CurrentOn.Model.transform.position, 0.3f);
+        if (Game.Instance.GetExecutingSkill()== null)
+        {
+            player.transform.DOLookAt(CurrentOn.Model.transform.position, 0.3f);
+        }
 
         if (isCost)
             Game.Instance.CostAP(1, 0);

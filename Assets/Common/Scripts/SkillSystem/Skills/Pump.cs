@@ -16,6 +16,11 @@ public class Pump : SkillInstanceBase
     /// 存放路径上单元的列表
     /// </summary>
     private List<BaseUnit> unitsOnPath;
+    /// <summary>
+    /// 路径尽头相邻的单元
+    /// </summary>
+    private BaseUnit pathNextUnit;
+
     private GameObject skillEffect = null;
 
     public Pump(string name) : base(name)
@@ -143,7 +148,8 @@ public class Pump : SkillInstanceBase
         WeaponController.Instance.firePos.forward = Game.Instance.GetPlayerUnit().transform.forward;
         skillEffect = GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>("Effects/Laser Toon Water", WeaponController.Instance.firePos.position);
         skillEffect.transform.forward = chooseUnit.transform.position - Game.Instance.GetPlayerUnit().transform.position;
-        skillEffect.transform.GetChild(0).DOMove(unitsOnPath[unitsOnPath.Count - 1].transform.position, unitsOnPath.Count * 0.2f).SetEase(Ease.Linear);
+        skillEffect.transform.GetChild(0).DOMove(unitsOnPath[unitsOnPath.Count - 1].transform.position +
+                   (unitsOnPath[unitsOnPath.Count - 1].transform.position - Game.Instance.GetPlayerUnit().transform.position).normalized *0.5f, unitsOnPath.Count * 0.2f).SetEase(Ease.Linear);
         do
         {
             unitsOnPath[0].SetState(new Water(unitsOnPath[0]));
@@ -151,6 +157,11 @@ public class Pump : SkillInstanceBase
             
             if(unitsOnPath.Count == 0)
             {
+                if (pathNextUnit != null)
+                {
+                    pathNextUnit.UpperGameObject.GetComponent<IFixedUnit>().Handle(false);
+                    pathNextUnit = null;
+                }
                 yield return interval;
                 GameObject.Destroy(skillEffect);
                 break;
@@ -184,7 +195,11 @@ public class Pump : SkillInstanceBase
             {
                 unitsOnPath.Add(chooseUnit.Right);
                 chooseUnit = chooseUnit.Right;
-            }           
+            }
+            if (chooseUnit.Right?.UpperGameObject != null)
+            {
+                pathNextUnit = chooseUnit.Right;
+            }
             return unitsOnPath;
         }
         else
@@ -195,6 +210,10 @@ public class Pump : SkillInstanceBase
                 unitsOnPath.Add(chooseUnit.Left);
                 chooseUnit = chooseUnit.Left;
             }
+            if (chooseUnit.Left?.UpperGameObject != null)
+            {
+                pathNextUnit = chooseUnit.Left;
+            }
             return unitsOnPath;
         }
         if (direction.z > 0.0001)
@@ -203,6 +222,10 @@ public class Pump : SkillInstanceBase
             {
                 unitsOnPath.Add(chooseUnit.Up);
                 chooseUnit = chooseUnit.Up;
+            }
+            if (chooseUnit.Up?.UpperGameObject != null)
+            {
+                pathNextUnit = chooseUnit.Up;
             }
             return unitsOnPath;
         }
@@ -213,6 +236,10 @@ public class Pump : SkillInstanceBase
             {
                 unitsOnPath.Add(chooseUnit.Down);
                 chooseUnit = chooseUnit.Down;
+            }
+            if (chooseUnit.Down?.UpperGameObject != null)
+            {
+                pathNextUnit = chooseUnit.Down;
             }
             return unitsOnPath;
         }

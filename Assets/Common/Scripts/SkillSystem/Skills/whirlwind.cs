@@ -81,15 +81,16 @@ public class Whirlwind : SkillInstanceBase
         yield return startTime;
         Player player = (Player)instance.UpperUnit;
         BaseUnit baseUnit = player.CurrentOn;
-
-        EndFire(baseUnit?.Up);
-        EndFire(baseUnit?.Up?.Right);
-        EndFire(baseUnit?.Right);
-        EndFire(baseUnit?.Right?.Down);
-        EndFire(baseUnit?.Down);
-        EndFire(baseUnit?.Down?.Left);
-        EndFire(baseUnit?.Left);
-        EndFire(baseUnit?.Left?.Up);
+        NormalStageData stageData = baseUnit.GetStage();
+        stageData.GetBaseUnit(baseUnit.x - 1, baseUnit.y);
+        EndFire(stageData.GetBaseUnit(baseUnit.x - 1, baseUnit.y    ));
+        EndFire(stageData.GetBaseUnit(baseUnit.x - 1, baseUnit.y + 1));
+        EndFire(stageData.GetBaseUnit(baseUnit.x - 1, baseUnit.y - 1));
+        EndFire(stageData.GetBaseUnit(baseUnit.x + 1, baseUnit.y    ));
+        EndFire(stageData.GetBaseUnit(baseUnit.x + 1, baseUnit.y + 1));
+        EndFire(stageData.GetBaseUnit(baseUnit.x + 1, baseUnit.y - 1));
+        EndFire(stageData.GetBaseUnit(baseUnit.x    , baseUnit.y + 1));
+        EndFire(stageData.GetBaseUnit(baseUnit.x    , baseUnit.y - 1));
         OnTriggerComplete();
         CoroutineManager.StopCoroutine(m_skillProcessCoroutine);
     }
@@ -97,6 +98,11 @@ public class Whirlwind : SkillInstanceBase
 
     private void EndFire(BaseUnit unit)
     {
+        if (unit != null && unit.UpperGameObject != null && unit.UpperUnit.ControlType == ENUM_UpperUnitControlType.Fixed)
+        {
+            unit.UpperGameObject.GetComponent<IFixedUnit>().Handle();
+        }
+        else
         if (unit != null && unit.State.StateType != ENUM_State.Block && unit.State.StateType != ENUM_State.Water)
         {
             unit.SetState(new Water(unit), null);
@@ -120,14 +126,16 @@ public class Whirlwind : SkillInstanceBase
 
     private void Highlight(Color color, BaseUnit baseUnit, bool isOn = true)
     {
-        HighlightTarget(baseUnit?.Up, color, isOn);
-        HighlightTarget(baseUnit?.Up?.Right, color, isOn);
-        HighlightTarget(baseUnit?.Right, color, isOn);
-        HighlightTarget(baseUnit?.Right?.Down, color, isOn);
-        HighlightTarget(baseUnit?.Down, color, isOn);
-        HighlightTarget(baseUnit?.Down?.Left, color, isOn);
-        HighlightTarget(baseUnit?.Left, color, isOn);
-        HighlightTarget(baseUnit?.Left?.Up, color, isOn);
+        NormalStageData stageData = baseUnit.GetStage();
+
+        HighlightTarget(stageData.GetBaseUnit(baseUnit.x - 1, baseUnit.y    ), color, isOn);
+        HighlightTarget(stageData.GetBaseUnit(baseUnit.x - 1, baseUnit.y + 1), color, isOn);
+        HighlightTarget(stageData.GetBaseUnit(baseUnit.x - 1, baseUnit.y - 1), color, isOn);
+        HighlightTarget(stageData.GetBaseUnit(baseUnit.x + 1, baseUnit.y    ), color, isOn);
+        HighlightTarget(stageData.GetBaseUnit(baseUnit.x + 1, baseUnit.y + 1), color, isOn);
+        HighlightTarget(stageData.GetBaseUnit(baseUnit.x + 1, baseUnit.y - 1), color, isOn);
+        HighlightTarget(stageData.GetBaseUnit(baseUnit.x    , baseUnit.y + 1), color, isOn);
+        HighlightTarget(stageData.GetBaseUnit(baseUnit.x    , baseUnit.y - 1), color, isOn);
     }
 
 }

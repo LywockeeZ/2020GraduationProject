@@ -3,6 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+public enum BeeMoveMode
+{
+    /// <summary>
+    /// 四格方块内
+    /// </summary>
+    Round4, 
+    /// <summary>
+    /// 横向四格
+    /// </summary>
+    Row4,   
+    /// <summary>
+    /// 竖向四格
+    /// </summary>
+    Column4 
+}
 public class Bee : MonoBehaviour, IUpperUnit
 {
     public BaseUnit CurrentOn { get { return _currentOn; } set { _currentOn = value; } }
@@ -10,6 +25,8 @@ public class Bee : MonoBehaviour, IUpperUnit
     public bool CanBeFire { get { return _canBeFire; } set { _canBeFire = value; } }
 
     public NavMeshAgent Agent { get => m_Agent; }
+
+    public BeeMoveMode MoveMode = BeeMoveMode.Round4;
 
 
     #region 私有属性
@@ -22,8 +39,42 @@ public class Bee : MonoBehaviour, IUpperUnit
     private bool _canBeFire = false;
     private NavMeshAgent m_Agent;
     private LocalNavMeshBuilder m_NavMeshBuder;
+    /// <summary>
+    /// 从起点顺时针
+    /// </summary>
+    private int[] round4DirectNormal   = new int[] { 0, 1, 2, 3 };
+    /// <summary>
+    /// 从起点逆时针
+    /// </summary>
+    private int[] round4DirectReverse  = new int[] { 1, 0, 3, 2 };
+    /// <summary>
+    /// 从起点向右
+    /// </summary>
+    private int[] row4DirectNormal     = new int[] { 1, 1, 1, 1};
+    /// <summary>
+    /// 从起点向左
+    /// </summary>
+    private int[] row4DirectReverse    = new int[] { 3, 3, 3, 3};
+    /// <summary>
+    /// 从起点向上
+    /// </summary>
+    private int[] column4DirectNormal  = new int[] { 0, 0, 0, 0};
+    /// <summary>
+    /// 从起点向下
+    /// </summary>
+    private int[] column4DirectReverse = new int[] { 2, 2, 2, 2};
     private int currentDirection = 0;
+    private int steps = 0;
+    private int index = 0;
     private int failTimes = 0;
+    /// <summary>
+    /// 是否开始进入反向模式
+    /// </summary>
+    private bool isReverse = false;
+    /// <summary>
+    /// 是否开始后退
+    /// </summary>
+    private bool isBack = false;
     #endregion
 
 
@@ -36,6 +87,12 @@ public class Bee : MonoBehaviour, IUpperUnit
 
         transform.position = SetTargetPos(transform.position);
         m_NavMeshBuder.StartUpdateNavMesh();
+    }
+
+    public void SetMoveMode(BeeMoveMode mode = BeeMoveMode.Round4)
+    {
+        MoveMode = mode;
+        currentDirection = InitDirection();
     }
 
 
@@ -65,7 +122,7 @@ public class Bee : MonoBehaviour, IUpperUnit
     {
         RegisterEvent();
         failTimes = 0;
-        currentDirection = 0;
+        currentDirection = InitDirection();
     }
 
     private void OnDisable()
@@ -110,17 +167,146 @@ public class Bee : MonoBehaviour, IUpperUnit
     public void MoveToNext()
     {
         if (failTimes == 4)
+        {
+            failTimes = 0;
             return;
+        }
+        //执行移动并计算下次移动的方向
         if (ExecuteMove(currentDirection))
         {
             failTimes = 0;
-            currentDirection = (currentDirection + 1) % 4;
+
+            //控制方向数组下标的前后移动
+            if (isBack)
+            {
+                //如果方向下表不是0则后退，否则后退结束
+                if (index != 0)
+                    index--;
+                else
+                {
+                    isBack = false;
+                    isReverse = !isReverse;
+                }
+            }
+            else
+            {
+                if (steps == 3)
+                {
+                    isReverse = !isReverse;
+                    steps = 0;
+                }
+                else
+                    index = (index + 1) % 4;
+            }
+            currentDirection = CalculateDirection(index);
         }
         else
         {
             failTimes++;
-            currentDirection = (currentDirection + 1) % 4;
+            //控制方向数组下标的前后移动
+            if (isBack)
+            {
+                //如果方向下表不是0则后退，否则后退结束
+                if (index != 0)
+                    index--;
+                else
+                {
+                    isBack = false;
+                    isReverse = !isReverse;
+                }
+            }
+            else index = (index + 1) % 4;
+
+            currentDirection = CalculateDirection(index);
+
             MoveToNext();
+        }
+    }
+
+    private int InitDirection()
+    {
+        switch (MoveMode)
+        {
+            case BeeMoveMode.Round4:
+                return 0;
+            case BeeMoveMode.Row4:
+                steps = 0;
+                return 1;
+            case BeeMoveMode.Column4:
+                steps = 0;
+                return 0;
+            default:
+                Debug.LogError("BeeMoveMode Error");
+                return 0;
+        }
+    }
+
+    private int CalculateDirection(int index)
+    {
+        switch (MoveMode)
+        {
+            case BeeMoveMode.Round4:
+                if (!isReverse)
+                {
+                    if (!isBack)
+                        //正向走
+                        return round4DirectNormal[index];
+                    else
+                        //原路倒退
+                        return (round4DirectNormal[index] + 2) % 4;
+                }
+                else
+                {
+                    if (!isBack)
+                        return round4DirectReverse[index];
+                    else
+                        return (round4DirectReverse[index] + 2) % 4;
+                }
+            case BeeMoveMode.Row4:
+                if (!isReverse)
+                {
+                    if (!isBack)
+                    //正向走
+                    {
+                        return row4DirectNormal[index];
+                    }
+                    else
+                    //原路倒退
+                    {
+                        return (row4DirectNormal[index] + 2) % 4;
+                    }
+                }
+                else
+                {
+                    if (!isBack)
+                    {
+                        return row4DirectReverse[index];
+                    }
+                    else
+                    {
+                        return (row4DirectReverse[index] + 2) % 4;
+                    }
+                }
+            case BeeMoveMode.Column4:
+                if (!isReverse)
+                {
+                    if (!isBack)
+                        //正向走
+                        return column4DirectNormal[index];
+                    else
+                        //原路倒退
+                        return (column4DirectNormal[index] + 2) % 4;
+                }
+                else
+                {
+                    if (!isBack)
+                        return column4DirectReverse[index];
+                    else
+                        return (column4DirectReverse[index] + 2) % 4;
+                }
+            default:
+                Debug.LogError("BeeMoveMode Error");
+                return 0;
         }
     }
 
@@ -129,13 +315,13 @@ public class Bee : MonoBehaviour, IUpperUnit
         switch (direction)
         {
             case 0:
-                return CheckUnitAndMove(CurrentOn.Right);
-            case 1:
                 return CheckUnitAndMove(CurrentOn.Up);
+            case 1:
+                return CheckUnitAndMove(CurrentOn.Right);
             case 2:
-                return CheckUnitAndMove(CurrentOn.Left);
-            case 3:
                 return CheckUnitAndMove(CurrentOn.Down);
+            case 3:
+                return CheckUnitAndMove(CurrentOn.Left);
             default:
                 Debug.LogError("Direction Error");
                 return false;
@@ -144,13 +330,23 @@ public class Bee : MonoBehaviour, IUpperUnit
 
     private bool CheckUnitAndMove(BaseUnit unit)
     {
-        if (unit != null && unit.State.StateType != ENUM_State.Fire)
+        if (unit != null && unit.UpperGameObject == null && unit.State.StateType != ENUM_State.Fire)
         {
             MoveByNavMesh(unit.Model.transform.position);
             UpdateUnit(unit);
+            steps++;
             return true;
         }
-        else return false;
+        else 
+        {
+            if (isBack)
+            {
+                isReverse = !isReverse;
+            }
+            steps = 0;
+            isBack = !isBack;
+            return false; 
+        }
     }
 
     /// <summary>

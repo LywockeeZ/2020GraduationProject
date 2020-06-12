@@ -143,9 +143,11 @@ public enum ENUM_Build_UpperUnit
     WaterTank,
     Player,
     Survivor,
-    Bee,
+    Bee1,
     Stone,
-    Stool
+    Stool,
+    Bee2,
+    Bee3
 }
 
 /// <summary>

@@ -1,6 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using HighlightingSystem;
+using DG.Tweening;
 
 public class RoadBlock : MonoBehaviour, IUpperUnit, IFixedUnit
 {
@@ -30,11 +33,16 @@ public class RoadBlock : MonoBehaviour, IUpperUnit, IFixedUnit
         _currentOn.SetCanBeFire(_canBeFire);
 
         transform.position = SetTargetPos(transform.position);
+        CurrentOn.transform.GetChild(0).GetComponent<Highlighter>().enabled = false;
+        CurrentOn.transform.GetChild(0).gameObject.SetActive(false);
+
     }
 
 
     public virtual void End()
     {
+        CurrentOn.transform.GetChild(0).gameObject.SetActive(true);
+        CurrentOn.transform.GetChild(0).GetComponent<Highlighter>().enabled = true;
         GameFactory.GetAssetFactory().DestroyGameObject<GameObject>(this.gameObject);
         _currentOn.UpperUnit.InitOrReset();
         CurrentOn.UpperGameObject = null;

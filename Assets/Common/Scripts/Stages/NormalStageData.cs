@@ -211,8 +211,12 @@ public class NormalStageData : IStageData
 
     public override BaseUnit GetBaseUnit(int x, int y)
     {
-        BaseUnit targetUnit = baseUnits[y * Column + x];
-        return targetUnit;
+        if (x >= 0 && x <= Column - 1 && y >= 0 && y <= Row - 1)
+        {
+            BaseUnit targetUnit = baseUnits[y * Column + x];
+            return targetUnit;
+        }
+        else return null;
     }
 
 

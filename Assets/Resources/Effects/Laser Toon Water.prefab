@@ -23952,6 +23952,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 3383607045723598097}
   - {fileID: 7686293158996517068}
   - {fileID: 4761189781960334}
   - {fileID: 4595008620789890}
@@ -38320,7 +38321,7 @@ Transform:
   - {fileID: 4451833589540724}
   - {fileID: 4467441543341344}
   m_Father: {fileID: 4065566201625986}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &198890559967000000
 ParticleSystem:
@@ -57377,7 +57378,7 @@ Transform:
   - {fileID: 4261401217699686}
   - {fileID: 4678795673588782}
   m_Father: {fileID: 4065566201625986}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &198589846419010264
 ParticleSystem:
@@ -76483,11 +76484,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6727514871793876020}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 0.073492}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.018, y: -0.100000024, z: 0.82}
+  m_LocalScale: {x: 7.2882996, y: 7.2882996, z: 0.05356317}
   m_Children: []
-  m_Father: {fileID: 7686293158996517068}
+  m_Father: {fileID: 4065566201625986}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7584877250692295532
@@ -76568,7 +76569,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7686293158996517068
 Transform:
   m_ObjectHideFlags: 0
@@ -76579,10 +76580,9 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.018, y: -0.1, z: 1.8}
   m_LocalScale: {x: 0.72883, y: 0.72883, z: 0.72883}
-  m_Children:
-  - {fileID: 3383607045723598097}
+  m_Children: []
   m_Father: {fileID: 4065566201625986}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4143587407671612093
 MeshFilter:

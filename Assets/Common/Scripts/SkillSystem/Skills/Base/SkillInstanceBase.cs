@@ -153,6 +153,7 @@ public class SkillInstanceBase
         Game.Instance.SetCanInput(true);
         Game.Instance.NotifyEvent(ENUM_GameEvent.SkillEnd);
         tweeners.Clear();
+        Game.Instance.SetExecutingSkill(null);
     }
 
 

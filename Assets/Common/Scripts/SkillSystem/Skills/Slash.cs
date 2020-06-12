@@ -215,16 +215,10 @@ public class Slash : SkillInstanceBase
         unitsOnPath.Add(chooseUnit);
         if (direction.x > 0.0001)
         {
-            int i = 0;
             while(chooseUnit.Right != null && chooseUnit.Right.UpperGameObject == null)
             {
                 unitsOnPath.Add(chooseUnit.Right);
                 chooseUnit = chooseUnit.Right;
-                i++;
-                if (i == 7)
-                {
-                    break;
-                }
             }
             if (chooseUnit.Right?.UpperGameObject != null)
             {
@@ -236,16 +230,10 @@ public class Slash : SkillInstanceBase
         else
         if (direction.x < -0.0001)
         {
-            int i = 0;
             while (chooseUnit.Left != null && chooseUnit.Left.UpperGameObject == null)
             {
                 unitsOnPath.Add(chooseUnit.Left);
                 chooseUnit = chooseUnit.Left;
-                i++;
-                if (i == 7)
-                {
-                    break;
-                }
             }
             if (chooseUnit.Left?.UpperGameObject != null)
             {
@@ -257,16 +245,10 @@ public class Slash : SkillInstanceBase
 
         if (direction.z > 0.0001)
         {
-            int i = 0;
             while (chooseUnit.Up != null && chooseUnit.Up.UpperGameObject == null)
             {
                 unitsOnPath.Add(chooseUnit.Up);
                 chooseUnit = chooseUnit.Up;
-                i++;
-                if (i == 7)
-                {
-                    break;
-                }
             }
             if (chooseUnit.Up?.UpperGameObject != null)
             {
@@ -278,16 +260,10 @@ public class Slash : SkillInstanceBase
         else
         if (direction.z < -0.0001)
         {
-            int i = 0;
             while (chooseUnit.Down != null && chooseUnit.Down.UpperGameObject == null)
             {
                 unitsOnPath.Add(chooseUnit.Down);
                 chooseUnit = chooseUnit.Down;
-                i++;
-                if (i == 7)
-                {
-                    break;
-                }
             }
             if (chooseUnit.Down?.UpperGameObject != null)
             {
