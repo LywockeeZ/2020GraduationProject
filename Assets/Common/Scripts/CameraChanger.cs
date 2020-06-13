@@ -15,18 +15,19 @@ public class CameraChanger : Singleton<CameraChanger>
     {
         if (haveStartCam)
         {
-            Game.Instance.SetCanInput(false);
+            void action() { Game.Instance.SetCanInput(false); };
+            CoroutineManager.StartCoroutineTask(action, 0.1f);
         }
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && haveStartCam && LevelManager.Instance.LevelName == SceneManager.GetActiveScene().name && !hasChange)
+        if (Input.GetMouseButtonUp(0) && haveStartCam && LevelManager.Instance.LevelName == SceneManager.GetActiveScene().name && !hasChange)
         {
             startCam.gameObject.SetActive(false);
             hasChange = true;
             void action() { Game.Instance.SetCanInput(true); };
-            CoroutineManager.StartCoroutineTask(action, 0.2f);
+            CoroutineManager.StartCoroutineTask(action, 0.5f);
         }
     }
     public void SetLevelCamera(CinemachineVirtualCamera cam)

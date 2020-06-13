@@ -160,6 +160,9 @@ public class StageSystem : IGameSystem
     public bool IsStageEnd()
     {
         m_NextStageHandler = m_NowStageHandler.CheckStage();
+        //不加入关卡链的关卡一直未结束
+        if (m_NextStageHandler == null)
+            return !Game.Instance.GetIsInStage();
         if (m_NextStageHandler == m_NowStageHandler)
             return false;
         else

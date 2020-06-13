@@ -34,7 +34,7 @@ public class SkillSelectUI : BaseUIForm, ISelectItem
     {
         foreach (var button in btns)
         {
-            if (button.Value.SkBtnState != MSkillButton.SkillButtonStates.Locked)
+            if (button.Value.SkBtnState != SkillButtonStates.Locked)
             {
                 button.Value.Locked();
             }
@@ -127,7 +127,7 @@ public class SkillSelectUI : BaseUIForm, ISelectItem
         {
             if (skillBtns[i] != mSkillButton)
             {
-                if (skillBtns[i].SkBtnState != MSkillButton.SkillButtonStates.Locked)
+                if (skillBtns[i].SkBtnState != SkillButtonStates.Locked)
                 {
                     skillBtns[i].Disabled();
                 }
@@ -141,7 +141,7 @@ public class SkillSelectUI : BaseUIForm, ISelectItem
         {
             if (itemBtns[i] != mSkillButton)
             {
-                if (itemBtns[i].SkBtnState != MSkillButton.SkillButtonStates.Locked)
+                if (itemBtns[i].SkBtnState != SkillButtonStates.Locked)
                 {
                     itemBtns[i].Disabled();
                 }
@@ -159,7 +159,7 @@ public class SkillSelectUI : BaseUIForm, ISelectItem
     {
         for (int i = 0; i < skillBtns.Count; i++)
         {
-            if (skillBtns[i].SkBtnState != MSkillButton.SkillButtonStates.Locked)
+            if (skillBtns[i].SkBtnState != SkillButtonStates.Locked)
             {
                 skillBtns[i].Normal();
             }
@@ -167,7 +167,7 @@ public class SkillSelectUI : BaseUIForm, ISelectItem
 
         for (int i = 0; i < itemBtns.Count; i++)
         {
-            if (itemBtns[i].SkBtnState != MSkillButton.SkillButtonStates.Locked)
+            if (itemBtns[i].SkBtnState != SkillButtonStates.Locked)
             {
                 itemBtns[i].Normal();
             }

@@ -150,7 +150,10 @@ public class SkillInstanceBase
     protected virtual void OnSkillEnd()
     {
         m_SkillState = SkillState.Ready;
-        Game.Instance.SetCanInput(true);
+        if (!Game.Instance.IsCurrentStageEnd())
+        {
+            Game.Instance.SetCanInput(true);
+        }
         Game.Instance.NotifyEvent(ENUM_GameEvent.SkillEnd);
         tweeners.Clear();
         Game.Instance.SetExecutingSkill(null);

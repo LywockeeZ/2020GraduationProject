@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEditor.Experimental.GraphView;
 
 public class NormalAttack : SkillInstanceBase
 {
@@ -36,7 +37,10 @@ public class NormalAttack : SkillInstanceBase
     protected override void OnSkillEnd()
     {
         m_SkillState = SkillState.Ready;
-        Game.Instance.SetCanInput(true);
+        if (!Game.Instance.IsCurrentStageEnd())
+        {
+            Game.Instance.SetCanInput(true);
+        }
         Game.Instance.GetPlayerUnit().MoveByNavMesh(targetUnit.Model.transform.position);
     }
 

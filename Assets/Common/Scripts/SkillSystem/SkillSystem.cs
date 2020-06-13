@@ -27,6 +27,8 @@ public class SkillSystem : IGameSystem
 
     private List<SkillInstanceBase> MainItems = new List<SkillInstanceBase>();
 
+    private List<SkillButtonStates> mainItemButtonState = new List<SkillButtonStates>();
+
     public SkillSystem()
     {
         Initialize();
@@ -60,7 +62,7 @@ public class SkillSystem : IGameSystem
         Game.Instance.RegisterEvent(ENUM_GameEvent.StageEnd,
             OnStageEnd = (Message evt) =>
             {
-                SetMainSkill(null);
+                //SetMainSkill(null);
             });
 
         Game.Instance.RegisterEvent(ENUM_GameEvent.StageRestart,
@@ -169,6 +171,7 @@ public class SkillSystem : IGameSystem
         return skillExecuting;
     }
 
+
     public void SetExecutingSkill(SkillInstanceBase skill)
     {
         skillExecuting = skill;
@@ -199,4 +202,16 @@ public class SkillSystem : IGameSystem
         m_UnlockSkills.Clear();
         UnlockSkill("skill_NormalAttack");
     }
+
+    public List<SkillButtonStates> GetMainItemButtonState()
+    {
+        return mainItemButtonState;
+    }
+
+    public void SetMainItemButtonState(List<SkillButtonStates> buttonStates)
+    {
+        mainItemButtonState = buttonStates;
+    }
+
+
 }

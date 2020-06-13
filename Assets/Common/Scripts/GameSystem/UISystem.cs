@@ -61,42 +61,48 @@ public class UISystem : IGameSystem
         Game.Instance.RegisterEvent(ENUM_GameEvent.StageEnd,
             OnStageEnd = (Message evt) =>
             {
-                if (evt != null && evt.Params.Length != 0)
+                Game.Instance.CloseAll();
+                void action()
                 {
-                    switch (evt.Params[0])
+                    if (evt != null && evt.Params.Length != 0)
                     {
-                        case 0:
-                            Game.Instance.ShowUI("EndSuccessUI");
-                            string content = "花费点数：" + Game.Instance.GetTotalCostPts().ToString();
-                            Game.Instance.UIShowMessag("EndSuccessUI", content);
-                            break;
-                        case 1:
-                            Game.Instance.ShowUI("EndStageUI");
-                            Game.Instance.UIShowMessag("EndStageUI", "你失败了！");
-                            break;
-                        case 2:
-                            Game.Instance.ShowUI("EndStageUI");
-                            Game.Instance.UIShowMessag("EndStageUI", "很遗憾，幸存者被烧死了！");
-                            break;
-                        case 4:
-                            Game.Instance.ShowUI("EndStageUI");
-                            string content2 = "花费点数：" + Game.Instance.GetTotalCostPts().ToString();
-                            Game.Instance.UIShowMessag("EndStageUI", content2);
-                            break;
-                        default:
-                            break;
+                        switch (evt.Params[0])
+                        {
+                            case 0:
+                                Game.Instance.ShowUI("StageEndSuccessUI");
+                                //string content = "花费点数：" + Game.Instance.GetTotalCostPts().ToString();
+                                //Game.Instance.UIShowMessag("EndSuccessUI", content);
+                                break;
+                            case 1:
+                                Game.Instance.ShowUI("StageEndFailureUI");
+                                //Game.Instance.UIShowMessag("EndStageUI", "你失败了！");
+                                break;
+                            case 2:
+                                Game.Instance.ShowUI("StageEndFailureUI");
+                                //Game.Instance.UIShowMessag("EndStageUI", "很遗憾，幸存者被烧死了！");
+                                break;
+                            case 4:
+                                Game.Instance.ShowUI("StageEndFailureUI");
+                                //string content2 = "花费点数：" + Game.Instance.GetTotalCostPts().ToString();
+                                //Game.Instance.UIShowMessag("EndStageUI", content2);
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 }
+                CoroutineManager.StartCoroutineTask(action, 0.5f);
                 //Game.Instance.ShowUI("EndStageUI");
             });
 
         Game.Instance.RegisterEvent(ENUM_GameEvent.StageRestart,
             OnStageRestart = (Message evt) =>
             {
-                if (Game.Instance.isTest == false)
-                    Game.Instance.ShowUI("StartStageUI");
-                else
+                void action()
+                {
                     Game.Instance.ShowUI("SkillSelectUI");
+                }
+                CoroutineManager.StartCoroutineTask(action, 0.25f);
             });
 
         Game.Instance.RegisterEvent(ENUM_GameEvent.LoadSceneStart,

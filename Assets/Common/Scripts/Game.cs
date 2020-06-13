@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Fungus;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -103,6 +104,7 @@ public class Game
     #region 输入系统接口
     public void SetCanInput(bool value)
     {
+        Debug.Log("SetCanInput:" + value);
         //自由模式时，每当停止输入时让角色立刻停下
         if (value == false && GetCanFreeMove())
         {
@@ -359,6 +361,16 @@ public class Game
     public List<SkillInstanceBase> GetMainItems()
     {
         return m_SkillSystem.GetMainItems();
+    }
+
+    public List<SkillButtonStates> GetMainItemButtonState()
+    {
+        return m_SkillSystem.GetMainItemButtonState();
+    }
+
+    public void SetMainItemButtonState(List<SkillButtonStates> buttonStates)
+    {
+        m_SkillSystem.SetMainItemButtonState(buttonStates);
     }
 
     public Dictionary<string, SkillInstanceBase> GetUnlockSkills()

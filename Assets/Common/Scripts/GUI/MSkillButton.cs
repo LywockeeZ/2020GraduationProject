@@ -5,9 +5,9 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using MoreMountains.Tools;
 
+public enum SkillButtonStates { Locked, Normal, Selected, Unlocking, Disabled };
 public class MSkillButton : MMTouchButton
 {
-    public enum SkillButtonStates { Locked, Normal, Selected, Unlocking, Disabled};
 
     [Header("Skill Setting")]
     public SkillButtonStates SkBtnState;//{ get; protected set; }
@@ -117,8 +117,8 @@ public class MSkillButton : MMTouchButton
             return;
         }
         //进入取消状态，进入瞬间调用
-        if (Input.GetMouseButtonDown(1) && SkBtnState == SkillButtonStates.Selected ||
-            Input.GetMouseButtonDown(0) && SkBtnState == SkillButtonStates.Selected && isInArea)
+        if ((Input.GetMouseButtonDown(1) && SkBtnState == SkillButtonStates.Selected) ||
+            (Input.GetMouseButtonDown(0) && SkBtnState == SkillButtonStates.Selected && isInArea))
         {
             SkBtnState = SkillButtonStates.Normal;
             if (isInArea)
@@ -131,6 +131,7 @@ public class MSkillButton : MMTouchButton
             ButtonSelectCancel?.Invoke();
             return;
         }
+
 
         //选中状态关闭界面再打开时，使按键恢复正常
         if (CurrentState == ButtonStates.ButtonPressed)

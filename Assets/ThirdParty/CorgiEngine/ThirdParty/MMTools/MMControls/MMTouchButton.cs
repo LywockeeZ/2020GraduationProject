@@ -248,9 +248,16 @@ namespace MoreMountains.Tools
                 else
 				    CurrentState = ButtonStates.ButtonEnter;
 			}
+
 			if (CurrentState == ButtonStates.ButtonDown)
 			{
 				CurrentState = ButtonStates.ButtonPressed;
+			}
+
+            if (CurrentState == ButtonStates.Off && isInArea)
+            {
+				CurrentState = ButtonStates.ButtonEnter;
+				ButtonEnteredFirstTime?.Invoke();
 			}
 		}
 

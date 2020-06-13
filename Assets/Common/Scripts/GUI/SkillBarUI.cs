@@ -92,6 +92,19 @@ public class SkillBarUI : BaseUIForm, ISelectItem
 
     public void ClearSkill()
     {
+        //设置道具栏信息
+        List<SkillButtonStates> buttonStates = new List<SkillButtonStates>();
+        for (int i = 0; i < buttons.Count; i++)
+        {
+            if (buttons[i] != null && buttons[i].SkBtnState != SkillButtonStates.Locked)
+            {
+                buttonStates.Add(SkillButtonStates.Disabled);
+            }
+            else buttonStates.Add(SkillButtonStates.Locked);
+        }
+        Game.Instance.SetMainItemButtonState(buttonStates);
+
+        //销毁按钮
         for (int i = 0; i < buttonsObj.Count; i++)
         {
             if (buttonsObj[i] != null)
@@ -109,7 +122,7 @@ public class SkillBarUI : BaseUIForm, ISelectItem
         {
             if (buttons[i] != null)
             {
-                if (buttons[i].SkBtnState != MSkillButton.SkillButtonStates.Locked)
+                if (buttons[i].SkBtnState != SkillButtonStates.Locked)
                 {
                     buttons[i].Disabled();
                 }
@@ -127,7 +140,7 @@ public class SkillBarUI : BaseUIForm, ISelectItem
         {
             if (buttons[i] != null && buttons[i] != mSkillButton)
             {
-                if (buttons[i].SkBtnState != MSkillButton.SkillButtonStates.Locked)
+                if (buttons[i].SkBtnState != SkillButtonStates.Locked)
                 {
                     buttons[i].Disabled();
                 }
@@ -142,7 +155,7 @@ public class SkillBarUI : BaseUIForm, ISelectItem
         SelectedButton = null;
         for (int i = 0; i < buttons.Count; i++)
         {
-            if (buttons[i] != null && buttons[i].SkBtnState != MSkillButton.SkillButtonStates.Locked)
+            if (buttons[i] != null && buttons[i].SkBtnState != SkillButtonStates.Locked)
             {
                 buttons[i].Normal();
             }
