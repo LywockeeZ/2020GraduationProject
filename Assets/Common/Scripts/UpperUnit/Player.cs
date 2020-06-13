@@ -40,6 +40,10 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
     private bool isRandomIdle = false;
     #endregion
 
+    private void OnEnable()
+    {
+        _isMoving = false;
+    }
 
     public void Init()
     {
@@ -55,6 +59,7 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
             m_Agent.updatePosition = true;
             m_NavMeshBuder.StartUpdateNavMesh();
             m_Agent.Warp(SetTargetPos(_currentOn.Model.transform.position));
+            MoveByNavMeshInSkill(SetTargetPos(_currentOn.Model.transform.position));
         }
         else
         {

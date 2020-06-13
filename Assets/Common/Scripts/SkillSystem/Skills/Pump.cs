@@ -145,11 +145,12 @@ public class Pump : SkillInstanceBase
         yield return waitTime;
         //开始改变路径上单元的状态
         WaitForSeconds interval = new WaitForSeconds(0.2f);
+        Game.Instance.GetPlayerUnit().transform.forward = unitsOnPath[unitsOnPath.Count - 1].transform.position - Game.Instance.GetPlayerUnit().CurrentOn.transform.position;
         WeaponController.Instance.firePos.forward = Game.Instance.GetPlayerUnit().transform.forward;
         skillEffect = GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>("Effects/Laser Toon Water", WeaponController.Instance.firePos.position);
-        skillEffect.transform.forward = chooseUnit.transform.position - Game.Instance.GetPlayerUnit().transform.position;
-        skillEffect.transform.GetChild(0).DOMove(unitsOnPath[unitsOnPath.Count - 1].transform.position +
-                   (unitsOnPath[unitsOnPath.Count - 1].transform.position - Game.Instance.GetPlayerUnit().transform.position).normalized *0.5f, unitsOnPath.Count * 0.2f).SetEase(Ease.Linear);
+        skillEffect.GetComponent<Hovl_Laser2>().MaxLength = unitsOnPath.Count;
+        skillEffect.transform.rotation =Game.Instance.GetPlayerUnit().transform.rotation;
+        skillEffect.transform.GetChild(0).DOMove(skillEffect.transform.position + unitsOnPath.Count * skillEffect.transform.forward, unitsOnPath.Count * 0.2f).SetEase(Ease.Linear);
         do
         {
             unitsOnPath[0].SetState(new Water(unitsOnPath[0]));
@@ -157,7 +158,7 @@ public class Pump : SkillInstanceBase
             
             if(unitsOnPath.Count == 0)
             {
-                if (pathNextUnit != null)
+                if (pathNextUnit != null && pathNextUnit.UpperUnit.Type != ENUM_UpperUnit.Bee)
                 {
                     pathNextUnit.UpperGameObject.GetComponent<IFixedUnit>().Handle(false);
                     pathNextUnit = null;
@@ -251,7 +252,7 @@ public class Pump : SkillInstanceBase
 
     private void HighlightTarget(BaseUnit unit, Color color, bool isOn = true)
     {
-        if (unit != null)
+        if (unit != null && unit.UpperGameObject == null)
         {
             if (isOn)
             {

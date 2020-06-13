@@ -1839,7 +1839,7 @@ GameObject:
   m_IsActive: 1
 --- !u!114 &1436308278
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -2500,7 +2500,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61dddfdc5e0e44ca298d8f46f7f5a915, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedFlowchart: {fileID: 0}
+  selectedFlowchart: {fileID: 1436308290}
 --- !u!4 &1447770533
 Transform:
   m_ObjectHideFlags: 1
@@ -3151,11 +3151,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1367727918, guid: 79b446bf0dcec554a8e12d20d51453f9, type: 3}
       propertyPath: SceneName
-      value: Part5
+      value: Part5-2
       objectReference: {fileID: 0}
     - target: {fileID: 1367727918, guid: 79b446bf0dcec554a8e12d20d51453f9, type: 3}
       propertyPath: PointName
-      value: RePart5
+      value: RePart5-1
       objectReference: {fileID: 0}
     - target: {fileID: 1367727918, guid: 79b446bf0dcec554a8e12d20d51453f9, type: 3}
       propertyPath: NextSceneName

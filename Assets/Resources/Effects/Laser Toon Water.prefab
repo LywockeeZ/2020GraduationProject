@@ -23971,6 +23971,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7c107ae524aed749b3de3034023eb9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetTrans: {fileID: 3383607045723598097}
   laserScale: 1
   laserColor: {r: 0.5411765, g: 0.75039625, b: 1, a: 1}
   HitEffect: {fileID: 1448416835147876}
@@ -76486,7 +76487,7 @@ Transform:
   m_GameObject: {fileID: 6727514871793876020}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.018, y: -0.100000024, z: 0.82}
-  m_LocalScale: {x: 7.2882996, y: 7.2882996, z: 0.05356317}
+  m_LocalScale: {x: 2, y: 2, z: 0.05356317}
   m_Children: []
   m_Father: {fileID: 4065566201625986}
   m_RootOrder: 0

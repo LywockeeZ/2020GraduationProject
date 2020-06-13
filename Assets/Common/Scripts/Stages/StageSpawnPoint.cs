@@ -81,7 +81,7 @@ public class StageSpawnPoint : MonoBehaviour
                 Game.Instance.SetCanInput(true);
                 //开始更新角色寻路网格
                 void action() { Game.Instance.GetPlayerUnit().gameObject.GetComponent<LocalNavMeshBuilder>().StartUpdateNavMesh(); }
-                CoroutineManager.StartCoroutineTask(action, 0.5f);
+                CoroutineManager.StartCoroutineTask(action, 0.2f);
                 break;
             default:
                 break;

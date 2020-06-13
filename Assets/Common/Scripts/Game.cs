@@ -106,7 +106,10 @@ public class Game
         //自由模式时，每当停止输入时让角色立刻停下
         if (value == false && GetCanFreeMove())
         {
-            GetPlayerUnit()?.MoveByNavMesh(GetPlayerUnit().transform.position);
+            if (GetPlayerUnit() != null)
+            {
+                GetPlayerUnit().MoveByNavMesh(GetPlayerUnit().transform.position);
+            }
         }
         m_canInput = value;
     }

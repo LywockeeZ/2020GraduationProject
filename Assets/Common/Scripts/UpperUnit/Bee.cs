@@ -93,6 +93,11 @@ public class Bee : MonoBehaviour, IUpperUnit
     {
         MoveMode = mode;
         currentDirection = InitDirection();
+        void action()
+        {
+            gameObject.GetComponent<CapsuleCollider>().isTrigger = true;
+        }
+        CoroutineManager.StartCoroutineTask(action, 0.2f);
     }
 
 
@@ -105,17 +110,24 @@ public class Bee : MonoBehaviour, IUpperUnit
     }
 
     private EventListenerDelegate OnPlayerMove;
+    private EventListenerDelegate OnStageEnd;
     public void RegisterEvent()
     {
         Game.Instance.RegisterEvent(ENUM_GameEvent.PlayerMove, OnPlayerMove = (Message evt) =>
         {
             MoveToNext();
         });
+        Game.Instance.RegisterEvent(ENUM_GameEvent.StageEnd, OnStageEnd = (Message evt) =>
+        {
+            gameObject.GetComponent<CapsuleCollider>().isTrigger = false;
+        });
+
     }
 
     public void DetachEvent()
     {
         Game.Instance.DetachEvent(ENUM_GameEvent.PlayerMove, OnPlayerMove);
+        Game.Instance.DetachEvent(ENUM_GameEvent.StageEnd, OnStageEnd);
     }
 
     private void OnEnable()
@@ -127,7 +139,7 @@ public class Bee : MonoBehaviour, IUpperUnit
 
     private void OnDisable()
     {
-        DetachEvent();    
+        DetachEvent();
     }
 
     private void Start()
@@ -330,12 +342,27 @@ public class Bee : MonoBehaviour, IUpperUnit
 
     private bool CheckUnitAndMove(BaseUnit unit)
     {
-        if (unit != null && unit.UpperGameObject == null && unit.State.StateType != ENUM_State.Fire)
+        if (unit != null)
         {
-            MoveByNavMesh(unit.Model.transform.position);
-            UpdateUnit(unit);
-            steps++;
-            return true;
+            if ((unit.UpperGameObject != null && unit.UpperUnit.Type == ENUM_UpperUnit.Player) ||
+                (unit.UpperGameObject == null && unit.State.StateType != ENUM_State.Fire))
+            {
+                MoveByNavMesh(unit.Model.transform.position);
+                UpdateUnit(unit);
+                steps++;
+                return true;
+            }
+            else
+            {
+                if (isBack)
+                {
+                    isReverse = !isReverse;
+                }
+                steps = 0;
+                isBack = !isBack;
+                return false;
+            }
+
         }
         else 
         {

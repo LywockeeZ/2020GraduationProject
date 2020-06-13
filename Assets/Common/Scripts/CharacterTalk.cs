@@ -12,6 +12,7 @@ public class CharacterTalk : MonoBehaviour
     public GameObject trigger1;
     public CinemachineVirtualCamera NpcCam;
     public Animator animator;
+    public bool GoBackOnTalk = true;
     public string TalkAnimation;
     public string message;
     public float highlightDistance = 5f;
@@ -79,7 +80,8 @@ public class CharacterTalk : MonoBehaviour
         Game.Instance.SetCanFreeMove(false);
         Game.Instance.GetPlayerUnit().MoveByNavMesh(Game.Instance.GetPlayerUnit().transform.position);
         Game.Instance.GetPlayerUnit().transform.DOLookAt(transform.position, 1f);
-        Game.Instance.GetPlayerUnit().MoveByNavMesh((Game.Instance.GetPlayerUnit().transform.position-transform.position).normalized*2f + transform.position);
+        if(GoBackOnTalk)
+            Game.Instance.GetPlayerUnit().MoveByNavMesh((Game.Instance.GetPlayerUnit().transform.position-transform.position).normalized*2f + transform.position);
         Flowchart.BroadcastFungusMessage(message);
     }
 

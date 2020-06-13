@@ -22,14 +22,16 @@ public class PlayerSpawner : Singleton<PlayerSpawner>
             Player = GameFactory.GetAssetFactory().InstantiateGameObject("Player", transform.position);
             Player.transform.rotation = transform.rotation;
             Player.GetComponent<NavMeshAgent>().updatePosition = true;
+            Player.GetComponent<NavMeshAgent>().Warp(targetTrans.position);
         }
         else
         {
             Player = Game.Instance.GetPlayerUnit().gameObject;
             Player.SetActive(true);
             Player.transform.rotation = transform.rotation;
-            Player.GetComponent<NavMeshAgent>().Warp(targetTrans.position);
+            Player.transform.position = transform.position;
             Player.GetComponent<NavMeshAgent>().updatePosition = true;
+            Player.GetComponent<NavMeshAgent>().Warp(targetTrans.position);
         }
 
     }

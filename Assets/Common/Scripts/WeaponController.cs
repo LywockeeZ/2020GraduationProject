@@ -64,6 +64,7 @@ public class WeaponController : Singleton<WeaponController>
 
     private EventListenerDelegate OnStageBegain;
     private EventListenerDelegate OnStageEnd;
+    private EventListenerDelegate OnStageRestart;
     private void RegisterEvent()
     {
         Game.Instance.RegisterEvent(ENUM_GameEvent.StageBegain,
@@ -76,6 +77,12 @@ public class WeaponController : Singleton<WeaponController>
             {
                 EndKnife();
             });
+        Game.Instance.RegisterEvent(ENUM_GameEvent.StageRestart,
+            OnStageRestart = (Message evt) =>
+            {
+                CoroutineManager.StartCoroutineTask(StartKnife, 0.2f);
+            });
+
 
     }
 
@@ -83,6 +90,7 @@ public class WeaponController : Singleton<WeaponController>
     {
         Game.Instance.DetachEvent(ENUM_GameEvent.StageBegain, OnStageBegain);
         Game.Instance.DetachEvent(ENUM_GameEvent.StageEnd, OnStageEnd);
+        Game.Instance.DetachEvent(ENUM_GameEvent.StageEnd, OnStageRestart);
     }
 
 

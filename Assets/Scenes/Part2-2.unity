@@ -609,7 +609,7 @@ PrefabInstance:
     - target: {fileID: 8938884435488361997, guid: 79f8397358f8a7e43b219d5b13e8b8b5,
         type: 3}
       propertyPath: haveStartCam
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8938884435488361997, guid: 79f8397358f8a7e43b219d5b13e8b8b5,
         type: 3}
@@ -1384,6 +1384,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: StartUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 8072912533204010680, guid: ff4517729f1da3444882d9f098ee3c4e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff4517729f1da3444882d9f098ee3c4e, type: 3}
@@ -2198,7 +2203,6 @@ GameObject:
   - component: {fileID: 1448459219}
   - component: {fileID: 1448459218}
   - component: {fileID: 1448459213}
-  - component: {fileID: 1448459210}
   - component: {fileID: 1448459226}
   - component: {fileID: 1448459225}
   - component: {fileID: 1448459224}
@@ -2328,8 +2332,7 @@ MonoBehaviour:
     height: 859
   selectedBlocks:
   - {fileID: 1448459223}
-  selectedCommands:
-  - {fileID: 1448459235}
+  selectedCommands: []
   variables: []
   description: 
   stepPause: 0
@@ -2752,21 +2755,6 @@ MonoBehaviour:
   stopVoiceover: 1
   waitForVO: 0
   setSayDialog: {fileID: 1134994004}
---- !u!114 &1448459210
-MonoBehaviour:
-  m_ObjectHideFlags: 2
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1448459189}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2f6487d21a03404cb21b245f0242e79, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parentBlock: {fileID: 1448459223}
-  suppressBlockAutoSelect: 0
-  waitForFrames: 1
 --- !u!114 &1448459211
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -3104,7 +3092,7 @@ MonoBehaviour:
   itemId: 3
   blockName: Start
   description: 
-  eventHandler: {fileID: 1448459210}
+  eventHandler: {fileID: 0}
   commandList:
   - {fileID: 1448459222}
   - {fileID: 1448459220}
@@ -3993,7 +3981,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1842998842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4757,7 +4745,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1367727918, guid: 79b446bf0dcec554a8e12d20d51453f9, type: 3}
       propertyPath: LevelName
-      value: Part2
+      value: RePart2-1
       objectReference: {fileID: 0}
     - target: {fileID: 1367727920, guid: 79b446bf0dcec554a8e12d20d51453f9, type: 3}
       propertyPath: m_LocalPosition.x

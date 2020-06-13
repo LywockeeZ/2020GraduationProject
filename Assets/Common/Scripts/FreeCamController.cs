@@ -13,20 +13,20 @@ public class FreeCamController : Singleton<FreeCamController>
     protected override void Awake()
     {
         base.Awake();
-        freeLookCam = GetComponent<CinemachineFreeLook>();
-        pos = transform.position;
     }
 
     private void OnEnable()
     {
+        freeLookCam.transform.position = playerTrans.position - playerTrans.forward * 3 + Vector3.up * 2;
+        freeLookCam.enabled = true;
         OnLive();
     }
 
     private void OnDisable()
     {
+        freeLookCam.enabled = false;
         freeLookCam.Follow = null;
         freeLookCam.LookAt = null;
-        transform.position = pos;
     }
 
     void Start()
@@ -60,6 +60,9 @@ public class FreeCamController : Singleton<FreeCamController>
     {
         freeLookCam.Follow = playerTrans;
         freeLookCam.LookAt = playerTrans;
+        freeLookCam.m_XAxis.Value = 0;
+        freeLookCam.m_YAxis.Value = 0.5f;
+
     }
 
     public void AddTarget(Transform target, float weight, float radius)

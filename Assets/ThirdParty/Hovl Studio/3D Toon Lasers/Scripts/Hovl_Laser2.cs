@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class Hovl_Laser2 : MonoBehaviour
 {
+    public Transform targetTrans;
     public float laserScale = 1;
     public Color laserColor = new Vector4(1,1,1,1);
     public GameObject HitEffect;
@@ -71,7 +72,7 @@ public class Hovl_Laser2 : MonoBehaviour
             else
             {
                 //End laser position if doesn't collide with object
-                var EndPos = transform.position + transform.forward * MaxLength;
+                var EndPos = targetTrans.position;//transform.position + transform.forward * MaxLength;
                 var distance = Vector3.Distance(EndPos, transform.position);
                 particleCount = Mathf.RoundToInt(distance / (2 * laserScale));
                 if (particleCount < distance / (2 * laserScale))

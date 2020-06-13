@@ -156,7 +156,7 @@ public class Slash : SkillInstanceBase
         do
         {
             Vector2 playerPos = new Vector2(Game.Instance.GetPlayerUnit().transform.position.x, Game.Instance.GetPlayerUnit().transform.position.z);
-            Vector2 unitPos = new Vector2(unitsOnPath[0].Model.transform.position.x, unitsOnPath[0].Model.transform.position.z);
+            Vector2 unitPos = new Vector2(unitsOnPath[0].transform.position.x, unitsOnPath[0].transform.position.z);
             if ((playerPos - unitPos).magnitude < 0.2f)
             {
                 if (unitsOnPath.Count == 1)
@@ -191,7 +191,10 @@ public class Slash : SkillInstanceBase
         player.SkillAnimator.SetTrigger("skill_SlashEnd");
         if (pathNextUnit != null)
         {
-            pathNextUnit.UpperGameObject.GetComponent<IFixedUnit>().Handle(false);
+            if (pathNextUnit.UpperUnit.ControlType == ENUM_UpperUnitControlType.Fixed)
+            {
+                pathNextUnit.UpperGameObject.GetComponent<IFixedUnit>().Handle(false);
+            }
             pathNextUnit = null;
         }
 
@@ -215,7 +218,7 @@ public class Slash : SkillInstanceBase
         unitsOnPath.Add(chooseUnit);
         if (direction.x > 0.0001)
         {
-            while(chooseUnit.Right != null && chooseUnit.Right.UpperGameObject == null)
+            while((chooseUnit.Right != null && chooseUnit.Right.UpperGameObject == null) || (chooseUnit.Right != null && chooseUnit.Right.UpperUnit.Type == ENUM_UpperUnit.Bee))
             {
                 unitsOnPath.Add(chooseUnit.Right);
                 chooseUnit = chooseUnit.Right;
@@ -230,7 +233,7 @@ public class Slash : SkillInstanceBase
         else
         if (direction.x < -0.0001)
         {
-            while (chooseUnit.Left != null && chooseUnit.Left.UpperGameObject == null)
+            while ((chooseUnit.Left != null && chooseUnit.Left.UpperGameObject == null) || (chooseUnit.Left != null && chooseUnit.Left.UpperUnit.Type == ENUM_UpperUnit.Bee))
             {
                 unitsOnPath.Add(chooseUnit.Left);
                 chooseUnit = chooseUnit.Left;
@@ -245,7 +248,7 @@ public class Slash : SkillInstanceBase
 
         if (direction.z > 0.0001)
         {
-            while (chooseUnit.Up != null && chooseUnit.Up.UpperGameObject == null)
+            while ((chooseUnit.Up != null && chooseUnit.Up.UpperGameObject == null) || (chooseUnit.Up != null && chooseUnit.Up.UpperUnit.Type == ENUM_UpperUnit.Bee))
             {
                 unitsOnPath.Add(chooseUnit.Up);
                 chooseUnit = chooseUnit.Up;
@@ -260,7 +263,7 @@ public class Slash : SkillInstanceBase
         else
         if (direction.z < -0.0001)
         {
-            while (chooseUnit.Down != null && chooseUnit.Down.UpperGameObject == null)
+            while ((chooseUnit.Down != null && chooseUnit.Down.UpperGameObject == null) || (chooseUnit.Down != null && chooseUnit.Down.UpperUnit.Type == ENUM_UpperUnit.Bee))
             {
                 unitsOnPath.Add(chooseUnit.Down);
                 chooseUnit = chooseUnit.Down;
