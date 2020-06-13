@@ -75,6 +75,7 @@ public class StageSystem : IGameSystem
         {
             CoroutineManager.StopAllCoroutine();
             Game.Instance.SetCanInput(false);
+            Game.Instance.SetIsInStage(true);
             RestartStage();
 
         });
