@@ -134,31 +134,31 @@ public class StageEndSuccessUI : BaseUIForm, ISelectItem
         switch (schar)
         {
             case "1":
-                res = "一";
+                res = "壹";
                 break;
             case "2":
-                res = "二";
+                res = "贰";
                 break;
             case "3":
-                res = "三";
+                res = "叁";
                 break;
             case "4":
-                res = "四";
+                res = "肆";
                 break;
             case "5":
-                res = "五";
+                res = "伍";
                 break;
             case "6":
-                res = "六";
+                res = "陆";
                 break;
             case "7":
-                res = "七";
+                res = "柒";
                 break;
             case "8":
-                res = "八";
+                res = "捌";
                 break;
             case "9":
-                res = "九";
+                res = "玖";
                 break;
             default:
                 res = "零";
@@ -168,7 +168,7 @@ public class StageEndSuccessUI : BaseUIForm, ISelectItem
         {
             if (int.Parse(str[1].ToString()) == 0)
             {
-                res += "十";
+                res += "拾";
                 return res;
             }
             else

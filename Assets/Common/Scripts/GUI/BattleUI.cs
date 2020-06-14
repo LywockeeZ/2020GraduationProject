@@ -51,17 +51,6 @@ public class BattleUI :BaseUIForm
     {
 
         btn_Reset.onClick.AddListener(() => {
-            Game.Instance.CloseUI("BattleUI");
-            Game.Instance.CloseUI("SkillBarUI");
-            if (Game.Instance.isTest)
-            {
-                Game.Instance.NotifyEvent(ENUM_GameEvent.StageEnd, 4);
-            }
-            else
-            {
-                Game.Instance.NotifyEvent(ENUM_GameEvent.StageEnd, 4);
-                //LevelManager.Instance.BackToLevel();
-            }
         });
 
         
@@ -110,6 +99,21 @@ public class BattleUI :BaseUIForm
     public void BtnChangeCam()
     {
         CameraChanger.Instance.ChangeCam();
+    }
+
+    public void BtnReset()
+    {
+        Game.Instance.CloseUI("BattleUI");
+        Game.Instance.CloseUI("SkillBarUI");
+        if (Game.Instance.isTest)
+        {
+            Game.Instance.NotifyEvent(ENUM_GameEvent.StageEnd, 4);
+        }
+        else
+        {
+            Game.Instance.NotifyEvent(ENUM_GameEvent.StageEnd, 4);
+            //LevelManager.Instance.BackToLevel();
+        }
     }
 
     private void OnDisable()
