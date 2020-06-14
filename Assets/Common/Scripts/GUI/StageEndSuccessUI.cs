@@ -126,7 +126,7 @@ public class StageEndSuccessUI : BaseUIForm, ISelectItem
     {
         if (number == 10)
         {
-            return "十";
+            return "拾";
         }
         string res = string.Empty;
         string str = number.ToString();
