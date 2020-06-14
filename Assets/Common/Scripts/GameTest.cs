@@ -17,6 +17,8 @@ public class GameTest : Singleton<GameTest>
     /// 由场景直接启动的关卡直接获取关卡名
     /// </summary>
     public string CurrentStage;
+    public Texture2D CursorNormal;
+    public Texture2D CursorOnClick;
 
     protected override void Awake()
     {
@@ -37,6 +39,15 @@ public class GameTest : Singleton<GameTest>
     {
         Game.Instance.Updata();
 
+        if (Input.GetMouseButton(0))
+        {
+            Cursor.SetCursor(CursorOnClick, Vector2.zero, CursorMode.Auto);
+        }
+        else
+        if (Input.GetMouseButtonUp(0))
+        {
+            Cursor.SetCursor(CursorNormal, Vector2.zero, CursorMode.Auto);
+        }
     }
 
 

@@ -23,8 +23,8 @@ public class LevelTest : MonoBehaviour
     {
         if (GameObject.Find("GameTest") == null)
         {
-            GameObject gameTest = new GameObject("GameTest");
-            gameTest.AddComponent<GameTest>();
+            GameObject gameTest = GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>("Prefabs/Others/GameTest", Vector3.zero);
+            gameTest.name = "GameTest";
         }
     }
 
