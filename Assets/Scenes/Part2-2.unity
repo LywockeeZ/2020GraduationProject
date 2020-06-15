@@ -2276,7 +2276,7 @@ MonoBehaviour:
   nodeRect:
     serializedVersion: 2
     x: 68.06383
-    y: 72.12766
+    y: 71.063835
     width: 120
     height: 40
   tint: {r: 1, g: 1, b: 1, a: 1}
@@ -2320,9 +2320,8 @@ MonoBehaviour:
     width: 1114
     height: 859
   selectedBlocks:
-  - {fileID: 1448459223}
-  selectedCommands:
-  - {fileID: 1448459218}
+  - {fileID: 1448459236}
+  selectedCommands: []
   variables: []
   description: 
   stepPause: 0
@@ -2747,7 +2746,7 @@ MonoBehaviour:
   setSayDialog: {fileID: 1134994004}
 --- !u!114 &1448459210
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -2824,7 +2823,7 @@ MonoBehaviour:
   delay: 0
 --- !u!114 &1448459213
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -2971,7 +2970,7 @@ MonoBehaviour:
   waitUntilFinished: 0
 --- !u!114 &1448459218
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -4604,6 +4603,14 @@ PrefabInstance:
     - target: {fileID: 1367727918, guid: 79b446bf0dcec554a8e12d20d51453f9, type: 3}
       propertyPath: LevelName
       value: RePart2-1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1367727918, guid: 79b446bf0dcec554a8e12d20d51453f9, type: 3}
+      propertyPath: NextSceneName
+      value: Part2-1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1367727918, guid: 79b446bf0dcec554a8e12d20d51453f9, type: 3}
+      propertyPath: NextPointName
+      value: Level2
       objectReference: {fileID: 0}
     - target: {fileID: 1367727920, guid: 79b446bf0dcec554a8e12d20d51453f9, type: 3}
       propertyPath: m_LocalPosition.x

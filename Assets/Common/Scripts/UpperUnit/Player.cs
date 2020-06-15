@@ -121,7 +121,7 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
         {
             m_Animator.SetBool("isWalking", true);
 
-            if ((transform.position - targetPos).magnitude <= 0.5f)
+            if ((transform.position - targetPos).magnitude <= 0.2f)
             {
                 //Debug.Log("Have Reached!");
                 _isMoving = false;

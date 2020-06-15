@@ -1575,7 +1575,7 @@ PrefabInstance:
     - target: {fileID: 7794142555910567600, guid: 22f493e39844b4849a03cfb286e96295,
         type: 3}
       propertyPath: highlightDistance
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 7794142555910567600, guid: 22f493e39844b4849a03cfb286e96295,
         type: 3}
