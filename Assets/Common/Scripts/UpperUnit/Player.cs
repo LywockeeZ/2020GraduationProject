@@ -121,7 +121,7 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
         {
             m_Animator.SetBool("isWalking", true);
 
-            if ((transform.position - targetPos).magnitude <= 0.2f)
+            if ((transform.position - targetPos).magnitude <= 0.3f)
             {
                 //Debug.Log("Have Reached!");
                 _isMoving = false;
@@ -199,13 +199,13 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
         {
             UpdateUnit(targetUnit);
             Game.Instance.CostAP(1, 0);
+            Game.Instance.NotifyEvent(ENUM_GameEvent.PlayerMove);
         }
 
         if (m_Agent.isActiveAndEnabled)
             m_Agent.SetDestination(m_targetPos);
         targetPos = m_targetPos;
         _isMoving = true;
-        Game.Instance.NotifyEvent(ENUM_GameEvent.PlayerMove);
     }
 
     /// <summary>
