@@ -23,7 +23,9 @@ public class Slash : SkillInstanceBase
     /// <summary>
     /// 存放路径上单元的列表
     /// </summary>
-    private List<BaseUnit> unitsOnPath;     
+    private List<BaseUnit> unitsOnPath;
+
+    private GameObject skillEffect;
 
 
 
@@ -107,6 +109,7 @@ public class Slash : SkillInstanceBase
 
         //获取路径上所有单元
         unitsOnPath = FindUnitsOnPath(chooseUnit);
+
         tweeners.Add(player.transform.DOLookAt(chooseUnit.Model.transform.position, 0.3f).OnComplete(()=> {
             //开始移动
             player.Agent.acceleration = 10f;
@@ -114,7 +117,16 @@ public class Slash : SkillInstanceBase
             player.MoveByNavMesh(finalUnitOnPath.Model.transform.position, false);
         }));
 
+        if (skillEffect == null)
+        {
+            skillEffect = GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>("Effects/skills/SlashEffect", player.transform.position + 0.2f * Vector3.up);
+            skillEffect.transform.SetParent(player.transform);
+            skillEffect.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        }
+        skillEffect.GetComponent<ParticleSystem>().Play();
+
         WaitForSeconds waitTime = new WaitForSeconds(0.1f);
+
         yield return waitTime;
         //开始改变路径上单元的状态
         do
@@ -141,6 +153,7 @@ public class Slash : SkillInstanceBase
             }
             yield return null;
         } while (unitsOnPath.Count != 0);
+        skillEffect.GetComponent<ParticleSystem>().Stop();
         CoroutineManager.StopCoroutine(m_skillProcessCoroutine);
     }
 
@@ -162,7 +175,7 @@ public class Slash : SkillInstanceBase
             pathNextUnit = null;
         }
 
-         OnTriggerComplete();
+        OnTriggerComplete();
 
     }
 

@@ -139,6 +139,21 @@ public class SkillBarUI : BaseUIForm, ISelectItem
         }
     }
 
+    public void EnableAll()
+    {
+        for (int i = 0; i < buttons.Count; i++)
+        {
+            if (buttons[i] != null)
+            {
+                if (buttons[i].SkBtnState != SkillButtonStates.Locked)
+                {
+                    buttons[i].Normal();
+                }
+            }
+
+        }
+    }
+
 
     public void Select(MSkillButton mSkillButton)
     {

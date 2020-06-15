@@ -11,6 +11,7 @@ public class InputManager : MonoBehaviour
     [HideInInspector]
     public GameObject clickTag;
     private Material clickTagMaterial;
+    private SpriteRenderer clickSprite;
     private bool isTagFade = false;
 
     void Start()
@@ -20,6 +21,7 @@ public class InputManager : MonoBehaviour
             clickTag = GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>("Prefabs/Others/ClickTag", Vector3.zero);
             clickTag.transform.rotation = Quaternion.Euler(90f, 0, 0);
             clickTagMaterial = clickTag.GetComponent<Projector>().material;
+            clickSprite = clickTag.GetComponent<SpriteRenderer>();
         }
     }
 
@@ -35,11 +37,12 @@ public class InputManager : MonoBehaviour
         {
             if (Game.Instance.GetPlayerUnit() != null)
             {
-                if ((Game.Instance.GetPlayerUnit().transform.position - clickTag.transform.position).magnitude < 0.1f || !Game.Instance.GetCanInput())
+                if ((Game.Instance.GetPlayerUnit().transform.position - clickTag.transform.position).magnitude < 0.5f || !Game.Instance.GetCanInput())
                 {
                     if (!isTagFade)
                     {
-                        clickTagMaterial.DOFade(0, 0.2f);
+                        //clickTagMaterial.DOFade(0, 0.2f);
+                        clickSprite.DOFade(0, 0.2f);
                         isTagFade = true;
                     }
                 }
@@ -117,9 +120,10 @@ public class InputManager : MonoBehaviour
                 {
                     clickedPos = hitInfo.point;
                     Game.Instance.GetPlayerUnit().MoveByNavMesh(clickedPos, false);
-                    clickTagMaterial.DOFade(1, 0.2f);
+                    //clickTagMaterial.DOFade(1, 0.2f);
+                    clickSprite.DOFade(1, 0.2f);
                     isTagFade = false;
-                    clickTag.transform.position = clickedPos;
+                    clickTag.transform.position = clickedPos + 0.05f * Vector3.up;
                     Debug.Log(clickedPos);
                 }
             }

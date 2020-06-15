@@ -14,6 +14,7 @@ public class Oil : IState
     private new bool _canBeFire = true;
     private ENUM_StateBeFiredType _beFiredType = ENUM_StateBeFiredType.BeHandle;
     private GameObject oilEffect;
+    private GameObject oilStayEffect;
     #endregion
 
     public Oil(BaseUnit owner) : base(owner)
@@ -81,6 +82,10 @@ public class Oil : IState
         Model.transform.GetChild(0).GetComponent<MeshRenderer>().material.DOFade(0, 0.5f).OnComplete(() => {
             Owner.GetStage().oilUnits.Remove(Owner);
             GameObject.Destroy(oilEffect);
+            if (oilStayEffect != null)
+            {
+                GameObject.Destroy(oilStayEffect);
+            }
             GameFactory.GetAssetFactory().DestroyGameObject<GameObject>(Model);
         });
     }
@@ -92,6 +97,13 @@ public class Oil : IState
     private void SetOilModel()
     {
         oilEffect = GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>("Effects/OilDrop", Owner.transform.position);
+        int numb = Random.Range(0, 4);
+        if (numb < 1)
+        {
+            oilStayEffect = GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>("Effects/OilStayEffect", Owner.transform.position);
+            oilStayEffect.transform.forward = Vector3.up;
+
+        }
         Model = GameFactory.GetAssetFactory().InstantiateGameObject("Oil",
             GetTargetPos(Owner.Model.transform.position, _height));
         Model.transform.SetParent(Owner.Model.transform);

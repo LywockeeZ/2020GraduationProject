@@ -21,6 +21,7 @@ public class WaterTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
     private BaseUnit _currentOn;
     private float    _heigth    = 0f;
     private bool     _canBeFire = true;
+    private GameObject explosionEffect;
 
     private BrokeEvent brokeEvent;
     #endregion
@@ -44,6 +45,11 @@ public class WaterTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
 
         animator = transform.GetChild(0).GetComponent<Animator>();
         brokeEvent = transform.GetChild(0).GetComponent<BrokeEvent>();
+
+        explosionEffect = GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>("Effects/WaterTankExplosion", transform.position);
+        explosionEffect.transform.forward = Vector3.up;
+        explosionEffect.transform.position = explosionEffect.transform.position + 0.2f * Vector3.up;
+
     }
 
 
@@ -59,6 +65,8 @@ public class WaterTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
 
     public void Handle(bool isCost = true)
     {
+        explosionEffect.GetComponent<ParticleSystem>().Play();
+
         Player player = Game.Instance.GetPlayerUnit();
         if (Game.Instance.GetExecutingSkill()== null)
         {

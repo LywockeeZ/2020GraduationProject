@@ -20,6 +20,8 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
     private BaseUnit _currentOn;
     private float    _heigth = 0f;
     private bool     _canBeFire = true;
+    private GameObject explosionEffectByFire;
+    private GameObject explosionEffectByHand;
     #endregion
 
 
@@ -33,6 +35,11 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
         transform.position = SetTargetPos(transform.position);
         transform.rotation = Quaternion.Euler(0, UnityEngine.Random.Range(0, 360), 0);
         animator = transform.GetChild(0).GetComponent<Animator>();
+
+        explosionEffectByHand = GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>("Effects/OilTankExplosionHand", transform.position);
+        explosionEffectByFire = GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>("Effects/OilTankExplosionFire", transform.position);
+        explosionEffectByHand.transform.forward = Vector3.up;
+        explosionEffectByFire.transform.forward = Vector3.up;
     }
 
 
@@ -56,6 +63,8 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
     /// </summary>
     public void Handle(bool isCost = true)
     {
+        explosionEffectByHand.GetComponent<ParticleSystem>().Play();
+
         Player player = Game.Instance.GetPlayerUnit();
         if (Game.Instance.GetExecutingSkill() == null)
         {
@@ -69,7 +78,7 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
         _currentOn.SetState(new Oil(_currentOn));
 
         SetAroundToOil();
-        if (animator != null) animator.SetTrigger("Break");
+        //if (animator != null) animator.SetTrigger("Break");
 
         End();
     }
@@ -80,6 +89,8 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
     /// </summary>
     public void HandleByFire()
     {
+        explosionEffectByFire.GetComponent<ParticleSystem>().Play();
+
         _currentOn.SetState(new Fire(_currentOn));
         CoroutineManager.StartCoroutine(BoomAccess());
 

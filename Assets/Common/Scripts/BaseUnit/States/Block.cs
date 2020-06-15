@@ -63,11 +63,11 @@ public class Block : IState
             GameFactory.GetAssetFactory().DestroyGameObject<GameObject>(Model);
             GameObject.Destroy(blockEffect);
             Owner = null;
-            if (_currentUnit != null)
-            {
-                GameObject.Destroy(blockConnect);
-            }
         });
+        if (_currentUnit != null)
+        {
+            GameObject.Destroy(blockConnect);
+        }
 
     }
 

@@ -5,8 +5,8 @@ using HighlightingSystem;
 
 public class Whirlwind : SkillInstanceBase
 {
-    private float m_StartTime = 0.8f;
-
+    private float m_StartTime = 0.7f;
+    private GameObject skillEffect;
 
     public Whirlwind(string name) : base(name)
     {
@@ -63,21 +63,22 @@ public class Whirlwind : SkillInstanceBase
         yield return null;
         do
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hitInfo, 200f, 1 << LayerMask.NameToLayer("CanEmmit")))
-            {
-                SkillIndicator indicator = hitInfo.transform.parent.gameObject.GetComponent<SkillIndicator>();
-                indicator.SetIsMouseIn(true);
+            //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            //if (Physics.Raycast(ray, out RaycastHit hitInfo, 200f, 1 << LayerMask.NameToLayer("CanEmmit")))
+            //{
+            //    SkillIndicator indicator = hitInfo.transform.parent.gameObject.GetComponent<SkillIndicator>();
+            //    indicator.SetIsMouseIn(true);
 
-                if (Input.GetMouseButtonDown(0))
-                {
-                    indicator.HighlightCancel();
-                    Debug.Log("技能施放");
-                    Game.Instance.GetPlayerUnit().ExecuteSkill();
-                    isEnd = true;
-                    break;
-                }
-            }
+            //}
+            //if (Input.GetMouseButtonDown(0))
+            //{
+                //indicator.HighlightCancel();
+                Debug.Log("技能施放");
+                Game.Instance.GetPlayerUnit().ExecuteSkill();
+                isEnd = true;
+                break;
+            //}
+
             yield return null;
         } while (!isEnd);
         CoroutineManager.StopCoroutine(m_skillEmitterCoroutine);
@@ -86,10 +87,16 @@ public class Whirlwind : SkillInstanceBase
 
     protected override IEnumerator SkillProcess(ISkillCore instance)
     {
-        WaitForSeconds startTime =  new WaitForSeconds(m_StartTime);
-        yield return startTime;
         Player player = (Player)instance.UpperUnit;
         BaseUnit baseUnit = player.CurrentOn;
+
+        yield return new WaitForSeconds(0.1f);
+        skillEffect = GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>("Effects/skills/whirlwindEffect", baseUnit.transform.position + 0.3f * Vector3.up);
+        skillEffect.transform.SetParent(player.transform);
+        skillEffect.transform.localRotation = Quaternion.Euler(Vector3.zero);
+        WaitForSeconds startTime =  new WaitForSeconds(m_StartTime);
+        yield return startTime;
+
         NormalStageData stageData = baseUnit.GetStage();
         stageData.GetBaseUnit(baseUnit.x - 1, baseUnit.y);
         EndFire(stageData.GetBaseUnit(baseUnit.x - 1, baseUnit.y    ));
@@ -100,6 +107,8 @@ public class Whirlwind : SkillInstanceBase
         EndFire(stageData.GetBaseUnit(baseUnit.x + 1, baseUnit.y - 1));
         EndFire(stageData.GetBaseUnit(baseUnit.x    , baseUnit.y + 1));
         EndFire(stageData.GetBaseUnit(baseUnit.x    , baseUnit.y - 1));
+
+        GameObject.Destroy(skillEffect);
         OnTriggerComplete();
         CoroutineManager.StopCoroutine(m_skillProcessCoroutine);
     }

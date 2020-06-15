@@ -34,6 +34,15 @@ public class NormalAttack : SkillInstanceBase
     {
         m_SkillState = SkillState.Playing;
         Game.Instance.SetCanInput(false);
+
+        BaseUIForm uiForm = null;
+        SkillBarUI skillBar = null;
+        UIManager.Instance.DicALLUIForms.TryGetValue("SkillBarUI", out uiForm);
+        if (uiForm != null)
+        {
+            skillBar = uiForm as SkillBarUI;
+            skillBar.DisableAll();
+        }
     }
 
     protected override void OnSkillEnd()
@@ -44,6 +53,16 @@ public class NormalAttack : SkillInstanceBase
             Game.Instance.SetCanInput(true);
         }
         Game.Instance.GetPlayerUnit().MoveByNavMesh(targetUnit.Model.transform.position);
+
+        BaseUIForm uiForm = null;
+        SkillBarUI skillBar = null;
+        UIManager.Instance.DicALLUIForms.TryGetValue("SkillBarUI", out uiForm);
+        if (uiForm != null)
+        {
+            skillBar = uiForm as SkillBarUI;
+            skillBar.EnableAll();
+        }
+
     }
 
 }
