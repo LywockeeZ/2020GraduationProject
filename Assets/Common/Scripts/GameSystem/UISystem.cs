@@ -55,7 +55,15 @@ public class UISystem : IGameSystem
         Game.Instance.RegisterEvent(ENUM_GameEvent.RoundBegain,
             OnRoundBegain = (Message evt) =>
             {
-                Game.Instance.ShowUI("BattleUI");
+                if (!Game.Instance.isTest)
+                {
+                    void action()
+                    {
+                        Game.Instance.ShowUI("BattleUI");
+                    }
+                    CoroutineManager.StartCoroutineTask(action, 1.2f);
+                }
+                else Game.Instance.ShowUI("BattleUI");
             });
 
         Game.Instance.RegisterEvent(ENUM_GameEvent.StageEnd,
@@ -164,6 +172,7 @@ public class UISystem : IGameSystem
     /// <param name="UIFormName"></param>
     public void ShowUI(string UIFormName)
     {
+        Debug.Log("ShowUI:" + UIFormName);
         UIManager.Instance.ShowUIForms(UIFormName);
     }
 
@@ -174,12 +183,14 @@ public class UISystem : IGameSystem
     /// <param name="UIFormName"></param>
     public void CloseUI(string UIFormName)
     {
+        Debug.Log("CloseUI:" + UIFormName);
         UIManager.Instance.CloseOrReturnUIForms(UIFormName);
     }
 
 
     public void CloseAll()
     {
+        Debug.Log("CloseAllUI");
         UIManager.Instance.CloseAll();
     }
 

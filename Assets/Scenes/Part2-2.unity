@@ -1831,12 +1831,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1659546524}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1299132005 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8072912533204010680, guid: ff4517729f1da3444882d9f098ee3c4e,
-    type: 3}
-  m_PrefabInstance: {fileID: 760148906}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1299132010 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8072912533204010676, guid: ff4517729f1da3444882d9f098ee3c4e,
@@ -2198,11 +2192,6 @@ GameObject:
   - component: {fileID: 1448459208}
   - component: {fileID: 1448459209}
   - component: {fileID: 1448459223}
-  - component: {fileID: 1448459222}
-  - component: {fileID: 1448459220}
-  - component: {fileID: 1448459219}
-  - component: {fileID: 1448459218}
-  - component: {fileID: 1448459213}
   - component: {fileID: 1448459226}
   - component: {fileID: 1448459225}
   - component: {fileID: 1448459224}
@@ -2220,9 +2209,9 @@ GameObject:
   - component: {fileID: 1448459228}
   - component: {fileID: 1448459227}
   - component: {fileID: 1448459214}
-  - component: {fileID: 1448459230}
-  - component: {fileID: 1448459221}
-  - component: {fileID: 1448459235}
+  - component: {fileID: 1448459210}
+  - component: {fileID: 1448459213}
+  - component: {fileID: 1448459218}
   m_Layer: 0
   m_Name: Flowchart
   m_TagString: Untagged
@@ -2332,7 +2321,8 @@ MonoBehaviour:
     height: 859
   selectedBlocks:
   - {fileID: 1448459223}
-  selectedCommands: []
+  selectedCommands:
+  - {fileID: 1448459218}
   variables: []
   description: 
   stepPause: 0
@@ -2755,6 +2745,51 @@ MonoBehaviour:
   stopVoiceover: 1
   waitForVO: 0
   setSayDialog: {fileID: 1134994004}
+--- !u!114 &1448459210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448459189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 688e35811870d403f9e2b1ab2a699d98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemId: 83
+  indentLevel: 0
+  description: 
+  targetObject: {fileID: 816182495}
+  targetComponentAssemblyName: LevelManager, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null
+  targetComponentFullname: UnityEngine.Component[]
+  targetComponentText: LevelManager
+  targetMethod: ShowUI
+  targetMethodText: 'ShowUI (String): Void'
+  methodParameters:
+  - objValue:
+      typeAssemblyname: System.String, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      typeFullname: System.String
+      intValue: 0
+      boolValue: 0
+      floatValue: 0
+      stringValue: FreeMoveUI
+      colorValue: {r: 0, g: 0, b: 0, a: 0}
+      gameObjectValue: {fileID: 0}
+      materialValue: {fileID: 0}
+      objectValue: {fileID: 0}
+      spriteValue: {fileID: 0}
+      textureValue: {fileID: 0}
+      vector2Value: {x: 0, y: 0}
+      vector3Value: {x: 0, y: 0, z: 0}
+    variableKey: 
+  saveReturnValue: 0
+  returnValueVariableKey: 
+  returnValueType: System.Void
+  showInherited: 0
+  callMode: 0
 --- !u!114 &1448459211
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -2789,25 +2824,19 @@ MonoBehaviour:
   delay: 0
 --- !u!114 &1448459213
 MonoBehaviour:
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1448459189}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbd8c931f22994b9d90e2037fffaa770, type: 3}
+  m_Script: {fileID: 11500000, guid: d2f6487d21a03404cb21b245f0242e79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemId: 26
-  indentLevel: 0
-  _targetGameObject:
-    gameObjectRef: {fileID: 0}
-    gameObjectVal: {fileID: 1827270174}
-  activeState:
-    booleanRef: {fileID: 0}
-    booleanVal: 0
-  targetGameObjectOLD: {fileID: 0}
+  parentBlock: {fileID: 1448459223}
+  suppressBlockAutoSelect: 0
+  waitForFrames: 1
 --- !u!114 &1448459214
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -2942,37 +2971,7 @@ MonoBehaviour:
   waitUntilFinished: 0
 --- !u!114 &1448459218
 MonoBehaviour:
-  m_ObjectHideFlags: 2
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1448459189}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c6dd8d3a780f4d1ea772e3daf10c372, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemId: 21
-  indentLevel: 0
-  targetObjects:
-  - {fileID: 1827270174}
-  tweenType: 2
-  waitUntilFinished:
-    booleanRef: {fileID: 0}
-    booleanVal: 1
-  duration:
-    floatRef: {fileID: 0}
-    floatVal: 1
-  fadeMode: 0
-  targetColor:
-    colorRef: {fileID: 0}
-    colorVal: {r: 1, g: 1, b: 1, a: 1}
-  targetAlpha:
-    floatRef: {fileID: 0}
-    floatVal: 0
---- !u!114 &1448459219
-MonoBehaviour:
-  m_ObjectHideFlags: 2
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -2982,93 +2981,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3315ad2ebb85443909a1203d56d9344e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemId: 20
+  itemId: 84
   indentLevel: 0
   _duration:
     floatRef: {fileID: 0}
-    floatVal: 2
+    floatVal: 1
   durationOLD: 0
---- !u!114 &1448459220
-MonoBehaviour:
-  m_ObjectHideFlags: 2
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1448459189}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c6dd8d3a780f4d1ea772e3daf10c372, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemId: 19
-  indentLevel: 0
-  targetObjects:
-  - {fileID: 1827270174}
-  tweenType: 2
-  waitUntilFinished:
-    booleanRef: {fileID: 0}
-    booleanVal: 1
-  duration:
-    floatRef: {fileID: 0}
-    floatVal: 1
-  fadeMode: 0
-  targetColor:
-    colorRef: {fileID: 0}
-    colorVal: {r: 1, g: 1, b: 1, a: 1}
-  targetAlpha:
-    floatRef: {fileID: 0}
-    floatVal: 1
---- !u!114 &1448459221
-MonoBehaviour:
-  m_ObjectHideFlags: 2
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1448459189}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c6dd8d3a780f4d1ea772e3daf10c372, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemId: 80
-  indentLevel: 0
-  targetObjects:
-  - {fileID: 1299132005}
-  tweenType: 2
-  waitUntilFinished:
-    booleanRef: {fileID: 0}
-    booleanVal: 1
-  duration:
-    floatRef: {fileID: 0}
-    floatVal: 1
-  fadeMode: 0
-  targetColor:
-    colorRef: {fileID: 0}
-    colorVal: {r: 1, g: 1, b: 1, a: 1}
-  targetAlpha:
-    floatRef: {fileID: 0}
-    floatVal: 0
---- !u!114 &1448459222
-MonoBehaviour:
-  m_ObjectHideFlags: 2
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1448459189}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbd8c931f22994b9d90e2037fffaa770, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemId: 17
-  indentLevel: 0
-  _targetGameObject:
-    gameObjectRef: {fileID: 0}
-    gameObjectVal: {fileID: 1299132005}
-  activeState:
-    booleanRef: {fileID: 0}
-    booleanVal: 1
-  targetGameObjectOLD: {fileID: 0}
 --- !u!114 &1448459223
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -3092,16 +3010,10 @@ MonoBehaviour:
   itemId: 3
   blockName: Start
   description: 
-  eventHandler: {fileID: 0}
+  eventHandler: {fileID: 1448459213}
   commandList:
-  - {fileID: 1448459222}
-  - {fileID: 1448459220}
-  - {fileID: 1448459219}
   - {fileID: 1448459218}
-  - {fileID: 1448459213}
-  - {fileID: 1448459230}
-  - {fileID: 1448459221}
-  - {fileID: 1448459235}
+  - {fileID: 1448459210}
   suppressAllAutoSelections: 0
 --- !u!114 &1448459224
 MonoBehaviour:
@@ -3248,27 +3160,6 @@ MonoBehaviour:
   targetObject: {fileID: 816182495}
   methodName: InputOn
   delay: 0
---- !u!114 &1448459230
-MonoBehaviour:
-  m_ObjectHideFlags: 2
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1448459189}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbd8c931f22994b9d90e2037fffaa770, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemId: 79
-  indentLevel: 0
-  _targetGameObject:
-    gameObjectRef: {fileID: 0}
-    gameObjectVal: {fileID: 2103881221}
-  activeState:
-    booleanRef: {fileID: 0}
-    booleanVal: 0
-  targetGameObjectOLD: {fileID: 0}
 --- !u!114 &1448459231
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -3373,27 +3264,6 @@ MonoBehaviour:
   targetObject: {fileID: 816182495}
   methodName: InputOff
   delay: 0
---- !u!114 &1448459235
-MonoBehaviour:
-  m_ObjectHideFlags: 2
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1448459189}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbd8c931f22994b9d90e2037fffaa770, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemId: 81
-  indentLevel: 0
-  _targetGameObject:
-    gameObjectRef: {fileID: 0}
-    gameObjectVal: {fileID: 1299132005}
-  activeState:
-    booleanRef: {fileID: 0}
-    booleanVal: 0
-  targetGameObjectOLD: {fileID: 0}
 --- !u!114 &1448459236
 MonoBehaviour:
   m_ObjectHideFlags: 2
@@ -3959,12 +3829,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e038bf700cfa444fb16c6ef963be9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1827270174 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8072912532122252161, guid: ff4517729f1da3444882d9f098ee3c4e,
-    type: 3}
-  m_PrefabInstance: {fileID: 760148906}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1842998841
 GameObject:
   m_ObjectHideFlags: 0
@@ -4528,12 +4392,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 11.038385, y: 5.202273, z: 0}
   m_Center: {x: 2.7068002, y: -2.9423647, z: 0.5000001}
---- !u!1 &2103881221 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8072912532401428009, guid: ff4517729f1da3444882d9f098ee3c4e,
-    type: 3}
-  m_PrefabInstance: {fileID: 760148906}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2109346910
 GameObject:
   m_ObjectHideFlags: 0

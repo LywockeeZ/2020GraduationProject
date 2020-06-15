@@ -28,16 +28,16 @@ public class WaterBag : SkillInstanceBase
         //m_SkillTrigers.Add(SkillTriggerType.Animation, new PlayAnimationTrigger("item_Pump", 0f, OnTriggerComplete));
     }
 
-        public override void ShowIndicator()
+    public override void ShowIndicator()
     {
         Debug.Log("ShowIndicator:" + SkillName);
-        Highlight(Color.blue, Game.Instance.GetPlayerUnit().CurrentOn);
+        Highlight(1, Game.Instance.GetPlayerUnit().CurrentOn);
     }
 
     public override void CloseIndicator()
     {
         Debug.Log("CloseIndicator:" + SkillName);
-        Highlight(Color.blue, Game.Instance.GetPlayerUnit().CurrentOn, false);
+        Highlight(1, Game.Instance.GetPlayerUnit().CurrentOn, false);
     }
 
     public override void ShowEmitter()
@@ -45,7 +45,7 @@ public class WaterBag : SkillInstanceBase
         base.ShowEmitter();
         Debug.Log("ShowEmittor:" + SkillName);
         Game.Instance.SetCanInput(false);
-        Highlight(Color.red, Game.Instance.GetPlayerUnit().CurrentOn);
+        Highlight(2, Game.Instance.GetPlayerUnit().CurrentOn);
         m_skillEmitterCoroutine = CoroutineManager.StartCoroutineReturn(SkillEmitter());
     }
 
@@ -60,7 +60,7 @@ public class WaterBag : SkillInstanceBase
     protected override void HideEmitter()
     {
         base.HideEmitter();
-        Highlight(Color.red, Game.Instance.GetPlayerUnit().CurrentOn, false);
+        Highlight(2, Game.Instance.GetPlayerUnit().CurrentOn, false);
     }
 
    
@@ -76,55 +76,19 @@ public class WaterBag : SkillInstanceBase
         do
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hitInfo, 200f, 1 << LayerMask.NameToLayer("BaseUnit")))
+            if (Physics.Raycast(ray, out RaycastHit hitInfo, 200f, 1 << LayerMask.NameToLayer("CanEmmit")))
             {
+                SkillIndicator indicator = hitInfo.transform.parent.gameObject.GetComponent<SkillIndicator>();
+                indicator.SetIsMouseIn(true);
+
                 if (Input.GetMouseButtonDown(0))
                 {
-                    Vector3 clickedPos = hitInfo.transform.position;
-                    if (Game.Instance.GetPlayerUnit().CurrentOn.Up != null && Game.Instance.GetPlayerUnit().CurrentOn.Up.UpperGameObject == null)
-                    {
-                        if (clickedPos == Game.Instance.GetPlayerUnit().CurrentOn.Up.Model.transform.position)
-                        {
-                            chooseUnit = Game.Instance.GetPlayerUnit().CurrentOn.Up;
-                            Debug.Log("技能施放");
-                            Game.Instance.GetPlayerUnit().ExecuteSkill("item_WaterBag");
-                            isEnd = true;
-                            break;
-                        }
-                    }
-                    if (Game.Instance.GetPlayerUnit().CurrentOn.Down != null && Game.Instance.GetPlayerUnit().CurrentOn.Down.UpperGameObject == null)
-                    {
-                        if (clickedPos == Game.Instance.GetPlayerUnit().CurrentOn.Down.Model.transform.position)
-                        {
-                            chooseUnit = Game.Instance.GetPlayerUnit().CurrentOn.Down;
-                            Debug.Log("技能施放");
-                            Game.Instance.GetPlayerUnit().ExecuteSkill("item_WaterBag");
-                            isEnd = true;
-                            break;
-                        }
-                    }
-                    if (Game.Instance.GetPlayerUnit().CurrentOn.Left != null && Game.Instance.GetPlayerUnit().CurrentOn.Left.UpperGameObject == null)
-                    {
-                        if (clickedPos == Game.Instance.GetPlayerUnit().CurrentOn.Left.Model.transform.position)
-                        {
-                            chooseUnit = Game.Instance.GetPlayerUnit().CurrentOn.Left;
-                            Debug.Log("技能施放");
-                            Game.Instance.GetPlayerUnit().ExecuteSkill("item_WaterBag");
-                            isEnd = true;
-                            break;
-                        }
-                    }
-                    if (Game.Instance.GetPlayerUnit().CurrentOn.Right != null && Game.Instance.GetPlayerUnit().CurrentOn.Right.UpperGameObject == null)
-                    {
-                        if (clickedPos == Game.Instance.GetPlayerUnit().CurrentOn.Right.Model.transform.position)
-                        {
-                            chooseUnit = Game.Instance.GetPlayerUnit().CurrentOn.Right;
-                            Debug.Log("技能施放");
-                            Game.Instance.GetPlayerUnit().ExecuteSkill("item_WaterBag");
-                            isEnd = true;
-                            break;
-                        }
-                    }
+                    chooseUnit = hitInfo.transform.parent.parent.GetComponent<BaseUnit>();
+                    indicator.HighlightCancel();
+                    Debug.Log("技能施放");
+                    Game.Instance.GetPlayerUnit().ExecuteSkill("item_WaterBag");
+                    isEnd = true;
+                    break;
                 }
             }
             yield return null;
@@ -287,26 +251,37 @@ public class WaterBag : SkillInstanceBase
     }
 
 
-    private void HighlightTarget(BaseUnit unit, Color color, bool isOn = true)
+    private void HighlightTarget(BaseUnit unit, int type, bool isOn = true)
     {
         if (unit != null)
         {
-            if (isOn)
+            if (type == 1)
             {
-                unit.Model.transform.GetChild(0).GetComponent<Highlighter>().ConstantOn(color, 0.1f);
+                if (isOn)
+                {
+                    unit.State.Model.GetComponent<SkillIndicator>().ShowIndicator();
+                }
+                else
+                    unit.State.Model.GetComponent<SkillIndicator>().HideIndicator();
             }
             else
-                unit.Model.transform.GetChild(0).GetComponent<Highlighter>().ConstantOff(0.1f);
+            {
+                if (isOn)
+                {
+                    unit.State.Model.GetComponent<SkillIndicator>().ShowEmitter();
+                }
+                else
+                    unit.State.Model.GetComponent<SkillIndicator>().HideEmitter();
+            }
         }
     }
 
-    private void Highlight(Color color, BaseUnit baseUnit, bool isOn = true)
+    private void Highlight(int type, BaseUnit baseUnit, bool isOn = true)
     {
-        Color hightlightColor = color;
-        HighlightTarget(baseUnit?.Up, color, isOn);
-        HighlightTarget(baseUnit?.Right, color, isOn);
-        HighlightTarget(baseUnit?.Down, color, isOn);
-        HighlightTarget(baseUnit?.Left, color, isOn);
+        HighlightTarget(baseUnit?.Up, type, isOn);
+        HighlightTarget(baseUnit?.Right, type, isOn);
+        HighlightTarget(baseUnit?.Down, type, isOn);
+        HighlightTarget(baseUnit?.Left, type, isOn);
     }
 
     private void EndFire(BaseUnit unit)

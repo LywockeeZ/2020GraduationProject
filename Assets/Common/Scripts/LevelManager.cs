@@ -83,4 +83,9 @@ public class LevelManager : Singleton<LevelManager>
         Game.Instance.CloseAll();
     }
 
+    public void ShowUI(string UIName)
+    {
+        Game.Instance.ShowUI(UIName);
+    }
+
 }

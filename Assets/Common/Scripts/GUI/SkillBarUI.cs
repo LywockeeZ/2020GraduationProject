@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class SkillBarUI : BaseUIForm, ISelectItem
 {
@@ -9,11 +11,13 @@ public class SkillBarUI : BaseUIForm, ISelectItem
     public MSkillButton SelectedButton { get; set; }
 
     public List<Transform> slotsTrans;
+    public GameObject bar;
     //存放按钮对象
     private List<GameObject> buttonsObj = new List<GameObject>();
     //存放按钮组件
     private List<MSkillButton> buttons = new List<MSkillButton>();
     private bool isFirstOpen = true;
+    private Tweener tweener;
 
     private void OnEnable()
     {
@@ -23,6 +27,7 @@ public class SkillBarUI : BaseUIForm, ISelectItem
             //TestLoadSkill();
         }
         RegisterEvent();
+        tweener.Restart();
     }
 
     private void OnDisable()
@@ -39,6 +44,9 @@ public class SkillBarUI : BaseUIForm, ISelectItem
 
         LoadSkill();
         //TestLoadSkill();
+
+        tweener = bar.transform.DOLocalMoveY(bar.transform.localPosition.y + 125, 1f).SetEase(Ease.OutCubic).SetAutoKill(false);
+        tweener.Pause();
     }
 
     private void Start()

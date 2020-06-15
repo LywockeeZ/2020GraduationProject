@@ -32,6 +32,8 @@ public class Ground : IState
     {
         Owner.SetCanWalk(_canWalk);
         Owner.SetCanBeFire(_canBeFire);
+
+        SetGroundModel();
     }
 
 
@@ -43,6 +45,14 @@ public class Ground : IState
 
     public override void OnStateEnd()
     {
+        GameFactory.GetAssetFactory().DestroyGameObject<GameObject>(Model);
+    }
+
+    private void SetGroundModel()
+    {
+        Model = GameFactory.GetAssetFactory().InstantiateGameObject("Ground",
+                    GetTargetPos(Owner.Model.transform.position, _height));
+        Model.transform.SetParent(Owner.Model.transform);
 
     }
 }

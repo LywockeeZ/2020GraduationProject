@@ -82,6 +82,7 @@ public class UIManager : Singleton<UIManager>
             _DicFormsPaths.Add("EndSuccessUI", @"UI\EndSuccessUI");
             _DicFormsPaths.Add("StageEndSuccessUI", @"UI\StageEndSuccessUI");
             _DicFormsPaths.Add("StageEndFailureUI", @"UI\StageEndFailureUI");
+            _DicFormsPaths.Add("FreeMoveUI", @"UI\FreeMoveUI");
         }
     }
 

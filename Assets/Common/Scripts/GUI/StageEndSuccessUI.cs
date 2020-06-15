@@ -83,7 +83,6 @@ public class StageEndSuccessUI : BaseUIForm, ISelectItem
     public void LoadSkill()
     {
         SkillInstanceBase mainSkill = Game.Instance.GetMainSkill();
-        Debug.Log(mainSkill);
         List<SkillInstanceBase> items = Game.Instance.GetMainItems();
 
         for (int i = 0; i < items.Count; i++)

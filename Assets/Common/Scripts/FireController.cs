@@ -5,6 +5,8 @@ using DG.Tweening;
 
 public class FireController:MonoBehaviour
 {
+    public GameObject fire; 
+
     private bool isFirstOpen = true;
     private bool isEnd = false;
 
@@ -31,13 +33,13 @@ public class FireController:MonoBehaviour
     public void FireAppear()
     {
         float n = Random.Range(0.8f, 1.4f);
-        transform.DOScale(new Vector3(n, n, n), 0.5f).ChangeStartValue(Vector3.zero);
+        fire.transform.DOScale(new Vector3(n, n, n), 0.5f).ChangeStartValue(Vector3.zero);
         isEnd = false;
     }
 
     public void FireDisappear()
     {
-        transform.DOScale(Vector3.zero, 0.5f).SetEase(Ease.InOutQuad).OnComplete(()=> { isEnd = true; });
+        fire.transform.DOScale(Vector3.zero, 0.5f).SetEase(Ease.InOutQuad).OnComplete(()=> { isEnd = true; });
     }
 
     public bool IsFireEnd()

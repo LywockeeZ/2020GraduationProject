@@ -28,6 +28,9 @@ public class SkillSelectUI : BaseUIForm, ISelectItem
 
         SetLevelPreviewAndTitle();
         Game.Instance.SetCanInput(false);
+
+        if (!Game.Instance.isTest)
+            Game.Instance.CloseUI("FreeMoveUI");
     }
 
     public void OnDisable()
@@ -248,6 +251,7 @@ public class SkillSelectUI : BaseUIForm, ISelectItem
         {
             Game.Instance.GetPlayerUnit().MoveByNavMesh(Game.Instance.GetPlayerUnit().transform.position - 2 * Game.Instance.GetPlayerUnit().transform.forward);
             Game.Instance.CloseUI("SkillSelectUI");
+            Game.Instance.ShowUI("FreeMoveUI");
         }
         else
         {

@@ -1906,6 +1906,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79b446bf0dcec554a8e12d20d51453f9, type: 3}
+--- !u!1 &1301122297 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1367727917, guid: 79b446bf0dcec554a8e12d20d51453f9,
+    type: 3}
+  m_PrefabInstance: {fileID: 1301122296}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1353664756
 GameObject:
   m_ObjectHideFlags: 0
@@ -2145,6 +2151,7 @@ GameObject:
   - component: {fileID: 1436308300}
   - component: {fileID: 1436308298}
   - component: {fileID: 1436308297}
+  - component: {fileID: 1436308301}
   m_Layer: 0
   m_Name: Flowchart
   m_TagString: Untagged
@@ -2463,7 +2470,8 @@ MonoBehaviour:
     height: 859
   selectedBlocks:
   - {fileID: 1436308299}
-  selectedCommands: []
+  selectedCommands:
+  - {fileID: 1436308301}
   variables: []
   description: 
   stepPause: 0
@@ -2690,6 +2698,7 @@ MonoBehaviour:
   - {fileID: 1436308300}
   - {fileID: 1436308298}
   - {fileID: 1436308297}
+  - {fileID: 1436308301}
   suppressAllAutoSelections: 0
 --- !u!114 &1436308300
 MonoBehaviour:
@@ -2712,6 +2721,51 @@ MonoBehaviour:
     booleanRef: {fileID: 0}
     booleanVal: 0
   targetGameObjectOLD: {fileID: 0}
+--- !u!114 &1436308301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1436308277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 688e35811870d403f9e2b1ab2a699d98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemId: 83
+  indentLevel: 0
+  description: 
+  targetObject: {fileID: 1301122297}
+  targetComponentAssemblyName: LevelManager, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null
+  targetComponentFullname: UnityEngine.Component[]
+  targetComponentText: LevelManager
+  targetMethod: ShowUI
+  targetMethodText: 'ShowUI (String): Void'
+  methodParameters:
+  - objValue:
+      typeAssemblyname: System.String, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      typeFullname: System.String
+      intValue: 0
+      boolValue: 0
+      floatValue: 0
+      stringValue: FreeMoveUI
+      colorValue: {r: 0, g: 0, b: 0, a: 0}
+      gameObjectValue: {fileID: 0}
+      materialValue: {fileID: 0}
+      objectValue: {fileID: 0}
+      spriteValue: {fileID: 0}
+      textureValue: {fileID: 0}
+      vector2Value: {x: 0, y: 0}
+      vector3Value: {x: 0, y: 0, z: 0}
+    variableKey: 
+  saveReturnValue: 0
+  returnValueVariableKey: 
+  returnValueType: System.Void
+  showInherited: 0
+  callMode: 0
 --- !u!1 &1437565450
 GameObject:
   m_ObjectHideFlags: 0

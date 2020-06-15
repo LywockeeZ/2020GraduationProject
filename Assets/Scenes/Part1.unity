@@ -1532,6 +1532,7 @@ GameObject:
   - component: {fileID: 1448459208}
   - component: {fileID: 1448459255}
   - component: {fileID: 1448459254}
+  - component: {fileID: 1448459256}
   m_Layer: 0
   m_Name: Flowchart
   m_TagString: Untagged
@@ -1641,7 +1642,7 @@ MonoBehaviour:
   selectedBlocks:
   - {fileID: 1448459198}
   selectedCommands:
-  - {fileID: 1448459254}
+  - {fileID: 1448459256}
   variables: []
   description: 
   stepPause: 0
@@ -1789,6 +1790,7 @@ MonoBehaviour:
   - {fileID: 1448459227}
   - {fileID: 1448459196}
   - {fileID: 1448459230}
+  - {fileID: 1448459256}
   suppressAllAutoSelections: 0
 --- !u!114 &1448459199
 MonoBehaviour:
@@ -3145,6 +3147,51 @@ MonoBehaviour:
     booleanRef: {fileID: 0}
     booleanVal: 0
   targetGameObjectOLD: {fileID: 0}
+--- !u!114 &1448459256
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1448459189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 688e35811870d403f9e2b1ab2a699d98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemId: 77
+  indentLevel: 0
+  description: 
+  targetObject: {fileID: 1213625646}
+  targetComponentAssemblyName: LevelManager, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    PublicKeyToken=null
+  targetComponentFullname: UnityEngine.Component[]
+  targetComponentText: LevelManager
+  targetMethod: ShowUI
+  targetMethodText: 'ShowUI (String): Void'
+  methodParameters:
+  - objValue:
+      typeAssemblyname: System.String, mscorlib, Version=4.0.0.0, Culture=neutral,
+        PublicKeyToken=b77a5c561934e089
+      typeFullname: System.String
+      intValue: 0
+      boolValue: 0
+      floatValue: 0
+      stringValue: FreeMoveUI
+      colorValue: {r: 0, g: 0, b: 0, a: 0}
+      gameObjectValue: {fileID: 0}
+      materialValue: {fileID: 0}
+      objectValue: {fileID: 0}
+      spriteValue: {fileID: 0}
+      textureValue: {fileID: 0}
+      vector2Value: {x: 0, y: 0}
+      vector3Value: {x: 0, y: 0, z: 0}
+    variableKey: 
+  saveReturnValue: 0
+  returnValueVariableKey: 
+  returnValueType: System.Void
+  showInherited: 0
+  callMode: 0
 --- !u!1 &1463593524
 GameObject:
   m_ObjectHideFlags: 0
@@ -4709,6 +4756,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SayDialog
       objectReference: {fileID: 0}
+    - target: {fileID: 3802674186628076541, guid: 0e1fb6881b52772449d97f351de414b8,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3802674186628076543, guid: 0e1fb6881b52772449d97f351de414b8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5624,6 +5676,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8072912533204010677, guid: ff4517729f1da3444882d9f098ee3c4e,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8072912533204010680, guid: ff4517729f1da3444882d9f098ee3c4e,
         type: 3}

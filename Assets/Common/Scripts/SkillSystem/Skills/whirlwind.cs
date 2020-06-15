@@ -15,13 +15,13 @@ public class Whirlwind : SkillInstanceBase
     public override void ShowIndicator()
     {
         Debug.Log("ShowIndicator:" + SkillName);
-        Highlight(Color.blue, Game.Instance.GetPlayerUnit().CurrentOn);
+        Highlight(1, Game.Instance.GetPlayerUnit().CurrentOn);
     }
 
     public override void CloseIndicator()
     {
         Debug.Log("CloseIndicator:" + SkillName);
-        Highlight(Color.blue, Game.Instance.GetPlayerUnit().CurrentOn, false);
+        Highlight(1, Game.Instance.GetPlayerUnit().CurrentOn, false);
     }
 
     public override void ShowEmitter()
@@ -29,7 +29,7 @@ public class Whirlwind : SkillInstanceBase
         base.ShowEmitter();
         Debug.Log("ShowEmittor:" + SkillName);
         Game.Instance.SetCanInput(false);
-        Highlight(Color.red, Game.Instance.GetPlayerUnit().CurrentOn);
+        Highlight(2, Game.Instance.GetPlayerUnit().CurrentOn);
         m_skillEmitterCoroutine = CoroutineManager.StartCoroutineReturn(SkillEmitter());
     }
 
@@ -50,7 +50,7 @@ public class Whirlwind : SkillInstanceBase
     protected override void HideEmitter()
     {
         base.HideEmitter();
-        Highlight(Color.red, Game.Instance.GetPlayerUnit().CurrentOn, false);
+        Highlight(2, Game.Instance.GetPlayerUnit().CurrentOn, false);
     }
 
     /// <summary>
@@ -63,11 +63,20 @@ public class Whirlwind : SkillInstanceBase
         yield return null;
         do
         {
-            if (Input.GetMouseButtonDown(0))
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hitInfo, 200f, 1 << LayerMask.NameToLayer("CanEmmit")))
             {
-                Debug.Log("技能施放");
-                Game.Instance.GetPlayerUnit().ExecuteSkill();
-                isEnd = true;
+                SkillIndicator indicator = hitInfo.transform.parent.gameObject.GetComponent<SkillIndicator>();
+                indicator.SetIsMouseIn(true);
+
+                if (Input.GetMouseButtonDown(0))
+                {
+                    indicator.HighlightCancel();
+                    Debug.Log("技能施放");
+                    Game.Instance.GetPlayerUnit().ExecuteSkill();
+                    isEnd = true;
+                    break;
+                }
             }
             yield return null;
         } while (!isEnd);
@@ -110,32 +119,45 @@ public class Whirlwind : SkillInstanceBase
     }
 
 
-    private void HighlightTarget(BaseUnit unit, Color color, bool isOn = true)
+    private void HighlightTarget(BaseUnit unit, int type, bool isOn = true)
     {
         if (unit != null)
         {
-            if (isOn)
+            if (type == 1)
             {
-                unit.Model.transform.GetChild(0).GetComponent<Highlighter>().ConstantOn(color, 0.1f);
+                if (isOn)
+                {
+                    unit.State.Model.GetComponent<SkillIndicator>().ShowIndicator();
+                }
+                else
+                    unit.State.Model.GetComponent<SkillIndicator>().HideIndicator();
             }
             else
-                unit.Model.transform.GetChild(0).GetComponent<Highlighter>().ConstantOff(0.1f);
+            {
+                if (isOn)
+                {
+                    unit.State.Model.GetComponent<SkillIndicator>().ShowEmitter();
+                }
+                else
+                    unit.State.Model.GetComponent<SkillIndicator>().HideEmitter();
+
+            }
         }
     }
 
 
-    private void Highlight(Color color, BaseUnit baseUnit, bool isOn = true)
+    private void Highlight(int type, BaseUnit baseUnit, bool isOn = true)
     {
         NormalStageData stageData = baseUnit.GetStage();
 
-        HighlightTarget(stageData.GetBaseUnit(baseUnit.x - 1, baseUnit.y    ), color, isOn);
-        HighlightTarget(stageData.GetBaseUnit(baseUnit.x - 1, baseUnit.y + 1), color, isOn);
-        HighlightTarget(stageData.GetBaseUnit(baseUnit.x - 1, baseUnit.y - 1), color, isOn);
-        HighlightTarget(stageData.GetBaseUnit(baseUnit.x + 1, baseUnit.y    ), color, isOn);
-        HighlightTarget(stageData.GetBaseUnit(baseUnit.x + 1, baseUnit.y + 1), color, isOn);
-        HighlightTarget(stageData.GetBaseUnit(baseUnit.x + 1, baseUnit.y - 1), color, isOn);
-        HighlightTarget(stageData.GetBaseUnit(baseUnit.x    , baseUnit.y + 1), color, isOn);
-        HighlightTarget(stageData.GetBaseUnit(baseUnit.x    , baseUnit.y - 1), color, isOn);
+        HighlightTarget(stageData.GetBaseUnit(baseUnit.x - 1, baseUnit.y    ), type, isOn);
+        HighlightTarget(stageData.GetBaseUnit(baseUnit.x - 1, baseUnit.y + 1), type, isOn);
+        HighlightTarget(stageData.GetBaseUnit(baseUnit.x - 1, baseUnit.y - 1), type, isOn);
+        HighlightTarget(stageData.GetBaseUnit(baseUnit.x + 1, baseUnit.y    ), type, isOn);
+        HighlightTarget(stageData.GetBaseUnit(baseUnit.x + 1, baseUnit.y + 1), type, isOn);
+        HighlightTarget(stageData.GetBaseUnit(baseUnit.x + 1, baseUnit.y - 1), type, isOn);
+        HighlightTarget(stageData.GetBaseUnit(baseUnit.x    , baseUnit.y + 1), type, isOn);
+        HighlightTarget(stageData.GetBaseUnit(baseUnit.x    , baseUnit.y - 1), type, isOn);
     }
 
 }

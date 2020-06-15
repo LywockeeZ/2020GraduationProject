@@ -3,17 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
+using System;
 
 public class BattleUI :BaseUIForm
 {
-    public Button btn_Reset;
-    public Button btn_Warming;
-
     public GameObject ActionBar;
-    public Image apBar;
-    public Image roundTag;
+    public GameObject resetBtn;
+    public GameObject warmingBtn;
+    public GameObject endBtn;
 
+    private Image apBar;
+    private Image roundTag;
     private GameObject skillUI = null;
+
+    private Tweener tweener1;
+    private Tweener tweener2;
+    private Tweener tweener3;
+    private Tweener tweener4;
+
 
 
     private void Awake()
@@ -22,11 +30,18 @@ public class BattleUI :BaseUIForm
         CurrentUIType.UIForm_ShowMode = UIFormShowMode.Normal;
         CurrentUIType.UIForm_LucencyType = UIFormLucencyType.Pentrate;
 
-        btn_Reset = UITool.GetUIComponent<Button>(gameObject, "btn_Reset");
-        btn_Warming = UITool.GetUIComponent<Button>(gameObject, "btn_Warming");
-        ActionBar = UnityTool.FindChildGameObject(gameObject, "ActionBar");
         apBar = UITool.GetUIComponent<Image>(ActionBar, "bar_Ap");
         roundTag = UITool.GetUIComponent<Image>(ActionBar, "tag_Round");
+
+        tweener1 = ActionBar.transform.DOLocalMoveY(ActionBar.transform.localPosition.y - 140, 1f).SetEase(Ease.OutCubic).SetAutoKill(false);
+        tweener2 = resetBtn.transform.DOLocalMoveY(resetBtn.transform.localPosition.y - 70, 0.5f).SetEase(Ease.OutCubic).SetAutoKill(false);
+        tweener3 = warmingBtn.transform.DOLocalMoveY(warmingBtn.transform.localPosition.y - 70, 0.5f).SetEase(Ease.OutCubic).SetAutoKill(false);
+        tweener4 = endBtn.transform.DOLocalMoveY(endBtn.transform.localPosition.y - 70, 0.5f).SetEase(Ease.OutCubic).SetAutoKill(false);
+
+        tweener1.Pause();
+        tweener2.Pause();
+        tweener3.Pause();
+        tweener4.Pause();
 
     }
 
@@ -47,30 +62,15 @@ public class BattleUI :BaseUIForm
     }
         
 
-    private void Start()
-    {
-
-        btn_Reset.onClick.AddListener(() => {
-        });
-
-        
-    }
-
     private void OnEnable()
     {
         RegisterEvent();
-        //if (Game.Instance.GetMainSkill() != null)
-        //{
-        //    skillUI = GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>(
-        //        "UI/SkillUI", Vector3.zero);
-        //    skillUI.transform.SetParent(transform);
-        //    RectTransform trans = skillUI.GetComponent<RectTransform>();
-        //    trans.sizeDelta = Vector2.zero;
-        //    skillUI.transform.localPosition = Vector3.zero;
-        //    skillUI.transform.localScale = Vector3.one;
-        //}
 
         Game.Instance.ShowUI("SkillBarUI");
+        tweener1.Restart();
+        tweener2.Restart();
+        tweener3.Restart();
+        tweener4.Restart();
     }
 
     private void Update()
@@ -101,6 +101,16 @@ public class BattleUI :BaseUIForm
         CameraChanger.Instance.ChangeCam();
     }
 
+    public void BtnExit()
+    {
+        if (Game.Instance.GetIsInStage())
+        {
+            Game.Instance.NotifyEvent(ENUM_GameEvent.StageEnd);
+        }
+        Game.Instance.CloseAll();
+        Game.Instance.LoadLevel("StartScene");
+    }
+
     public void BtnReset()
     {
         Game.Instance.CloseUI("BattleUI");
@@ -119,10 +129,6 @@ public class BattleUI :BaseUIForm
     private void OnDisable()
     {
         DetachEvent();
-        if (skillUI != null)
-        {
-            Destroy(skillUI);
-        }
     }
 
 }

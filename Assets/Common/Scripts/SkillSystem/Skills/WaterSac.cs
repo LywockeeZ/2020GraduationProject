@@ -32,7 +32,7 @@ public class WaterSac : SkillInstanceBase
     public override void CloseIndicator()
     {
         Debug.Log("CloseIndicator:" + SkillName);
-        Highlight(Color.blue, false);
+        Highlight(1, false);
         targetUnits.Clear();
     }
 
@@ -40,7 +40,7 @@ public class WaterSac : SkillInstanceBase
     {
         base.ShowEmitter();
         Debug.Log("ShowEmittor:" + SkillName);
-        Highlight(Color.red, true);
+        Highlight(2, true);
         Game.Instance.SetCanInput(false);
         m_skillEmitterCoroutine = CoroutineManager.StartCoroutineReturn(SkillEmitter());
     }
@@ -62,7 +62,7 @@ public class WaterSac : SkillInstanceBase
     protected override void HideEmitter()
     {
         base.HideEmitter();
-        Highlight(Color.blue, false);
+        Highlight(2, false);
         itemTrail?.SetActive(false);
         targetUnits.Clear();
     }
@@ -78,31 +78,51 @@ public class WaterSac : SkillInstanceBase
         do
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hitInfo, 200f, 1 << LayerMask.NameToLayer("BaseUnit")))
+            if (Physics.Raycast(ray, out RaycastHit hitInfo, 200f, 1 << LayerMask.NameToLayer("CanEmmit")))
             {
-                GameObject hitObj = hitInfo.transform.gameObject;
-                Highlighter highlighter = hitObj.GetComponent<Highlighter>();
-                if (highlighter != null)
+                SkillIndicator indicator = hitInfo.transform.parent.gameObject.GetComponent<SkillIndicator>();
+                indicator.SetIsMouseIn(true);
+                DrawCruve(Game.Instance.GetPlayerUnit().transform.position + 0.2f * Game.Instance.GetPlayerUnit().transform.forward, hitInfo.transform.position);
+
+                if (Input.GetMouseButtonDown(0))
                 {
-                    //如果是蓝色，说明该目标为可选单元
-                    if (highlighter.color == Color.red)
-                    {
-                        //highlighter.Hover(Color.red);
-                        DrawCruve(Game.Instance.GetPlayerUnit().transform.position + 0.2f * Game.Instance.GetPlayerUnit().transform.forward, hitObj.transform.position);
-
-                        if (Input.GetMouseButtonDown(0))
-                        {
-                            chooseUnit = Game.Instance.GetCurrentStage().GetBaseUnit(Convert.ToInt16(hitInfo.transform.parent.localPosition.x), Convert.ToInt16(hitInfo.transform.parent.localPosition.z));
-                            Debug.Log("技能施放");
-                            Game.Instance.GetPlayerUnit().ExecuteSkill("item_WaterSac");
-                            isEnd = true;
-                        }
-
-                    }
-                    else itemTrail?.SetActive(false);
+                    chooseUnit = hitInfo.transform.parent.parent.GetComponent<BaseUnit>();
+                    indicator.HighlightCancel();
+                    Debug.Log("技能施放");
+                    Game.Instance.GetPlayerUnit().ExecuteSkill("item_WaterSac");
+                    isEnd = true;
+                    break;
                 }
             }
             else itemTrail?.SetActive(false);
+
+
+            //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            //if (Physics.Raycast(ray, out RaycastHit hitInfo, 200f, 1 << LayerMask.NameToLayer("BaseUnit")))
+            //{
+            //    GameObject hitObj = hitInfo.transform.gameObject;
+            //    Highlighter highlighter = hitObj.GetComponent<Highlighter>();
+            //    if (highlighter != null)
+            //    {
+            //        //如果是蓝色，说明该目标为可选单元
+            //        if (highlighter.color == Color.red)
+            //        {
+            //            //highlighter.Hover(Color.red);
+            //            DrawCruve(Game.Instance.GetPlayerUnit().transform.position + 0.2f * Game.Instance.GetPlayerUnit().transform.forward, hitObj.transform.position);
+
+            //            if (Input.GetMouseButtonDown(0))
+            //            {
+            //                chooseUnit = Game.Instance.GetCurrentStage().GetBaseUnit(Convert.ToInt16(hitInfo.transform.parent.localPosition.x), Convert.ToInt16(hitInfo.transform.parent.localPosition.z));
+            //                Debug.Log("技能施放");
+            //                Game.Instance.GetPlayerUnit().ExecuteSkill("item_WaterSac");
+            //                isEnd = true;
+            //            }
+
+            //        }
+            //        else itemTrail?.SetActive(false);
+            //    }
+            //}
+            //else itemTrail?.SetActive(false);
             yield return null;
         } while (!isEnd);
         CoroutineManager.StopCoroutine(m_skillEmitterCoroutine);
@@ -189,25 +209,25 @@ public class WaterSac : SkillInstanceBase
             if (unitOnUp != null && (unitOnUp.UpperUnit.ControlType != ENUM_UpperUnitControlType.Movable || unitOnUp.UpperUnit.ControlType != ENUM_UpperUnitControlType.NULL))
             {
                 targetUnits.Add(unitOnUp);
-                HighlightTarget(Color.blue, unitOnUp);
+                HighlightTarget(unitOnUp , 1);
                 unitOnUp = unitOnUp.Up;
             }
             if (unitOnDown != null && (unitOnDown.UpperUnit.ControlType != ENUM_UpperUnitControlType.Movable || unitOnDown.UpperUnit.ControlType != ENUM_UpperUnitControlType.NULL))
             {
                 targetUnits.Add(unitOnDown);
-                HighlightTarget(Color.blue, unitOnDown);
+                HighlightTarget(unitOnDown, 1);
                 unitOnDown = unitOnDown.Down;
             }
             if (unitOnLeft != null && (unitOnLeft.UpperUnit.ControlType != ENUM_UpperUnitControlType.Movable || unitOnLeft.UpperUnit.ControlType != ENUM_UpperUnitControlType.NULL))
             {
                 targetUnits.Add(unitOnLeft);
-                HighlightTarget(Color.blue, unitOnLeft);
+                HighlightTarget(unitOnLeft, 1);
                 unitOnLeft = unitOnLeft.Left;
             }
             if (unitOnRight != null && (unitOnRight.UpperUnit.ControlType != ENUM_UpperUnitControlType.Movable || unitOnRight.UpperUnit.ControlType != ENUM_UpperUnitControlType.NULL))
             {
                 targetUnits.Add(unitOnRight);
-                HighlightTarget(Color.blue, unitOnRight);
+                HighlightTarget(unitOnRight, 1);
                 unitOnRight = unitOnRight.Right;
             }
             i++;
@@ -244,27 +264,39 @@ public class WaterSac : SkillInstanceBase
     }
 
 
-    private void HighlightTarget(Color color, BaseUnit unit, bool isOn = true)
+    private void HighlightTarget(BaseUnit unit, int type, bool isOn = true)
     {
         if (unit != null)
         {
-            if (isOn)
+            if (type == 1)
             {
-                unit.Model.transform.GetChild(0).GetComponent<Highlighter>().ConstantOn(color, 0.1f);
+                if (isOn)
+                {
+                    unit.State.Model.GetComponent<SkillIndicator>().ShowIndicator();
+                }
+                else
+                    unit.State.Model.GetComponent<SkillIndicator>().HideIndicator();
             }
             else
-                unit.Model.transform.GetChild(0).GetComponent<Highlighter>().ConstantOff(0.1f);
+            {
+                if (isOn)
+                {
+                    unit.State.Model.GetComponent<SkillIndicator>().ShowEmitter();
+                }
+                else
+                    unit.State.Model.GetComponent<SkillIndicator>().HideEmitter();
+            }
         }
     }
 
 
-    private void Highlight(Color color, bool isOn = true)
+    private void Highlight(int type, bool isOn = true)
     {
         if (targetUnits != null)
         {
             foreach (var unit in targetUnits)
             {
-                HighlightTarget(color, unit, isOn);
+                HighlightTarget(unit, type, isOn);
             }
         }
     }

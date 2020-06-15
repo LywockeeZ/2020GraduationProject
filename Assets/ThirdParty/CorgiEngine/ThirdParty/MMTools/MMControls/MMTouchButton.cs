@@ -118,7 +118,7 @@ namespace MoreMountains.Tools
 				_initialSprite = _image.sprite;
 			}
 
-			_animator = GetComponent<Animator> ();
+			_animator = GetComponent<Animator>();
 			if (Animator != null)
 			{
 				_animator = Animator;
@@ -434,7 +434,7 @@ namespace MoreMountains.Tools
 			}
             if (EnterAnimationParameterName != null)
             {
-                _animator.SetBool(IdleAnimationParameterName, (CurrentState == ButtonStates.ButtonEnter));
+                _animator.SetBool(EnterAnimationParameterName, (CurrentState == ButtonStates.ButtonEnter));
             }
         }
 
