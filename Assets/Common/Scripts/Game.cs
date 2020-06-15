@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class Game
 {
@@ -45,6 +46,7 @@ public class Game
         m_APSystem = new APSystem();
         m_UISystem = new UISystem();
         m_SkillSystem = new SkillSystem();
+        DOTween.SetTweensCapacity(1000, 50);
     }
 
     private void ResigerGameEvent()
@@ -110,7 +112,7 @@ public class Game
         {
             if (GetPlayerUnit() != null)
             {
-                GetPlayerUnit().MoveByNavMesh(GetPlayerUnit().transform.position);
+                GetPlayerUnit().MoveByNavMesh(GetPlayerUnit().transform.position, false);
             }
         }
         m_canInput = value;

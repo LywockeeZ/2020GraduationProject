@@ -249,7 +249,7 @@ public class SkillSelectUI : BaseUIForm, ISelectItem
     {
         if (!Game.Instance.isTest)
         {
-            Game.Instance.GetPlayerUnit().MoveByNavMesh(Game.Instance.GetPlayerUnit().transform.position - 2 * Game.Instance.GetPlayerUnit().transform.forward);
+            Game.Instance.GetPlayerUnit().MoveByNavMesh(Game.Instance.GetPlayerUnit().transform.position - 2 * Game.Instance.GetPlayerUnit().transform.forward, false);
             Game.Instance.CloseUI("SkillSelectUI");
             Game.Instance.ShowUI("FreeMoveUI");
         }

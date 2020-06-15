@@ -33,6 +33,6 @@ public class ClickToMoveTo : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Game.Instance.GetPlayerUnit().MoveByNavMesh((Game.Instance.GetPlayerUnit().transform.position - transform.position).normalized * 1f + transform.position);
+        Game.Instance.GetPlayerUnit().MoveByNavMesh((Game.Instance.GetPlayerUnit().transform.position - transform.position).normalized * 1f + transform.position, false);
     }
 }

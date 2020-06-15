@@ -78,10 +78,10 @@ public class CharacterTalk : MonoBehaviour
         NpcCam?.VirtualCameraGameObject.SetActive(true);
         Game.Instance.SetCanInput(false);
         Game.Instance.SetCanFreeMove(false);
-        Game.Instance.GetPlayerUnit().MoveByNavMesh(Game.Instance.GetPlayerUnit().transform.position);
+        Game.Instance.GetPlayerUnit().MoveByNavMesh(Game.Instance.GetPlayerUnit().transform.position, false);
         Game.Instance.GetPlayerUnit().transform.DOLookAt(transform.position, 1f);
         if(GoBackOnTalk)
-            Game.Instance.GetPlayerUnit().MoveByNavMesh((Game.Instance.GetPlayerUnit().transform.position-transform.position).normalized*2f + transform.position);
+            Game.Instance.GetPlayerUnit().MoveByNavMesh((Game.Instance.GetPlayerUnit().transform.position-transform.position).normalized*2f + transform.position, false);
         Flowchart.BroadcastFungusMessage(message);
     }
 

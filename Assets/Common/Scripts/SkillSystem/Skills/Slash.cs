@@ -111,7 +111,7 @@ public class Slash : SkillInstanceBase
             //开始移动
             player.Agent.acceleration = 10f;
             player.Agent.speed = 8f;
-            player.MoveByNavMeshInSkill(finalUnitOnPath.Model.transform.position);
+            player.MoveByNavMesh(finalUnitOnPath.Model.transform.position, false);
         }));
 
         WaitForSeconds waitTime = new WaitForSeconds(0.1f);

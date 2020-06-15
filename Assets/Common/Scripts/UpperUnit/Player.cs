@@ -59,7 +59,7 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
             m_Agent.updatePosition = true;
             m_NavMeshBuder.StartUpdateNavMesh();
             m_Agent.Warp(SetTargetPos(_currentOn.Model.transform.position));
-            MoveByNavMeshInSkill(SetTargetPos(_currentOn.Model.transform.position));
+            MoveByNavMesh(SetTargetPos(_currentOn.Model.transform.position), false);
         }
         else
         {
@@ -192,11 +192,14 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
     /// 移动到目标位置
     /// </summary>
     /// <param name="m_targetPos"></param>
-    public void MoveByNavMesh(Vector3 m_targetPos)
+    public void MoveByNavMesh(Vector3 m_targetPos, bool isCost = true)
     {
         //关卡中移动时扣除点数
-        if (!Game.Instance.GetCanFreeMove())
+        if (isCost)
+        {
+            UpdateUnit(targetUnit);
             Game.Instance.CostAP(1, 0);
+        }
 
         if (m_Agent.isActiveAndEnabled)
             m_Agent.SetDestination(m_targetPos);
@@ -209,7 +212,7 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
     /// 技能中使用的位移方法
     /// </summary>
     /// <param name="m_targetPos"></param>
-    public void MoveByNavMeshInSkill(Vector3 m_targetPos)
+    public void MoveByNavMeshDontUpdate(Vector3 m_targetPos)
     {
         m_Agent.SetDestination(m_targetPos);
         targetPos = m_targetPos;
@@ -273,13 +276,13 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
                 //targetPos = SetTargetPos(targetUnit.Model.transform.position);
                 //lookdir = GetLookDir();
                 ////////////////////////////////////////////////////////////////
-                
+
 
                 //保持在油，水，阻燃带上行走不改变状态
                 if (targetUnit.State.StateType == ENUM_State.Ground)
-                    targetUnit.SetState(new Block(targetUnit));
-
-                UpdateUnit(targetUnit);
+                {
+                    targetUnit.SetState(new Block(targetUnit, _currentOn));
+                }
 
                 //用来移动的方法
                 if (targetUnit.State.StateType == ENUM_State.Fire)
@@ -288,6 +291,7 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
                 }
                 else  MoveByNavMesh(targetUnit.Model.transform.position);
 
+                //UpdateUnit(targetUnit);
             }
 
         }

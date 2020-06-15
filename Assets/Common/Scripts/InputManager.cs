@@ -116,7 +116,7 @@ public class InputManager : MonoBehaviour
                 if (Game.Instance.GetCanFreeMove() && (hitInfo.point - Game.Instance.GetPlayerUnit().transform.position).magnitude <=10f)
                 {
                     clickedPos = hitInfo.point;
-                    Game.Instance.GetPlayerUnit().MoveByNavMesh(clickedPos);
+                    Game.Instance.GetPlayerUnit().MoveByNavMesh(clickedPos, false);
                     clickTagMaterial.DOFade(1, 0.2f);
                     isTagFade = false;
                     clickTag.transform.position = clickedPos;
