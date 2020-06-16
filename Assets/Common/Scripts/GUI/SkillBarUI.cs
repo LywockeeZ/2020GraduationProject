@@ -55,14 +55,21 @@ public class SkillBarUI : BaseUIForm, ISelectItem
     }
 
     private EventListenerDelegate OnRoundBegain;
+    private EventListenerDelegate OnRoundUpdateBegain;
     private EventListenerDelegate OnSkillEnd;
     private void RegisterEvent()
     {
         Game.Instance.RegisterEvent(ENUM_GameEvent.RoundBegain,
             OnRoundBegain = (Message evt) =>
             {
+                EnableAll();
                 if (buttons.Count == 4)
                     buttons[3]?.Normal();
+            });
+        Game.Instance.RegisterEvent(ENUM_GameEvent.RoundUpdateBegain,
+            OnRoundUpdateBegain = (Message evt) =>
+            {
+                DisableAll();
             });
 
         Game.Instance.RegisterEvent(ENUM_GameEvent.SkillEnd,

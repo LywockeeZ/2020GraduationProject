@@ -8,6 +8,7 @@ public class SkillIndicator : MonoBehaviour
 {
     public SpriteRenderer indicator;
     public SpriteRenderer emittor;
+    public bool haveIndicator = true;
 
     private Tweener indicatorTweener;
     private Tweener emittorTweener;
@@ -58,7 +59,8 @@ public class SkillIndicator : MonoBehaviour
     {
         //emittorTweener.PlayForward();
         indicatorTweener.PlayForward();
-        transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("CanEmmit");
+        if (haveIndicator)
+            transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("CanEmmit");
     }
 
     public void HideEmitter()

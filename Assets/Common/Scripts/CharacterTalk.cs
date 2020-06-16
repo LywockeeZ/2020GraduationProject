@@ -20,6 +20,7 @@ public class CharacterTalk : MonoBehaviour
 
     private Highlighter highlighter;
     private bool canClick = true;
+    private bool isHighlight = false;
 
     private void Start()
     {
@@ -30,13 +31,27 @@ public class CharacterTalk : MonoBehaviour
         }
     }
 
+
     private void OnMouseEnter()
     {
-        if (Game.Instance.GetPlayerUnit()!= null)
+        if (Game.Instance.GetPlayerUnit()!= null && canClick && Game.Instance.GetCanInput())
         {
-            if ((transform.position - Game.Instance.GetPlayerUnit().transform.position).magnitude < highlightDistance && canClick && Game.Instance.GetCanInput())
+            if ((transform.position - Game.Instance.GetPlayerUnit().transform.position).magnitude < highlightDistance)
             {
                 highlighter.ConstantOn(highlighter.constantFadeInTime);
+                isHighlight = true;
+            }
+        }
+    }
+
+    private void OnMouseOver()
+    {
+        if (!isHighlight && Game.Instance.GetPlayerUnit() != null && canClick && Game.Instance.GetCanInput())
+        {
+            if ((transform.position - Game.Instance.GetPlayerUnit().transform.position).magnitude < highlightDistance)
+            {
+                highlighter.ConstantOn(highlighter.constantFadeInTime);
+                isHighlight = true;
             }
         }
     }
@@ -44,6 +59,7 @@ public class CharacterTalk : MonoBehaviour
     private void OnMouseExit()
     {
         highlighter.ConstantOff(highlighter.constantFadeOutTime);
+        isHighlight = false;
     }
 
     private void OnMouseDown()
@@ -51,6 +67,7 @@ public class CharacterTalk : MonoBehaviour
         if ((transform.position - Game.Instance.GetPlayerUnit().transform.position).magnitude < highlightDistance && canClick && Game.Instance.GetCanInput())
         {
             highlighter.ConstantOff(highlighter.constantFadeOutTime);
+            isHighlight = false;
             OnMouseClick?.Invoke();
             if (animator != null && !string.IsNullOrEmpty(TalkAnimation))
             {

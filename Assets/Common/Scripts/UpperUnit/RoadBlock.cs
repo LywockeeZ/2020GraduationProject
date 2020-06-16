@@ -26,7 +26,6 @@ public class RoadBlock : MonoBehaviour, IUpperUnit, IFixedUnit
 
     public virtual void Init()
     {
-        _currentOn.StateEnd();
         _currentOn.SetState(new Ground(_currentOn));
         _currentOn.UpperUnit = new UpperUnit(Type, ControlType, BeFiredType);
         _currentOn.SetUpperGameObject(gameObject);
@@ -35,6 +34,8 @@ public class RoadBlock : MonoBehaviour, IUpperUnit, IFixedUnit
         transform.position = SetTargetPos(transform.position);
         CurrentOn.transform.GetChild(0).GetComponent<Highlighter>().enabled = false;
         CurrentOn.transform.GetChild(0).gameObject.SetActive(false);
+        CurrentOn.State.Model.GetComponent<SkillIndicator>().haveIndicator = false;
+        CurrentOn.State.Model.GetComponent<SkillIndicator>().enabled = false;
 
     }
 
@@ -43,6 +44,8 @@ public class RoadBlock : MonoBehaviour, IUpperUnit, IFixedUnit
     {
         CurrentOn.transform.GetChild(0).gameObject.SetActive(true);
         CurrentOn.transform.GetChild(0).GetComponent<Highlighter>().enabled = true;
+        CurrentOn.State.Model.GetComponent<SkillIndicator>().haveIndicator = true;
+        CurrentOn.State.Model.GetComponent<SkillIndicator>().enabled = true;
         GameFactory.GetAssetFactory().DestroyGameObject<GameObject>(this.gameObject);
         _currentOn.UpperUnit.InitOrReset();
         CurrentOn.UpperGameObject = null;

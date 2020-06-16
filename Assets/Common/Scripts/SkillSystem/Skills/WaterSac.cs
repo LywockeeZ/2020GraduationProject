@@ -272,19 +272,19 @@ public class WaterSac : SkillInstanceBase
             {
                 if (isOn)
                 {
-                    unit.State.Model.GetComponent<SkillIndicator>().ShowIndicator();
+                    unit.State.Model.GetComponent<SkillIndicator>()?.ShowIndicator();
                 }
                 else
-                    unit.State.Model.GetComponent<SkillIndicator>().HideIndicator();
+                    unit.State.Model.GetComponent<SkillIndicator>()?.HideIndicator();
             }
             else
             {
                 if (isOn)
                 {
-                    unit.State.Model.GetComponent<SkillIndicator>().ShowEmitter();
+                    unit.State.Model.GetComponent<SkillIndicator>()?.ShowEmitter();
                 }
                 else
-                    unit.State.Model.GetComponent<SkillIndicator>().HideEmitter();
+                    unit.State.Model.GetComponent<SkillIndicator>()?.HideEmitter();
             }
         }
     }

@@ -4209,10 +4209,15 @@ PrefabInstance:
       propertyPath: OnMouseClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 3749511838470350545, guid: 845f513ff2a60dd4599a11ec76060c2f,
+        type: 3}
+      propertyPath: highlightDistance
+      value: 1.3
+      objectReference: {fileID: 0}
     - target: {fileID: 3749511838470350556, guid: 845f513ff2a60dd4599a11ec76060c2f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -56.951
+      value: -56.992
       objectReference: {fileID: 0}
     - target: {fileID: 3749511838470350556, guid: 845f513ff2a60dd4599a11ec76060c2f,
         type: 3}
@@ -4222,7 +4227,7 @@ PrefabInstance:
     - target: {fileID: 3749511838470350556, guid: 845f513ff2a60dd4599a11ec76060c2f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 27.775
+      value: 27.754
       objectReference: {fileID: 0}
     - target: {fileID: 3749511838470350556, guid: 845f513ff2a60dd4599a11ec76060c2f,
         type: 3}
@@ -4288,6 +4293,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3749511838470350558, guid: 845f513ff2a60dd4599a11ec76060c2f,
+        type: 3}
+      propertyPath: m_Radius
+      value: 1.3825738
+      objectReference: {fileID: 0}
+    - target: {fileID: 3749511838470350558, guid: 845f513ff2a60dd4599a11ec76060c2f,
+        type: 3}
+      propertyPath: m_Height
+      value: 2.9876494
+      objectReference: {fileID: 0}
+    - target: {fileID: 3749511838470350558, guid: 845f513ff2a60dd4599a11ec76060c2f,
+        type: 3}
+      propertyPath: m_Center.x
+      value: 0.0755772
+      objectReference: {fileID: 0}
+    - target: {fileID: 3749511838470350558, guid: 845f513ff2a60dd4599a11ec76060c2f,
+        type: 3}
+      propertyPath: m_Center.z
+      value: 0.007986724
+      objectReference: {fileID: 0}
+    - target: {fileID: 3749511838470350558, guid: 845f513ff2a60dd4599a11ec76060c2f,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 1.5149977
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 845f513ff2a60dd4599a11ec76060c2f, type: 3}
