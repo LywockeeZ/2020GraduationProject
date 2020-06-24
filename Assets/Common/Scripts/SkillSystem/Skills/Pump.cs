@@ -145,6 +145,7 @@ public class Pump : SkillInstanceBase
         if (skillEffect != null)
             GameObject.Destroy(skillEffect);
         base.OnSkillEnd();
+        Game.Instance.NotifyEvent(ENUM_GameEvent.SetWaterTexture);
     }
 
 

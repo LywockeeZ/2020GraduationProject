@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using HighlightingSystem;
+using DG.Tweening;
+using Cinemachine;
 
 public class Whirlwind : SkillInstanceBase
 {
@@ -97,6 +99,7 @@ public class Whirlwind : SkillInstanceBase
         WaitForSeconds startTime =  new WaitForSeconds(m_StartTime);
         yield return startTime;
 
+        Game.Instance.GetPlayerUnit().GetComponent<CinemachineImpulseSource>().GenerateImpulse();
         NormalStageData stageData = baseUnit.GetStage();
         stageData.GetBaseUnit(baseUnit.x - 1, baseUnit.y);
         EndFire(stageData.GetBaseUnit(baseUnit.x - 1, baseUnit.y    ));
@@ -109,6 +112,7 @@ public class Whirlwind : SkillInstanceBase
         EndFire(stageData.GetBaseUnit(baseUnit.x    , baseUnit.y - 1));
 
         GameObject.Destroy(skillEffect);
+        Game.Instance.NotifyEvent(ENUM_GameEvent.SetWaterTexture);
         OnTriggerComplete();
         CoroutineManager.StopCoroutine(m_skillProcessCoroutine);
     }

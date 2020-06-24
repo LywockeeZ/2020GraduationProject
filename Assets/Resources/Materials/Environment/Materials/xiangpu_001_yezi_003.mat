@@ -71,9 +71,16 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _TimeDelay: 1
+    - _TimeScale: 1
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Direction: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Pos: {r: 0, g: 0, b: 0, a: 0}
     - _TintColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
+    - _windRandom: {r: -1.07, g: 2.42, b: 4.33, a: 1.07}
+    - _windSize: {r: 0, g: 1.42, b: 1.4, a: 1.95}
+    - _windSpeed: {r: 0.89, g: 0.43, b: 1.34, a: 1.31}

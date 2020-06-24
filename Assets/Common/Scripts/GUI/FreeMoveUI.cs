@@ -12,7 +12,7 @@ public class FreeMoveUI : BaseUIForm
 
     private void Awake()
     {
-        CurrentUIType.UIForm_Type = UIFormType.Normal;
+        CurrentUIType.UIForm_Type = UIFormType.Fixed;
         CurrentUIType.UIForm_ShowMode = UIFormShowMode.Normal;
         CurrentUIType.UIForm_LucencyType = UIFormLucencyType.Pentrate;
 

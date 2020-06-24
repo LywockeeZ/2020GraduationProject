@@ -13,6 +13,8 @@ public class LoadingSceneManager : MonoBehaviour
 
     protected AsyncOperation _asyncOperation;
     protected static string _sceneToLoad = "";      //保存目标场景名
+    protected static string _loadSceneName = null;
+    private static bool isLoadingSceneEnd = false;
 
     /// <summary>
     /// 一旦切换到加载界面的场景就立刻开始异步加载
@@ -23,12 +25,13 @@ public class LoadingSceneManager : MonoBehaviour
         {
             StartCoroutine(LoadAsynchronously());
         }
+
     }
 
     // Update is called once per frame
     protected virtual void Update()
     {
-        
+
     }
 
 
@@ -43,7 +46,8 @@ public class LoadingSceneManager : MonoBehaviour
         if (LoadingScreenSceneName != null)
         {
             //先加载到加载界面
-            SceneChanger.Instance.LoadScene(sceneToLoad);
+            SceneChanger.Instance.LoadScene(LoadingScreenSceneName);
+            isLoadingSceneEnd = true;
         }
     }
 
@@ -56,9 +60,11 @@ public class LoadingSceneManager : MonoBehaviour
     public static void LoadScene(string sceneToLoad, string loadingSceneName)
     {
         _sceneToLoad = sceneToLoad;
+        _loadSceneName = loadingSceneName;
         Application.backgroundLoadingPriority = ThreadPriority.High;
-        SceneChanger.Instance.LoadScene(sceneToLoad);
+        SceneChanger.Instance.LoadScene(loadingSceneName);
         //SceneManager.LoadScene(loadingSceneName);
+        isLoadingSceneEnd = false;
     }
 
 
@@ -67,9 +73,13 @@ public class LoadingSceneManager : MonoBehaviour
         _asyncOperation = SceneManager.LoadSceneAsync(_sceneToLoad, LoadSceneMode.Single);
         _asyncOperation.allowSceneActivation = false;
 
-
+        //待外界调用StartLoad,开始加载后再进行场景加载，用于过场场景
+        while(!isLoadingSceneEnd)
+        {
+            yield return null;
+        }
         //待加入进度条相关的操作
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
 
         SceneChanger.Instance.LoadSceneComplete();
 
@@ -79,6 +89,11 @@ public class LoadingSceneManager : MonoBehaviour
         Func<bool> call;
         CoroutineManager.StartCoroutineTask(call = () => { return _asyncOperation.isDone; }, ENUM_GameEvent.LoadSceneComplete, 0f);
 
+    }
+
+    public virtual void StartLoad()
+    {
+        isLoadingSceneEnd = true;
     }
 
 }

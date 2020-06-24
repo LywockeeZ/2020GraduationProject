@@ -114,7 +114,10 @@ public enum ENUM_GameEvent
     StartFire,
     PlayerMove,
 
-    SkillEnd
+    SkillEnd,
+
+    SetOilTexture,
+    SetWaterTexture
 }
 
 

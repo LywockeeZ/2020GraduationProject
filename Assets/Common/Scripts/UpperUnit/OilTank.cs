@@ -36,8 +36,8 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
         transform.rotation = Quaternion.Euler(0, UnityEngine.Random.Range(0, 360), 0);
         animator = transform.GetChild(0).GetComponent<Animator>();
 
-        explosionEffectByHand = GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>("Effects/OilTankExplosionHand", transform.position);
-        explosionEffectByFire = GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>("Effects/OilTankExplosionFire", transform.position);
+        explosionEffectByHand = GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>("Effects/OilTankExplosionFire", transform.position);
+        explosionEffectByFire = GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>("Effects/TouchBee", transform.position);
         explosionEffectByHand.transform.forward = Vector3.up;
         explosionEffectByFire.transform.forward = Vector3.up;
     }
@@ -81,6 +81,7 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
         //if (animator != null) animator.SetTrigger("Break");
 
         End();
+        Game.Instance.NotifyEvent(ENUM_GameEvent.SetOilTexture);
     }
 
 
@@ -96,7 +97,7 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
 
         if (animator != null) animator.SetTrigger("Break");
         End();
-
+        Game.Instance.NotifyEvent(ENUM_GameEvent.SetOilTexture);
     }
 
 

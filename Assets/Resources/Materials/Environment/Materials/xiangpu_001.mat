@@ -83,3 +83,6 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineColor: {r: 0.254717, g: 0.14775571, b: 0.08530617, a: 1}
     - _Specular: {r: 1, g: 1, b: 1, a: 1}
+    - _windRandom: {r: 1.81, g: 3.76, b: 1.77, a: 1}
+    - _windSize: {r: 0, g: 1, b: 0, a: 0}
+    - _windSpeed: {r: 0.98, g: 2, b: 1, a: 1.86}

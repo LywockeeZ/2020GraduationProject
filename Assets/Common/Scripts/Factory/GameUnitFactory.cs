@@ -40,10 +40,10 @@ public class GameUnitFactory : IGameUnitFactory
                 baseUnit.SetState(new Fire(baseUnit));
                 return baseUnit;
             case ENUM_Build_BaseUnit.Water:
-                baseUnit.SetState(new Water(baseUnit));
+                baseUnit.SetState(new Water(baseUnit, false));
                 return baseUnit;
             case ENUM_Build_BaseUnit.Oil:
-                baseUnit.SetState(new Oil(baseUnit));
+                baseUnit.SetState(new Oil(baseUnit, false));
                 return baseUnit;
             case ENUM_Build_BaseUnit.Block:
                 baseUnit.SetState(new Block(baseUnit));

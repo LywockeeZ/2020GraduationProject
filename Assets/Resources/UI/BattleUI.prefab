@@ -996,6 +996,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Btn_end
       objectReference: {fileID: 0}
+    - target: {fileID: 1983084261561196926, guid: fdeab7bb0f2cd994fbeb2984197f6881,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2683757591540139426, guid: fdeab7bb0f2cd994fbeb2984197f6881,
         type: 3}
       propertyPath: m_AnchoredPosition.x

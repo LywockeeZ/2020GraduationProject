@@ -8,7 +8,7 @@ public class SceneChanger : Singleton<SceneChanger>
     public Animator animator;
 
     private int sceneToLoad;
-    private string sceneToLoadstr;
+    private string sceneToLoadstr = "LoadingScreen";
     private bool isLoadingScene = false;
     private Action callBack;
     
@@ -50,7 +50,7 @@ public class SceneChanger : Singleton<SceneChanger>
             Game.Instance.NotifyEvent(ENUM_GameEvent.LoadSceneStart);
             void action()
             {
-                SceneManager.LoadScene("LoadingScreen");
+                SceneManager.LoadScene(sceneToLoadstr);
             }
             CoroutineManager.StartCoroutineTask(action, 0f);
         }
@@ -64,10 +64,10 @@ public class SceneChanger : Singleton<SceneChanger>
     /// <summary>
     /// 由LoadsceneManager调用，在加载场景之前先由此触发淡出
     /// </summary>
-    public void LoadScene(string sceneName)
+    public void LoadScene(string cutSceneName)
     {
         isLoadingScene = true;
-        sceneToLoadstr = sceneName;
+        sceneToLoadstr = cutSceneName;
         FadeOut();
     }
 

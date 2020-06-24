@@ -192,6 +192,8 @@ public class NormalStageData : IStageData
                 baseUnits[i].GetAround();
             }
         }
+        Game.Instance.NotifyEvent(ENUM_GameEvent.SetOilTexture);
+        Game.Instance.NotifyEvent(ENUM_GameEvent.SetWaterTexture);
     }
 
     //清除单元对周围单元的引用

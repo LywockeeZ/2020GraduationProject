@@ -397,6 +397,7 @@ public class Bee : MonoBehaviour, IUpperUnit
         {
             //Game.Instance.ShowUI("EndStageUI");
             //Game.Instance.UIShowMessag("EndStageUI", "你死了！");
+            GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>("Effects/TouchBee", CurrentOn.transform.position + 0.8f * Vector3.up);
             Game.Instance.NotifyEvent(ENUM_GameEvent.StageEnd, 1);
         }
     }

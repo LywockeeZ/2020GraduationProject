@@ -221,7 +221,7 @@ public class Game
         m_StageSystem.LoadNextLevel();
     }
 
-    public void LoadLevelOnMain(string sceneName, string levelName)
+    public void LoadLevelOnMain(string sceneName, string levelName, string cutSceneName = null)
     {
         if (isTest)
         {
@@ -229,7 +229,7 @@ public class Game
             Game.Instance.NotifyEvent(ENUM_GameEvent.RoundBegain);
         }
         else
-            m_StageSystem.LoadLevelOnMain(sceneName,levelName);
+            m_StageSystem.LoadLevelOnMain(sceneName,levelName,cutSceneName);
     }
 
     public void SetPlayerUnit(Player m_playerUnit)

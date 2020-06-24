@@ -1860,6 +1860,10 @@ PrefabInstance:
       propertyPath: NextPointName
       value: Level5
       objectReference: {fileID: 0}
+    - target: {fileID: 1367727918, guid: 79b446bf0dcec554a8e12d20d51453f9, type: 3}
+      propertyPath: CutSceneName
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1367727920, guid: 79b446bf0dcec554a8e12d20d51453f9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

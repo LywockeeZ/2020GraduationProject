@@ -10,6 +10,7 @@ public class LevelManager : Singleton<LevelManager>
     public string SceneName;
     public string PointName;
     [Header("Level to next")]
+    public string CutSceneName;
     public string NextSceneName;
     public string NextPointName;
 
@@ -60,7 +61,7 @@ public class LevelManager : Singleton<LevelManager>
 
     public void LevelToNext()
     {
-        Game.Instance.LoadLevelOnMain(NextSceneName, NextPointName);
+        Game.Instance.LoadLevelOnMain(NextSceneName, NextPointName, CutSceneName);
     }
 
     public void InputOn()

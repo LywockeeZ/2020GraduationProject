@@ -116,6 +116,7 @@ public class WaterTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
         SetTargetToWater(_currentOn.Down);
         SetTargetToWater(_currentOn.Left);
         SetTargetToWater(_currentOn.Right);
+        Game.Instance.NotifyEvent(ENUM_GameEvent.SetWaterTexture);
     }
 
 

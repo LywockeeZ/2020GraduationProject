@@ -16,14 +16,30 @@ public class Water : IState
     private bool isUpdating = false;//切换为雾的标签
     private GameObject waterEffect;
     private GameObject waterSmokeEffect;
+    private MeshRenderer meshRenderer;
+    private EventListenerDelegate OnSetWaterTexture;
+    private bool _isSetTexture = false;
     #endregion
 
-    public Water(BaseUnit owner) : base(owner)
+    public Water(BaseUnit owner, bool isSetTexture = true) : base(owner)
     {
         StateType = ENUM_State.Water;
         _stateName = "Water";
         BeFiredType = _beFiredType;
+        _isSetTexture = isSetTexture;
         OnStateBegin();
+
+        if (isSetTexture)
+        {
+            SetWaterTexture();
+            Game.Instance.NotifyEvent(ENUM_GameEvent.SetWaterTexture);
+        }
+
+        Game.Instance.RegisterEvent(ENUM_GameEvent.SetWaterTexture, OnSetWaterTexture = (Message evt) =>
+        {
+            SetWaterTexture();
+        });
+
     }
 
 
@@ -66,8 +82,9 @@ public class Water : IState
 
     public override void OnStateEnd()
     {
+        DetachEvnt();
+        Game.Instance.NotifyEvent(ENUM_GameEvent.SetWaterTexture);
         Model.transform.GetChild(0).GetComponent<MeshRenderer>().material.DOFade(0, 0.5f).OnComplete(() => {
-            DetachEvnt();
             GameObject.Destroy(waterEffect);
             GameObject.Destroy(waterSmokeEffect);
             GameFactory.GetAssetFactory().DestroyGameObject<GameObject>(Model);
@@ -91,6 +108,7 @@ public class Water : IState
     private void DetachEvnt()
     {
         Game.Instance.DetachEvent(ENUM_GameEvent.RoundUpdateEnd, OnRoundUpdateEnd);
+        Game.Instance.DetachEvent(ENUM_GameEvent.SetWaterTexture, OnSetWaterTexture);
     }
     #endregion
 
@@ -100,12 +118,15 @@ public class Water : IState
     /// </summary>
     private void SetWaterModel()
     {
-        waterEffect = GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>("Effects/WaterDrop", Owner.transform.position);
+        if (_isSetTexture)
+        {
+            waterEffect = GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>("Effects/WaterDrop", Owner.transform.position);
+        }
         Model = GameFactory.GetAssetFactory().InstantiateGameObject("Water",
             GetTargetPos(Owner.Model.transform.position, _height));
         Model.transform.SetParent(Owner.Model.transform);
-        Model.transform.GetChild(0).GetComponent<MeshRenderer>().material.mainTextureOffset = new Vector2((Model.transform.position.x % 3) * 0.333f, (Model.transform.position.z % 3) * 0.333f);
-        Model.transform.GetChild(0).GetComponent<MeshRenderer>().material.DOFade(1, 0.5f).From(0);
+        meshRenderer = Model.transform.GetChild(0).GetComponent<MeshRenderer>();
+        meshRenderer.GetComponent<MeshRenderer>().material.DOFade(1, 0.5f).From(0);
     }
 
 
@@ -115,11 +136,13 @@ public class Water : IState
     private void SetWaterFogModel()
     {
         waterSmokeEffect = GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>("Effects/WaterSmoke", Owner.transform.position);
+        waterSmokeEffect.transform.rotation = Quaternion.Euler(new Vector3(-90, 0, 0));
         Model = GameFactory.GetAssetFactory().InstantiateGameObject("WaterFog",
             GetTargetPos(Owner.Model.transform.position, _height));
         Model.transform.SetParent(Owner.Model.transform);
-        Model.transform.GetChild(0).GetComponent<MeshRenderer>().material.mainTextureOffset = new Vector2((Model.transform.position.x % 3) * 0.333f, (Model.transform.position.z % 3) * 0.333f);
-        Model.transform.GetChild(0).GetComponent<MeshRenderer>().material.DOFade(0.5f, 0.5f).From(1);
+        meshRenderer = Model.transform.GetChild(0).GetComponent<MeshRenderer>();
+        meshRenderer.GetComponent<MeshRenderer>().material.DOFade(1, 0.5f).From(0);
+        SetWaterTexture();
     }
 
 
@@ -139,6 +162,87 @@ public class Water : IState
         }
 
         return isExist;
+    }
+
+    private void SetWaterTexture()
+    {
+        meshRenderer.material.mainTextureOffset = GetTextureOffset(GetAroundState());
+    }
+
+    private int GetAroundState()
+    {
+        int weight = 0;
+        if (Owner.Up != null && Owner.Up.State.StateType == ENUM_State.Water)
+            weight += 1;
+        if (Owner.Right != null && Owner.Right.State.StateType == ENUM_State.Water)
+            weight += 4;
+        if (Owner.Down != null && Owner.Down.State.StateType == ENUM_State.Water)
+            weight += 9;
+        if (Owner.Left != null && Owner.Left.State.StateType == ENUM_State.Water)
+            weight += 16;
+
+        return weight;
+    }
+
+    private Vector2 GetTextureOffset(int weight)
+    {
+        Vector2 textureOffset = Vector2.zero;
+        switch (weight)
+        {
+            case 0:
+                textureOffset = new Vector2(0, 0);
+                break;
+            case 1:
+                textureOffset = new Vector2(0.6666f, 0.3334f);
+                break;
+            case 4:
+                textureOffset = new Vector2(0, 0.1667f);
+                break;
+            case 5:
+                textureOffset = new Vector2(0, 0.501f);
+                break;
+            case 9:
+                textureOffset = new Vector2(0, 0.3334f);
+                break;
+            case 10:
+                textureOffset = new Vector2(0.3333f, 0.3334f);
+                break;
+            case 13:
+                textureOffset = new Vector2(0, 0.8335f);
+                break;
+            case 14:
+                textureOffset = new Vector2(0, 0.6668f);
+                break;
+            case 16:
+                textureOffset = new Vector2(0.6666f, 0.1667f);
+                break;
+            case 17:
+                textureOffset = new Vector2(0.6666f, 0.501f);
+                break;
+            case 20:
+                textureOffset = new Vector2(0.3333f, 0.1667f);
+                break;
+            case 21:
+                textureOffset = new Vector2(0.3333f, 0.501f);
+                break;
+            case 25:
+                textureOffset = new Vector2(0.6666f, 0.8335f);
+                break;
+            case 26:
+                textureOffset = new Vector2(0.6666f, 0.6668f);
+                break;
+            case 29:
+                textureOffset = new Vector2(0.3333f, 0.8335f);
+                break;
+            case 30:
+                textureOffset = new Vector2(0.3333f, 0.6668f);
+                break;
+            default:
+                Debug.LogError("未找到该权重:" + weight);
+                textureOffset = new Vector2(0, 0);
+                break;
+        }
+        return textureOffset;
     }
 
 

@@ -4,6 +4,7 @@ using UnityEngine;
 using HighlightingSystem;
 using DG.Tweening;
 using System;
+using Cinemachine;
 
 public class Slash : SkillInstanceBase
 {
@@ -112,7 +113,7 @@ public class Slash : SkillInstanceBase
 
         tweeners.Add(player.transform.DOLookAt(chooseUnit.Model.transform.position, 0.3f).OnComplete(()=> {
             //开始移动
-            player.Agent.acceleration = 10f;
+            player.Agent.acceleration = 11f;
             player.Agent.speed = 8f;
             player.MoveByNavMesh(finalUnitOnPath.Model.transform.position, false);
         }));
@@ -160,10 +161,11 @@ public class Slash : SkillInstanceBase
 
     private void OnEndFireProcessEnd()
     {
+        Game.Instance.GetPlayerUnit().GetComponent<CinemachineImpulseSource>().GenerateImpulse();
         Player player = Game.Instance.GetPlayerUnit();
         player.Agent.velocity = Vector3.zero;
         player.Agent.acceleration = 6f;
-        player.Agent.speed = 1.5f;
+        player.Agent.speed = 2f;
         player.UpdateUnit(finalUnitOnPath);
         player.SkillAnimator.SetTrigger("skill_SlashEnd");
         if (pathNextUnit != null)
@@ -185,7 +187,7 @@ public class Slash : SkillInstanceBase
         Player player = Game.Instance.GetPlayerUnit();
         player.Agent.velocity = Vector3.zero;
         player.Agent.acceleration = 6f;
-        player.Agent.speed = 1.5f;
+        player.Agent.speed = 2f;
     }
 
     private List<BaseUnit> FindUnitsOnPath(BaseUnit chooseUnit)

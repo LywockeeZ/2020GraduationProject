@@ -278,18 +278,25 @@ public class StageSystem : IGameSystem
     /// 切换主场景上的关卡
     /// </summary>
     /// <param name="stageName"></param>
-    public void LoadLevelOnMain( string sceneName, string levelName)
+    public void LoadLevelOnMain( string sceneName, string levelName, string cutSceneName = null)
     {
         levelWillToOnMain = levelName;
 
         //判断是否在该主场景
         if (SceneManager.GetActiveScene().name == sceneName)
         {
-            SceneChanger.Instance.FadeScene(()=> { LevelManager.Instance.LoadLevel(levelName); });
+            SceneChanger.Instance.FadeScene(()=> { LevelManager.Instance.LoadLevel(levelName);
+                Game.Instance.ShowUI("FreeMoveUI");
+            });
         }
         else
         {
-            LoadLevel(sceneName);
+            if (!string.IsNullOrEmpty(cutSceneName))
+            {
+                LoadingSceneManager.LoadScene(sceneName, cutSceneName);
+            }
+            else
+                LoadLevel(sceneName);
         }
     }
 
