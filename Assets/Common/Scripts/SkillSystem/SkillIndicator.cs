@@ -45,8 +45,11 @@ public class SkillIndicator : MonoBehaviour
 
     public void ShowIndicator()
     {
-        indicatorTweener.PlayForward();
-        emittorTweener.PlayBackwards();
+        if (haveIndicator)
+        {
+            indicatorTweener.PlayForward();
+            emittorTweener.PlayBackwards();
+        }
     }
 
     public void HideIndicator()
@@ -58,9 +61,11 @@ public class SkillIndicator : MonoBehaviour
     public void ShowEmitter()
     {
         //emittorTweener.PlayForward();
-        indicatorTweener.PlayForward();
         if (haveIndicator)
+        {
+            indicatorTweener.PlayForward();
             transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("CanEmmit");
+        }
     }
 
     public void HideEmitter()

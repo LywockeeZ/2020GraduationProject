@@ -78,7 +78,7 @@ public class Whirlwind : SkillInstanceBase
                 Debug.Log("技能施放");
                 Game.Instance.GetPlayerUnit().ExecuteSkill();
                 isEnd = true;
-                break;
+            break;
             //}
 
             yield return null;
@@ -91,6 +91,11 @@ public class Whirlwind : SkillInstanceBase
     {
         Player player = (Player)instance.UpperUnit;
         BaseUnit baseUnit = player.CurrentOn;
+        player.Audio.clip = player.GetComponent<MyAudios>().audioClips[3];
+        player.Audio.time = 0.4f;
+        player.Audio.loop = false;
+        player.Audio.volume = 1f;
+        player.Audio.Play();
 
         yield return new WaitForSeconds(0.1f);
         skillEffect = GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>("Effects/skills/whirlwindEffect", baseUnit.transform.position + 0.3f * Vector3.up);
@@ -127,7 +132,7 @@ public class Whirlwind : SkillInstanceBase
         else
         if (unit != null && unit.State.StateType != ENUM_State.Block && unit.State.StateType != ENUM_State.Water)
         {
-            unit.SetState(new Water(unit), null);
+            unit.SetState(new Water(unit));
         }
     }
 

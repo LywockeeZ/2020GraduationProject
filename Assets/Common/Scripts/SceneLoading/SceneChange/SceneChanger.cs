@@ -56,7 +56,10 @@ public class SceneChanger : Singleton<SceneChanger>
         }
         else
         {
-            callBack();
+            if (callBack != null)
+            {
+                callBack();
+            }
             CoroutineManager.StartCoroutineTask(FadeIn, 0.5f);
         }
     }
@@ -91,11 +94,13 @@ public class SceneChanger : Singleton<SceneChanger>
 
     public void FadeOut()
     {
+        GetComponent<AudioSource>().Play();
         animator.SetTrigger("scene_FadeOut");
     }
 
     public void FadeIn()
     {
+        GetComponent<AudioSource>().Play();
         animator.SetTrigger("scene_FadeIn");
     }
 }

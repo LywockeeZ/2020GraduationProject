@@ -30,7 +30,8 @@ public class StageSpawnPoint : MonoBehaviour
     /// </summary>
     public GameObject Triggers;
     private GameObject _triggers;
-
+    public bool isBack = false;
+    public bool isRescueStage = false;
     private void OnEnable()
     {
         SpawnPoint.Add(StageToLoad, gameObject);
@@ -73,6 +74,7 @@ public class StageSpawnPoint : MonoBehaviour
             case StageMode.LevelMode:
                 Game.Instance.ResetStage();
                 Game.Instance.NotifyEvent(ENUM_GameEvent.StageBegain, StageToLoad);
+                AudioManager.Instance.PlayBattleSound();
                 break;
             case StageMode.FreeMode:
                 Game.Instance.ResetStage();
@@ -82,6 +84,17 @@ public class StageSpawnPoint : MonoBehaviour
                 //开始更新角色寻路网格
                 void action() { Game.Instance.GetPlayerUnit().gameObject.GetComponent<LocalNavMeshBuilder>().StartUpdateNavMesh(); }
                 CoroutineManager.StartCoroutineTask(action, 0.2f);
+                if (isBack)
+                {
+                    AudioManager.Instance.PlayFreeMoveSound();
+                }
+
+                if (isRescueStage)
+                {
+                    SpecialEvent.Instance.DiedByRescueFail++;
+                }
+
+                SpecialEvent.Instance.CheckEvent();
                 break;
             default:
                 break;

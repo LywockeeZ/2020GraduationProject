@@ -151,15 +151,20 @@ public class WaterSac : SkillInstanceBase
 
     protected override IEnumerator SkillProcess(ISkillCore instance)
     {
+        Player player = (Player)instance.UpperUnit;
+        player.Audio.clip = player.GetComponent<MyAudios>().audioClips[5];
+        player.Audio.loop = false;
+        player.Audio.volume = 0.7f;
+
         WaitForSeconds startTime =  new WaitForSeconds(m_StartTime);
         yield return startTime;
 
-        Player player = (Player)instance.UpperUnit;
         tweeners.Add(player.transform.DOLookAt(chooseUnit.Model.transform.position, 0.5f));
         WaitForSeconds time = new WaitForSeconds(0.5f);
         yield return time;
+        player.Audio.PlayDelayed(0.5f);
 
-        while(!isSkillStart)
+        while (!isSkillStart)
         {
             yield return null;
         }
@@ -176,6 +181,7 @@ public class WaterSac : SkillInstanceBase
             else
                 chooseUnit.SetState(new Water(chooseUnit));
             OnTriggerComplete();
+            Game.Instance.NotifyEvent(ENUM_GameEvent.SetWaterTexture);
             CoroutineManager.StopCoroutine(m_skillProcessCoroutine);
         }));
     }
@@ -189,6 +195,7 @@ public class WaterSac : SkillInstanceBase
         isSkillStart = false;
         if(waterSac != null)
             GameObject.Destroy(waterSac);
+        CoroutineManager.StopCoroutine(m_skillEmitterCoroutine);
         base.OnSkillEnd();
     }
 

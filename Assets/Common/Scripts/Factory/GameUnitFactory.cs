@@ -137,7 +137,7 @@ public class GameUnitFactory : IGameUnitFactory
                 targetUnit.SetUpperGameObject(survivorObject);
                 return survivorObject;
             case ENUM_Build_UpperUnit.Bee1:
-                GameObject beeObject = m_AssetFactory.InstantiateGameObject("Bee", targetUnit.Model.transform.position);
+                GameObject beeObject = m_AssetFactory.InstantiateGameObject<GameObject>("Prefabs/Units/Bee", targetUnit.Model.transform.position);
                 Bee _bee = beeObject.AddComponent<Bee>();
                 _bee.SetMoveMode(BeeMoveMode.Round4);
                 _bee.CurrentOn = targetUnit;
@@ -158,14 +158,14 @@ public class GameUnitFactory : IGameUnitFactory
                 stoolObject.transform.SetParent(targetUnit.Model.transform);
                 return stoolObject;
             case ENUM_Build_UpperUnit.Bee2:
-                GameObject bee2Object = m_AssetFactory.InstantiateGameObject("Bee", targetUnit.Model.transform.position);
+                GameObject bee2Object = m_AssetFactory.InstantiateGameObject<GameObject>("Prefabs/Units/Bee", targetUnit.Model.transform.position);
                 Bee _bee2 = bee2Object.AddComponent<Bee>();
                 _bee2.SetMoveMode(BeeMoveMode.Row4);
                 _bee2.CurrentOn = targetUnit;
                 targetUnit.SetUpperGameObject(bee2Object);
                 return bee2Object;
             case ENUM_Build_UpperUnit.Bee3:
-                GameObject bee3Object = m_AssetFactory.InstantiateGameObject("Bee", targetUnit.Model.transform.position);
+                GameObject bee3Object = m_AssetFactory.InstantiateGameObject<GameObject>("Prefabs/Units/Bee", targetUnit.Model.transform.position);
                 Bee _bee3 = bee3Object.AddComponent<Bee>();
                 _bee3.SetMoveMode(BeeMoveMode.Column4);
                 _bee3.CurrentOn = targetUnit;

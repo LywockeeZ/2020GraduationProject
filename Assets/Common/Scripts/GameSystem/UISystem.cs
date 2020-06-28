@@ -69,6 +69,7 @@ public class UISystem : IGameSystem
         Game.Instance.RegisterEvent(ENUM_GameEvent.StageEnd,
             OnStageEnd = (Message evt) =>
             {
+                AudioManager.Instance.SoundsStop();
                 Game.Instance.CloseAll();
                 void action()
                 {
@@ -147,7 +148,7 @@ public class UISystem : IGameSystem
             SceneManager.GetActiveScene().name != "StartSceneBack" &&
             SceneManager.GetActiveScene().name != "LevelSelector")
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.F12))
             {
                 if (!isPauseUIOpen)
                 {

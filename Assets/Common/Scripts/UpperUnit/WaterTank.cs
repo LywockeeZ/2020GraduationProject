@@ -66,6 +66,7 @@ public class WaterTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
     public void Handle(bool isCost = true)
     {
         explosionEffect.GetComponent<ParticleSystem>().Play();
+        GetComponent<AudioSource>().Play();
 
         Player player = Game.Instance.GetPlayerUnit();
         if (Game.Instance.GetExecutingSkill()== null)
@@ -122,7 +123,7 @@ public class WaterTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
 
     private void SetTargetToWater(BaseUnit targetUnit)
     {
-        if (targetUnit != null && 
+        if (targetUnit != null &&
             targetUnit.UpperUnit.Type == ENUM_UpperUnit.NULL &&
             (targetUnit.State.StateType == ENUM_State.Fire || targetUnit.State.StateType == ENUM_State.Ground))
         {

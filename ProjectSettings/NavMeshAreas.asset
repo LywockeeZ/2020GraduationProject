@@ -11,9 +11,9 @@ NavMeshProjectSettings:
     cost: 1
   - name: Jump
     cost: 2
-  - name: 
+  - name: PlayerWalkable
     cost: 1
-  - name: 
+  - name: BeeWalkAble
     cost: 1
   - name: 
     cost: 1

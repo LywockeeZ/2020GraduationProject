@@ -47,11 +47,11 @@ MonoBehaviour:
   nameColor: {r: 0, g: 0, b: 0, a: 1}
   soundEffect: {fileID: 0}
   portraits:
-  - {fileID: 21300000, guid: bb980942e39d3ea4db228f6bbeee6364, type: 3}
-  - {fileID: 21300000, guid: a1a8b9939402dbc4199cd79279d8fcac, type: 3}
-  - {fileID: 21300000, guid: ac23b3af9cfc3374f9ef8c6287ddc5f9, type: 3}
-  - {fileID: 21300000, guid: 0b411d53f37af3b46b1df4e8abb8b3b5, type: 3}
-  - {fileID: 21300000, guid: 045c2837b63256947a59e0d31794224b, type: 3}
+  - {fileID: 21300000, guid: 57fd60e8f028aba49b5a272f158978db, type: 3}
+  - {fileID: 21300000, guid: 33d19b6bf21f52b47804d57a1bdc85cf, type: 3}
+  - {fileID: 21300000, guid: 85e2f40af483d714abb73c1e6b5a6d67, type: 3}
+  - {fileID: 21300000, guid: 4d66f8cd73541d444bec507a63489a88, type: 3}
+  - {fileID: 21300000, guid: a2a0f1a0fe2efa342a163f3855177eb0, type: 3}
   portraitsFace: 0
   setSayDialog: {fileID: 0}
   description: 

@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class StageEndFailureUI : StageEndSuccessUI
 {
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        GetComponent<AudioSource>().time = 0.3f;
+        GetComponent<AudioSource>().Play();
+    }
     public override void DoNext()
     {
         if (Game.Instance.isTest)

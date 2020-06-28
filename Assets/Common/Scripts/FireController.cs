@@ -5,7 +5,8 @@ using DG.Tweening;
 
 public class FireController:MonoBehaviour
 {
-    public GameObject fire; 
+    public GameObject fire;
+    public AudioSource audioSource;
 
     private bool isFirstOpen = true;
     private bool isEnd = false;
@@ -33,7 +34,14 @@ public class FireController:MonoBehaviour
     public void FireAppear()
     {
         float n = Random.Range(0.8f, 1.4f);
-        fire.transform.DOScale(new Vector3(n, n, n), 0.5f).ChangeStartValue(Vector3.zero);
+        fire.transform.DOScale(new Vector3(n, n, n), 0.5f).ChangeStartValue(Vector3.zero).OnComplete(()=> {
+            audioSource.clip = GetComponent<MyAudios>().audioClips[2];
+            audioSource.loop = true;
+            audioSource.Play();
+        });
+
+        int r = Random.Range(0, 2);
+        audioSource.PlayOneShot(GetComponent<MyAudios>().audioClips[r]);
         isEnd = false;
     }
 

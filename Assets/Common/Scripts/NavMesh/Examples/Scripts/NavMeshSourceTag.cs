@@ -42,7 +42,7 @@ public class NavMeshSourceTag : MonoBehaviour
     }
 
     // Collect all the navmesh build sources for enabled objects tagged by this component
-    public static void Collect(ref List<NavMeshBuildSource> sources)
+    public static void Collect(ref List<NavMeshBuildSource> sources, int AreaType = 0)
     {
         sources.Clear();
 
@@ -58,7 +58,7 @@ public class NavMeshSourceTag : MonoBehaviour
             s.shape = NavMeshBuildSourceShape.Mesh;
             s.sourceObject = m;
             s.transform = mf.transform.localToWorldMatrix;
-            s.area = 0;
+            s.area = AreaType;
             sources.Add(s);
         }
 

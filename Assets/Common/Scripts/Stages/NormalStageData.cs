@@ -51,6 +51,7 @@ public class NormalStageData : IStageData
             Game.Instance.SetCanInput(false);
             CoroutineManager.StartCoroutineTask(Update, 1f);
             CoroutineManager.StartCoroutineTask(IsUpdateEnd, ENUM_GameEvent.RoundUpdateEnd, 1f);
+            AudioManager.Instance.PlayPassSound();
         });
         Game.Instance.RegisterEvent(ENUM_GameEvent.RoundUpdateEnd,
         OnRoundUpdateEnd = (Message evt) =>

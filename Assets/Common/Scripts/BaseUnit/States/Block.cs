@@ -83,6 +83,9 @@ public class Block : IState
         Model.transform.SetParent(Owner.Model.transform);
         Model.transform.GetChild(0).GetComponent<MeshRenderer>().material.mainTextureOffset = new Vector2(UnityEngine.Random.Range(0, 4) % 4 * 0.333f, 0);
         Model.transform.GetChild(0).GetComponent<MeshRenderer>().material.DOFade(1, 0.5f).From(0);
+        
+        int n = UnityEngine.Random.Range(0, 2);
+        Model.GetComponent<AudioSource>().PlayOneShot(Model.GetComponent<MyAudios>().audioClips[n]);
 
         if (_currentUnit != null && _currentUnit.State.StateType == ENUM_State.Block)
         {

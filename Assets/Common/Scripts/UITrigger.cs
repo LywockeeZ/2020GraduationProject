@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fungus;
 
 public class UITrigger : MonoBehaviour
 {
@@ -23,5 +24,19 @@ public class UITrigger : MonoBehaviour
             Game.Instance.CloseUI(UIName);
         }
         CoroutineManager.StartCoroutineTask(action, delay);
+    }
+
+    public void ShowFungusUI()
+    {
+        void action()
+        {
+            Flowchart.BroadcastFungusMessage(UIName);
+        }
+        CoroutineManager.StartCoroutineTask(action, delay);
+    }
+
+    public void PlayerMoveBack()
+    {
+        Game.Instance.GetPlayerUnit().MoveByNavMesh(Game.Instance.GetPlayerUnit().transform.position - 2 * Game.Instance.GetPlayerUnit().transform.forward, false);
     }
 }

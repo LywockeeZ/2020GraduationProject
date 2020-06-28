@@ -89,4 +89,13 @@ public class LevelManager : Singleton<LevelManager>
         Game.Instance.ShowUI(UIName);
     }
 
+    public void PlayFreeMoveSound()
+    {
+        AudioManager.Instance.PlayFreeMoveSound();
+    }
+
+    public void ClearSpecialEventCount()
+    {
+        SpecialEvent.Instance.DiedByRescueFail = 0;
+    }
 }

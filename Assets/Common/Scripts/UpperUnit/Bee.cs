@@ -87,6 +87,7 @@ public class Bee : MonoBehaviour, IUpperUnit
 
         transform.position = SetTargetPos(transform.position);
         m_NavMeshBuder.StartUpdateNavMesh();
+        GetComponent<CapsuleCollider>().enabled = true;
     }
 
     public void SetMoveMode(BeeMoveMode mode = BeeMoveMode.Round4)
@@ -103,10 +104,12 @@ public class Bee : MonoBehaviour, IUpperUnit
 
     public void End()
     {
-        GameFactory.GetAssetFactory().DestroyGameObject<GameObject>(this.gameObject);
+        //GameFactory.GetAssetFactory().DestroyGameObject<GameObject>(gameObject);
+        GetComponent<CapsuleCollider>().enabled = false;
+        gameObject.SetActive(false);
         _currentOn.UpperUnit.InitOrReset();
         CurrentOn.UpperGameObject = null;
-        Destroy(this);
+        Destroy(gameObject);
     }
 
     private EventListenerDelegate OnPlayerMove;
@@ -347,6 +350,7 @@ public class Bee : MonoBehaviour, IUpperUnit
             if ((unit.UpperGameObject != null && unit.UpperUnit.Type == ENUM_UpperUnit.Player) ||
                 (unit.UpperGameObject == null && unit.State.StateType != ENUM_State.Fire))
             {
+                GetComponent<AudioSource>().Play();
                 MoveByNavMesh(unit.Model.transform.position);
                 UpdateUnit(unit);
                 steps++;
@@ -397,8 +401,11 @@ public class Bee : MonoBehaviour, IUpperUnit
         {
             //Game.Instance.ShowUI("EndStageUI");
             //Game.Instance.UIShowMessag("EndStageUI", "你死了！");
-            GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>("Effects/TouchBee", CurrentOn.transform.position + 0.8f * Vector3.up);
+            GameObject effect =  GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>("Effects/TouchBee", CurrentOn.transform.position + 0.8f * Vector3.up);
+            effect.GetComponent<ParticleSystem>().Play();
             Game.Instance.NotifyEvent(ENUM_GameEvent.StageEnd, 1);
+            GetComponent<CapsuleCollider>().enabled = false;
+            SpecialEvent.Instance.DiedByTouchBee = true;
         }
     }
 }

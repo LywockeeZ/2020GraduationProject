@@ -112,7 +112,7 @@ public class Game
         {
             if (GetPlayerUnit() != null)
             {
-                GetPlayerUnit().MoveByNavMesh(GetPlayerUnit().transform.position, false);
+                GetPlayerUnit().MoveByNavMeshDontUpdate(GetPlayerUnit().transform.position);
             }
         }
         m_canInput = value;

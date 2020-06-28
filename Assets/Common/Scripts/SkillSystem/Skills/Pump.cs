@@ -100,12 +100,16 @@ public class Pump : SkillInstanceBase
         WaitForSeconds startTime =  new WaitForSeconds(m_StartTime);
         yield return startTime;
         Player player = (Player)instance.UpperUnit;
-
+        player.Audio.clip = player.GetComponent<MyAudios>().audioClips[6];
+        player.Audio.loop = false;
+        player.Audio.volume = 0.7f;
         //获取路径上所有单元
         unitsOnPath = FindUnitsOnPath(chooseUnit);
         tweeners.Add(player.transform.DOLookAt(chooseUnit.Model.transform.position, 0.3f));
 
-        WaitForSeconds waitTime = new WaitForSeconds(1f);
+        WaitForSeconds waitTime = new WaitForSeconds(0.5f);
+        yield return waitTime;
+        player.Audio.Play();
         yield return waitTime;
         //开始改变路径上单元的状态
         WaitForSeconds interval = new WaitForSeconds(0.2f);
@@ -129,6 +133,7 @@ public class Pump : SkillInstanceBase
                 }
                 yield return interval;
                 GameObject.Destroy(skillEffect);
+                //player.Audio.Stop();
                 break;
             }
             yield return interval;

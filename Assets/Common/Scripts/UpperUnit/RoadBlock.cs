@@ -34,6 +34,7 @@ public class RoadBlock : MonoBehaviour, IUpperUnit, IFixedUnit
         transform.position = SetTargetPos(transform.position);
         CurrentOn.transform.GetChild(0).GetComponent<Highlighter>().enabled = false;
         CurrentOn.transform.GetChild(0).gameObject.SetActive(false);
+        CurrentOn.State.Model.transform.GetChild(0).gameObject.SetActive(false);
         CurrentOn.State.Model.GetComponent<SkillIndicator>().haveIndicator = false;
         CurrentOn.State.Model.GetComponent<SkillIndicator>().enabled = false;
 
@@ -44,6 +45,7 @@ public class RoadBlock : MonoBehaviour, IUpperUnit, IFixedUnit
     {
         CurrentOn.transform.GetChild(0).gameObject.SetActive(true);
         CurrentOn.transform.GetChild(0).GetComponent<Highlighter>().enabled = true;
+        CurrentOn.State.Model.transform.GetChild(0).gameObject.SetActive(true);
         CurrentOn.State.Model.GetComponent<SkillIndicator>().haveIndicator = true;
         CurrentOn.State.Model.GetComponent<SkillIndicator>().enabled = true;
         GameFactory.GetAssetFactory().DestroyGameObject<GameObject>(this.gameObject);

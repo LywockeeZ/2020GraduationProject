@@ -765,16 +765,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4782cf42f2644447b9631f6e522160b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  volume: 0
-  loop: 1
-  targetAudioSource: {fileID: 0}
-  audioMode: 0
+  volume: 0.5
+  loop: 0
+  targetAudioSource: {fileID: 3802674186628076540}
+  audioMode: 1
   beepSounds:
   - {fileID: 8300000, guid: 774486030b696474e8b3cf7f178123da, type: 3}
   - {fileID: 8300000, guid: f637c5ce9d10e45c7855ed89bfc6b97e, type: 3}
   - {fileID: 8300000, guid: c53b7c20372e444c6bd7f2ac0729bbe2, type: 3}
-  soundEffect: {fileID: 0}
-  inputSound: {fileID: 8300000, guid: 14a396b1562834718b2d52b9c4639264, type: 3}
+  soundEffect: {fileID: 8300000, guid: c8347858e05503e41bff7570c13076ee, type: 3}
+  inputSound: {fileID: 8300000, guid: c8347858e05503e41bff7570c13076ee, type: 3}
 --- !u!114 &3802674186628076542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -801,7 +801,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: c8347858e05503e41bff7570c13076ee, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1

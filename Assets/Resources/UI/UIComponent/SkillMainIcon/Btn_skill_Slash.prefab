@@ -323,6 +323,12 @@ MonoBehaviour:
   ButtonEntered:
     m_PersistentCalls:
       m_Calls: []
+  ButtonEnteredFirstTime:
+    m_PersistentCalls:
+      m_Calls: []
+  ButtonLeaved:
+    m_PersistentCalls:
+      m_Calls: []
   ButtonPressedFirstTime:
     m_PersistentCalls:
       m_Calls: []
@@ -330,6 +336,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   ButtonPressed:
+    m_PersistentCalls:
+      m_Calls: []
+  ButtonSelectCancel:
+    m_PersistentCalls:
+      m_Calls: []
+  ButtonSelectBegain:
     m_PersistentCalls:
       m_Calls: []
   EnteredSprite: {fileID: 0}
@@ -555,7 +567,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 60b5c33e9a8da2c4bb7ee23cae951cca, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.6
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -654,6 +666,46 @@ MonoBehaviour:
   ButtonEntered:
     m_PersistentCalls:
       m_Calls: []
+  ButtonEnteredFirstTime:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1657775504}
+        m_MethodName: set_clip
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 7f3f509e6948e5c4091ae56ff24864e7,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1657775504}
+        m_MethodName: set_time
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0.022
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1657775504}
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  ButtonLeaved:
+    m_PersistentCalls:
+      m_Calls: []
   ButtonPressedFirstTime:
     m_PersistentCalls:
       m_Calls: []
@@ -663,6 +715,46 @@ MonoBehaviour:
   ButtonPressed:
     m_PersistentCalls:
       m_Calls: []
+  ButtonSelectCancel:
+    m_PersistentCalls:
+      m_Calls: []
+  ButtonSelectBegain:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1657775504}
+        m_MethodName: set_clip
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 29aa3bed59a1536428823c2fd1fd2be5,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1657775504}
+        m_MethodName: set_time
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0.022
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1657775504}
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   EnteredSprite: {fileID: 21300000, guid: 24deaceae1f6cc0419772588c3dc5a39, type: 3}
   EnteredChangeColor: 0
   EnteredColor: {r: 1, g: 1, b: 1, a: 1}

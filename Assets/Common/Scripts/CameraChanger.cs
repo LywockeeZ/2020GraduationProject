@@ -7,6 +7,7 @@ using Cinemachine;
 public class CameraChanger : Singleton<CameraChanger>
 {
     public bool haveStartCam;
+    public bool autoSetCanInput = true;
     public CinemachineVirtualCamera startCam;
     private CinemachineVirtualCamera levelCamera;
     private bool hasChange = false;
@@ -22,7 +23,7 @@ public class CameraChanger : Singleton<CameraChanger>
 
     private void Update()
     {
-        if (Input.GetMouseButtonUp(0) && haveStartCam && LevelManager.Instance.LevelName == SceneManager.GetActiveScene().name && !hasChange)
+        if (Input.GetMouseButtonUp(0) && haveStartCam && LevelManager.Instance.LevelName == SceneManager.GetActiveScene().name && !hasChange && autoSetCanInput)
         {
             startCam.gameObject.SetActive(false);
             hasChange = true;
@@ -46,5 +47,10 @@ public class CameraChanger : Singleton<CameraChanger>
             else
                 levelCamera.gameObject.SetActive(false);
         }
+    }
+
+    public void ChangeStartCam()
+    {
+        startCam.gameObject.SetActive(false);
     }
 }

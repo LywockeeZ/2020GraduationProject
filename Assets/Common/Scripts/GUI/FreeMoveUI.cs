@@ -34,6 +34,7 @@ public class FreeMoveUI : BaseUIForm
         }
         Game.Instance.CloseAll();
         Game.Instance.LoadLevel("StartScene");
+        AudioManager.Instance.SoundsStop();
     }
 
 

@@ -141,6 +141,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!64 &7063658704072258573
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5996352127455145784}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: -1
+  m_Mesh: {fileID: 4300000, guid: 0565d9d4e3333c64d992abbde384ab9c, type: 3}
 --- !u!1001 &146990070045573187
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -813,11 +827,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6841120234711325082, guid: 6c394fd243e5e404491a3f922851dc5a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c394fd243e5e404491a3f922851dc5a, type: 3}
 --- !u!4 &5255685728533352265 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4983279948370917867, guid: 6c394fd243e5e404491a3f922851dc5a,
+    type: 3}
+  m_PrefabInstance: {fileID: 993000729082574498}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5996352127455145784 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6841120234711325082, guid: 6c394fd243e5e404491a3f922851dc5a,
     type: 3}
   m_PrefabInstance: {fileID: 993000729082574498}
   m_PrefabAsset: {fileID: 0}
@@ -1117,6 +1142,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: guanqia_007_zhuzi
+      objectReference: {fileID: 0}
+    - target: {fileID: 8920597365910688669, guid: 62b3175252e7d34418de5a087623cd48,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 62b3175252e7d34418de5a087623cd48, type: 3}

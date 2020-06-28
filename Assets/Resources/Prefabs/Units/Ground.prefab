@@ -303,3 +303,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   indicator: {fileID: 284555338693675566}
   emittor: {fileID: 2714959620606036255}
+  haveIndicator: 1

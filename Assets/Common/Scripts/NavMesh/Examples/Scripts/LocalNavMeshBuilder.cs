@@ -13,6 +13,7 @@ public class LocalNavMeshBuilder : MonoBehaviour
 
     // The size of the build bounds
     public Vector3 m_Size = new Vector3(80.0f, 20.0f, 80.0f);
+    public int AreaType = 0;
 
     NavMeshData m_NavMesh;
     AsyncOperation m_Operation;
@@ -52,7 +53,7 @@ public class LocalNavMeshBuilder : MonoBehaviour
 
     void UpdateNavMesh(bool asyncUpdate = false)
     {
-        NavMeshSourceTag.Collect(ref m_Sources);
+        NavMeshSourceTag.Collect(ref m_Sources, AreaType);
         var defaultBuildSettings = NavMesh.GetSettingsByID(0);
         var bounds = QuantizedBounds();
 

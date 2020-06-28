@@ -107,7 +107,9 @@ public class Slash : SkillInstanceBase
         WaitForSeconds startTime =  new WaitForSeconds(m_StartTime);
         yield return startTime;
         Player player = (Player)instance.UpperUnit;
-
+        player.Audio.clip = player.GetComponent<MyAudios>().audioClips[4];
+        player.Audio.loop = false;
+        player.Audio.volume = 0.7f;
         //获取路径上所有单元
         unitsOnPath = FindUnitsOnPath(chooseUnit);
 
@@ -115,7 +117,7 @@ public class Slash : SkillInstanceBase
             //开始移动
             player.Agent.acceleration = 11f;
             player.Agent.speed = 8f;
-            player.MoveByNavMesh(finalUnitOnPath.Model.transform.position, false);
+            player.MoveByNavMeshDontUpdate(finalUnitOnPath.Model.transform.position);
         }));
 
         if (skillEffect == null)
@@ -130,11 +132,13 @@ public class Slash : SkillInstanceBase
 
         yield return waitTime;
         //开始改变路径上单元的状态
+        WaitForSeconds interval = new WaitForSeconds(0.02f);
+        player.Audio.Play();
         do
         {
             Vector2 playerPos = new Vector2(Game.Instance.GetPlayerUnit().transform.position.x, Game.Instance.GetPlayerUnit().transform.position.z);
             Vector2 unitPos = new Vector2(unitsOnPath[0].transform.position.x, unitsOnPath[0].transform.position.z);
-            if ((playerPos - unitPos).magnitude < 0.2f)
+            if ((playerPos - unitPos).magnitude < 0.3f)
             {
                 if (unitsOnPath.Count == 1)
                 {
@@ -152,7 +156,7 @@ public class Slash : SkillInstanceBase
             {
                 OnEndFireProcessEnd();
             }
-            yield return null;
+            yield return interval;
         } while (unitsOnPath.Count != 0);
         skillEffect.GetComponent<ParticleSystem>().Stop();
         CoroutineManager.StopCoroutine(m_skillProcessCoroutine);

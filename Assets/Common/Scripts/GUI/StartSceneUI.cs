@@ -12,6 +12,7 @@ public class StartSceneUI : MonoBehaviour
 {
     public StartSceneState defaultState;
     private StartSceneState currentState;
+    private bool hasPressed = false;
 
     void Start()
     {
@@ -25,16 +26,18 @@ public class StartSceneUI : MonoBehaviour
         switch (currentState)
         {
             case StartSceneState.Entering:
-                if (Input.GetKeyDown(KeyCode.Space))
+                if (Input.GetKeyDown(KeyCode.Space) && !hasPressed)
                 {
                     LoadingSceneManager.LoadScene("StartSceneBack");
+                    hasPressed = true;
                 }
                 break;
             case StartSceneState.Entered:
-                if (Input.anyKeyDown)
+                if (Input.anyKeyDown && !hasPressed)
                 {
                     LoadingSceneManager.LoadScene("Part1");
                     Game.Instance.ClearUnlockedSkills();
+                    hasPressed = true;
                 }
                 break;
             default:

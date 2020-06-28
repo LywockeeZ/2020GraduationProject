@@ -17,6 +17,7 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
     public BaseUnit TargetUnit { get => targetUnit; }
     public NavMeshAgent Agent { get => m_Agent; }
 
+    public AudioSource Audio { get => m_Audio; }
 
     #region 私有字段
     private BaseUnit _currentOn;
@@ -36,8 +37,11 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
     private float _rotateSpeed = 10f;
     private Animator m_Animator;
     private NavMeshAgent m_Agent;
+    private AudioSource m_Audio;
+    private MyAudios m_AudioClips;
     private LocalNavMeshBuilder m_NavMeshBuder;
     private bool isRandomIdle = false;
+    private bool isPlayingWalkSound = false;
     #endregion
 
     private void OnEnable()
@@ -96,6 +100,8 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
         m_Animator = transform.GetChild(0).GetComponent<Animator>();
         m_Agent = GetComponent<NavMeshAgent>();
         m_NavMeshBuder = GetComponent<LocalNavMeshBuilder>();
+        m_Audio = GetComponent<AudioSource>();
+        m_AudioClips = GetComponent<MyAudios>();
 
         Game.Instance.SetPlayerUnit(this);
     }
@@ -120,14 +126,24 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
         if (_isMoving)
         {
             m_Animator.SetBool("isWalking", true);
-
-            if ((transform.position - targetPos).magnitude <= 0.3f)
+            Vector2 currentPos = new Vector2(transform.position.x, transform.position.z);
+            Vector2 targetPos2 = new Vector2(targetPos.x, targetPos.z);
+            if ((currentPos - targetPos2).magnitude <= 0.3f)
             {
                 //Debug.Log("Have Reached!");
                 _isMoving = false;
             }
         }
-        else m_Animator.SetBool("isWalking", false);
+        else
+        {
+            m_Animator.SetBool("isWalking", false);
+            if (isPlayingWalkSound)
+            {
+                m_Audio.Stop();
+                isPlayingWalkSound = false;
+            }
+        }
+
 
         if (m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Player_idle"))
         {
@@ -206,6 +222,7 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
             m_Agent.SetDestination(m_targetPos);
         targetPos = m_targetPos;
         _isMoving = true;
+        PlayWalkSound();
     }
 
     /// <summary>
@@ -423,4 +440,14 @@ public class Player : MonoBehaviour, IUpperUnit, IMovableUnit, ISkillCore
         //animationTrigger.OnAnimationEnd();
     }
 
+    public void PlayWalkSound()
+    {
+        int index = UnityEngine.Random.Range(0, 3);
+        m_Audio.clip = m_AudioClips.audioClips[index];
+        m_Audio.time = 0.1f;
+        m_Audio.loop = true;
+        m_Audio.volume = 0.5f;
+        m_Audio.Play();
+        isPlayingWalkSound = true;
+    }
 }

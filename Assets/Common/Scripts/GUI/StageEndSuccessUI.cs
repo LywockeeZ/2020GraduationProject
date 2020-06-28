@@ -25,13 +25,13 @@ public class StageEndSuccessUI : BaseUIForm, ISelectItem
         CurrentUIType.UIForm_LucencyType = UIFormLucencyType.Lucency;
     }
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         isClick = false;
         LoadData();
     }
 
-    private void OnDisable()
+    protected virtual void OnDisable()
     {
         for (int i = 0; i < slotsTrans.Count; i++)
         {

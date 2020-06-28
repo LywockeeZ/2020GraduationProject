@@ -119,13 +119,18 @@ public class WaterBag : SkillInstanceBase
 
     protected override IEnumerator SkillProcess(ISkillCore instance)
     {
+        Player player = (Player)instance.UpperUnit;
+        player.Audio.clip = player.GetComponent<MyAudios>().audioClips[7];
+        player.Audio.loop = false;
+        player.Audio.volume = 0.7f;
         //获取路径上所有单元
         unitsOnPath = FindUnitsOnPath(chooseUnit);
+        player.Audio.time = 1 / unitsOnPath.Count;
+        player.Audio.Play();
 
         WaitForSeconds startTime =  new WaitForSeconds(m_StartTime);
         yield return startTime;
 
-        Player player = (Player)instance.UpperUnit;
         tweeners.Add(player.transform.DOLookAt(chooseUnit.Model.transform.position, 0.5f));
         WaitForSeconds time = new WaitForSeconds(0.5f);
         yield return time;
@@ -160,7 +165,7 @@ public class WaterBag : SkillInstanceBase
                     Debug.Log("未知的方向");
                     break;
             }
-            
+        Game.Instance.NotifyEvent(ENUM_GameEvent.SetWaterTexture);
             OnTriggerComplete();
             CoroutineManager.StopCoroutine(m_skillProcessCoroutine);
     }

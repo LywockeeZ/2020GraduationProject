@@ -84,6 +84,10 @@ public class Water : IState
     {
         DetachEvnt();
         Game.Instance.NotifyEvent(ENUM_GameEvent.SetWaterTexture);
+        if (waterSmokeEffect != null)
+        {
+            Model.GetComponent<AudioSource>().PlayOneShot(Model.GetComponent<MyAudios>().audioClips[2]);
+        }
         Model.transform.GetChild(0).GetComponent<MeshRenderer>().material.DOFade(0, 0.5f).OnComplete(() => {
             GameObject.Destroy(waterEffect);
             GameObject.Destroy(waterSmokeEffect);
@@ -118,15 +122,19 @@ public class Water : IState
     /// </summary>
     private void SetWaterModel()
     {
-        if (_isSetTexture)
-        {
-            waterEffect = GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>("Effects/WaterDrop", Owner.transform.position);
-        }
         Model = GameFactory.GetAssetFactory().InstantiateGameObject("Water",
             GetTargetPos(Owner.Model.transform.position, _height));
         Model.transform.SetParent(Owner.Model.transform);
         meshRenderer = Model.transform.GetChild(0).GetComponent<MeshRenderer>();
         meshRenderer.GetComponent<MeshRenderer>().material.DOFade(1, 0.5f).From(0);
+
+        if (_isSetTexture)
+        {
+            waterEffect = GameFactory.GetAssetFactory().InstantiateGameObject<GameObject>("Effects/WaterDrop", Owner.transform.position);
+            int n = Random.Range(0, 2);
+            Model.GetComponent<AudioSource>().PlayOneShot(Model.GetComponent<MyAudios>().audioClips[n]);
+        }
+
     }
 
 
@@ -143,6 +151,7 @@ public class Water : IState
         meshRenderer = Model.transform.GetChild(0).GetComponent<MeshRenderer>();
         meshRenderer.GetComponent<MeshRenderer>().material.DOFade(1, 0.5f).From(0);
         SetWaterTexture();
+        Model.GetComponent<AudioSource>().PlayOneShot(Model.GetComponent<MyAudios>().audioClips[2]);
     }
 
 

@@ -64,6 +64,7 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
     public void Handle(bool isCost = true)
     {
         explosionEffectByHand.GetComponent<ParticleSystem>().Play();
+        transform.parent.GetComponent<AudioSource>().Play();
 
         Player player = Game.Instance.GetPlayerUnit();
         if (Game.Instance.GetExecutingSkill() == null)
@@ -91,6 +92,7 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
     public void HandleByFire()
     {
         explosionEffectByFire.GetComponent<ParticleSystem>().Play();
+        transform.parent.GetComponent<AudioSource>().Play();
 
         _currentOn.SetState(new Fire(_currentOn));
         CoroutineManager.StartCoroutine(BoomAccess());
@@ -153,7 +155,7 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
     /// <param name="targetUnit"></param>
     private void SetTargetToOil(BaseUnit targetUnit)
     {
-        if (targetUnit != null &&
+        if (targetUnit != null && targetUnit.UpperUnit.Type != ENUM_UpperUnit.RoadBlock &&
             (targetUnit.State.StateType == ENUM_State.Ground || targetUnit.State.StateType == ENUM_State.Block))
         {
             targetUnit.StateEnd();
@@ -342,7 +344,7 @@ public class OilTank : MonoBehaviour, IUpperUnit, IFixedUnit, ICanBeFiredUnit
         yield return new WaitForSeconds(0.1f);
         Boom();
         yield return new WaitForSeconds(1f);
-        FireSpread();
+        //FireSpread();
         CoroutineManager.StopCoroutine(BoomAccess());
     }
 
